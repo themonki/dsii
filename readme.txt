@@ -5,5 +5,3 @@ por fa prueben que eShop funcione, no se si como esté se los reconozca netbeans
 /SIGETI/build/
 /eShop/nbproject
 /eShop/build/
-
-
