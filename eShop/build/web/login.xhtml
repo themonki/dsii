@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <head>
+        <title>Login Page</title>
+    </head>
+    <body>
+        <div>
+            <h:messages/>
+            <h:form>
+                <h:outputText value="User Name"/>
+                <h:inputText value="#{loginRequest.username}" /><br/>
+                <h:outputText value="Password"/>
+                <h:inputSecret value="#{loginRequest.password}" /><br/>
+                <h:commandButton value="Login" action="#{loginRequest.login}" />
+            </h:form>
+        </div>
+    </body>
+</html>
