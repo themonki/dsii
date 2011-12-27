@@ -4,13 +4,14 @@
  */
 package Entidades;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author leonardo
  */
-public class Empleado {
+public class Empleado implements Serializable{
 
     protected String id;
     private String tipoId;

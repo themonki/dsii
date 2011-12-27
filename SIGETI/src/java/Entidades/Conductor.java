@@ -10,6 +10,16 @@ package Entidades;
  */
 public class Conductor extends Empleado{
 
+    private String licencia;
+
+    public void setLicencia(String licencia) {
+        this.licencia = licencia;
+    }
+
+    public String getLicencia() {
+        return licencia;
+    }
+    
     public Conductor() {
         super();
     }
