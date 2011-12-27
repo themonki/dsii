@@ -14,13 +14,21 @@
     <h:body>
 
         <div id="top">
-            <ui:insert name="top">Encabezado</ui:insert>
+            <img src="./resources/logo.png" alt="logo"></img>
+        
+            <h:form>
+                <h:outputText value="Bievenido, #{empleadoHolder.currentEmpleado.nombre}"/>
+                <h:commandLink action="#{authentication.logout}">
+                    <img src="./resources/exit.png" alt="salir" width="50" height="50"></img>
+                </h:commandLink>
+            </h:form>
+            
         </div>
         <div>
             <div id="left">
                 <ui:insert name="left">Menu Opciones</ui:insert>
             </div>
-            <div id="content" class="left_content">
+            <div  class="left_content">
                 <ui:insert name="content">Contenido</ui:insert>
             </div>
         </div>

@@ -18,7 +18,14 @@
     <h:body>
 
         <div id="top">
-            <ui:insert name="top">Encabezado</ui:insert>
+            <img src="./resources/logo.png" alt="logo"></img>
+        
+            <h:form>
+                <h:outputText value="Bievenido, #{empleadoHolder.currentEmpleado.nombre}"/>
+                <h:commandLink action="#{authentication.logout}">
+                    <img src="./resources/exit.png" alt="salir" width="50" height="50"></img>
+                </h:commandLink>
+            </h:form>
         </div>
         <div>
             <div id="left">

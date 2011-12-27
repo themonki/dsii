@@ -65,6 +65,7 @@ public class Authentication implements Serializable {
         Object session = externalContext.getSession(false);
         HttpSession httpSession = (HttpSession) session;
         httpSession.invalidate();
+        doRedirect("index.jsf");
     }
 
     private String findStartPage() {
