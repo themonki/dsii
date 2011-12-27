@@ -8,22 +8,14 @@ package Entidades;
  *
  * @author leonardo
  */
-public class Conductor {
-
-    private String id;
+public class Conductor extends Empleado{
 
     public Conductor() {
+        super();
     }
 
     public Conductor(String id) {
-        this.id = id;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
+        super(id);
         this.id = id;
     }
 

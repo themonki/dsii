@@ -12,7 +12,7 @@ import java.util.Date;
  */
 public class Tarjeta {
 
-    private String pin;
+    protected String pin;
     private Integer saldo;
     private boolean estado;
     private Integer tipo;

@@ -8,23 +8,14 @@ package Entidades;
  *
  * @author leonardo
  */
-public class Director {
-
-    private String id;
+public class Director extends Empleado{
 
     public Director() {
+        super();
     }
 
     public Director(String id) {
-        this.id = id;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+        super(id);
     }
 
     @Override

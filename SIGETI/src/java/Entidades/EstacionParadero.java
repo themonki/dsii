@@ -8,23 +8,14 @@ package Entidades;
  *
  * @author leonardo
  */
-public class EstacionParadero {
-
-    private Integer idEstacion;
+public class EstacionParadero extends Estacion{
 
     public EstacionParadero() {
+        super();
     }
 
     public EstacionParadero(Integer idEstacion) {
-        this.idEstacion = idEstacion;
-    }
-
-    public Integer getIdEstacion() {
-        return idEstacion;
-    }
-
-    public void setIdEstacion(Integer idEstacion) {
-        this.idEstacion = idEstacion;
+        super(idEstacion);
     }
 
     @Override
@@ -34,7 +25,7 @@ public class EstacionParadero {
             return false;
         }
         EstacionParadero other = (EstacionParadero) object;
-        if ((this.idEstacion == null && other.idEstacion != null) || (this.idEstacion != null && !this.idEstacion.equals(other.idEstacion))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -42,6 +33,6 @@ public class EstacionParadero {
 
     @Override
     public String toString() {
-        return "EstacionParadero[ idEstacion=" + idEstacion + " ]";
+        return "EstacionParadero[ idEstacion=" + id + " ]";
     }
 }

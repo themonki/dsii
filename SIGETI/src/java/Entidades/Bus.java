@@ -10,11 +10,11 @@ package Entidades;
  */
 public class Bus {
 
-    public static String matricula;
-    public String tipo;
-    public Integer capacidad;
-    public static String idInterno;
-    public boolean estado;
+    private String matricula;
+    private String tipo;
+    private Integer capacidad;
+    private String idInterno;
+    private boolean estado;
 
     public Bus() {
     }

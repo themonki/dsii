@@ -8,25 +8,17 @@ package Entidades;
  *
  * @author leonardo
  */
-public class Auxiliar {
+public class Auxiliar extends Empleado {
 
-    public static String id;
-    public String idJefe;
-    public Integer trabajaEn;
+    private String idJefe;
+    private Integer trabajaEn;
 
     public Auxiliar() {
+        super();
     }
 
     public Auxiliar(String id) {
-        this.id = id;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+        super(id);
     }
 
     public String getIdJefe() {

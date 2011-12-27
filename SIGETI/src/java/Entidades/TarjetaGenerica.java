@@ -8,23 +8,14 @@ package Entidades;
  *
  * @author leonardo
  */
-public class TarjetaGenerica {
-
-    private String pin;
+public class TarjetaGenerica extends Tarjeta {
 
     public TarjetaGenerica() {
+        super();
     }
 
     public TarjetaGenerica(String pin) {
-        this.pin = pin;
-    }
-
-    public String getPin() {
-        return pin;
-    }
-
-    public void setPin(String pin) {
-        this.pin = pin;
+        super(pin);
     }
 
     @Override

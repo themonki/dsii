@@ -12,19 +12,19 @@ import java.util.Date;
  */
 public class Empleado {
 
-    public static String id;
-    public String tipoId;
-    public Date fechaIngreso;
-    public Integer salario;
-    public String telefono;
-    public String direccion;
-    public String nombre;
-    public String apellido;
-    public Date fechaNacimiento;
-    public Integer rol;
-    public static String login;
-    public String password;
-    public boolean estado;
+    protected String id;
+    private String tipoId;
+    private Date fechaIngreso;
+    private Integer salario;
+    private String telefono;
+    private String direccion;
+    private String nombre;
+    private String apellido;
+    private Date fechaNacimiento;
+    private Integer rol;
+    private String login;
+    private String password;
+    private boolean estado;
 
     public Empleado() {
     }

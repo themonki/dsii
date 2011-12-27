@@ -13,11 +13,11 @@ import java.util.Date;
  */
 public class Recarga {
 
-    public String pin;
-    public Integer idEstacion;
-    public Date fecha;
-    public Time hora;
-    public Integer valor;
+    private String pin;
+    private Integer idEstacion;
+    private Date fecha;
+    private Time hora;
+    private Integer valor;
 
     public Recarga(String pin, Integer idEstacion, Date fecha, Time hora) {
         this.pin = pin;

@@ -8,25 +8,17 @@ package Entidades;
  *
  * @author leonardo
  */
-public class EstacionPrincipal {
+public class EstacionPrincipal extends Estacion{
 
-    private Integer idEstacion;
     private String nombre;
     private String idOperario;
 
     public EstacionPrincipal() {
+        super();
     }
 
     public EstacionPrincipal(Integer idEstacion) {
-        this.idEstacion = idEstacion;
-    }
-
-    public Integer getIdEstacion() {
-        return idEstacion;
-    }
-
-    public void setIdEstacion(Integer idEstacion) {
-        this.idEstacion = idEstacion;
+        super(idEstacion);
     }
 
     public String getNombre() {
@@ -52,7 +44,7 @@ public class EstacionPrincipal {
             return false;
         }
         EstacionPrincipal other = (EstacionPrincipal) object;
-        if ((this.idEstacion == null && other.idEstacion != null) || (this.idEstacion != null && !this.idEstacion.equals(other.idEstacion))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -60,7 +52,7 @@ public class EstacionPrincipal {
 
     @Override
     public String toString() {
-        return "EstacionPrincipal[ idEstacion=" + idEstacion 
+        return "EstacionPrincipal[ idEstacion=" + id 
                 + " nombre=" + nombre
                 + " idOperario=" + idOperario + " ]";
     }

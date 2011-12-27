@@ -10,9 +10,9 @@ package Entidades;
  */
 public class Estacion {
 
-    public static Integer id;
-    public static String ubicacion;
-    public boolean estado;
+    protected  Integer id;
+    private  String ubicacion;
+    private boolean estado;
 
     public Estacion() {
     }

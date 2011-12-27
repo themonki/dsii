@@ -8,24 +8,16 @@ package Entidades;
  *
  * @author leonardo
  */
-public class TarjetaPersonalizada {
+public class TarjetaPersonalizada extends Tarjeta{
 
-    private String pin;
     private Integer credito;
 
     public TarjetaPersonalizada() {
+        super();
     }
 
     public TarjetaPersonalizada(String pin) {
-        this.pin = pin;
-    }
-
-    public String getPin() {
-        return pin;
-    }
-
-    public void setPin(String pin) {
-        this.pin = pin;
+        super(pin);
     }
 
     public Integer getCredito() {
