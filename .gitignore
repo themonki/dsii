@@ -2,3 +2,11 @@
 /SIGETI/build/
 /eShop/nbproject/private/
 /eShop/build/
+SIGETI/nbproject/ant-deploy.xml
+SIGETI/nbproject/project.properties
+eShop/nbproject/ant-deploy.xml
+eShop/nbproject/project.properties
+eShop/nbproject/faces-config.NavData
+SIGETI/nbproject/faces-config.NavData
+eShop/dist/
+SIGETI/dist/

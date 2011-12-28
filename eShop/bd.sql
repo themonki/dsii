@@ -4,7 +4,7 @@ CREATE TABLE productos
 (
    id VARCHAR(3) PRIMARY KEY,
    nombre VARCHAR(20),
-   precion INTEGER
+   precio INTEGER
 );
 
 CREATE TABLE usuario
