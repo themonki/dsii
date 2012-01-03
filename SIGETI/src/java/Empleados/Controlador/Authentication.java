@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Empleados.Crontrolador;
+package Empleados.Controlador;
 
 import Empleados.Dao.DaoEmpleado;
 import Entidades.Empleado;
@@ -28,7 +28,6 @@ public class Authentication implements Serializable {
     private String passwordU;
     private boolean isLoggedIn;
     private int rol;
-    private EmpleadoHolder empleadoHolder;
 
     public String login() {
         DaoEmpleado dao = new DaoEmpleado();
@@ -41,12 +40,12 @@ public class Authentication implements Serializable {
         if (empleado.getLogin() != null) {
             isLoggedIn = true;
 
-            empleadoHolder = (EmpleadoHolder) context.getApplication().evaluateExpressionGet(context, "#{empleadoHolder}", EmpleadoHolder.class);
+            EmployeeHolder empleadoHolder = (EmployeeHolder) context.getApplication().evaluateExpressionGet(context, "#{employeeHolder}", EmployeeHolder.class);
             empleadoHolder.setCurrentEmpleado(empleado);
 
             rol = empleado.getRol();
-            String page = findStartPage();
-            System.out.println("page " + page);
+            String page = "home";
+            //System.out.println("page " + page);
             return page;
         } else {
             context.addMessage(null, new FacesMessage(
@@ -56,42 +55,15 @@ public class Authentication implements Serializable {
     }
 
     public void logout() {
-        isLoggedIn = false;
-        if (empleadoHolder != null) {
-            empleadoHolder.setCurrentEmpleado(null);
-        }
+        isLoggedIn = false;       
         FacesContext context = FacesContext.getCurrentInstance();
+        EmployeeHolder empleadoHolder = (EmployeeHolder) context.getApplication().evaluateExpressionGet(context, "#{employeeHolder}", EmployeeHolder.class);
+        empleadoHolder.setCurrentEmpleado(null);
         ExternalContext externalContext = context.getExternalContext();
         Object session = externalContext.getSession(false);
         HttpSession httpSession = (HttpSession) session;
         httpSession.invalidate();
         doRedirect("index.jsf");
-    }
-
-    private String findStartPage() {
-        String page;
-
-        switch (rol) {
-            case 0:
-                page = "homeAdministrador.jsf";
-                break;
-            case 1:
-                page = "homeDirector.jsf";
-                break;
-            case 2:
-                page = "homeOperario.jsf";
-                break;
-            case 3:
-                page = "homeAuxiliar.jsf";
-                break;
-            case 4:
-                page = "homeConductor.jsf";
-                break;
-            default:
-                page = "error.jsf";
-        }
-
-        return page;
     }
 
     public boolean getIsLoggedIn() {

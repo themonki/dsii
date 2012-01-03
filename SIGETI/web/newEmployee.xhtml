@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
+        <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
+        <title>Crear empleado</title>        
+        
+        <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
+    </h:head>
+
+    <h:body>
+
+        <div id="top">
+            <img src="./resources/logo.png" alt="logo"></img>
+        
+            <h:form>
+                <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
+                <h:commandLink action="#{authentication.logout}">
+                    <img src="./resources/exit.png" alt="salir" width="50" height="50"></img>
+                </h:commandLink>
+            </h:form>
+        </div>
+        <div id="center">
+            <div id="center_left">
+                <h:form>
+                    <h:dataTable value="#{beanContent.menuOptions}" var="l">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Menu"/>
+                            </f:facet>
+                            <h:commandLink action="#{beanContent.findLink(l.get(1))}">
+                                <h:outputText value="#{l.get(0)}"/>
+                            </h:commandLink>
+                        </h:column>
+                    </h:dataTable>
+                </h:form>
+            </div>
+            <div id="center_center">
+                <h:form>
+                    <h:messages styleClass="error"/>
+                    <h:panelGrid columns="2">
+                        <h:outputText value="* Primer nombre:"/>
+                        <h:inputText value="#{beanEmployee.nombre}" 
+                                     required="true"
+                                     requiredMessage="Primer nombre, es obligatorio"/>
+                        <h:outputText value="Segundo nombre:"/>
+                        <h:inputText value="#{beanEmployee.nombre2}"/>
+                        <h:outputText value="Primer apellido:"/>
+                        <h:inputText value="#{beanEmployee.apellido}"/>
+                        <h:outputText value="Segundo apellido:"/>
+                        <h:inputText value="#{beanEmployee.apellido2}"/>
+                        <h:outputText value="Tipo de identificaci&oacute;n"/>
+                        <h:selectOneMenu value="#{beanEmployee.tipoId}">
+                            <f:selectItems value="#{beanEmployee.availableTipoId}"/>
+                        </h:selectOneMenu>
+                        <h:outputText value="* N. identificaci&oacute;n:"/>
+                        <h:inputText value="#{beanEmployee.identificacion}"
+                                     required="true"
+                                     requiredMessage="N. identificaci&oacute;n, es obligatorio"/>
+                        <h:outputText value="Tel&eacute;fono:"/>
+                        <h:inputText value="#{beanEmployee.telefono}"/>
+                        <h:outputText value="Dirección:"/>
+                        <h:inputText value="#{beanEmployee.direccion}"/>
+                        <h:outputText value="Email:"/>
+                        <h:inputText value="#{beanEmployee.email}"/>
+                        <h:outputText value="Fecha de nacimiento:"/>
+                        <h:form>
+                            <h:outputText value="A&ntilde;o:"/><h:inputText value="#{beanEmployee.fechaNacimientoAnio}" size="4"/>
+                            <h:outputText value="Mes:"/><h:inputText value="#{beanEmployee.fechaNacimientoMes}" size="2"/>
+                            <h:outputText value="Dia:"/><h:inputText value="#{beanEmployee.fechaNacimientoDia}" size="2"/>
+                        </h:form>
+                        <h:outputText value="Fecha de ingreso:"/>
+                        <h:form>
+                            <h:outputText value="A&ntilde;o:"/><h:inputText value="#{beanEmployee.fechaIngresoAnio}" size="4"/>
+                            <h:outputText value="Mes:"/><h:inputText value="#{beanEmployee.fechaIngresoMes}" size="2"/>
+                            <h:outputText value="Dia:"/><h:inputText value="#{beanEmployee.fechaIngresoDia}" size="2"/>
+                        </h:form>
+                        <h:outputText value="Salario:"/>
+                        <h:inputText value="#{beanEmployee.salario}"/>
+                        <h:outputText value="Cargo:"/>
+                        <h:selectOneMenu value="#{beanEmployee.cargo}">
+                            <f:selectItems value="#{beanEmployee.availableCargo}"/>
+                        </h:selectOneMenu>
+                
+                        <h:outputText value="* Login:"/>
+                        <h:inputText value="#{beanEmployee.login}" 
+                                     required="true"
+                                     requiredMessage="Login, es obligatorio."/>
+                        <h:outputText value="* Password:"/>
+                        <h:inputSecret value="#{beanEmployee.password}"
+                                     required="true"
+                                     requiredMessage="Password, es obligatorio."/>
+                        <h:outputText value="* Confirmar password:"/>
+                        <h:inputSecret value="#{beanEmployee.passwordConfirmar}"
+                                     required="true"
+                                     requiredMessage="Confirmar password, es obligatorio."/>
+                    </h:panelGrid>
+                    
+                    <h:commandButton value="Crear" action="#{beanEmployee.createUser}"/>
+                </h:form>
+            </div>
+        </div>
+        <div id="bottom">
+            <ui:insert name="bottom">Pie de pagina</ui:insert>
+        </div>
+
+    </h:body>
+
+</html>

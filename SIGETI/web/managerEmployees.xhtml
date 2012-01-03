@@ -9,7 +9,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
-        <title>Facelets Template</title>
+        <title>Home page Administrador</title>        
+        
+        <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
     </h:head>
 
     <h:body>
@@ -23,7 +25,6 @@
                     <img src="./resources/exit.png" alt="salir" width="50" height="50"></img>
                 </h:commandLink>
             </h:form>
-            
         </div>
         <div id="center">
             <div id="center_left">
@@ -40,8 +41,23 @@
                     </h:dataTable>
                 </h:form>
             </div>
-            <div  id="center_center">
-                <ui:insert name="content">Contenido</ui:insert>
+            <div id="center_center">
+                <h:form>
+                    <h:panelGrid columns="3">
+                        <h:commandLink action="newEmployee">
+                            <h:outputText value="Crear nuevo empleado"/>
+                        </h:commandLink>
+                        <h:commandLink action="editEmployee">
+                            <h:outputText value="Editar empleado"/>
+                        </h:commandLink>
+                        <h:commandLink action="eraseEmployee">
+                            <h:outputText value="Eliminar empleado"/>
+                        </h:commandLink>
+                        <h:commandLink action="findEmployee">
+                            <h:outputText value="Consultar empleado"/>
+                        </h:commandLink>
+                    </h:panelGrid>
+                </h:form>
             </div>
         </div>
         <div id="bottom">

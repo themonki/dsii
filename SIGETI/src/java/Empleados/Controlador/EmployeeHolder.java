@@ -1,4 +1,4 @@
-package Empleados.Crontrolador;
+package Empleados.Controlador;
 
 
 import Entidades.Empleado;
@@ -17,7 +17,7 @@ import javax.faces.bean.SessionScoped;
  */
 @ManagedBean
 @SessionScoped
-public class EmpleadoHolder implements Serializable{
+public class EmployeeHolder implements Serializable{
     private Empleado currentEmpleado;
 
     public void setCurrentEmpleado(Empleado currentEmpleado) {
