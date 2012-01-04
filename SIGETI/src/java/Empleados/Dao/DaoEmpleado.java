@@ -4,7 +4,11 @@
  */
 package Empleados.Dao;
 
+import Entidades.Auxiliar;
+import Entidades.Conductor;
+import Entidades.Director;
 import Entidades.Empleado;
+import Entidades.Operario;
 import Utilidades.FachadaBD;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -131,5 +135,88 @@ public class DaoEmpleado {
             e.printStackTrace();
         }       
         return empleado;
+    }
+    
+    public int saveEmpleado(Empleado empleado){
+        String sql_insert = "INSERT INTO emppleado (id,tipo_id,"
+                + "nombre,apellido,login,password,estado,rol";
+        
+        if(empleado.getFechaIngreso() != null){
+            sql_insert += ",fecha_ingreso";
+        }
+        if(empleado.getFechaNacimiento() != null){
+            sql_insert += ",fecha_nacimiento";
+        }
+        if(!empleado.getTelefono().equals("")){
+            sql_insert += ",telefono";
+        }
+        if(empleado.getSalario() != -1){
+            sql_insert += ",salario";
+        }
+        if(!empleado.getNombre2().equals("")){
+            sql_insert += ",nombre2";
+        }
+        if(!empleado.getApellido2().equals("")){
+            sql_insert += ",apellido2";
+        }
+        if(!empleado.getDireccion().equals("")){
+            sql_insert += ",direccion";
+        }
+        if(!empleado.getEmail().equals("")){
+            sql_insert += ",email";
+        }
+        sql_insert += ") VALUES ('" + empleado.getId()
+                + "','" + empleado.getTipoId()
+                + "','" + empleado.getNombre()
+                + "','" + empleado.getApellido()
+                + "','" + empleado.getLogin()
+                + "',MD5('" + empleado.getPassword()
+                + "')," + empleado.getEstado()
+                + "," + empleado.getRol();
+        if(empleado.getFechaIngreso() != null){
+            sql_insert += ",'" + empleado.getFechaIngreso() + "'";
+        }
+        if(empleado.getFechaNacimiento() != null){
+            sql_insert += ",'" + empleado.getFechaNacimiento() + "'";
+        }
+        if(!empleado.getTelefono().equals("")){
+            sql_insert += ",'" + empleado.getTelefono() + "'";
+        }
+        if(empleado.getSalario() != -1){
+            sql_insert += "," +empleado.getSalario();
+        }
+        if(!empleado.getNombre2().equals("")){
+            sql_insert += ",'" + empleado.getNombre2() + "'";
+        }
+        if(!empleado.getApellido2().equals("")){
+            sql_insert += ",'" + empleado.getApellido2() + "'";
+        }
+        if(!empleado.getDireccion().equals("")){
+            sql_insert += ",'" + empleado.getDireccion() + "'";
+        }
+        if(!empleado.getEmail().equals("")){
+            sql_insert += ",'" + empleado.getEmail() + "'";
+        }
+        
+        sql_insert += ")";
+        
+        System.out.println(sql_insert);
+        return 0;
+    }
+    
+    public int saveDirector(Director director){
+        return 0;
+    }
+    
+    public int saveOperario(Operario operario){
+        return 0;
+    }
+    
+    public int saveAuxiliar(Auxiliar auxiliar){
+        return 0;
+    }
+    
+    public int saveConductor(Conductor conductor){
+        return 0;
     }
 }

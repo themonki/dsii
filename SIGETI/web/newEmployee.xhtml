@@ -45,6 +45,9 @@
                 <h:form>
                     <h:messages styleClass="error"/>
                     <h:panelGrid columns="2">
+                        <f:facet name="header">
+                            <h:outputText value="Datos personales"/>
+                        </f:facet>
                         <h:outputText value="* Primer nombre:"/>
                         <h:inputText value="#{beanEmployee.nombre}" 
                                      required="true"
@@ -86,8 +89,26 @@
                         <h:outputText value="Cargo:"/>
                         <h:selectOneMenu value="#{beanEmployee.cargo}">
                             <f:selectItems value="#{beanEmployee.availableCargo}"/>
+                            <f:ajax render="licenciaIn idJefeIn idEstacion"/>
                         </h:selectOneMenu>
-                
+                        <h:outputText value="N. Licencia:"/>
+                        <h:inputText value="#{beanEmployee.licencia}"
+                                     disabled="#{beanEmployee.disableLicencia}"
+                                     id="licenciaIn"/>
+                        <h:outputText value="N. identificaci&oacute;n jefe:"/>
+                        <h:inputText value="#{beanEmployee.identificacionJefe}"
+                                     disabled="#{beanEmployee.disableIdJefe}"
+                                     id="idJefeIn"/>
+                        <h:outputText value="Estaci&oacute;n trabaja:"/>
+                        <h:inputText value="#{beanEmployee.lugarTrabajo}"
+                                     disabled="#{beanEmployee.disableEstacion}"
+                                     id="idEstacion"/>
+                    </h:panelGrid>
+                    <br/><hr/><br/>
+                    <h:panelGrid columns="2">
+                        <f:facet name="header">
+                            <h:outputText value="Datos de ingreso al sistemas"/>
+                        </f:facet>
                         <h:outputText value="* Login:"/>
                         <h:inputText value="#{beanEmployee.login}" 
                                      required="true"

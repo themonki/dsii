@@ -20,7 +20,10 @@ public class Empleado implements Serializable{
     private String telefono;
     private String direccion;
     private String nombre;
+    private String nombre2;
     private String apellido;
+    private String apellido2;
+    private String email;
     private Date fechaNacimiento;
     private Integer rol;
     private String login;
@@ -41,6 +44,22 @@ public class Empleado implements Serializable{
         this.estado = estado;
     }
 
+    public String getApellido2() {
+        return apellido2;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public String getNombre2() {
+        return nombre2;
+    }
+    
     public String getId() {
         return id;
     }
@@ -77,6 +96,18 @@ public class Empleado implements Serializable{
         return telefono;
     }
 
+    public void setApellido2(String apellido2) {
+        this.apellido2 = apellido2;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setNombre2(String nombre2) {
+        this.nombre2 = nombre2;
+    }
+    
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }

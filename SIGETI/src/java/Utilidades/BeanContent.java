@@ -21,6 +21,7 @@ import javax.faces.context.FacesContext;
 public class BeanContent implements Serializable{
     
     private List<List<String>> menuOptions = null;
+    private String resultOperation = null;
 
     public void beanContentInit() {
        FacesContext context = FacesContext.getCurrentInstance();
@@ -82,4 +83,13 @@ public class BeanContent implements Serializable{
         
         return link;
     }
+
+    public String getResultOperation() {
+        return resultOperation;
+    }
+
+    public void setResultOperation(String resultOperation) {
+        this.resultOperation = resultOperation;
+    }
+    
 }
