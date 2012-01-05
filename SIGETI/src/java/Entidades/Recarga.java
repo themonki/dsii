@@ -4,9 +4,6 @@
  */
 package Entidades;
 
-import java.sql.Time;
-import java.util.Date;
-
 /**
  *
  * @author leonardo
@@ -15,11 +12,11 @@ public class Recarga {
 
     private String pin;
     private Integer idEstacion;
-    private Date fecha;
-    private Time hora;
+    private String fecha;
+    private String hora;
     private Integer valor;
 
-    public Recarga(String pin, Integer idEstacion, Date fecha, Time hora) {
+    public Recarga(String pin, Integer idEstacion, String fecha, String hora) {
         this.pin = pin;
         this.idEstacion = idEstacion;
         this.fecha = fecha;
@@ -42,19 +39,19 @@ public class Recarga {
         this.idEstacion = idEstacion;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 
-    public Time getHora() {
+    public String getHora() {
         return hora;
     }
 
-    public void setHora(Time hora) {
+    public void setHora(String hora) {
         this.hora = hora;
     }
 

@@ -4,8 +4,6 @@
  */
 package Entidades;
 
-import java.util.Date;
-
 /**
  *
  * @author leonardo
@@ -17,7 +15,7 @@ public class Tarjeta {
     private boolean estado;
     private Integer tipo;
     private Integer costo;
-    private Date fechaVenta;
+    private String fechaVenta;
     private Integer estacionVenta;
 
     public Tarjeta() {
@@ -72,11 +70,11 @@ public class Tarjeta {
         this.costo = costo;
     }
 
-    public Date getFechaVenta() {
+    public String getFechaVenta() {
         return fechaVenta;
     }
 
-    public void setFechaVenta(Date fechaVenta) {
+    public void setFechaVenta(String fechaVenta) {
         this.fechaVenta = fechaVenta;
     }
 

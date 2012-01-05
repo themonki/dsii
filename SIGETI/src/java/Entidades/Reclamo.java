@@ -4,8 +4,6 @@
  */
 package Entidades;
 
-import java.util.Date;
-
 /**
  *
  * @author leonardo
@@ -13,7 +11,7 @@ import java.util.Date;
 public class Reclamo {
 
     private Integer ticket;
-    private Date fecha;
+    private String fecha;
     private String descripcion;
     private String motivo;
     private String estado;
@@ -33,11 +31,11 @@ public class Reclamo {
         this.ticket = ticket;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 

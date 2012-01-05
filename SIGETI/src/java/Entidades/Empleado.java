@@ -5,7 +5,6 @@
 package Entidades;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  *
@@ -15,7 +14,7 @@ public class Empleado implements Serializable{
 
     protected String id;
     private String tipoId;
-    private Date fechaIngreso;
+    private String fechaIngreso;
     private Integer salario;
     private String telefono;
     private String direccion;
@@ -24,7 +23,7 @@ public class Empleado implements Serializable{
     private String apellido;
     private String apellido2;
     private String email;
-    private Date fechaNacimiento;
+    private String fechaNacimiento;
     private Integer rol;
     private String login;
     private String password;
@@ -76,11 +75,11 @@ public class Empleado implements Serializable{
         this.tipoId = tipoId;
     }
 
-    public Date getFechaIngreso() {
+    public String getFechaIngreso() {
         return fechaIngreso;
     }
 
-    public void setFechaIngreso(Date fechaIngreso) {
+    public void setFechaIngreso(String fechaIngreso) {
         this.fechaIngreso = fechaIngreso;
     }
 
@@ -136,11 +135,11 @@ public class Empleado implements Serializable{
         this.apellido = apellido;
     }
 
-    public Date getFechaNacimiento() {
+    public String getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
+    public void setFechaNacimiento(String fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 

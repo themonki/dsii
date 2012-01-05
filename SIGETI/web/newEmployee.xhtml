@@ -51,11 +51,13 @@
                         <h:outputText value="* Primer nombre:"/>
                         <h:inputText value="#{beanEmployee.nombre}" 
                                      required="true"
-                                     requiredMessage="Primer nombre, es obligatorio"/>
+                                     requiredMessage="Primer nombre es obligatorio"/>
                         <h:outputText value="Segundo nombre:"/>
                         <h:inputText value="#{beanEmployee.nombre2}"/>
-                        <h:outputText value="Primer apellido:"/>
-                        <h:inputText value="#{beanEmployee.apellido}"/>
+                        <h:outputText value="* Primer apellido:"/>
+                        <h:inputText value="#{beanEmployee.apellido}"
+                                     required="true"
+                                     requiredMessage="Primer apellido es obligatorio"/>
                         <h:outputText value="Segundo apellido:"/>
                         <h:inputText value="#{beanEmployee.apellido2}"/>
                         <h:outputText value="Tipo de identificaci&oacute;n"/>
@@ -65,25 +67,17 @@
                         <h:outputText value="* N. identificaci&oacute;n:"/>
                         <h:inputText value="#{beanEmployee.identificacion}"
                                      required="true"
-                                     requiredMessage="N. identificaci&oacute;n, es obligatorio"/>
+                                     requiredMessage="N. identificaci&oacute;n es obligatorio"/>
                         <h:outputText value="Tel&eacute;fono:"/>
                         <h:inputText value="#{beanEmployee.telefono}"/>
                         <h:outputText value="Dirección:"/>
                         <h:inputText value="#{beanEmployee.direccion}"/>
                         <h:outputText value="Email:"/>
                         <h:inputText value="#{beanEmployee.email}"/>
-                        <h:outputText value="Fecha de nacimiento:"/>
-                        <h:form>
-                            <h:outputText value="A&ntilde;o:"/><h:inputText value="#{beanEmployee.fechaNacimientoAnio}" size="4"/>
-                            <h:outputText value="Mes:"/><h:inputText value="#{beanEmployee.fechaNacimientoMes}" size="2"/>
-                            <h:outputText value="Dia:"/><h:inputText value="#{beanEmployee.fechaNacimientoDia}" size="2"/>
-                        </h:form>
-                        <h:outputText value="Fecha de ingreso:"/>
-                        <h:form>
-                            <h:outputText value="A&ntilde;o:"/><h:inputText value="#{beanEmployee.fechaIngresoAnio}" size="4"/>
-                            <h:outputText value="Mes:"/><h:inputText value="#{beanEmployee.fechaIngresoMes}" size="2"/>
-                            <h:outputText value="Dia:"/><h:inputText value="#{beanEmployee.fechaIngresoDia}" size="2"/>
-                        </h:form>
+                        <h:outputText value="Fecha de nacimiento: (aaaa-mm-dd)"/>
+                        <h:inputText value="#{beanEmployee.fechaNacimiento}" size="10"/>
+                        <h:outputText value="Fecha de ingreso: (aaaa-mm-dd)"/>
+                        <h:inputText value="#{beanEmployee.fechaIngreso}" size="10"/>
                         <h:outputText value="Salario:"/>
                         <h:inputText value="#{beanEmployee.salario}"/>
                         <h:outputText value="Cargo:"/>
@@ -93,15 +87,15 @@
                         </h:selectOneMenu>
                         <h:outputText value="N. Licencia:"/>
                         <h:inputText value="#{beanEmployee.licencia}"
-                                     disabled="#{beanEmployee.disableLicencia}"
+                                     disabled="#{beanContent.isDisableLicencia}"
                                      id="licenciaIn"/>
                         <h:outputText value="N. identificaci&oacute;n jefe:"/>
                         <h:inputText value="#{beanEmployee.identificacionJefe}"
-                                     disabled="#{beanEmployee.disableIdJefe}"
+                                     disabled="#{beanContent.isDisableIdJefe}"
                                      id="idJefeIn"/>
                         <h:outputText value="Estaci&oacute;n trabaja:"/>
                         <h:inputText value="#{beanEmployee.lugarTrabajo}"
-                                     disabled="#{beanEmployee.disableEstacion}"
+                                     disabled="#{beanContent.isDisableEstacion}"
                                      id="idEstacion"/>
                     </h:panelGrid>
                     <br/><hr/><br/>

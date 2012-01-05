@@ -4,7 +4,6 @@
  */
 package Entidades;
 
-import java.util.Date;
 
 /**
  *
@@ -18,7 +17,7 @@ public class Usuario {
     private String apellido;
     private String direccion;
     private String email;
-    private Date fechaNacimiento;
+    private String fechaNacimiento;
     private String telefono;
     private String password;
     private boolean estado;
@@ -85,11 +84,11 @@ public class Usuario {
         this.email = email;
     }
 
-    public Date getFechaNacimiento() {
+    public String getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
+    public void setFechaNacimiento(String fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 

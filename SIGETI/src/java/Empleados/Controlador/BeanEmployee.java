@@ -12,7 +12,6 @@ import Entidades.Empleado;
 import Entidades.Operario;
 import Utilidades.BeanContent;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -37,250 +36,247 @@ public class BeanEmployee {
     private String telefono;
     private String direccion;
     private String email;
-    private String fechaNacimientoAnio;
-    private String fechaNacimientoMes;
-    private String fechaNacimientoDia;
-    private String fechaIngresoAnio;
-    private String fechaIngresoMes;
-    private String fechaIngresoDia;
+    private String fechaNacimiento;
+    private String fechaIngreso;
     private String salario;
     private String cargo;
     private String login;
     private String password;
     private String passwordConfirmar;
     private boolean estado;
-    private String licencia;
-    private String identificacionJefe;
-    private String lugarTrabajo;
+    private String licencia="";
+    private String identificacionJefe="";
+    private String lugarTrabajo="";
     //usado para control y calculos
-    private boolean isDisableLicencia = true;
-    private boolean isDisableIdJefe = true;
-    private boolean isDisableEstacion = true;
-    private Date fechaN = null;
-    private Date fechaI = null;
     private DaoEmpleado daoEmpleado;
     private FacesContext context;
 
+    public String getFechaIngreso() {
+        System.out.println("get fecha ingreso");
+        return fechaIngreso;
+    }
+
+    public String getFechaNacimiento() {
+        System.out.println("get fecha nacimiento");
+        return fechaNacimiento;
+    }
+
+    public void setFechaIngreso(String fechaIngreso) {
+        System.out.println("set fecha ingreso");
+        this.fechaIngreso = fechaIngreso;
+    }
+
+    public void setFechaNacimiento(String fechaNacimiento) {
+        System.out.println("set fecha nacimiento");
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
     public String getIdentificacionJefe() {
+        System.out.println("get id jefe");
         return identificacionJefe;
     }
 
     public String getLugarTrabajo() {
+        System.out.println("get lugar trabajo");
         return lugarTrabajo;
     }
 
     public String getLicencia() {
+        System.out.println("get licencia");
         return licencia;
     }
 
     public void setLicencia(String licencia) {
+        System.out.println("set licencia");
         this.licencia = licencia;
     }
 
     public String getPasswordConfirmar() {
+        System.out.println("get pass conf");
         return passwordConfirmar;
     }
 
     public void setPasswordConfirmar(String passwordConfirmar) {
+        System.out.println("set pass conf");
         this.passwordConfirmar = passwordConfirmar;
     }
 
-    public void setFechaIngresoAnio(String fechaIngresoAnio) {
-        this.fechaIngresoAnio = fechaIngresoAnio;
-    }
-
-    public void setFechaIngresoDia(String fechaIngresoDia) {
-        this.fechaIngresoDia = fechaIngresoDia;
-    }
-
-    public void setFechaIngresoMes(String fechaIngresoMes) {
-        this.fechaIngresoMes = fechaIngresoMes;
-    }
-
-    public void setFechaNacimientoAnio(String fechaNacimientoAnio) {
-        this.fechaNacimientoAnio = fechaNacimientoAnio;
-    }
-
-    public void setFechaNacimientoDia(String fechaNacimientoDia) {
-        this.fechaNacimientoDia = fechaNacimientoDia;
-    }
-
-    public void setFechaNacimientoMes(String fechaNacimientoMes) {
-        this.fechaNacimientoMes = fechaNacimientoMes;
-    }
-
     public void setNombre2(String nombre2) {
+        System.out.println("set nombre2");
         this.nombre2 = nombre2;
     }
 
     public boolean isEstado() {
+        System.out.println("get estado");
         return estado;
     }
 
-    public String getFechaIngresoAnio() {
-        return fechaIngresoAnio;
-    }
-
-    public String getFechaIngresoDia() {
-        return fechaIngresoDia;
-    }
-
-    public String getFechaIngresoMes() {
-        return fechaIngresoMes;
-    }
-
-    public String getFechaNacimientoAnio() {
-        return fechaNacimientoAnio;
-    }
-
-    public String getFechaNacimientoDia() {
-        return fechaNacimientoDia;
-    }
-
-    public String getFechaNacimientoMes() {
-        return fechaNacimientoMes;
-    }
-
     public void setLogin(String login) {
+        System.out.println("get login");
         this.login = login;
     }
 
     public void setPassword(String password) {
+        System.out.println("get pass");
         this.password = password;
     }
 
     public String getLogin() {
+        System.out.println("get login");
         return login;
     }
 
     public String getPassword() {
+        System.out.println("get pass");
         return password;
     }
 
     public String getApellido() {
+        System.out.println("get apellido");
         return apellido;
     }
 
     public String getApellido2() {
+        System.out.println("get apellido2");
         return apellido2;
     }
 
     public String getCargo() {
+        System.out.println("get cargo");
         return cargo;
     }
 
     public String getDireccion() {
+        System.out.println("get dir");
         return direccion;
     }
 
     public String getEmail() {
+        System.out.println("get email");
         return email;
     }
 
     public String getIdentificacion() {
+        System.out.println("get id");
         return identificacion;
     }
 
     public String getTipoId() {
+        System.out.println("get tipo id");
         return tipoId;
     }
 
     public String getNombre() {
+        System.out.println("get nmbre");
         return nombre;
     }
 
     public String getNombre2() {
+        System.out.println("get nombre2");
         return nombre2;
     }
 
     public String getSalario() {
+        System.out.println("get salario");
         return salario;
     }
 
     public String getTelefono() {
+        System.out.println("get telefono");
         return telefono;
     }
 
     public boolean getEstado() {
+        System.out.println("get estado");
         return estado;
     }
 
-    public boolean isDisableLicencia() {
-        return isDisableLicencia;
-    }
-
-    public boolean isDisableIdJefe() {
-        return isDisableIdJefe;
-    }
-
-    public boolean isDisableEstacion() {
-        return isDisableEstacion;
-    }
-
     public void setIdentificacionJefe(String identificacionJefe) {
+        System.out.println("set id jefe");
         this.identificacionJefe = identificacionJefe;
     }
 
     public void setLugarTrabajo(String lugarTrabajo) {
+        System.out.println("set lugar trabajo");
         this.lugarTrabajo = lugarTrabajo;
     }
 
     public void setApellido(String apellido) {
+        System.out.println("set apellido");
         this.apellido = apellido;
     }
 
     public void setApellido2(String apellido2) {
+        System.out.println("set apelldio2");
         this.apellido2 = apellido2;
     }
 
     public void setCargo(String cargo) {
+        System.out.println("set cargo");
         this.cargo = cargo;
+        context = FacesContext.getCurrentInstance();
+        BeanContent content = (BeanContent) context.getApplication().evaluateExpressionGet(context, "#{beanContent}", BeanContent.class);
         if (cargo.equals("Conductor")) {
-            isDisableLicencia = false;
-        }
-        if (cargo.equals("Auxiliar")) {
-            isDisableIdJefe = false;
-            isDisableEstacion = false;
-        }
-        if (cargo.equals("Operario")) {
-            isDisableIdJefe = false;
+            content.setIsDisableLicencia(false);
+            content.setIsDisableEstacion(true);
+            content.setIsDisableIdJefe(true);
+        }else if (cargo.equals("Auxiliar")) {
+            content.setIsDisableIdJefe(false);
+            content.setIsDisableEstacion(false);
+            content.setIsDisableLicencia(true);
+        }else if (cargo.equals("Operario")) {
+            content.setIsDisableEstacion(false);
+            content.setIsDisableLicencia(true);
+            content.setIsDisableIdJefe(true);
+        }else{
+            content.setIsDisableEstacion(true);
+            content.setIsDisableLicencia(true);
+            content.setIsDisableIdJefe(true);
         }
     }
 
     public void setDireccion(String direccion) {
+        System.out.println("set direcion");
         this.direccion = direccion;
     }
 
     public void setEmail(String email) {
+        System.out.println("set email");
         this.email = email;
     }
 
     public void setIdentificacion(String identificacion) {
+        System.out.println("set id");
         this.identificacion = identificacion;
     }
 
     public void setTipoId(String tipoId) {
+        System.out.println("set tipo id");
         this.tipoId = tipoId;
     }
 
     public void setNombre(String nombre) {
+        System.out.println("set nombre");
         this.nombre = nombre;
     }
 
     public void setSalario(String salario) {
+        System.out.println("set salario");
         this.salario = salario;
     }
 
     public void setTelefono(String telefono) {
+        System.out.println("set telefono");
         this.telefono = telefono;
     }
 
     public void setEstado(boolean estado) {
+        System.out.println("set estado");
         this.estado = estado;
     }
 
     public List<SelectItem> getAvailableCargo() {
-        FacesContext context = FacesContext.getCurrentInstance();
+        context = FacesContext.getCurrentInstance();
         EmployeeHolder empleadoHolder = (EmployeeHolder) context.getApplication().evaluateExpressionGet(context, "#{employeeHolder}", EmployeeHolder.class);
         int rol = empleadoHolder.getCurrentEmpleado().getRol();
         List<SelectItem> availableCargos = new ArrayList<SelectItem>();
@@ -332,8 +328,8 @@ public class BeanEmployee {
         empleado.setTelefono(telefono.trim());
         empleado.setDireccion(direccion.trim());
         empleado.setEmail(email.trim());
-        empleado.setFechaNacimiento(fechaN);
-        empleado.setFechaIngreso(fechaI);
+        empleado.setFechaNacimiento(fechaNacimiento.trim());
+        empleado.setFechaIngreso(fechaIngreso.trim());
         if(salario.trim().equals("")){
             empleado.setSalario(-1);
         }else{
@@ -385,90 +381,74 @@ public class BeanEmployee {
             conductor.setLicencia(licencia.trim());
             daoEmpleado.saveConductor(conductor);
         }
-
         content.setResultOperation("El Empleado fue creado con exito.");
         return "resultOperation";
     }
 
     private void validate() {
-        if (nombre.length() > 15) {
-            context.addMessage(null, new FacesMessage("Nombre, no debe exceder los 15 caracteres."));
+        if (nombre.trim().length() > 15) {
+            context.addMessage(null, new FacesMessage("Nombre no debe exceder los 15 caracteres."));
         }
-        if (nombre2.length() > 15) {
-            context.addMessage(null, new FacesMessage("Nombre2, no debe exceder los 15 caracteres."));
+        if (nombre2.trim().length() > 15) {
+            context.addMessage(null, new FacesMessage("Nombre2 no debe exceder los 15 caracteres."));
         }
-        if (apellido.length() > 15) {
-            context.addMessage(null, new FacesMessage("Apellido, no debe exceder los 15 caracteres."));
+        if (apellido.trim().length() > 15) {
+            context.addMessage(null, new FacesMessage("Apellido no debe exceder los 15 caracteres."));
         }
-        if (apellido2.length() > 15) {
-            context.addMessage(null, new FacesMessage("Apellido2, no debe exceder los 15 caracteres."));
+        if (apellido2.trim().length() > 15) {
+            context.addMessage(null, new FacesMessage("Apellido2 no debe exceder los 15 caracteres."));
         }
-        if (identificacion.length() > 20) {
-            context.addMessage(null, new FacesMessage("Identificacion, no debe exceder los 20 caracteres."));
+        if (identificacion.trim().length() > 20) {
+            context.addMessage(null, new FacesMessage("Identificacion no debe exceder los 20 caracteres."));
         }
-        if (telefono.length() > 20) {
-            context.addMessage(null, new FacesMessage("Telefono, no debe exceder los 20 caracteres."));
+        if (telefono.trim().length() > 20) {
+            context.addMessage(null, new FacesMessage("Telefono no debe exceder los 20 caracteres."));
         }
-        if (direccion.length() > 50) {
-            context.addMessage(null, new FacesMessage("Direccion, no debe exceder los 50 caracteres."));
+        if (direccion.trim().length() > 50) {
+            context.addMessage(null, new FacesMessage("Direccion no debe exceder los 50 caracteres."));
         }
-        if (email.length() > 50) {
-            context.addMessage(null, new FacesMessage("Email, no debe exceder los 50 caracteres."));
+        if (email.trim().length() > 50) {
+            context.addMessage(null, new FacesMessage("Email no debe exceder los 50 caracteres."));
         }
-        if ((fechaNacimientoAnio.length() != 0) || (fechaNacimientoMes.length() != 0) || (fechaNacimientoDia.length() != 0)) {
-            if ((fechaNacimientoAnio.length() != 4) || (fechaNacimientoMes.length() != 2) || (fechaNacimientoDia.length() != 2)) {
-                context.addMessage(null, new FacesMessage("Fecha Nacimiento, el formato es aaaa-mm-dd"));
-            } else {
-                try {
-                    System.out.println("anio " + fechaNacimientoAnio + " mes " + fechaNacimientoMes + " dia " + fechaNacimientoDia);
-                    int anio = Integer.parseInt(fechaNacimientoAnio);
-                    int mes = Integer.parseInt(fechaNacimientoMes);
-                    int dia = Integer.parseInt(fechaNacimientoDia);
-                    fechaN = new Date(anio, mes, dia);
-                    System.out.println("fechaN " + fechaN);
-                } catch (NumberFormatException e) {
-                    context.addMessage(null, new FacesMessage("Fecha de ingreso, debes ser numerica o no es valida."));
-                }
-            }
-
+        if (fechaNacimiento.trim().length() != 0) {
+            if(fechaNacimiento.trim().length() != 10)
+                context.addMessage(null, new FacesMessage("Fecha Nacimiento debe tener el formato es aaaa-mm-dd"));
         }
-        /*if ((fechaIngresoAnio.length() != 0) || (fechaIngresoMes.length() != 0) || (fechaIngresoDia.length() != 0)) {
-            if ((fechaIngresoAnio.length() != 4) || (fechaIngresoMes.length() != 2) || (fechaIngresoDia.length() != 2)) {
-                context.addMessage(null, new FacesMessage("Fecha Ingreso", "El formato es aaaa-mm-dd"));
-            } else {
-                try {
-                    System.out.println("anio " + fechaIngresoAnio + " mes " + fechaIngresoMes + " dia " + fechaIngresoDia);
-                    int anio = Integer.parseInt(fechaIngresoAnio);
-                    int mes = Integer.parseInt(fechaIngresoMes);
-                    int dia = Integer.parseInt(fechaIngresoDia);
-                    fechaI = new Date(anio, mes, dia);
-                    System.out.println("fechaI " + fechaI);
-                } catch (NumberFormatException e) {
-                    context.addMessage(null, new FacesMessage("Fecha de ingreso, debes ser numerica o no es valida."));
-                }
-            }
-        }*/
-        if (salario.length() != 0) {
+        if (fechaIngreso.trim().length() != 0) {
+            if(fechaIngreso.trim().length() != 10)
+                context.addMessage(null, new FacesMessage("Fecha Ingreso debe tener el formato es aaaa-mm-dd"));
+        }
+        if (salario.trim().length() != 0) {
             try {
-                Integer.parseInt(salario);
+                Integer.parseInt(salario.trim());
             } catch (NumberFormatException e) {
-                context.addMessage(null, new FacesMessage("Salario, debe ser un numero entero."));
+                context.addMessage(null, new FacesMessage("Salario debe ser un numero entero."));
             }
         }
-        if (login.length() > 10) {
-            context.addMessage(null, new FacesMessage("Login, no debe exceder los 10 caracteres."));
+        if (login.trim().length() > 10) {
+            context.addMessage(null, new FacesMessage("Login no debe exceder los 10 caracteres."));
         }
-        if (password.length() > 15) {
-            context.addMessage(null, new FacesMessage("Password, no debe exceder los 15 caracteres."));
+        if (password.trim().length() > 15) {
+            context.addMessage(null, new FacesMessage("Password no debe exceder los 15 caracteres."));
         }
-        if (passwordConfirmar.length() > 15) {
-            context.addMessage(null, new FacesMessage("Confirmar password, no debe exceder los 15 caracteres."));
+        if (passwordConfirmar.trim().length() > 15) {
+            context.addMessage(null, new FacesMessage("Confirmar password no debe exceder los 15 caracteres."));
         }
-        if (!password.equals(passwordConfirmar)) {
+        if (!password.trim().equals(passwordConfirmar)) {
             context.addMessage(null, new FacesMessage("Los password no coinciden."));
         }
-        /*if (licencia.length() > 20) {
-            context.addMessage(null, new FacesMessage("Licencia, no debe exceder los 20 caracteres."));
-        }*/
+        if (licencia.trim().length() > 20) {
+            context.addMessage(null, new FacesMessage("Licencia no debe exceder los 20 caracteres."));
+        }
+        if(identificacionJefe.trim().length() > 20){
+            context.addMessage(null, new FacesMessage("N. identificacion jefe no debe exceder los 20 caracteres"));
+        }
+        if(lugarTrabajo.trim().length() != 0){
+            try{
+                Integer.parseInt(lugarTrabajo.trim());
+            }catch(NumberFormatException e){
+                context.addMessage(null, new FacesMessage("Estacion donde trabaja debe ser numerica."));
+            }
+        }
     }
 }

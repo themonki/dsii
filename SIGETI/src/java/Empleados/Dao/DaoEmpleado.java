@@ -53,8 +53,8 @@ public class DaoEmpleado {
              empleado.setApellido(table.getString("apellido"));
              empleado.setDireccion(table.getString("direccion"));
              empleado.setEstado(table.getBoolean("estado"));
-             empleado.setFechaIngreso(table.getDate("fecha_ingreso"));
-             empleado.setFechaNacimiento(table.getDate("fecha_nacimiento"));
+             empleado.setFechaIngreso(table.getString("fecha_ingreso"));
+             empleado.setFechaNacimiento(table.getString("fecha_nacimiento"));
              empleado.setId(table.getString("id"));
              empleado.setLogin(login);
              empleado.setNombre(table.getString("nombre"));
@@ -115,8 +115,8 @@ public class DaoEmpleado {
              empleado.setApellido(table.getString("apellido"));
              empleado.setDireccion(table.getString("direccion"));
              empleado.setEstado(table.getBoolean("estado"));
-             empleado.setFechaIngreso(table.getDate("fecha_ingreso"));
-             empleado.setFechaNacimiento(table.getDate("fecha_nacimiento"));
+             empleado.setFechaIngreso(table.getString("fecha_ingreso"));
+             empleado.setFechaNacimiento(table.getString("fecha_nacimiento"));
              empleado.setId(table.getString("id"));
              empleado.setLogin(login);
              empleado.setNombre(table.getString("nombre"));
@@ -133,7 +133,7 @@ public class DaoEmpleado {
         }catch(Exception e)
         {
             e.printStackTrace();
-        }       
+        }
         return empleado;
     }
     
@@ -141,10 +141,10 @@ public class DaoEmpleado {
         String sql_insert = "INSERT INTO emppleado (id,tipo_id,"
                 + "nombre,apellido,login,password,estado,rol";
         
-        if(empleado.getFechaIngreso() != null){
+        if(!empleado.getFechaIngreso().equals("")) {
             sql_insert += ",fecha_ingreso";
         }
-        if(empleado.getFechaNacimiento() != null){
+        if(!empleado.getFechaNacimiento().equals("")){
             sql_insert += ",fecha_nacimiento";
         }
         if(!empleado.getTelefono().equals("")){
@@ -173,10 +173,10 @@ public class DaoEmpleado {
                 + "',MD5('" + empleado.getPassword()
                 + "')," + empleado.getEstado()
                 + "," + empleado.getRol();
-        if(empleado.getFechaIngreso() != null){
+        if(!empleado.getFechaIngreso().equals("")){
             sql_insert += ",'" + empleado.getFechaIngreso() + "'";
         }
-        if(empleado.getFechaNacimiento() != null){
+        if(!empleado.getFechaNacimiento().equals("")){
             sql_insert += ",'" + empleado.getFechaNacimiento() + "'";
         }
         if(!empleado.getTelefono().equals("")){
@@ -197,9 +197,21 @@ public class DaoEmpleado {
         if(!empleado.getEmail().equals("")){
             sql_insert += ",'" + empleado.getEmail() + "'";
         }
-        
         sql_insert += ")";
         
+         try
+        {
+            Connection conn= fachada.conectar();
+            Statement sentence = conn.createStatement();
+            int result = sentence.executeUpdate(sql_insert);
+            return result;
+        }catch(SQLException se)
+        {
+            se.printStackTrace();
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }       
         System.out.println(sql_insert);
         return 0;
     }
