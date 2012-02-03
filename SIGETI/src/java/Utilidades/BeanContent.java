@@ -22,9 +22,6 @@ public class BeanContent implements Serializable{
     
     private List<List<String>> menuOptions = null;
     private String resultOperation = null;
-    private boolean isDisableLicencia = true;
-    private boolean isDisableIdJefe = true;
-    private boolean isDisableEstacion = true;
 
     public void beanContentInit() {
        FacesContext context = FacesContext.getCurrentInstance();
@@ -73,9 +70,6 @@ public class BeanContent implements Serializable{
         {
             beanContentInit();
         }
-        setIsDisableEstacion(true);
-        setIsDisableIdJefe(true);
-        setIsDisableLicencia(true);
         return menuOptions;
     }
     
@@ -96,29 +90,5 @@ public class BeanContent implements Serializable{
 
     public void setResultOperation(String resultOperation) {
         this.resultOperation = resultOperation;
-    }
-
-    public boolean isIsDisableEstacion() {
-        return isDisableEstacion;
-    }
-
-    public boolean isIsDisableIdJefe() {
-        return isDisableIdJefe;
-    }
-
-    public boolean isIsDisableLicencia() {
-        return isDisableLicencia;
-    }
-
-    public void setIsDisableEstacion(boolean isDisableEstacion) {
-        this.isDisableEstacion = isDisableEstacion;
-    }
-
-    public void setIsDisableIdJefe(boolean isDisableIdJefe) {
-        this.isDisableIdJefe = isDisableIdJefe;
-    }
-
-    public void setIsDisableLicencia(boolean isDisableLicencia) {
-        this.isDisableLicencia = isDisableLicencia;
     }
 }

@@ -15,6 +15,7 @@ public class Bus {
     private Integer capacidad;
     private String idInterno;
     private boolean estado;
+    private String perteneceRuta;
 
     public Bus() {
     }
@@ -41,6 +42,10 @@ public class Bus {
         return tipo;
     }
 
+    public String getPerteneceRuta() {
+        return perteneceRuta;
+    }
+    
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
@@ -69,6 +74,10 @@ public class Bus {
         this.estado = estado;
     }
 
+    public void setPerteneceRuta(String perteneceRuta) {
+        this.perteneceRuta = perteneceRuta;
+    }
+    
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set

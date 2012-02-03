@@ -36,11 +36,13 @@ public class Empleado implements Serializable{
         this.id = id;
     }
 
-    public Empleado(String id, String login, String password, boolean estado) {
+    public Empleado(String id, String login, String password, String nombre, String apellido, boolean estado) {
         this.id = id;
         this.login = login;
         this.password = password;
         this.estado = estado;
+        this.nombre = nombre;
+        this.apellido = apellido;
     }
 
     public String getApellido2() {

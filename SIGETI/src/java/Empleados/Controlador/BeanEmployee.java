@@ -36,8 +36,14 @@ public class BeanEmployee {
     private String telefono;
     private String direccion;
     private String email;
-    private String fechaNacimiento;
-    private String fechaIngreso;
+    private String fechaNacimiento="";
+    private String fechaNacimientoAno;
+    private String fechaNacimientoMes;
+    private String fechaNacimientoDia;
+    private String fechaIngreso="";
+    private String fechaIngresoAno;
+    private String fechaIngresoMes;
+    private String fechaIngresoDia;
     private String salario;
     private String cargo;
     private String login;
@@ -48,230 +54,250 @@ public class BeanEmployee {
     private String identificacionJefe="";
     private String lugarTrabajo="";
     //usado para control y calculos
-    private DaoEmpleado daoEmpleado;
     private FacesContext context;
-
-    public String getFechaIngreso() {
-        System.out.println("get fecha ingreso");
-        return fechaIngreso;
+  
+    public String getFechaIngresoAno() {
+        //System.out.println("ger fia");
+        return fechaIngresoAno;
     }
 
-    public String getFechaNacimiento() {
-        System.out.println("get fecha nacimiento");
-        return fechaNacimiento;
+    public String getFechaIngresoDia() {
+        //System.out.println("get fid");
+        return fechaIngresoDia;
     }
 
-    public void setFechaIngreso(String fechaIngreso) {
-        System.out.println("set fecha ingreso");
-        this.fechaIngreso = fechaIngreso;
+    public String getFechaIngresoMes() {
+        //System.out.println("get fim");
+        return fechaIngresoMes;
     }
 
-    public void setFechaNacimiento(String fechaNacimiento) {
-        System.out.println("set fecha nacimiento");
-        this.fechaNacimiento = fechaNacimiento;
+    public String getFechaNacimientoAno() {
+        //System.out.println("get fna");
+        return fechaNacimientoAno;
+    }
+
+    public String getFechaNacimientoDia() {
+        //System.out.println("get fnd");
+        return fechaNacimientoDia;
+    }
+
+    public String getFechaNacimientoMes() {
+        //System.out.println("get fnm");
+        return fechaNacimientoMes;
+    }
+
+    public void setFechaIngresoAno(String fechaIngresoAno) {
+        //System.out.println("set fia");
+        this.fechaIngresoAno = fechaIngresoAno;
+    }
+
+    public void setFechaIngresoDia(String fechaIngresoDia) {
+        //System.out.println("set fid");
+        this.fechaIngresoDia = fechaIngresoDia;
+    }
+
+    public void setFechaIngresoMes(String fechaIngresoMes) {
+        //System.out.println("set fim");
+        this.fechaIngresoMes = fechaIngresoMes;
+    }
+
+    public void setFechaNacimientoAno(String fechaNacimientoAno) {
+        //System.out.println("set fna");
+        this.fechaNacimientoAno = fechaNacimientoAno;
+    }
+
+    public void setFechaNacimientoDia(String fechaNacimientoDia) {
+        //System.out.println("set fnd");
+        this.fechaNacimientoDia = fechaNacimientoDia;
+    }
+
+    public void setFechaNacimientoMes(String fechaNacimientoMes) {
+        //System.out.println("set fnm");
+        this.fechaNacimientoMes = fechaNacimientoMes;
     }
 
     public String getIdentificacionJefe() {
-        System.out.println("get id jefe");
+        //System.out.println("get id jefe");
         return identificacionJefe;
     }
 
     public String getLugarTrabajo() {
-        System.out.println("get lugar trabajo");
+        //System.out.println("get lugar trabajo");
         return lugarTrabajo;
     }
 
     public String getLicencia() {
-        System.out.println("get licencia");
+        //System.out.println("get licencia");
         return licencia;
     }
 
     public void setLicencia(String licencia) {
-        System.out.println("set licencia");
+        //System.out.println("set licencia");
         this.licencia = licencia;
     }
 
     public String getPasswordConfirmar() {
-        System.out.println("get pass conf");
+        //System.out.println("get pass conf");
         return passwordConfirmar;
     }
 
     public void setPasswordConfirmar(String passwordConfirmar) {
-        System.out.println("set pass conf");
+        //System.out.println("set pass conf");
         this.passwordConfirmar = passwordConfirmar;
     }
 
     public void setNombre2(String nombre2) {
-        System.out.println("set nombre2");
+        //System.out.println("set nombre2");
         this.nombre2 = nombre2;
     }
 
     public boolean isEstado() {
-        System.out.println("get estado");
+        //System.out.println("get estado");
         return estado;
     }
 
     public void setLogin(String login) {
-        System.out.println("get login");
+        //System.out.println("get login");
         this.login = login;
     }
 
     public void setPassword(String password) {
-        System.out.println("get pass");
+        //System.out.println("get pass");
         this.password = password;
     }
 
     public String getLogin() {
-        System.out.println("get login");
+        //System.out.println("get login");
         return login;
     }
 
     public String getPassword() {
-        System.out.println("get pass");
+        //System.out.println("get pass");
         return password;
     }
 
     public String getApellido() {
-        System.out.println("get apellido");
+        //System.out.println("get apellido");
         return apellido;
     }
 
     public String getApellido2() {
-        System.out.println("get apellido2");
+        //System.out.println("get apellido2");
         return apellido2;
     }
 
     public String getCargo() {
-        System.out.println("get cargo");
+        //System.out.println("get cargo");
         return cargo;
     }
 
     public String getDireccion() {
-        System.out.println("get dir");
+        //System.out.println("get dir");
         return direccion;
     }
 
     public String getEmail() {
-        System.out.println("get email");
+        //System.out.println("get email");
         return email;
     }
 
     public String getIdentificacion() {
-        System.out.println("get id");
+        //System.out.println("get id");
         return identificacion;
     }
 
     public String getTipoId() {
-        System.out.println("get tipo id");
+        //System.out.println("get tipo id");
         return tipoId;
     }
 
     public String getNombre() {
-        System.out.println("get nmbre");
+        //System.out.println("get nmbre");
         return nombre;
     }
 
     public String getNombre2() {
-        System.out.println("get nombre2");
+        //System.out.println("get nombre2");
         return nombre2;
     }
 
     public String getSalario() {
-        System.out.println("get salario");
+        //System.out.println("get salario");
         return salario;
     }
 
     public String getTelefono() {
-        System.out.println("get telefono");
+        //System.out.println("get telefono");
         return telefono;
     }
 
     public boolean getEstado() {
-        System.out.println("get estado");
+        //System.out.println("get estado");
         return estado;
     }
 
     public void setIdentificacionJefe(String identificacionJefe) {
-        System.out.println("set id jefe");
+        //System.out.println("set id jefe");
         this.identificacionJefe = identificacionJefe;
     }
 
     public void setLugarTrabajo(String lugarTrabajo) {
-        System.out.println("set lugar trabajo");
+        //System.out.println("set lugar trabajo");
         this.lugarTrabajo = lugarTrabajo;
     }
 
     public void setApellido(String apellido) {
-        System.out.println("set apellido");
+        //System.out.println("set apellido");
         this.apellido = apellido;
     }
 
     public void setApellido2(String apellido2) {
-        System.out.println("set apelldio2");
+        //System.out.println("set apelldio2");
         this.apellido2 = apellido2;
     }
 
     public void setCargo(String cargo) {
-        System.out.println("set cargo");
+        //System.out.println("set cargo");
         this.cargo = cargo;
-        context = FacesContext.getCurrentInstance();
-        BeanContent content = (BeanContent) context.getApplication().evaluateExpressionGet(context, "#{beanContent}", BeanContent.class);
-        if (cargo.equals("Conductor")) {
-            content.setIsDisableLicencia(false);
-            content.setIsDisableEstacion(true);
-            content.setIsDisableIdJefe(true);
-        }else if (cargo.equals("Auxiliar")) {
-            content.setIsDisableIdJefe(false);
-            content.setIsDisableEstacion(false);
-            content.setIsDisableLicencia(true);
-        }else if (cargo.equals("Operario")) {
-            content.setIsDisableEstacion(false);
-            content.setIsDisableLicencia(true);
-            content.setIsDisableIdJefe(true);
-        }else{
-            content.setIsDisableEstacion(true);
-            content.setIsDisableLicencia(true);
-            content.setIsDisableIdJefe(true);
-        }
     }
 
     public void setDireccion(String direccion) {
-        System.out.println("set direcion");
+        //System.out.println("set direcion");
         this.direccion = direccion;
     }
 
     public void setEmail(String email) {
-        System.out.println("set email");
+        //System.out.println("set email");
         this.email = email;
     }
 
     public void setIdentificacion(String identificacion) {
-        System.out.println("set id");
+        //System.out.println("set id");
         this.identificacion = identificacion;
     }
 
     public void setTipoId(String tipoId) {
-        System.out.println("set tipo id");
+        //System.out.println("set tipo id");
         this.tipoId = tipoId;
     }
 
     public void setNombre(String nombre) {
-        System.out.println("set nombre");
+        //System.out.println("set nombre");
         this.nombre = nombre;
     }
 
     public void setSalario(String salario) {
-        System.out.println("set salario");
+        //System.out.println("set salario");
         this.salario = salario;
     }
 
     public void setTelefono(String telefono) {
-        System.out.println("set telefono");
+        //System.out.println("set telefono");
         this.telefono = telefono;
     }
 
     public void setEstado(boolean estado) {
-        System.out.println("set estado");
+        //System.out.println("set estado");
         this.estado = estado;
     }
 
@@ -317,7 +343,7 @@ public class BeanEmployee {
         }
         BeanContent content = (BeanContent) context.getApplication().evaluateExpressionGet(context, "#{beanContent}", BeanContent.class);
         int result;
-        daoEmpleado = new DaoEmpleado();
+        DaoEmpleado daoEmpleado = new DaoEmpleado();
         Empleado empleado = new Empleado();
         empleado.setNombre(nombre.trim());
         empleado.setNombre2(nombre2.trim());
@@ -328,8 +354,8 @@ public class BeanEmployee {
         empleado.setTelefono(telefono.trim());
         empleado.setDireccion(direccion.trim());
         empleado.setEmail(email.trim());
-        empleado.setFechaNacimiento(fechaNacimiento.trim());
-        empleado.setFechaIngreso(fechaIngreso.trim());
+        empleado.setFechaNacimiento(fechaNacimiento);
+        empleado.setFechaIngreso(fechaIngreso);
         if(salario.trim().equals("")){
             empleado.setSalario(-1);
         }else{
@@ -372,7 +398,11 @@ public class BeanEmployee {
             Auxiliar auxiliar = new Auxiliar();
             auxiliar.setId(identificacion.trim());
             auxiliar.setIdJefe(identificacionJefe.trim());
-            auxiliar.setTrabajaEn(Integer.parseInt(lugarTrabajo.trim()));
+            if(lugarTrabajo.trim().equals("")){
+                auxiliar.setTrabajaEn(-1);
+            }else{
+                auxiliar.setTrabajaEn(Integer.parseInt(lugarTrabajo.trim()));
+            }
             daoEmpleado.saveAuxiliar(auxiliar);
         }
         if (rol == 4) {
@@ -381,6 +411,7 @@ public class BeanEmployee {
             conductor.setLicencia(licencia.trim());
             daoEmpleado.saveConductor(conductor);
         }
+        daoEmpleado = null;
         content.setResultOperation("El Empleado fue creado con exito.");
         return "resultOperation";
     }
@@ -410,13 +441,47 @@ public class BeanEmployee {
         if (email.trim().length() > 50) {
             context.addMessage(null, new FacesMessage("Email no debe exceder los 50 caracteres."));
         }
-        if (fechaNacimiento.trim().length() != 0) {
-            if(fechaNacimiento.trim().length() != 10)
-                context.addMessage(null, new FacesMessage("Fecha Nacimiento debe tener el formato es aaaa-mm-dd"));
+        fechaNacimientoAno = fechaNacimientoAno.trim();
+        fechaNacimientoMes = fechaNacimientoMes.trim();
+        fechaNacimientoDia = fechaNacimientoDia.trim();
+        if (fechaNacimientoAno.length() != 0 || fechaNacimientoMes.length() != 0 || fechaNacimientoDia.length() != 0) {
+            if(fechaNacimientoAno.length() != 4 || fechaNacimientoMes.length() != 2 || fechaNacimientoDia.length() != 2){
+               context.addMessage(null, new FacesMessage("Fecha Nacimiento debe tener el formato es aaaa-mm-dd")); 
+            }else{
+                try{
+                   Integer.parseInt(fechaNacimientoAno);
+                   int mes = Integer.parseInt(fechaNacimientoMes);
+                   int dia = Integer.parseInt(fechaNacimientoDia);
+                   
+                   if(mes < 1 || mes > 12 || dia < 1 || dia > 31){
+                       context.addMessage(null, new FacesMessage("Fecha Nacimiento, mes o dia fuera de rango."));
+                   }
+                   fechaNacimiento = fechaNacimientoAno + "-" +fechaNacimientoMes + "-" +fechaNacimientoDia;
+                }catch(NumberFormatException e){
+                    context.addMessage(null, new FacesMessage("Fecha Nacimiento debe de ser numerica."));
+                }
+            }    
         }
-        if (fechaIngreso.trim().length() != 0) {
-            if(fechaIngreso.trim().length() != 10)
-                context.addMessage(null, new FacesMessage("Fecha Ingreso debe tener el formato es aaaa-mm-dd"));
+        fechaIngresoAno = fechaIngresoAno.trim();
+        fechaIngresoMes = fechaIngresoMes.trim();
+        fechaIngresoDia = fechaIngresoDia.trim();
+        if (fechaIngresoAno.length() != 0 || fechaIngresoMes.length() != 0 || fechaIngresoDia.length() != 0) {
+            if(fechaIngresoAno.length() != 4 || fechaIngresoMes.length() != 2 || fechaIngresoDia.length() != 2){
+               context.addMessage(null, new FacesMessage("Fecha Ingreso debe tener el formato es aaaa-mm-dd")); 
+            }else{
+                try{
+                   Integer.parseInt(fechaIngresoAno);
+                   int mes = Integer.parseInt(fechaIngresoMes);
+                   int dia = Integer.parseInt(fechaIngresoDia);
+                   
+                   if(mes < 1 || mes > 12 || dia < 1 || dia > 31){
+                       context.addMessage(null, new FacesMessage("Fecha ingreso, mes o dia fuera de rango."));
+                   }
+                   fechaIngreso = fechaIngresoAno + "-" +fechaIngresoMes + "-" +fechaIngresoDia;
+                }catch(NumberFormatException e){
+                    context.addMessage(null, new FacesMessage("Fecha ingreso debe de ser numerica."));
+                }
+            }    
         }
         if (salario.trim().length() != 0) {
             try {
@@ -449,6 +514,16 @@ public class BeanEmployee {
             }catch(NumberFormatException e){
                 context.addMessage(null, new FacesMessage("Estacion donde trabaja debe ser numerica."));
             }
+        }
+        //verificar lugar trabjao exista
+
+        if(identificacionJefe.trim().length() != 0){
+            DaoEmpleado daoEmpleado = new DaoEmpleado();
+            Director director = daoEmpleado.findDirectorId(identificacionJefe.trim());
+            if(director.getId() == null){
+                context.addMessage(null, new FacesMessage("La identificación del jefe no es valida, no existe el director."));
+            }
+            daoEmpleado = null;
         }
     }
 }

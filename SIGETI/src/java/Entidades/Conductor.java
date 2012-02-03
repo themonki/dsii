@@ -11,6 +11,15 @@ package Entidades;
 public class Conductor extends Empleado{
 
     private String licencia;
+    private String conduceBus;
+
+    public void setConduceBus(String conduceBus) {
+        this.conduceBus = conduceBus;
+    }
+
+    public String getConduceBus() {
+        return conduceBus;
+    }
 
     public void setLicencia(String licencia) {
         this.licencia = licencia;
