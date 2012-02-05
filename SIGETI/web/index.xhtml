@@ -7,17 +7,26 @@ and open the template in the editor.
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html">
     <head>
-        <title>Login Page</title>
+       
+        
+         <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
+        <link href="./resources/css/newcss.css" rel="stylesheet" type="text/css" />
+        <title>Login Page</title>     
+        
+     
+    </h:head>
     </head>
     <body>
         <div>
             <h:messages/>
-            <h:form>
+            <h:form styleClass="Form">
                 <h:outputText value="User Name"/>
                 <h:inputText value="#{authentication.loginU}" /><br/>
                 <h:outputText value="Password"/>
                 <h:inputSecret value="#{authentication.passwordU}" /><br/>
-                <h:commandButton value="Login" action="#{authentication.login}" />
+                <h:commandButton value="Login" styleClass="Button" action="#{authentication.login}" /><br/>
                 <h:commandLink value="Template" action="template"></h:commandLink>
             </h:form>
         </div>
