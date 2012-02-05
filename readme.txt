@@ -1,15 +1,16 @@
-por fa prueben que eShop funcione, no se si como estÃ© se los reconozca netbeans la idea es hacer un archivo
- .gitignore para que no se cargue a git las propiedades especificas de configuracion de cada quien, el archivo debe de contener
+exite un archivo llamado .gitignore que contiene lo siguiente:
 
-/SIGETI/nbproject/private/
+/SIGETI/nbproject/
 /SIGETI/build/
-/eShop/nbproject/private/
+/SIGETI/dist/
+/eShop/nbproject/
 /eShop/build/
+/eShop/dist/
+/SIGETI/build.xml
+/eShop/build.xml
 
-NOTA: Como servidor estoy usando Apache Tomcat por que en un principio Glasfish no me servia, me daba errores,
-aunque esto contradice lo que dijo Erika.
+estos archivos estaran localmente en sus máquinas y corresponden a las ppropiedades específicas de cada quien.
 
+NOTA: Como servidor estoy usando Apache Tomcat por que en un principio Glasfish no me servia, me daba errores. Pero sepuede usar cualquiera
 
-este... para abrirlo hay que borrar /nbproject 
-
-en netbeans le damos nuevo proyecto web de folder existente y seleccionamos la carpeta sigeti , si se encuentra con este archivo no abre de lo contrario lo tomara como un folder normal y lo abrira sin problema , luego recuerden añadir el servidor web , y postgres 
+Para abrir los proyectos, selecionen crear un nuevo proyecto web, pero seleccionan la opcion de crearlo con fuentes existentes. Recuerden añadir el controlador de la base de datos para postgres, tambien las librerias jsf 2.1 y jstl 1.1
