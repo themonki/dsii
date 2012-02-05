@@ -1,13 +1,13 @@
 exite un archivo llamado .gitignore que contiene lo siguiente:
 
-/SIGETI/nbproject/
-/SIGETI/build/
-/SIGETI/dist/
-/eShop/nbproject/
-/eShop/build/
-/eShop/dist/
-/SIGETI/build.xml
-/eShop/build.xml
+SIGETI/nbproject/
+SIGETI/build/
+SIGETI/dist/
+eShop/nbproject/
+eShop/build/
+eShop/dist/
+SIGETI/build.xml
+eShop/build.xml
 
 estos archivos estaran localmente en sus máquinas y corresponden a las ppropiedades específicas de cada quien.
 
