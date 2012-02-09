@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Empleados.Dao;
+package Dao;
 
 import Entidades.Auxiliar;
 import Entidades.Conductor;

@@ -4,7 +4,7 @@
  */
 package Utilidades;
 
-import Empleados.Controlador.EmployeeHolder;
+import Controlador.EmployeeHolder;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
