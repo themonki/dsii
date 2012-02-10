@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
+        <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
+        <title>Crear Bus</title>        
+        
+        <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
+        
+        <f:verbatim>  
+<script type="text/javascript">  
+      
+    function doPopup(source) {
+    popup = window.open(source, "popup", "height=600,width=900)");
+    popup.focus();
+}  
+</script>  
+</f:verbatim> 
+}
+    </h:head>
+
+    <h:body>
+
+        <div id="top">
+            <img src="./resources/logo.png" alt="logo"></img>
+        
+            <h:form>
+                <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
+                <h:commandLink action="#{authentication.logout}">
+                    <img src="./resources/exit.png" alt="salir" width="50" height="50"></img>
+                </h:commandLink>
+            </h:form>
+        </div>
+        <div id="center">
+            <div id="center_left">
+                <h:form>
+                    <h:dataTable value="#{beanContent.menuOptions}" var="l">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Menu"/>
+                            </f:facet>
+                            <h:commandLink action="#{beanContent.findLink(l.get(2))}">
+                                <h:outputText value="#{l.get(0)}"/>
+                            </h:commandLink>
+                        </h:column>
+                    </h:dataTable>
+                </h:form>
+            </div>
+            <div id="center_center">
+                <h:form>
+                    <h:messages styleClass="error"/>
+                    <h:panelGrid columns="2">
+                        <f:facet name="header">
+                            <h:outputText value="Datos Bus"/>
+                        </f:facet>
+                        <h:outputText value="* Matricula:"/>
+                        <h:inputText value="#{beanBus.matricula}" 
+                                     required="true"
+                                     requiredMessage="La Matricula es obligatoria"/>
+                        <h:outputText value="* Tipo:"/>
+                        <h:inputText value="#{beanBus.tipo}"
+                                     required="true"
+                                     requiredMessage="El Tipo del bus es obligatorio"/>
+                        <h:outputText value="Capacidad:"/>
+                        <h:inputText value="#{beanBus.capacidad}"/>
+                        <h:outputText value="Identificador Interno"/>
+                        <h:inputText value="#{beanBus.idInterno}"/>
+                        <h:outputText value="Estado:"/>
+                        <h:inputText value="#{beanBus.estado}"/>
+                        <h:outputText value="Ruta a la que pertenece:"/>
+                        <h:inputText value="#{beanBus.perteneceRuta}"/>                        
+                    </h:panelGrid>
+                    <br/><hr/><br/>                    
+                    
+                    <h:commandButton value="Crear" action="#{beanBus.createBus}"/>
+                </h:form>
+            </div>
+        </div>
+        <div id="bottom">
+            <ui:insert name="bottom">Pie de pagina</ui:insert>
+        </div>
+
+    </h:body>
+
+</html>

@@ -2,9 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Empleados.Controlador;
+package Controlador;
 
-import Empleados.Dao.DaoEmpleado;
+import Dao.DaoEmpleado;
 import Entidades.Auxiliar;
 import Entidades.Conductor;
 import Entidades.Director;
