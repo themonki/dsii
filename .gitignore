@@ -6,3 +6,4 @@ eShop/build/
 eShop/dist/
 SIGETI/build.xml
 eShop/build.xml
+SIGETI/src/java/Utilidades/FachadaBD.java

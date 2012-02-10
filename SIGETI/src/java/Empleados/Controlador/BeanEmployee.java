@@ -11,12 +11,15 @@ import Entidades.Director;
 import Entidades.Empleado;
 import Entidades.Operario;
 import Utilidades.BeanContent;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 
 /**
@@ -24,8 +27,9 @@ import javax.faces.model.SelectItem;
  * @author leonardo
  */
 @ManagedBean
-@RequestScoped
-public class BeanEmployee {
+//@RequestScoped
+@SessionScoped
+public class BeanEmployee implements Serializable{
 
     private String nombre;
     private String nombre2;
@@ -50,11 +54,38 @@ public class BeanEmployee {
     private String password;
     private String passwordConfirmar;
     private boolean estado;
-    private String licencia="";
-    private String identificacionJefe="";
-    private String lugarTrabajo="";
+    private String licencia;
+    private String identificacionJefe;
+    private String lugarTrabajo;
     //usado para control y calculos
+    private boolean isDisableLicencia = true;
+    private boolean isDisableIdJefe = true;
+    private boolean isDisableEstacion = true;
     private FacesContext context;
+
+    public void setIsDisableEstacion(boolean isDisableEstacion) {
+        this.isDisableEstacion = isDisableEstacion;
+    }
+
+    public void setIsDisableIdJefe(boolean isDisableIdJefe) {
+        this.isDisableIdJefe = isDisableIdJefe;
+    }
+
+    public void setIsDisableLicencia(boolean isDisableLicencia) {
+        this.isDisableLicencia = isDisableLicencia;
+    }
+
+    public boolean isDisableEstacion() {
+        return isDisableEstacion;
+    }
+
+    public boolean isDisableIdJefe() {
+        return isDisableIdJefe;
+    }
+
+    public boolean isDisableLicencia() {
+        return isDisableLicencia;
+    }
   
     public String getFechaIngresoAno() {
         //System.out.println("ger fia");
@@ -259,6 +290,11 @@ public class BeanEmployee {
     public void setCargo(String cargo) {
         //System.out.println("set cargo");
         this.cargo = cargo;
+        if(this.cargo.equals("Auxiliar"))
+        {
+            this.isDisableEstacion = false;
+            this.isDisableIdJefe = false;
+        }
     }
 
     public void setDireccion(String direccion) {
@@ -335,9 +371,21 @@ public class BeanEmployee {
         return availableTipoId;
     }
 
+    public List<SelectItem> getAvailableEstacion(){
+        List<SelectItem> availableEstacion = new ArrayList<SelectItem>();
+        
+        return availableEstacion;
+    }
+    
+    public List<SelectItem> getAvailableJefe(){
+        List<SelectItem> availableJefe = new ArrayList<SelectItem>();
+        
+        return availableJefe;
+    }
+    
     public String createUser() {
         context = FacesContext.getCurrentInstance();
-        validate();
+        this.validate();
         if (context.getMessageList().size() > 0) {
             return null;
         }
@@ -376,10 +424,11 @@ public class BeanEmployee {
         empleado.setRol(rol);
         empleado.setLogin(login.trim());
         empleado.setPassword(password.trim());
-        empleado.setEstado(true); //estado
+        empleado.setEstado(estado);
         result = daoEmpleado.saveEmpleado(empleado);
         if(result == 0){
             content.setResultOperation("El Empleado no pudo ser creado.");
+            this.clearStates();
             return "resultOperation";
         }
             
@@ -413,6 +462,7 @@ public class BeanEmployee {
         }
         daoEmpleado = null;
         content.setResultOperation("El Empleado fue creado con exito.");
+        this.clearStates();
         return "resultOperation";
     }
 
@@ -525,5 +575,43 @@ public class BeanEmployee {
             }
             daoEmpleado = null;
         }
+    }
+    
+    void clearStates()
+    {
+        nombre = "";
+        nombre2 = "";
+        apellido = "";
+        apellido2 = "";
+        tipoId = "";
+        identificacion = "";
+        telefono = "";
+        direccion = "";
+        email = "";
+        fechaNacimiento="";
+        fechaNacimientoAno = "";
+        fechaNacimientoMes = "";
+        fechaNacimientoDia = "";
+        fechaIngreso="";
+        fechaIngresoAno = "";
+        fechaIngresoMes = "";
+        fechaIngresoDia = "";
+        salario = "";
+        cargo = "";
+        login = "";
+        password = "";
+        passwordConfirmar = "";
+        estado = true;
+        licencia="";
+        identificacionJefe="";
+        lugarTrabajo="";
+        isDisableLicencia = true;
+        isDisableIdJefe = true;
+        isDisableEstacion = true;
+    }
+    
+    public void clearStatesEvent(ActionEvent e)
+    {
+        clearStates();
     }
 }

@@ -12,17 +12,6 @@
         <title>Crear empleado</title>        
         
         <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
-        
-        <f:verbatim>  
-<script type="text/javascript">  
-      
-    function doPopup(source) {
-    popup = window.open(source, "popup", "height=600,width=900)");
-    popup.focus();
-}  
-</script>  
-</f:verbatim> 
-}
     </h:head>
 
     <h:body>
@@ -108,17 +97,24 @@
                         <h:outputText value="Cargo:"/>
                         <h:selectOneMenu value="#{beanEmployee.cargo}">
                             <f:selectItems value="#{beanEmployee.availableCargo}"/>
+                            <f:ajax render="licenciaIn idJefeIn idEstacionIn"/>
                         </h:selectOneMenu>
                         <h:outputText value="N. Licencia:"/>
-                        <h:inputText value="#{beanEmployee.licencia}"/>
+                        <h:inputText value="#{beanEmployee.licencia}"
+                                     disabled="#{beanEmployee.disableLicencia}"
+                                     id="licenciaIn"/>
                         <h:outputText value="N. identificaci&oacute;n jefe:"/>
                         <h:panelGroup>
-                            <h:inputText value="#{beanEmployee.identificacionJefe}"/>
-                            <h:commandButton value="..." onclick="doPopup('template.jsf')"/>
+                            <h:inputText value="#{beanEmployee.identificacionJefe}"
+                                         disabled="#{beanEmployee.disableIdJefe}"
+                                         id="idJefeIn"/>
+                            <h:commandButton value="..." />
                         </h:panelGroup>                        
                         <h:outputText value="Estaci&oacute;n trabaja:"/>
                         <h:panelGroup>
-                            <h:inputText value="#{beanEmployee.lugarTrabajo}"/>
+                            <h:inputText value="#{beanEmployee.lugarTrabajo}"
+                                         disabled="#{beanEmployee.disableEstacion}"
+                                         id="idEstacionIn"/>
                             <h:commandButton value="..."/>
                         </h:panelGroup>                        
                     </h:panelGrid>

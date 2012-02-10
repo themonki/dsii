@@ -44,7 +44,9 @@
             <div id="center_center">
                 <h:form>
                     <h:panelGrid columns="3">
-                        <h:commandLink action="newEmployee">
+                        <h:commandLink action="newEmployee"
+                                       actionListener="#{beanEmployee.clearStatesEvent}"
+                                       immediate="true">
                             <h:outputText value="Crear nuevo empleado"/>
                         </h:commandLink>
                         <h:commandLink action="editEmployee">
