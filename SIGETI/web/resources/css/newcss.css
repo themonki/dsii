@@ -13,10 +13,9 @@
 
 body { 
     
-    
-   
     background-color: #036fab;
-    
+ 
+   
     font-size: 20px;
     font-family: Verdana, "Verdana CE",  Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
       
@@ -28,14 +27,7 @@ body {
                 margin-top: -100px;
                 margin-left: -150px;
  
-                
-               
-                
-                
-                
-                
-                
-    
+ 
 }
 
 
@@ -57,7 +49,11 @@ border-right: 0px;
 border-bottom: 1px solid rgba(0,0,0,0.25);
 position: relative;
 cursor:pointer;
+
 }
+
+
+
 
 .Form
 
@@ -74,6 +70,7 @@ text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
 border-top: 0px;
 border-left: 0px;
 border-right: 0px;
+ 
 
 position: relative;
 cursor:pointer;

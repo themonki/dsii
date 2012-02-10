@@ -1,4 +1,4 @@
-package Empleados.Controlador;
+package Controlador;
 
 
 import Entidades.Empleado;

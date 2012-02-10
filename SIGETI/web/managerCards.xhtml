@@ -1,21 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this template, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
+
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
-        <title>Home page Administrador</title>
+        <title>Home page Administrador</title>        
         
         <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
     </h:head>
+
     <h:body>
 
         <div id="top">
@@ -44,22 +42,25 @@ and open the template in the editor.
                 </h:form>
             </div>
             <div id="center_center">
-                <h:form>
-                    <h:panelGrid columns="1">
-                        <h:commandLink action="newBus">
-                            <h:outputText value="Crear nuevo Bus"/>
+                <ui:insert name="content">Home page </ui:insert>
+                
+                   <h:form>
+                    <h:panelGrid columns="3">
+                        <h:commandLink action="newCard">
+                            <h:outputText value="Crear nueva tarjeta"/>
                         </h:commandLink>
-                        <h:commandLink action="editBus">
-                            <h:outputText value="Editar bus"/>
+                        <h:commandLink action="editCard">
+                            <h:outputText value="Editar tarjeta"/>
                         </h:commandLink>
-                        <h:commandLink action="eraseBus">
-                            <h:outputText value="Eliminar bus"/>
+                        <h:commandLink action="eraseCard">
+                            <h:outputText value="Eliminar tarjeta"/>
                         </h:commandLink>
-                        <h:commandLink action="findBus">
-                            <h:outputText value="Consultar bus"/>
+                        <h:commandLink action="findCard">
+                            <h:outputText value="Consultar tarjeta"/>
                         </h:commandLink>
                     </h:panelGrid>
                 </h:form>
+                
             </div>
         </div>
         <div id="bottom">
@@ -67,4 +68,5 @@ and open the template in the editor.
         </div>
 
     </h:body>
+
 </html>

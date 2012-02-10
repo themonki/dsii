@@ -4,13 +4,16 @@
  */
 package Utilidades;
 
-import Empleados.Controlador.EmployeeHolder;
+import Controlador.EmployeeHolder;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+
+
+
 
 /**
  *
@@ -20,10 +23,15 @@ import javax.faces.context.FacesContext;
 @SessionScoped
 public class BeanContent implements Serializable{
     
+   
     private List<List<String>> menuOptions = null;
     private String resultOperation = null;
+    
+   
 
     public void beanContentInit() {
+        
+   
        FacesContext context = FacesContext.getCurrentInstance();
        EmployeeHolder empleadoHolder = (EmployeeHolder) context.getApplication().evaluateExpressionGet(context, "#{employeeHolder}", EmployeeHolder.class);
        if(empleadoHolder.getCurrentEmpleado() == null)
@@ -39,9 +47,13 @@ public class BeanContent implements Serializable{
            List l2 = new ArrayList();
            l2.add("Gestionar Buses");
            l2.add("2");
+            List l3 = new ArrayList();
+           l3.add("Gestionar Tarjetas");
+           l3.add("3");
            
            menuOptions.add(l1);
            menuOptions.add(l2);
+           menuOptions.add(l3);
        }else if(rol == 1) //director
        {
            List l1 = new ArrayList();
@@ -54,6 +66,8 @@ public class BeanContent implements Serializable{
            List l1 = new ArrayList();
            l1.add("Gestionar Empleados");
            l1.add("1");
+            menuOptions.add(l1);
+           
        }else if(rol == 3) //Auxiliar
        {
            
@@ -61,6 +75,8 @@ public class BeanContent implements Serializable{
        {
            
        }
+       
+       
        
     }
       
@@ -80,6 +96,8 @@ public class BeanContent implements Serializable{
             link = "managerEmployees";
         else if(l.equals("2"))
             link = "managerBus";
+        else if(l.equals("3"))
+            link = "managerCards";
         
         return link;
     }
