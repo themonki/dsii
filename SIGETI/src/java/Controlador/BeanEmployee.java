@@ -17,7 +17,6 @@ import Utilidades.BeanContent;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -59,17 +58,26 @@ public class BeanEmployee implements Serializable{
     private boolean isDisableLicencia = true;
     private boolean isDisableIdJefe = true;
     private boolean isDisableEstacion = true;
+    private boolean isRenderTableSearch = false;
     private int countValidator;
 
-    public void setIsDisableEstacion(boolean isDisableEstacion) {
+    public void setRenderTableSearch(boolean isRenderTableSearch) {
+        this.isRenderTableSearch = isRenderTableSearch;
+    }
+
+    public boolean isRenderTableSearch() {
+        return isRenderTableSearch;
+    }
+
+    public void setDisableEstacion(boolean isDisableEstacion) {
         this.isDisableEstacion = isDisableEstacion;
     }
 
-    public void setIsDisableIdJefe(boolean isDisableIdJefe) {
+    public void setDisableIdJefe(boolean isDisableIdJefe) {
         this.isDisableIdJefe = isDisableIdJefe;
     }
 
-    public void setIsDisableLicencia(boolean isDisableLicencia) {
+    public void setDisableLicencia(boolean isDisableLicencia) {
         this.isDisableLicencia = isDisableLicencia;
     }
 
@@ -331,8 +339,10 @@ public class BeanEmployee implements Serializable{
     }
 
     public void setIdentificacion(String identificacion) {
-        //System.out.println("set id");
+        System.out.println("set identificacion");
         this.identificacion = identificacion;
+        
+        this.isRenderTableSearch =true;//debe ser provicional
     }
 
     public void setTipoId(String tipoId) {
@@ -397,7 +407,7 @@ public class BeanEmployee implements Serializable{
         List<SelectItem> availableEstacion = new ArrayList<SelectItem>();
 
         DaoEstacion daoEstacion = new DaoEstacion();
-        Vector<EstacionPrincipal> estaciones = daoEstacion.findAllEstacionPrincipal();
+        List<EstacionPrincipal> estaciones = daoEstacion.findAllEstacionPrincipal();
         daoEstacion = null;
         availableEstacion.add(new SelectItem("---"));
         for(int i=0;i<estaciones.size();i++)
@@ -417,7 +427,7 @@ public class BeanEmployee implements Serializable{
         if(this.cargo.equals("Operario"))
         {
             System.out.println("entro a available jefe para operario");
-           Vector<Director> directores = daoEmpleado.findAllDirector();
+           List<Director> directores = daoEmpleado.findAllDirector();
            for(int i=0;i<directores.size();i++)
            {
                Director director = directores.get(i);
@@ -426,7 +436,7 @@ public class BeanEmployee implements Serializable{
            }
         }else if(this.cargo.equals("Auxiliar"))
         {
-           Vector<Operario> operarios = daoEmpleado.findAllOperario();
+           List<Operario> operarios = daoEmpleado.findAllOperario();
            for(int i=0;i<operarios.size();i++)
            {
                Operario operario = operarios.get(i);
@@ -665,5 +675,31 @@ public class BeanEmployee implements Serializable{
     public void clearStatesEvent(ActionEvent e)
     {
         clearStates();
+    }
+    
+    public List<Empleado> getFindEmployee()
+    {
+        DaoEmpleado daoEmpleado = new DaoEmpleado();
+        List<Empleado> empleados;
+        if(this.identificacion.trim().equals(""))
+        {
+            empleados = daoEmpleado.findAllEmpleado();
+        }else
+        {
+            Empleado empleado = daoEmpleado.findEmpleadoId(this.identificacion.trim());
+            empleados = new ArrayList<Empleado>();
+            empleados.add(empleado);
+        }
+        daoEmpleado = null;
+        if(empleados.get(0).getId() == null)
+        {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("No existe empleado con la identificación proporcionada."));
+            this.isRenderTableSearch = false;
+            return null;
+        }else
+        {
+            return empleados;
+        } 
     }
 }

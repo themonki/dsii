@@ -19,7 +19,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -407,21 +408,62 @@ public class DaoEmpleado {
         return director;
     }
     
-    public Vector<Empleado> findAllEmpleado()
+    /**
+     * Busca todos los empleados en la base de datos.
+     * @return Lsita de objetos empleados, 
+     * si no existe alguno sera una lista vacia.
+     */
+    public List<Empleado> findAllEmpleado()
     {
-        return null;
+        String sqlConsulta = "SELECT * FROM empleado";
+
+        List<Empleado> empleados = new ArrayList<Empleado>();
+
+        try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            ResultSet table = sentence.executeQuery(sqlConsulta);
+
+            while (table.next()) {
+                Empleado empleado = new Empleado();
+                empleado.setApellido(table.getString("apellido"));
+                empleado.setDireccion(table.getString("direccion"));
+                empleado.setEstado(table.getBoolean("estado"));
+                empleado.setFechaIngreso(table.getString("fecha_ingreso"));
+                empleado.setFechaNacimiento(table.getString("fecha_nacimiento"));
+                empleado.setId(table.getString("id"));
+                empleado.setLogin(table.getString("login"));
+                empleado.setNombre(table.getString("nombre"));
+                empleado.setPassword(table.getString("password"));
+                empleado.setRol(table.getInt("rol"));
+                empleado.setSalario(table.getInt("salario"));
+                empleado.setTelefono(table.getString("telefono"));
+                empleado.setTipoId(table.getString("tipo_id"));
+                empleado.setNombre2(table.getString("nombre2"));
+                empleado.setApellido2(table.getString("apellido2"));
+                empleado.setEmail(table.getString("email"));
+                
+                empleados.add(empleado);
+            }
+            fachada.cerrarConexion(conn);
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return empleados;
     }
     
     /**
      * Encuentra todos los directores existentes en la base de datos
-     * @return  Vector que contiene objetos Director, cad auno representa alguno encontrado
+     * @return  Lista que contiene objetos Director, cad auno representa alguno encontrado
      * , si no existen directores el vector será vacio.
      */
-    public Vector<Director> findAllDirector()
+    public List<Director> findAllDirector()
     {
         String sqlConsulta = "SELECT * FROM director NATURAL JOIN empleado";
         
-        Vector<Director> directores = new Vector<Director>();
+        List<Director> directores = new ArrayList<Director>();
         
         try {
             Connection conn = fachada.conectar();
@@ -460,14 +502,14 @@ public class DaoEmpleado {
     
      /**
      * Encuentra todos los opearios existentes en la base de datos.
-     * @return  vector que contiene objetos Operario, cad auno representa alguno encontrado.
+     * @return  Lista que contiene objetos Operario, cad auno representa alguno encontrado.
      * , si no existen operarios el vector será vacio.
      */
-    public Vector<Operario> findAllOperario()
+    public List<Operario> findAllOperario()
     {
        String sqlConsulta = "SELECT * FROM operario NATURAL JOIN empleado";
         
-        Vector<Operario> operarios = new Vector<Operario>();
+        List<Operario> operarios = new ArrayList<Operario>();
         
         try {
             Connection conn = fachada.conectar();

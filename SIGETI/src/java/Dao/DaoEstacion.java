@@ -10,7 +10,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Clase encargada de realizar transacciones en la base de datos relacionadas 
@@ -27,14 +28,14 @@ public class DaoEstacion {
 
      /**
      * Encuentra todas las estaciones principales existentes en la base de datos
-     * @return  vector que contiene objetos EstacionPrincipal, cada uno representa alguna encontrada
+     * @return  Lista que contiene objetos EstacionPrincipal, cada uno representa alguna encontrada
      * , si no existen estaciones el vector será vacio.
      * @author Leoanrdo Ríos
      */
-    public Vector<EstacionPrincipal> findAllEstacionPrincipal() {
+    public List<EstacionPrincipal> findAllEstacionPrincipal() {
         String sqlConsulta = "SELECT id,nombre,ubicacion,estado,id_operario FROM estacion_principal JOIN estacion ON estacion_principal.id_estacion = estacion.id";
 
-        Vector<EstacionPrincipal> estaciones = new Vector<EstacionPrincipal>();
+        List<EstacionPrincipal> estaciones = new ArrayList<EstacionPrincipal>();
         
         try {
             
