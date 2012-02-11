@@ -45,21 +45,19 @@ and open the template in the editor.
             </div>
             <div id="center_center">
                 <h:form>
-                    <h:panelGrid columns="1">
-                        <h:commandLink action="newClaim">
-                            <h:outputText value="Crear nuevo Reclamo"/>
-                        </h:commandLink>
-                        <h:commandLink action="editClaim">
-                            <h:outputText value="Editar Reclamo"/>
-                        </h:commandLink>
-                        <h:commandLink action="eraseClaim">
-                            <h:outputText value="Eliminar Reclamo"/>
-                        </h:commandLink>
-                        <h:commandLink action="findClaim">
-                            <h:outputText value="Consultar Reclamo"/>
-                        </h:commandLink>
-                    </h:panelGrid>
+                    <h:dataTable value="#{beanContent.menuClaimsOptions}" var="l">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Menu"/>
+                            </f:facet>
+                            <h:commandLink action="#{beanContent.findLinkClaims(l.get(1))}">
+                                <h:outputText value="#{l.get(0)}"/>
+                            </h:commandLink>
+                            
+                        </h:column>
+                    </h:dataTable>
                 </h:form>
+                
             </div>
         </div>
         <div id="bottom">

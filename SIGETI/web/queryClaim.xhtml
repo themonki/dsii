@@ -57,21 +57,17 @@
                     <h:messages styleClass="error"/>
                     <h:panelGrid columns="2">
                         <f:facet name="header">
-                            <h:outputText value="Datos Reclamo"/>
+                            <h:outputText value="Datos Reclamo Consultado"/>
                         </f:facet>
-                        <h:outputText value="* Descripcion"/>
-                        <h:inputTextarea cols="40" rows="10" value="#{beanReclamo.descripcion}"
-                                         required="true"
-                                         requiredMessage="La descripcion del reclamo es obligatoria"/>
-                        <h:outputText value="* Motivo"/>
-                        <h:inputText value="#{beanReclamo.motivo}"
+                        <h:inputText value="#{beanReclamo.ticket}"
                                      required="true"
-                                     requiredMessage="El motivo del reclamo es obligatorio"/>                                             
+                                     requiredMessage="El numero de ticket es obligatorio"/> 
+                                                                   
                                           
                     </h:panelGrid>
                     <br/><hr/><br/>                    
                     
-                    <h:commandButton value="Crear" action="#{beanReclamo.createReClamo()}"/>
+                    <h:commandButton value="Consultar Reclamo" action="#{beanReclamo.queryReClamo()}"/>
                 </h:form>
             </div>
         </div>
