@@ -104,19 +104,17 @@
                                      disabled="#{beanEmployee.disableLicencia}"
                                      id="licenciaIn"/>
                         <h:outputText value="N. identificaci&oacute;n jefe:"/>
-                        <h:panelGroup>
-                            <h:inputText value="#{beanEmployee.identificacionJefe}"
+                        <h:selectOneMenu value="#{beanEmployee.identificacionJefe}"
                                          disabled="#{beanEmployee.disableIdJefe}"
-                                         id="idJefeIn"/>
-                            <h:commandButton value="..." />
-                        </h:panelGroup>                        
+                                         id="idJefeIn">
+                            <f:selectItems value="#{beanEmployee.availableJefe}"/>
+                        </h:selectOneMenu>                      
                         <h:outputText value="Estaci&oacute;n trabaja:"/>
-                        <h:panelGroup>
-                            <h:inputText value="#{beanEmployee.lugarTrabajo}"
+                        <h:selectOneMenu value="#{beanEmployee.lugarTrabajo}"
                                          disabled="#{beanEmployee.disableEstacion}"
-                                         id="idEstacionIn"/>
-                            <h:commandButton value="..."/>
-                        </h:panelGroup>                        
+                                         id="idEstacionIn">
+                            <f:selectItems value="#{beanEmployee.availableEstacionPrincipal}"/>
+                        </h:selectOneMenu>                      
                     </h:panelGrid>
                     <br/><hr/><br/>
                     <h:panelGrid columns="2">

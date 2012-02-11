@@ -4,6 +4,11 @@
  */
 package Dao;
 
+/**
+ * Clase encargada de realizar transacciones con la base de de datos repecto 
+ * a lo que se refiere con empleados.
+ * @author Leonardo Ríos
+ */
 import Entidades.Auxiliar;
 import Entidades.Conductor;
 import Entidades.Director;
@@ -14,6 +19,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
 
 /**
  *
@@ -28,12 +34,10 @@ public class DaoEmpleado {
     }
 
     /**
-     * Método: findEmpleadoLogin - consulta si existe un empleado
-     * con el login dado
-     * @param login - String con el login del empleado
-     * @return Empleado - Objeto empleado que representa el empleado encontrado
-     *  si no existe en elmpleado todos sus atributos son null
-     * @author Leonardo Ríos
+     * Consulta si existe un empleado con el login dado.
+     * @param login - String con el login del empleado.
+     * @return Objeto empleado que representa el empleado encontrado
+     *  si no existe en elmpleado todos sus atributos son null.
      */
     public Empleado findEmpleadoLogin(String login) {
         String sqlConsulta = "SELECT * FROM empleado WHERE login = '" + login + "'";
@@ -61,6 +65,7 @@ public class DaoEmpleado {
                 empleado.setTipoId(table.getString("tipo_id"));
                 empleado.setNombre2(table.getString("nombre2"));
                 empleado.setApellido2(table.getString("apellido2"));
+                empleado.setEmail(table.getString("email"));
             }
             fachada.cerrarConexion(conn);
         } catch (SQLException se) {
@@ -72,12 +77,10 @@ public class DaoEmpleado {
     }
 
     /**
-     * Método: consultarEmpleadoId - consulta si existe un empleado
-     * con el id dado
+     * Consulta si existe un empleado con el id dado.
      * @param login - String con el id del empleado
-     * @return Empleado - Objeto empleado que representa el empleado encontrado
-     *  si no existe en elmpleado todos sus atributos son null
-     * @author Leonardo Ríos
+     * @return Objeto empleado que representa el empleado encontrado
+     *  si no existe en el empleado todos sus atributos son null.
      */
     public Empleado findEmpleadoId(String id) {
         String sqlConsulta = "SELECT * from empleado WHERE id = '" + id + "'";
@@ -104,6 +107,7 @@ public class DaoEmpleado {
                 empleado.setTipoId(table.getString("tipo_id"));
                 empleado.setNombre2(table.getString("nombre2"));
                 empleado.setApellido2(table.getString("apellido2"));
+                empleado.setEmail(table.getString("email"));
             }
             fachada.cerrarConexion(conn);
         } catch (SQLException se) {
@@ -115,13 +119,11 @@ public class DaoEmpleado {
     }
 
     /**
-     * Método: authenticateEmpleado - consulta si existe un empleado
-     * con el login y el password dado
+     * Consulta si existe un empleado con el login y el password dado.
      * @param login - String con el login del empleado
      * @param  password - String con el password del empleado
-     * @return Empleado - Objeto empleado que representa el empleado encontrado
+     * @return Objeto empleado que representa el empleado encontrado
      *  si no existe en empleado o la atenticacion falla todos sus atributos son null
-     * @author Leonardo Ríos
      */
     public Empleado authenticateEmpleado(String login, String password) {
         String sqlConsulta = "SELECT * FROM empleado WHERE login = '" + login + "'"
@@ -160,6 +162,11 @@ public class DaoEmpleado {
         return empleado;
     }
 
+    /**
+     * Guarda un empelado en la base de datos.
+     * @param empleado - Empleado que se desea guardar.
+     * @return Cantidad de inserciones en la base de datos, debe retornar 1
+     */
     public int saveEmpleado(Empleado empleado) {
         String sql_insert = "INSERT INTO empleado (id,tipo_id,"
                 + "nombre,apellido,login,password,estado,rol";
@@ -226,17 +233,22 @@ public class DaoEmpleado {
         try {
             Connection conn = fachada.conectar();
             Statement sentence = conn.createStatement();
-            //result = sentence.executeUpdate(sql_insert);
+            result = sentence.executeUpdate(sql_insert);
             fachada.cerrarConexion(conn);
         } catch (SQLException se) {
             se.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(sql_insert);
-        return 1; //result
+        //System.out.println(sql_insert);
+        return result;
     }
 
+    /**
+     * Guarda un director en la base de datos.
+     * @param director - Director que se desea guardar.
+     * @return Cantidad de insercciones en la base de datos, debe retornar 1.
+     */
     public int saveDirector(Director director) {
 
         String sql_insert = "INSERT INTO director VALUES('" + director.getId() + "')";
@@ -244,7 +256,7 @@ public class DaoEmpleado {
         try {
             Connection conn = fachada.conectar();
             Statement sentence = conn.createStatement();
-            //result = sentence.executeUpdate(sql_insert);
+            result = sentence.executeUpdate(sql_insert);
             fachada.cerrarConexion(conn);
         } catch (SQLException se) {
             se.printStackTrace();
@@ -252,9 +264,14 @@ public class DaoEmpleado {
             e.printStackTrace();
         }
         System.out.println(sql_insert);
-        return 1;//result;
+        return result;
     }
 
+    /**
+     * Guarda un operario en la base de datos.
+     * @param operario - Operario que se desea guardar
+     * @return Cantidad de inserciones en la base de datos, debe retornar 1
+     */
     public int saveOperario(Operario operario) {
         String sql_insert = "INSERT INTO operario (id";
         if (!operario.getIdJefe().equals("")) {
@@ -266,7 +283,7 @@ public class DaoEmpleado {
         try {
             Connection conn = fachada.conectar();
             Statement sentence = conn.createStatement();
-            //result = sentence.executeUpdate(sql_insert);
+            result = sentence.executeUpdate(sql_insert);
             fachada.cerrarConexion(conn);
         } catch (SQLException se) {
             se.printStackTrace();
@@ -274,9 +291,14 @@ public class DaoEmpleado {
             e.printStackTrace();
         }
         System.out.println(sql_insert);
-        return 1;//result;;
+        return result;
     }
 
+    /**
+     * Guarda un auxiliar en la base de datos.
+     * @param auxiliar - Auxiliar que se desea guardar.
+     * @return Cantidad de inserciones en la base de datos, debe retornar 1
+     */
     public int saveAuxiliar(Auxiliar auxiliar) {
         
         String sql_insert = "INSERT INTO auxiliar (id";
@@ -300,7 +322,7 @@ public class DaoEmpleado {
         try {
             Connection conn = fachada.conectar();
             Statement sentence = conn.createStatement();
-            //result = sentence.executeUpdate(sql_insert);
+            result = sentence.executeUpdate(sql_insert);
             fachada.cerrarConexion(conn);
         } catch (SQLException se) {
             se.printStackTrace();
@@ -308,9 +330,14 @@ public class DaoEmpleado {
             e.printStackTrace();
         }
         System.out.println(sql_insert);
-        return 1;//result;;
+        return result;
     }
 
+    /**
+     * Guarda un conductor en la base de datos.
+     * @param conductor - Conductor que se desea guardar.
+     * @return Cantidad de inserciones en la base de datos, debe retornar 1.
+     */
     public int saveConductor(Conductor conductor) {
         
         String sql_insert = "INSERT INTO conductor (id";
@@ -325,7 +352,7 @@ public class DaoEmpleado {
         try {
             Connection conn = fachada.conectar();
             Statement sentence = conn.createStatement();
-            //result = sentence.executeUpdate(sql_insert);
+            result = sentence.executeUpdate(sql_insert);
             fachada.cerrarConexion(conn);
         } catch (SQLException se) {
             se.printStackTrace();
@@ -333,9 +360,15 @@ public class DaoEmpleado {
             e.printStackTrace();
         }
         System.out.println(sql_insert);
-        return 1;//result;;
+        return result;
     }
     
+    /**
+     * Busca un director en la base de datos dado su id.
+     * @param id - String que representa el id del director a buscar
+     * @return Objeto director que representa el director encontrado, 
+     * si no existe director con ese id, todos los atributos del director retornado son null
+     */
     public Director findDirectorId(String id){
         
         String sqlConsulta = "SELECT * FROM director NATURAL JOIN empleado WHERE director.id = '" + id + "'";
@@ -363,6 +396,7 @@ public class DaoEmpleado {
                 director.setTipoId(table.getString("tipo_id"));
                 director.setNombre2(table.getString("nombre2"));
                 director.setApellido2(table.getString("apellido2"));
+                director.setEmail(table.getString("email"));
             }
             fachada.cerrarConexion(conn);
         } catch (SQLException se) {
@@ -372,4 +406,103 @@ public class DaoEmpleado {
         }
         return director;
     }
+    
+    public Vector<Empleado> findAllEmpleado()
+    {
+        return null;
+    }
+    
+    /**
+     * Encuentra todos los directores existentes en la base de datos
+     * @return  Vector que contiene objetos Director, cad auno representa alguno encontrado
+     * , si no existen directores el vector será vacio.
+     */
+    public Vector<Director> findAllDirector()
+    {
+        String sqlConsulta = "SELECT * FROM director NATURAL JOIN empleado";
+        
+        Vector<Director> directores = new Vector<Director>();
+        
+        try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            ResultSet table = sentence.executeQuery(sqlConsulta);
+
+            while (table.next()) {
+                Director director = new Director();
+                director.setApellido(table.getString("apellido"));
+                director.setDireccion(table.getString("direccion"));
+                director.setEstado(table.getBoolean("estado"));
+                director.setFechaIngreso(table.getString("fecha_ingreso"));
+                director.setFechaNacimiento(table.getString("fecha_nacimiento"));
+                director.setId(table.getString("id"));
+                director.setLogin(table.getString("login"));
+                director.setNombre(table.getString("nombre"));
+                director.setPassword(table.getString("password"));
+                director.setRol(table.getInt("rol"));
+                director.setSalario(table.getInt("salario"));
+                director.setTelefono(table.getString("telefono"));
+                director.setTipoId(table.getString("tipo_id"));
+                director.setNombre2(table.getString("nombre2"));
+                director.setApellido2(table.getString("apellido2"));
+                director.setEmail(table.getString("email"));
+                
+                directores.add(director);
+            }
+            fachada.cerrarConexion(conn);
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return directores;
+    }
+    
+     /**
+     * Encuentra todos los opearios existentes en la base de datos.
+     * @return  vector que contiene objetos Operario, cad auno representa alguno encontrado.
+     * , si no existen operarios el vector será vacio.
+     */
+    public Vector<Operario> findAllOperario()
+    {
+       String sqlConsulta = "SELECT * FROM operario NATURAL JOIN empleado";
+        
+        Vector<Operario> operarios = new Vector<Operario>();
+        
+        try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            ResultSet table = sentence.executeQuery(sqlConsulta);
+
+            while (table.next()) {
+                Operario operario = new Operario();
+                operario.setApellido(table.getString("apellido"));
+                operario.setDireccion(table.getString("direccion"));
+                operario.setEstado(table.getBoolean("estado"));
+                operario.setFechaIngreso(table.getString("fecha_ingreso"));
+                operario.setFechaNacimiento(table.getString("fecha_nacimiento"));
+                operario.setId(table.getString("id"));
+                operario.setLogin(table.getString("login"));
+                operario.setNombre(table.getString("nombre"));
+                operario.setPassword(table.getString("password"));
+                operario.setRol(table.getInt("rol"));
+                operario.setSalario(table.getInt("salario"));
+                operario.setTelefono(table.getString("telefono"));
+                operario.setTipoId(table.getString("tipo_id"));
+                operario.setNombre2(table.getString("nombre2"));
+                operario.setApellido2(table.getString("apellido2"));
+                operario.setEmail(table.getString("email"));
+                operario.setIdJefe(table.getString("id_jefe"));
+                
+                operarios.add(operario);
+            }
+            fachada.cerrarConexion(conn);
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return operarios;
+    }
+    
 }

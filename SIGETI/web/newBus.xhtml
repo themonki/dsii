@@ -12,17 +12,6 @@
         <title>Crear Bus</title>        
         
         <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
-        
-        <f:verbatim>  
-<script type="text/javascript">  
-      
-    function doPopup(source) {
-    popup = window.open(source, "popup", "height=600,width=900)");
-    popup.focus();
-}  
-</script>  
-</f:verbatim> 
-}
     </h:head>
 
     <h:body>
@@ -45,7 +34,7 @@
                             <f:facet name="header">
                                 <h:outputText value="Menu"/>
                             </f:facet>
-                            <h:commandLink action="#{beanContent.findLink(l.get(2))}">
+                            <h:commandLink action="#{beanContent.findLink(l.get(1))}">
                                 <h:outputText value="#{l.get(0)}"/>
                             </h:commandLink>
                         </h:column>

@@ -62,8 +62,8 @@ INSERT INTO estacion VALUES(DEFAULT,'en algun lugar5',true);
 INSERT INTO estacion VALUES(DEFAULT,'en algun lugar6',true);
 
 INSERT INTO estacion_principal (id_estacion, nombre) VALUES (1,'estacion1');
-INSERT INTO estacion_principal (id_estacion, nombre) VALUES (2,'estacion1');
-INSERT INTO estacion_principal (id_estacion, nombre) VALUES (3,'estacion1');
-INSERT INTO estacion_principal (id_estacion, nombre) VALUES (4,'estacion1');
+INSERT INTO estacion_principal (id_estacion, nombre) VALUES (2,'estacion2');
+INSERT INTO estacion_principal (id_estacion, nombre) VALUES (3,'estacion3');
+INSERT INTO estacion_principal (id_estacion, nombre) VALUES (4,'estacion4');
 INSERT INTO estacion_paradero VALUES(5);
 INSERT INTO estacion_paradero VALUES(6);

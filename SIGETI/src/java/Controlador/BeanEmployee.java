@@ -1,33 +1,31 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Clase controladora que conecta la vista con la lógia.
+ * @author Leoanrdo Ríos
  */
+
 package Controlador;
 
 import Dao.DaoEmpleado;
+import Dao.DaoEstacion;
 import Entidades.Auxiliar;
 import Entidades.Conductor;
 import Entidades.Director;
 import Entidades.Empleado;
+import Entidades.EstacionPrincipal;
 import Entidades.Operario;
 import Utilidades.BeanContent;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 
-/**
- *
- * @author leonardo
- */
 @ManagedBean
-//@RequestScoped
 @SessionScoped
 public class BeanEmployee implements Serializable{
 
@@ -40,11 +38,11 @@ public class BeanEmployee implements Serializable{
     private String telefono;
     private String direccion;
     private String email;
-    private String fechaNacimiento="";
+    private String fechaNacimiento;
     private String fechaNacimientoAno;
     private String fechaNacimientoMes;
     private String fechaNacimientoDia;
-    private String fechaIngreso="";
+    private String fechaIngreso;
     private String fechaIngresoAno;
     private String fechaIngresoMes;
     private String fechaIngresoDia;
@@ -61,7 +59,7 @@ public class BeanEmployee implements Serializable{
     private boolean isDisableLicencia = true;
     private boolean isDisableIdJefe = true;
     private boolean isDisableEstacion = true;
-    private FacesContext context;
+    private int countValidator;
 
     public void setIsDisableEstacion(boolean isDisableEstacion) {
         this.isDisableEstacion = isDisableEstacion;
@@ -269,16 +267,25 @@ public class BeanEmployee implements Serializable{
 
     public void setIdentificacionJefe(String identificacionJefe) {
         //System.out.println("set id jefe");
-        this.identificacionJefe = identificacionJefe;
+        if(!identificacionJefe.equals("---"))
+        {
+            this.identificacionJefe = identificacionJefe.split(" -")[0];
+        }
     }
 
     public void setLugarTrabajo(String lugarTrabajo) {
-        //System.out.println("set lugar trabajo");
-        this.lugarTrabajo = lugarTrabajo;
+        if(!lugarTrabajo.equals("---"))
+        {
+            String idEstacion = lugarTrabajo.split(" -")[0];
+            this.lugarTrabajo = idEstacion;
+        }else
+        {
+            this.lugarTrabajo = "-1";
+        }
     }
 
     public void setApellido(String apellido) {
-        //System.out.println("set apellido");
+        System.out.println("set apellido");
         this.apellido = apellido;
     }
 
@@ -294,6 +301,22 @@ public class BeanEmployee implements Serializable{
         {
             this.isDisableEstacion = false;
             this.isDisableIdJefe = false;
+            this.isDisableLicencia = true;
+        }else if(this.cargo.equals("Operario"))
+        {
+            this.isDisableEstacion = true;
+            this.isDisableIdJefe = false;
+            this.isDisableLicencia = true;
+        }else if(this.cargo.equals("Conductor"))
+        {
+            this.isDisableEstacion = true;
+            this.isDisableIdJefe = true;
+            this.isDisableLicencia = false;
+        }else
+        {
+            this.isDisableEstacion = true;
+            this.isDisableIdJefe = true;
+            this.isDisableLicencia = true;
         }
     }
 
@@ -338,7 +361,7 @@ public class BeanEmployee implements Serializable{
     }
 
     public List<SelectItem> getAvailableCargo() {
-        context = FacesContext.getCurrentInstance();
+        FacesContext context = FacesContext.getCurrentInstance();
         EmployeeHolder empleadoHolder = (EmployeeHolder) context.getApplication().evaluateExpressionGet(context, "#{employeeHolder}", EmployeeHolder.class);
         int rol = empleadoHolder.getCurrentEmpleado().getRol();
         List<SelectItem> availableCargos = new ArrayList<SelectItem>();
@@ -358,7 +381,6 @@ public class BeanEmployee implements Serializable{
         } else if (rol == 2) //Operario
         {
             availableCargos.add(new SelectItem("Auxiliar"));
-            availableCargos.add(new SelectItem("Conductor"));
         }
 
         return availableCargos;
@@ -371,24 +393,58 @@ public class BeanEmployee implements Serializable{
         return availableTipoId;
     }
 
-    public List<SelectItem> getAvailableEstacion(){
+    public List<SelectItem> getAvailableEstacionPrincipal(){
         List<SelectItem> availableEstacion = new ArrayList<SelectItem>();
-        
+
+        DaoEstacion daoEstacion = new DaoEstacion();
+        Vector<EstacionPrincipal> estaciones = daoEstacion.findAllEstacionPrincipal();
+        daoEstacion = null;
+        availableEstacion.add(new SelectItem("---"));
+        for(int i=0;i<estaciones.size();i++)
+        {
+            String nombreEstacion = estaciones.get(i).getId() + " - " + estaciones.get(i).getNombre();
+            availableEstacion.add(new SelectItem(nombreEstacion));
+        } 
         return availableEstacion;
     }
     
     public List<SelectItem> getAvailableJefe(){
+
         List<SelectItem> availableJefe = new ArrayList<SelectItem>();
-        
+
+        availableJefe.add(new SelectItem("---"));
+        DaoEmpleado daoEmpleado = new DaoEmpleado();
+        if(this.cargo.equals("Operario"))
+        {
+            System.out.println("entro a available jefe para operario");
+           Vector<Director> directores = daoEmpleado.findAllDirector();
+           for(int i=0;i<directores.size();i++)
+           {
+               Director director = directores.get(i);
+               String nombreDir = director.getId() + " - " + director.getNombre() + " " + director.getApellido();
+               availableJefe.add(new SelectItem(nombreDir));
+           }
+        }else if(this.cargo.equals("Auxiliar"))
+        {
+           Vector<Operario> operarios = daoEmpleado.findAllOperario();
+           for(int i=0;i<operarios.size();i++)
+           {
+               Operario operario = operarios.get(i);
+               String nombreDir = operario.getId() + " - " + operario.getNombre() + " " + operario.getApellido();
+               availableJefe.add(new SelectItem(nombreDir));
+           } 
+        }
+        daoEmpleado = null;
+            
         return availableJefe;
     }
     
     public String createUser() {
-        context = FacesContext.getCurrentInstance();
         this.validate();
-        if (context.getMessageList().size() > 0) {
+        if (this.countValidator > 0) {
             return null;
         }
+        FacesContext context = FacesContext.getCurrentInstance();
         BeanContent content = (BeanContent) context.getApplication().evaluateExpressionGet(context, "#{beanContent}", BeanContent.class);
         int result;
         DaoEmpleado daoEmpleado = new DaoEmpleado();
@@ -447,11 +503,7 @@ public class BeanEmployee implements Serializable{
             Auxiliar auxiliar = new Auxiliar();
             auxiliar.setId(identificacion.trim());
             auxiliar.setIdJefe(identificacionJefe.trim());
-            if(lugarTrabajo.trim().equals("")){
-                auxiliar.setTrabajaEn(-1);
-            }else{
-                auxiliar.setTrabajaEn(Integer.parseInt(lugarTrabajo.trim()));
-            }
+            auxiliar.setTrabajaEn(Integer.parseInt(lugarTrabajo));
             daoEmpleado.saveAuxiliar(auxiliar);
         }
         if (rol == 4) {
@@ -467,29 +519,38 @@ public class BeanEmployee implements Serializable{
     }
 
     private void validate() {
+        FacesContext context = FacesContext.getCurrentInstance();
         if (nombre.trim().length() > 15) {
             context.addMessage(null, new FacesMessage("Nombre no debe exceder los 15 caracteres."));
+            countValidator = 1;
         }
         if (nombre2.trim().length() > 15) {
             context.addMessage(null, new FacesMessage("Nombre2 no debe exceder los 15 caracteres."));
+            countValidator = 1;
         }
         if (apellido.trim().length() > 15) {
             context.addMessage(null, new FacesMessage("Apellido no debe exceder los 15 caracteres."));
+            countValidator = 1;
         }
         if (apellido2.trim().length() > 15) {
             context.addMessage(null, new FacesMessage("Apellido2 no debe exceder los 15 caracteres."));
+            countValidator = 1;
         }
         if (identificacion.trim().length() > 20) {
             context.addMessage(null, new FacesMessage("Identificacion no debe exceder los 20 caracteres."));
+            countValidator = 1;
         }
         if (telefono.trim().length() > 20) {
             context.addMessage(null, new FacesMessage("Telefono no debe exceder los 20 caracteres."));
+            countValidator = 1;
         }
         if (direccion.trim().length() > 50) {
             context.addMessage(null, new FacesMessage("Direccion no debe exceder los 50 caracteres."));
+            countValidator = 1;
         }
         if (email.trim().length() > 50) {
             context.addMessage(null, new FacesMessage("Email no debe exceder los 50 caracteres."));
+            countValidator = 1;
         }
         fechaNacimientoAno = fechaNacimientoAno.trim();
         fechaNacimientoMes = fechaNacimientoMes.trim();
@@ -497,6 +558,7 @@ public class BeanEmployee implements Serializable{
         if (fechaNacimientoAno.length() != 0 || fechaNacimientoMes.length() != 0 || fechaNacimientoDia.length() != 0) {
             if(fechaNacimientoAno.length() != 4 || fechaNacimientoMes.length() != 2 || fechaNacimientoDia.length() != 2){
                context.addMessage(null, new FacesMessage("Fecha Nacimiento debe tener el formato es aaaa-mm-dd")); 
+               countValidator = 1;
             }else{
                 try{
                    Integer.parseInt(fechaNacimientoAno);
@@ -509,6 +571,7 @@ public class BeanEmployee implements Serializable{
                    fechaNacimiento = fechaNacimientoAno + "-" +fechaNacimientoMes + "-" +fechaNacimientoDia;
                 }catch(NumberFormatException e){
                     context.addMessage(null, new FacesMessage("Fecha Nacimiento debe de ser numerica."));
+                    countValidator = 1;
                 }
             }    
         }
@@ -518,6 +581,7 @@ public class BeanEmployee implements Serializable{
         if (fechaIngresoAno.length() != 0 || fechaIngresoMes.length() != 0 || fechaIngresoDia.length() != 0) {
             if(fechaIngresoAno.length() != 4 || fechaIngresoMes.length() != 2 || fechaIngresoDia.length() != 2){
                context.addMessage(null, new FacesMessage("Fecha Ingreso debe tener el formato es aaaa-mm-dd")); 
+               countValidator = 1;
             }else{
                 try{
                    Integer.parseInt(fechaIngresoAno);
@@ -530,6 +594,7 @@ public class BeanEmployee implements Serializable{
                    fechaIngreso = fechaIngresoAno + "-" +fechaIngresoMes + "-" +fechaIngresoDia;
                 }catch(NumberFormatException e){
                     context.addMessage(null, new FacesMessage("Fecha ingreso debe de ser numerica."));
+                    countValidator = 1;
                 }
             }    
         }
@@ -538,76 +603,63 @@ public class BeanEmployee implements Serializable{
                 Integer.parseInt(salario.trim());
             } catch (NumberFormatException e) {
                 context.addMessage(null, new FacesMessage("Salario debe ser un numero entero."));
+                countValidator = 1;
             }
         }
         if (login.trim().length() > 10) {
             context.addMessage(null, new FacesMessage("Login no debe exceder los 10 caracteres."));
+            countValidator = 1;
         }
         if (password.trim().length() > 15) {
             context.addMessage(null, new FacesMessage("Password no debe exceder los 15 caracteres."));
+            countValidator = 1;
         }
         if (passwordConfirmar.trim().length() > 15) {
             context.addMessage(null, new FacesMessage("Confirmar password no debe exceder los 15 caracteres."));
+            countValidator = 1;
         }
         if (!password.trim().equals(passwordConfirmar)) {
             context.addMessage(null, new FacesMessage("Los password no coinciden."));
+            countValidator = 1;
         }
         if (licencia.trim().length() > 20) {
             context.addMessage(null, new FacesMessage("Licencia no debe exceder los 20 caracteres."));
-        }
-        if(identificacionJefe.trim().length() > 20){
-            context.addMessage(null, new FacesMessage("N. identificacion jefe no debe exceder los 20 caracteres"));
-        }
-        if(lugarTrabajo.trim().length() != 0){
-            try{
-                Integer.parseInt(lugarTrabajo.trim());
-            }catch(NumberFormatException e){
-                context.addMessage(null, new FacesMessage("Estacion donde trabaja debe ser numerica."));
-            }
-        }
-        //verificar lugar trabjao exista
-
-        if(identificacionJefe.trim().length() != 0){
-            DaoEmpleado daoEmpleado = new DaoEmpleado();
-            Director director = daoEmpleado.findDirectorId(identificacionJefe.trim());
-            if(director.getId() == null){
-                context.addMessage(null, new FacesMessage("La identificación del jefe no es valida, no existe el director."));
-            }
-            daoEmpleado = null;
+            countValidator = 1;
         }
     }
     
     void clearStates()
     {
-        nombre = "";
-        nombre2 = "";
-        apellido = "";
-        apellido2 = "";
-        tipoId = "";
-        identificacion = "";
-        telefono = "";
-        direccion = "";
-        email = "";
-        fechaNacimiento="";
-        fechaNacimientoAno = "";
-        fechaNacimientoMes = "";
-        fechaNacimientoDia = "";
-        fechaIngreso="";
-        fechaIngresoAno = "";
-        fechaIngresoMes = "";
-        fechaIngresoDia = "";
-        salario = "";
-        cargo = "";
-        login = "";
-        password = "";
-        passwordConfirmar = "";
-        estado = true;
-        licencia="";
-        identificacionJefe="";
-        lugarTrabajo="";
-        isDisableLicencia = true;
-        isDisableIdJefe = true;
-        isDisableEstacion = true;
+        this.nombre = "";
+        this.nombre2 = "";
+        this.apellido = "";
+        this.apellido2 = "";
+        this.tipoId = "";
+        this.identificacion = "";
+        this.telefono = "";
+        this.direccion = "";
+        this.email = "";
+        this.fechaNacimiento="";
+        this.fechaNacimientoAno = "";
+        this.fechaNacimientoMes = "";
+        this.fechaNacimientoDia = "";
+        this.fechaIngreso="";
+        this.fechaIngresoAno = "";
+        this.fechaIngresoMes = "";
+        this.fechaIngresoDia = "";
+        this.salario = "";
+        this.cargo = "";
+        this.login = "";
+        this.password = "";
+        this.passwordConfirmar = "";
+        this.estado = true;
+        this.licencia="";
+        this.identificacionJefe="";
+        this.lugarTrabajo="";
+        this.isDisableLicencia = true;
+        this.isDisableIdJefe = true;
+        this.isDisableEstacion = true;
+        this.countValidator = 0;
     }
     
     public void clearStatesEvent(ActionEvent e)
