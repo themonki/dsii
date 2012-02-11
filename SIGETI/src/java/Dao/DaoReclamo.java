@@ -99,7 +99,7 @@ public class DaoReclamo {
              
              while(table.next())
              {
-                 reclamo.setTicket(Integer.parseInt(table.getString(1)));
+                 reclamo.setTicket(Integer.parseInt(table.getString(1)));                 
                  reclamo.setFecha(table.getString(2));
                  reclamo.setDescripcion(table.getString(3));
                  reclamo.setMotivo(table.getString(4));

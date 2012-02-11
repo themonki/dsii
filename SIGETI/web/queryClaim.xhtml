@@ -10,26 +10,26 @@
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
         <title>Crear Reclamo</title>        
-        
+
         <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
-        
+
         <f:verbatim>  
-<script type="text/javascript">  
+            <script type="text/javascript">  
       
-    function doPopup(source) {
-    popup = window.open(source, "popup", "height=600,width=900)");
-    popup.focus();
-}  
-</script>  
-</f:verbatim> 
-}
+                function doPopup(source) {
+                popup = window.open(source, "popup", "height=600,width=900)");
+                popup.focus();
+            }  
+            </script>  
+        </f:verbatim> 
+        }
     </h:head>
 
     <h:body>
 
         <div id="top">
             <img src="./resources/logo.png" alt="logo"></img>
-        
+
             <h:form>
                 <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
                 <h:commandLink action="#{authentication.logout}">
@@ -59,14 +59,38 @@
                         <f:facet name="header">
                             <h:outputText value="Datos Reclamo Consultado"/>
                         </f:facet>
-                        <h:inputText value="#{beanReclamo.ticket}"
-                                     required="true"
-                                     requiredMessage="El numero de ticket es obligatorio"/> 
-                                                                   
-                                          
+                        <h:outputText value="Número del Ticket"/>
+                        <h:inputText  value="#{beanReclamo.ticket}"
+                                      required="true"
+                                      requiredMessage="El numero de ticket es oblitgatorio"/>                 
+
+
+                        <h:outputText value="* Tickect" />
+                        <h:outputLabel value="#{beanReclamo.ticket}"
+                                       />   
+
+                        <h:outputText value="* Fecha" />
+                        <h:outputLabel value="#{beanReclamo.fecha}"
+                                       />   
+
+                        <h:outputText value="* Descripcion" />
+                        <h:outputText value="#{beanReclamo.descripcion}"
+                                      />   
+
+                        <h:outputText value="* Motivo" />
+                        <h:outputText value="#{beanReclamo.motivo}"
+                                      />  
+
+                        <h:outputText value="* Estado" />
+                        <h:outputText value="#{beanReclamo.estado}"
+                                      />   
+
                     </h:panelGrid>
+
+
+
                     <br/><hr/><br/>                    
-                    
+
                     <h:commandButton value="Consultar Reclamo" action="#{beanReclamo.queryReClamo()}"/>
                 </h:form>
             </div>

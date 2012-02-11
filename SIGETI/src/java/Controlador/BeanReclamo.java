@@ -138,8 +138,10 @@ public class BeanReclamo {
         Reclamo reclamo = new Reclamo();
         reclamo.setTicket(ticket);
         
+        
        
         reclamo = daoReclamo.queryReclamo(ticket);
+        
         if(reclamo.getTicket() != ticket){
             content.setResultOperation("El reclamo no se encuentra en la base de datos.");
             return "resultOperation";
