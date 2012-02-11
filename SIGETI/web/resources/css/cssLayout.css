@@ -24,6 +24,7 @@
 
 #center{
     position: relative;
+    
 }
 
 #center_left{
@@ -37,6 +38,8 @@
     background-color: #dddddd;
     padding: 5px;
     margin-left: 170px;
+    text-align: center ;
+    
 }
 
 #right {
@@ -58,16 +61,6 @@
   text-decoration : underline;
 }
 
-.error { 
-    font-weight: bold;
-    color: red;
-}
 
-.lineas { 
-    font-weight: bold;
-    color: orangered;
-    background-color: #ece3a5;
-    
-}
 
 

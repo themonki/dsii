@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8' ?> 
+<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -9,22 +9,33 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
-        <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
-        <title>Facelets Template</title>
+        <title>Crear Reclamo</title>        
+        
+        <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
+        
+        <f:verbatim>  
+<script type="text/javascript">  
+      
+    function doPopup(source) {
+    popup = window.open(source, "popup", "height=600,width=900)");
+    popup.focus();
+}  
+</script>  
+</f:verbatim> 
+}
     </h:head>
 
     <h:body>
 
         <div id="top">
             <img src="./resources/logo.png" alt="logo"></img>
-
+        
             <h:form>
                 <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
                 <h:commandLink action="#{authentication.logout}">
                     <img src="./resources/exit.png" alt="salir" width="50" height="50"></img>
                 </h:commandLink>
             </h:form>
-
         </div>
         <div id="center">
             <div id="center_left">
@@ -41,30 +52,23 @@
                     </h:dataTable>
                 </h:form>
             </div>
-            <div  id="center_center">
-                <div>
-                    <ui:insert name="content">Nueva Tarjeta</ui:insert>
-
-                    <br></br>
+            <div id="center_center">
+                <h:form>
+                    <h:messages styleClass="error"/>
+                    <h:panelGrid columns="2">
+                        <f:facet name="header">
+                            <h:outputText value="Datos Reclamo Consultado"/>
+                        </f:facet>
+                        <h:inputText value="#{beanReclamo.ticket}"
+                                     required="true"
+                                     requiredMessage="El numero de ticket es obligatorio"/> 
+                                                                   
+                                          
+                    </h:panelGrid>
+                    <br/><hr/><br/>                    
                     
-                    <img src="./resources/AddCard.gif"  width="100" height="100"></img>
-                            
-                    <br></br>
-                    <h:messages styleClass="Error"   />
-                    
-                    <br></br>
-                    <h:form styleClass="Formulario">
-                        <h:outputText value="Pin:"/>
-                        <h:inputText value="#{authentication.loginU}" /><br/>
-                        <h:outputText value="Numero de Pasajes:"/>
-                        <h:inputSecret value="#{authentication.passwordU}" /><br/>
-                        <h:outputText value="Tipo:"/>
-                        <h:inputSecret value="#{authentication.passwordU}" /><br/>
-
-                        <h:commandButton value="Registrar" styleClass="JButton" action="#{authentication.login}" /><br/>
-                    </h:form>
-
-                </div>
+                    <h:commandButton value="Consultar Reclamo" action="#{beanReclamo.queryReClamo()}"/>
+                </h:form>
             </div>
         </div>
         <div id="bottom">

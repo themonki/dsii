@@ -1,0 +1,46 @@
+/* 
+    Document   : newcss1
+    Created on : 11-feb-2012, 15:33:45
+    Author     : Felipe
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+
+.Formulario
+
+{background: gray ;
+display: inline-block;
+text-align:right;
+padding: 5px 10px 6px;
+color: #FFF;
+-moz-border-radius: 6px;
+-webkit-border-radius: 6px;
+-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+}
+.JButton
+{background: #222 url(http://t0.gstatic.com/images?q=tbn:ANd9GcTFN78NIXqhX2Ccdnr39QsiylSMViYcXpB6eO5Mp2l8538WmWMn) repeat-x;
+display: inline-block;
+padding: 5px 10px 6px;
+color: #FFF;
+text-decoration: none;
+-moz-border-radius: 6px;
+-webkit-border-radius: 6px;
+-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+border-top: 0px;
+border-left: 0px;
+border-right: 0px;
+border-bottom: 1px solid rgba(0,0,0,0.25);
+position: relative;
+cursor:pointer;
+
+}
