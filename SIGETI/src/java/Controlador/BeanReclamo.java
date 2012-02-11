@@ -126,6 +126,36 @@ public class BeanReclamo {
         return "resultOperation";
     }
     
+    public String queryReClamo(){
+        FacesContext context = FacesContext.getCurrentInstance();
+        //validate();
+        if (context.getMessageList().size() > 0) {
+            return null;
+        }
+        BeanContent content = (BeanContent) context.getApplication().evaluateExpressionGet(context, "#{beanContent}", BeanContent.class);
+        
+        DaoReclamo daoReclamo = new DaoReclamo();
+        Reclamo reclamo = new Reclamo();
+        reclamo.setTicket(ticket);
+        
+       
+        reclamo = daoReclamo.queryReclamo(ticket);
+        if(reclamo.getTicket() != ticket){
+            content.setResultOperation("El reclamo no se encuentra en la base de datos.");
+            return "resultOperation";
+        }            
+        
+        ticket = reclamo.getTicket();
+        estado = reclamo.getEstado();
+        motivo = reclamo .getMotivo();
+        fecha = reclamo.getFecha();
+        
+       
+        content.setResultOperation("El reclamo fue hallado  con exito. ");
+        daoReclamo = null;
+        return "resultOperation";
+    }
+    
       public List<SelectItem> getAvailableCargo() {
         
         List<SelectItem> medidasDisponibles = new ArrayList<SelectItem>();

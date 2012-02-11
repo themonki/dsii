@@ -1,4 +1,4 @@
-/*
+        /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -25,6 +25,7 @@ public class BeanContent implements Serializable{
     
    
     private List<List<String>> menuOptions = null;
+    private List<List<String>> menuClaimsOptions = null;
     private String resultOperation = null;
     
    
@@ -38,6 +39,7 @@ public class BeanContent implements Serializable{
            return;
        int rol = empleadoHolder.getCurrentEmpleado().getRol();
        menuOptions = new ArrayList<List<String>>();
+       menuClaimsOptions = new ArrayList<List<String>>();
        
        if(rol == 0) //Administrador
        {
@@ -55,10 +57,27 @@ public class BeanContent implements Serializable{
            l4.add("4");
            
            
+           List c1 = new ArrayList();
+           c1.add("Crear Reclamo");
+           c1.add("1");
+           List c2 = new ArrayList();
+           c2.add("Editar Reclamo");
+           c2.add("2");
+           List c3 = new ArrayList();
+           c3.add("Eliminar Reclamo");
+           c3.add("3");
+           List c4 = new ArrayList();
+           c4.add("Consultar Reclamo");
+           c4.add("4");
+           
            menuOptions.add(l1);
            menuOptions.add(l2);
            menuOptions.add(l3);
            menuOptions.add(l4);
+           menuClaimsOptions.add(c1);
+           menuClaimsOptions.add(c2);
+           menuClaimsOptions.add(c3);
+           menuClaimsOptions.add(c4);
        }else if(rol == 1) //director
        {
            List l1 = new ArrayList();
@@ -82,8 +101,18 @@ public class BeanContent implements Serializable{
            List l4 = new ArrayList();
            l4.add("Gestionar Reclamos");
            l4.add("4");
+             
+           List c1 = new ArrayList();
+           c1.add("Crear Reclamo");
+           c1.add("1");
+           List c4 = new ArrayList();
+           c4.add("Consultar Reclamo");
+           c4.add("4");
+           
            
             menuOptions.add(l4);
+            menuClaimsOptions.add(c1);
+            menuClaimsOptions.add(c4);
            
        }else if(rol == 4) //conductor
        {
@@ -101,6 +130,33 @@ public class BeanContent implements Serializable{
             beanContentInit();
         }
         return menuOptions;
+    }
+    
+    public List<List<String>> getMenuClaimsOptions()
+    {
+    
+        if(menuClaimsOptions == null){
+        
+        beanContentInit();
+        }
+        return menuClaimsOptions;
+    
+    
+    }
+
+    public String findLinkClaims(String l)
+    {
+        String link = null;
+        if(l.equals("1"))
+            link = "newClaim";
+        else if(l.equals("2"))
+            link = "editClaim";
+        else if(l.equals("3"))
+            link = "deleteClaim";
+        else if(l.equals("4"))
+            link = "queryClaim";
+        
+        return link;
     }
     
     public String findLink(String l)

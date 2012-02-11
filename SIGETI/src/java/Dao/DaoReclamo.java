@@ -56,7 +56,7 @@ public class DaoReclamo {
      
          int ticketNumber = 0;
          
-         String sql_count = "SELECT * FROM reclamo ORDER BY ticket DESC LIMIT 1";
+         String sql_count = "SELECT * FROM reclamo ORDER BY ticket DESC      LIMIT 1";
          
          try
          {
@@ -79,6 +79,49 @@ public class DaoReclamo {
         }
      
          return ticketNumber;
+     
+     }
+     
+     
+     public Reclamo  queryReclamo(int ticket)
+     {
+     
+         Reclamo reclamo = new Reclamo();
+         
+         String sql_query = "SELECT * FROM reclamo WHERE ticket = "+ticket+";";
+         
+          try
+         {
+         
+             Connection conn = fachada.conectar();
+             Statement sentence = conn.createStatement();
+             ResultSet table = sentence.executeQuery(sql_query);
+             
+             while(table.next())
+             {
+                 reclamo.setTicket(Integer.parseInt(table.getString(1)));
+                 reclamo.setFecha(table.getString(2));
+                 reclamo.setDescripcion(table.getString(3));
+                 reclamo.setMotivo(table.getString(4));
+                 reclamo.setEstado(table.getString(5));               
+                
+             
+             }  
+             
+             
+             
+             
+         
+         } catch (SQLException se) {
+                       // JOptionPane.showMessageDialog(null, se.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+     
+         
+     return reclamo;
+         
+         
      
      }
      

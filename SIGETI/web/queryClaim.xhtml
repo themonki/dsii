@@ -1,21 +1,30 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this template, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
+
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
-        <title>Home page Administrador</title>
+        <title>Crear Reclamo</title>        
         
         <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
+        
+        <f:verbatim>  
+<script type="text/javascript">  
+      
+    function doPopup(source) {
+    popup = window.open(source, "popup", "height=600,width=900)");
+    popup.focus();
+}  
+</script>  
+</f:verbatim> 
+}
     </h:head>
+
     <h:body>
 
         <div id="top">
@@ -45,19 +54,21 @@ and open the template in the editor.
             </div>
             <div id="center_center">
                 <h:form>
-                    <h:dataTable value="#{beanContent.menuClaimsOptions}" var="l">
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Menu"/>
-                            </f:facet>
-                            <h:commandLink action="#{beanContent.findLinkClaims(l.get(1))}">
-                                <h:outputText value="#{l.get(0)}"/>
-                            </h:commandLink>
-                            
-                        </h:column>
-                    </h:dataTable>
+                    <h:messages styleClass="error"/>
+                    <h:panelGrid columns="2">
+                        <f:facet name="header">
+                            <h:outputText value="Datos Reclamo Consultado"/>
+                        </f:facet>
+                        <h:inputText value="#{beanReclamo.ticket}"
+                                     required="true"
+                                     requiredMessage="El numero de ticket es obligatorio"/> 
+                                                                   
+                                          
+                    </h:panelGrid>
+                    <br/><hr/><br/>                    
+                    
+                    <h:commandButton value="Consultar Reclamo" action="#{beanReclamo.queryReClamo()}"/>
                 </h:form>
-                
             </div>
         </div>
         <div id="bottom">
@@ -65,4 +76,5 @@ and open the template in the editor.
         </div>
 
     </h:body>
+
 </html>
