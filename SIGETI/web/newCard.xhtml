@@ -54,14 +54,28 @@
                     
                     <br></br>
                     <h:form styleClass="Formulario">
+                        <h:panelGrid columns="2">
+                             
+                            
                         <h:outputText value="Pin:"/>
-                        <h:inputText value="#{authentication.loginU}" /><br/>
+                        <h:inputText value="#{beanCard.pin}" />
+                        
                         <h:outputText value="Numero de Pasajes:"/>
-                        <h:inputSecret value="#{authentication.passwordU}" /><br/>
+                        <h:inputSecret value="#{beanCard.numberPassages}" />
+                       
+                       
                         <h:outputText value="Tipo:"/>
-                        <h:inputSecret value="#{authentication.passwordU}" /><br/>
+                        
+                        <h:selectOneMenu  value="#{beanCard.tipo}"  >
+                            <f:selectItem id="item1" itemLabel="Personalizada     " itemValue="1" />
+                            <f:selectItem id="item2" itemLabel="Generica" itemValue="2" />
+                            
+                        </h:selectOneMenu><br/>
 
-                        <h:commandButton value="Registrar" styleClass="JButton" action="#{authentication.login}" /><br/>
+                        
+
+                        <h:commandButton value="Registrar" styleClass="JButton" action="#{beanCard.createCard()}" /><br/>
+                        </h:panelGrid>
                     </h:form>
 
                 </div>
