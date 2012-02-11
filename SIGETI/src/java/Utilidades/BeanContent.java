@@ -47,13 +47,18 @@ public class BeanContent implements Serializable{
            List l2 = new ArrayList();
            l2.add("Gestionar Buses");
            l2.add("2");
-            List l3 = new ArrayList();
+           List l3 = new ArrayList();
            l3.add("Gestionar Tarjetas");
            l3.add("3");
+           List l4 = new ArrayList();
+           l4.add("Gestionar Reclamos");
+           l4.add("4");
+           
            
            menuOptions.add(l1);
            menuOptions.add(l2);
            menuOptions.add(l3);
+           menuOptions.add(l4);
        }else if(rol == 1) //director
        {
            List l1 = new ArrayList();
@@ -66,10 +71,19 @@ public class BeanContent implements Serializable{
            List l1 = new ArrayList();
            l1.add("Gestionar Empleados");
            l1.add("1");
+           List l4 = new ArrayList();
+           l4.add("Gestionar Reclamos");
+           l4.add("4");
             menuOptions.add(l1);
+            menuOptions.add(l4);
            
        }else if(rol == 3) //Auxiliar
        {
+           List l4 = new ArrayList();
+           l4.add("Gestionar Reclamos");
+           l4.add("4");
+           
+            menuOptions.add(l4);
            
        }else if(rol == 4) //conductor
        {
@@ -98,6 +112,8 @@ public class BeanContent implements Serializable{
             link = "managerBus";
         else if(l.equals("3"))
             link = "managerCards";
+        else if(l.equals("4"))
+            link = "managerClaims";
         
         return link;
     }
