@@ -9,6 +9,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
+        
+         
         <title>Home page Administrador</title>        
         
         <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
@@ -41,22 +43,33 @@
                     </h:dataTable>
                 </h:form>
             </div>
-            <div id="center_center">
-                <ui:insert name="content">Home page </ui:insert>
+            <div id="center_center" >
+                <ui:insert name="content" >Gestion Tarjetas </ui:insert>
+                <br></br>
+                <br></br>
+                <br></br>
                 
-                   <h:form>
-                    <h:panelGrid columns="3">
-                        <h:commandLink action="newCard">
-                            <h:outputText value="Crear nueva tarjeta"/>
+                <h:form style="display: inline-block" >
+                    <h:panelGrid columns="2"   >
+                        <h:commandLink   action="newCard">
+                            <img src="./resources/AddCard.gif"  width="100" height="100"></img>
+                            <br></br>
+                            <h:outputText value="Crear Tarjeta"/>
                         </h:commandLink>
-                        <h:commandLink action="editCard">
-                            <h:outputText value="Editar tarjeta"/>
+                        <h:commandLink   action="editCard">
+                            <img src="./resources/EditCard.png"  width="100" height="100"></img>
+                            <br></br>
+                            <h:outputText styleClass=""  value="Editar Tarjeta"/>
                         </h:commandLink>
-                        <h:commandLink action="eraseCard">
-                            <h:outputText value="Eliminar tarjeta"/>
+                        <h:commandLink   action="eraseCard">
+                             <img src="./resources/EliminarCard.gif"  width="100" height="100"></img>
+                            <br></br>
+                            <h:outputText styleClass="Icons" value="Eliminar Tarjeta"/>
                         </h:commandLink>
-                        <h:commandLink action="findCard">
-                            <h:outputText value="Consultar tarjeta"/>
+                        <h:commandLink   action="findCard">
+                             <img src="./resources/BuscarCard.gif"  width="100" height="100"></img>
+                            <br></br>
+                            <h:outputText value="Consultar Tarjeta"/>
                         </h:commandLink>
                     </h:panelGrid>
                 </h:form>
