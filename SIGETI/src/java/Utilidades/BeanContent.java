@@ -154,7 +154,7 @@ public class BeanContent implements Serializable{
         else if(l.equals("3"))
             link = "deleteClaim";
         else if(l.equals("4"))
-            link = "queryClaim";
+            link = "findClaim";
         
         return link;
     }

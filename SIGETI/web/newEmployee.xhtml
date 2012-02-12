@@ -9,6 +9,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
+         <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
         <title>Crear empleado</title>        
         
         <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
@@ -42,7 +43,7 @@
                 </h:form>
             </div>
             <div id="center_center">
-                <h:form>
+                <h:form styleClass="Formulario">
                     <h:messages styleClass="error"/>
                     <h:panelGrid columns="2">
                         <f:facet name="header">
@@ -135,7 +136,7 @@
                                      requiredMessage="Confirmar password, es obligatorio."/>
                     </h:panelGrid>
                     
-                    <h:commandButton value="Crear" action="#{beanEmployee.createUser}"/>
+                    <h:commandButton value="Crear" styleClass="JButton" action="#{beanEmployee.createUser}"/>
                 </h:form>
             </div>
         </div>
