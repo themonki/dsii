@@ -55,11 +55,20 @@ public class BeanEmployee implements Serializable{
     private String identificacionJefe;
     private String lugarTrabajo;
     //usado para control y calculos
-    private boolean isDisableLicencia = true;
-    private boolean isDisableIdJefe = true;
-    private boolean isDisableEstacion = true;
-    private boolean isRenderTableSearch = false;
+    private boolean isDisableLicencia;
+    private boolean isDisableIdJefe;
+    private boolean isDisableEstacion;
+    private boolean isRenderTableSearch;
     private int countValidator;
+    private String action;
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public String getAction() {
+        return action;
+    }
 
     public void setRenderTableSearch(boolean isRenderTableSearch) {
         this.isRenderTableSearch = isRenderTableSearch;
@@ -426,7 +435,6 @@ public class BeanEmployee implements Serializable{
         DaoEmpleado daoEmpleado = new DaoEmpleado();
         if(this.cargo.equals("Operario"))
         {
-            System.out.println("entro a available jefe para operario");
            List<Director> directores = daoEmpleado.findAllDirector();
            for(int i=0;i<directores.size();i++)
            {
@@ -672,9 +680,28 @@ public class BeanEmployee implements Serializable{
         this.countValidator = 0;
     }
     
-    public void clearStatesEvent(ActionEvent e)
+    public void statesForNew(ActionEvent e)
     {
-        clearStates();
+        this.isRenderTableSearch = false;
+        this.clearStates();
+    }
+    
+    public void statesForFind(ActionEvent e)
+    {
+        this.isRenderTableSearch = false;
+        this.action = "Detalle";
+    }
+    
+    public void statesForErase(ActionEvent e)
+    {
+        this.isRenderTableSearch = false;
+        this.action = "Eliminar";
+    }
+    
+    public void statesForEdit(ActionEvent e)
+    {
+        this.isRenderTableSearch = false;
+        this.action = "Editar";
     }
     
     public List<Empleado> getFindEmployee()
@@ -695,7 +722,7 @@ public class BeanEmployee implements Serializable{
         {
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage("No existe empleado con la identificación proporcionada."));
-            this.isRenderTableSearch = false;
+                this.isRenderTableSearch = false;
             return null;
         }else
         {

@@ -42,20 +42,39 @@
                 </h:form>
             </div>
             <div id="center_center">
-                <h:form>
-                    <h:panelGrid columns="3">
+                <ui:insert name="content" >Gestion Empleados </ui:insert>
+                <br/>
+                <br/>
+                <br/>
+                
+                <h:form style="display: inline-block">
+                    <h:panelGrid columns="2">
                         <h:commandLink action="newEmployee"
-                                       actionListener="#{beanEmployee.clearStatesEvent}"
+                                       actionListener="#{beanEmployee.statesForNew}"
                                        immediate="true">
+                            <img src="./resources/addUser.png"  width="100" height="100"/>
+                            <br/>
                             <h:outputText value="Crear nuevo empleado"/>
                         </h:commandLink>
-                        <h:commandLink action="editEmployee">
+                        <h:commandLink action="findEmployee"
+                                       actionListener="#{beanEmployee.statesForEdit}"
+                                       immediate="true">
+                            <img src="./resources/editUser.png"  width="100" height="100"/>
+                            <br/>
                             <h:outputText value="Editar empleado"/>
                         </h:commandLink>
-                        <h:commandLink action="eraseEmployee">
+                        <h:commandLink action="findEmployee"
+                                       actionListener="#{beanEmployee.statesForErase}"
+                                       immediate="true">
+                            <img src="./resources/eraseUser.png"  width="100" height="100"/>
+                            <br/>
                             <h:outputText value="Eliminar empleado"/>
                         </h:commandLink>
-                        <h:commandLink action="findEmployee">
+                        <h:commandLink action="findEmployee"
+                                       actionListener="#{beanEmployee.statesForFind}"
+                                       immediate="true">
+                            <img src="./resources/findUser.png"  width="100" height="100"/>
+                            <br/>
                             <h:outputText value="Consultar empleado"/>
                         </h:commandLink>
                     </h:panelGrid>
