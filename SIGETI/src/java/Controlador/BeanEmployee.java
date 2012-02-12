@@ -53,7 +53,7 @@ public class BeanEmployee implements Serializable{
     private boolean estado;
     private String licencia;
     private String identificacionJefe;
-    private String lugarTrabajo;
+    private Integer lugarTrabajo;
     //usado para control y calculos
     private boolean isDisableLicencia;
     private boolean isDisableIdJefe;
@@ -61,6 +61,22 @@ public class BeanEmployee implements Serializable{
     private boolean isRenderTableSearch;
     private int countValidator;
     private String action;
+
+    public String getFechaIngreso() {
+        return fechaIngreso;
+    }
+
+    public String getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public void setFechaIngreso(String fechaIngreso) {
+        this.fechaIngreso = fechaIngreso;
+    }
+
+    public void setFechaNacimiento(String fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
 
     public void setAction(String action) {
         this.action = action;
@@ -167,7 +183,7 @@ public class BeanEmployee implements Serializable{
         return identificacionJefe;
     }
 
-    public String getLugarTrabajo() {
+    public Integer getLugarTrabajo() {
         //System.out.println("get lugar trabajo");
         return lugarTrabajo;
     }
@@ -284,25 +300,16 @@ public class BeanEmployee implements Serializable{
 
     public void setIdentificacionJefe(String identificacionJefe) {
         //System.out.println("set id jefe");
-        if(!identificacionJefe.equals("---"))
-        {
-            this.identificacionJefe = identificacionJefe.split(" -")[0];
-        }
+        this.identificacionJefe = identificacionJefe;
     }
 
-    public void setLugarTrabajo(String lugarTrabajo) {
-        if(!lugarTrabajo.equals("---"))
-        {
-            String idEstacion = lugarTrabajo.split(" -")[0];
-            this.lugarTrabajo = idEstacion;
-        }else
-        {
-            this.lugarTrabajo = "-1";
-        }
+    public void setLugarTrabajo(Integer lugarTrabajo) {
+
+        this.lugarTrabajo = lugarTrabajo;
     }
 
     public void setApellido(String apellido) {
-        System.out.println("set apellido");
+        //System.out.println("set apellido");
         this.apellido = apellido;
     }
 
@@ -348,7 +355,7 @@ public class BeanEmployee implements Serializable{
     }
 
     public void setIdentificacion(String identificacion) {
-        System.out.println("set identificacion");
+        //System.out.println("set identificacion");
         this.identificacion = identificacion;
         
         this.isRenderTableSearch =true;//debe ser provicional
@@ -418,11 +425,12 @@ public class BeanEmployee implements Serializable{
         DaoEstacion daoEstacion = new DaoEstacion();
         List<EstacionPrincipal> estaciones = daoEstacion.findAllEstacionPrincipal();
         daoEstacion = null;
-        availableEstacion.add(new SelectItem("---"));
+        
+        availableEstacion.add(new SelectItem(-1,"---"));
         for(int i=0;i<estaciones.size();i++)
         {
-            String nombreEstacion = estaciones.get(i).getId() + " - " + estaciones.get(i).getNombre();
-            availableEstacion.add(new SelectItem(nombreEstacion));
+            EstacionPrincipal estacion = estaciones.get(i);
+            availableEstacion.add(new SelectItem(estacion.getId(),estacion.getNombre()));
         } 
         return availableEstacion;
     }
@@ -431,7 +439,7 @@ public class BeanEmployee implements Serializable{
 
         List<SelectItem> availableJefe = new ArrayList<SelectItem>();
 
-        availableJefe.add(new SelectItem("---"));
+        availableJefe.add(new SelectItem("","---"));
         DaoEmpleado daoEmpleado = new DaoEmpleado();
         if(this.cargo.equals("Operario"))
         {
@@ -439,8 +447,8 @@ public class BeanEmployee implements Serializable{
            for(int i=0;i<directores.size();i++)
            {
                Director director = directores.get(i);
-               String nombreDir = director.getId() + " - " + director.getNombre() + " " + director.getApellido();
-               availableJefe.add(new SelectItem(nombreDir));
+               String nombreDir = director.getNombre() + " " + director.getApellido();
+               availableJefe.add(new SelectItem(director.getId(),nombreDir));
            }
         }else if(this.cargo.equals("Auxiliar"))
         {
@@ -448,8 +456,8 @@ public class BeanEmployee implements Serializable{
            for(int i=0;i<operarios.size();i++)
            {
                Operario operario = operarios.get(i);
-               String nombreDir = operario.getId() + " - " + operario.getNombre() + " " + operario.getApellido();
-               availableJefe.add(new SelectItem(nombreDir));
+               String nombreDir = operario.getNombre() + " " + operario.getApellido();
+               availableJefe.add(new SelectItem(operario.getId(), nombreDir));
            } 
         }
         daoEmpleado = null;
@@ -460,6 +468,7 @@ public class BeanEmployee implements Serializable{
     public String createUser() {
         this.validate();
         if (this.countValidator > 0) {
+            this.countValidator = 0;
             return null;
         }
         FacesContext context = FacesContext.getCurrentInstance();
@@ -521,7 +530,7 @@ public class BeanEmployee implements Serializable{
             Auxiliar auxiliar = new Auxiliar();
             auxiliar.setId(identificacion.trim());
             auxiliar.setIdJefe(identificacionJefe.trim());
-            auxiliar.setTrabajaEn(Integer.parseInt(lugarTrabajo));
+            auxiliar.setTrabajaEn(lugarTrabajo);
             daoEmpleado.saveAuxiliar(auxiliar);
         }
         if (rol == 4) {
@@ -673,7 +682,7 @@ public class BeanEmployee implements Serializable{
         this.estado = true;
         this.licencia="";
         this.identificacionJefe="";
-        this.lugarTrabajo="";
+        this.lugarTrabajo=-1;
         this.isDisableLicencia = true;
         this.isDisableIdJefe = true;
         this.isDisableEstacion = true;
@@ -728,5 +737,28 @@ public class BeanEmployee implements Serializable{
         {
             return empleados;
         } 
+    }
+    
+    public String getLinkAction()
+    {
+        System.out.println("llamado a link action");
+        String link="";
+        if(this.action.equals("Detalle"))
+        {
+            link = "detailEmployee";
+        }else if(this.action.equals("Eliminar"))
+        {
+            link = "eraseEmployee";
+        }else if(this.action.equals("Editar"))
+        {
+            link = "editEmployee";
+        }
+        
+        return link;
+    }
+    
+    public void prepareDetailEmployee(ActionEvent e)
+    {
+        
     }
 }

@@ -16,3 +16,6 @@ También se a ignorado la fachada puesto que si tiene bases de datos y usuarios d
 NOTA: Como servidor estoy usando Apache Tomcat por que en un principio Glasfish no me servia, me daba errores. Pero sepuede usar cualquiera
 
 Para abrir los proyectos, selecionen crear un nuevo proyecto web, pero seleccionan la opcion de crearlo con fuentes existentes. Recuerden añadir el controlador de la base de datos para postgres, tambien las librerias jsf 2.1 y jstl 1.1
+
+**Domingo 12/02/12
+-Se actualizó el modelo de datos, volver a correr los scrips y borrar a mano la tabla reclamo_auxiliar_usuario_realiza

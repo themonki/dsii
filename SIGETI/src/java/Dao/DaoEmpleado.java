@@ -241,7 +241,7 @@ public class DaoEmpleado {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //System.out.println(sql_insert);
+        System.out.println(sql_insert);
         return result;
     }
 

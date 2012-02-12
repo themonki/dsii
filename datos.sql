@@ -20,7 +20,6 @@ DELETE FROM medida_reclamo_operario_agrega;
 DELETE FROM operario;
 DELETE FROM recarga;
 DELETE FROM reclamo;
-DELETE FROM reclamo_auxiliar_usuario_realiza;
 DELETE FROM ruta;
 DELETE FROM ruta_formado_estacion;
 DELETE FROM tarjeta;
