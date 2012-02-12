@@ -122,7 +122,7 @@ public class DaoReclamo {
     }
 
     public List<Reclamo> findAllReclamos() {
-        String sqlConsulta = "SELECT * FROM reclamo";
+        String sqlConsulta = "SELECT * FROM reclamo;";
 
         List<Reclamo> reclamos = new ArrayList<Reclamo>();
 
@@ -141,6 +141,8 @@ public class DaoReclamo {
                 reclamo.setEstado(table.getString("estado"));
 
                 reclamos.add(reclamo);
+                
+                System.out.println(reclamo.getTicket());
             }
             fachada.cerrarConexion(conn);
         } catch (SQLException se) {

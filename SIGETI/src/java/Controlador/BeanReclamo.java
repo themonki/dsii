@@ -143,7 +143,8 @@ public class BeanReclamo {
     {
         DaoReclamo daoReclamo = new DaoReclamo();
         List<Reclamo> reclamos;
-        if(this.ticket == 0)
+        System.out.println(ticket);
+        if(this.ticket == null)
         {
             reclamos = daoReclamo.findAllReclamos();
         }else
