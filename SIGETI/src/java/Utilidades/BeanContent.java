@@ -52,16 +52,14 @@ public class BeanContent implements Serializable{
            List l3 = new ArrayList();
            l3.add("Gestionar Tarjetas");
            l3.add("3");
-           List l4 = new ArrayList();
-           l4.add("Gestionar Reclamos");
-           l4.add("4");
+          
            
            
         
            menuOptions.add(l1);
            menuOptions.add(l2);
            menuOptions.add(l3);
-           menuOptions.add(l4);
+           
            
        }else if(rol == 1) //director
        {
