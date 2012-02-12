@@ -75,7 +75,8 @@ public class BeanCard  implements Serializable {
         }
         BeanContent content = (BeanContent) context.getApplication().evaluateExpressionGet(context, "#{beanContent}", BeanContent.class);
         int result;
-        DaoCard daoBus = new DaoCard();
+        DaoCard daoCard = new DaoCard();
+        
         System.err.println("hola "+pin+" tipo:"+tipo+" pasajes  "+ numberPassages);
         content.setResultOperation("El Empleado fue creado con exito.");
        
@@ -113,6 +114,8 @@ public class BeanCard  implements Serializable {
         estado = false;
 
     }
+    
+    
 
     
     
