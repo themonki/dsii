@@ -13,14 +13,14 @@ and open the template in the editor.
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
         <title>Home page Administrador</title>
-        
+
         <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
     </h:head>
     <h:body>
 
         <div id="top">
             <img src="./resources/logo.png" alt="logo"></img>
-        
+
             <h:form>
                 <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
                 <h:commandLink action="#{authentication.logout}">
@@ -43,37 +43,23 @@ and open the template in the editor.
                     </h:dataTable>
                 </h:form>
             </div>
-             <div id="center_center" >
-                <ui:insert name="content" >Gestion Reclamos </ui:insert>
-                <br></br>
-                <br></br>
-                <br></br>
-                
+            <div id="center_center" >
                 <h:form style="display: inline-block" >
-                    <h:panelGrid columns="2"   >
-                        <h:commandLink   action="newClaim">
-                            <img src="./resources/AddCard.gif"  width="100" height="100"></img>
-                            <br></br>
-                            <h:outputText value="Crear Reclamo"/>
-                        </h:commandLink>
-                        <h:commandLink   action="findClaim">
-                            <img src="./resources/EditCard.png"  width="100" height="100"></img>
-                            <br></br>
-                            <h:outputText styleClass=""  value="Editar Reclamo"/>
-                        </h:commandLink>
-                        <h:commandLink   action="findClaim" >
-                             <img src="./resources/EliminarCard.gif"  width="100" height="100"></img>
-                            <br></br>
-                            <h:outputText styleClass="Icons" value="Eliminar Reclamo"/>
-                        </h:commandLink>
-                        <h:commandLink   action="findClaim">
-                             <img src="./resources/BuscarCard.gif"  width="100" height="100"></img>
-                            <br></br>
-                            <h:outputText value="Consultar Reclamo"/>
-                        </h:commandLink>
-                    </h:panelGrid>
+                    <h:dataTable value="#{beanContent.menuClaimsOptions}" var="l">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Gestionar Reclamos"/>
+                            </f:facet>
+                            <h:commandLink action="#{beanContent.findLinkClaims(l.get(1))}">
+                                <img src="./resources/#{beanContent.findLinkClaims(l.get(1))}.png"  width="100" height="100"></img>
+                                <br></br>
+                                <h:outputText styleClass="Icons" value="#{l.get(0)}"/>
+                            </h:commandLink>
+                        </h:column>
+                    </h:dataTable>
+
                 </h:form>
-                
+
             </div>
         </div>
         <div id="bottom">
