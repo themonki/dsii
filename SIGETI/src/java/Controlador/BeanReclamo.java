@@ -39,6 +39,7 @@ public class BeanReclamo {
 
     public void setRenderTableSearch(boolean isRenderTableSearch) {
         this.isRenderTableSearch = isRenderTableSearch;
+        
     }
 
     public boolean isRenderTableSearch() {
