@@ -17,6 +17,7 @@ import Utilidades.BeanContent;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -745,6 +746,7 @@ public class BeanEmployee implements Serializable{
         String link="";
         if(this.action.equals("Detalle"))
         {
+            this.prepareDataEmployee();
             link = "detailEmployee";
         }else if(this.action.equals("Eliminar"))
         {
@@ -757,8 +759,73 @@ public class BeanEmployee implements Serializable{
         return link;
     }
     
-    public void prepareDetailEmployee(ActionEvent e)
+    private Empleado getCurrentEmpleado()
     {
+        FacesContext context = FacesContext.getCurrentInstance();
+        Application app = context.getApplication();
+        Empleado empleado = (Empleado) app.evaluateExpressionGet(context, "#{employee}", Empleado.class);
+        return empleado;
+    }
+    
+    private void prepareDataEmployee()
+    {
+        Empleado empleado = this.getCurrentEmpleado();
         
+        this.nombre = empleado.getNombre();
+        this.nombre2 = empleado.getNombre2();
+        this.apellido = empleado.getApellido();
+        this.apellido2 = empleado.getApellido2();
+        this.tipoId = empleado.getTipoId();
+        this.identificacion = empleado.getId();
+        this.telefono = empleado.getTelefono();
+        this.direccion = empleado.getDireccion();
+        this.email = empleado.getEmail();
+        this.fechaNacimiento = empleado.getFechaNacimiento();
+        this.fechaIngreso =empleado.getFechaIngreso();
+        this.salario = Integer.toString(empleado.getSalario());
+        
+        int rol = empleado.getRol();
+        String cargoObtenido="";
+        DaoEmpleado daoEmpleado = new DaoEmpleado();
+        switch(rol)
+        {
+            case 0:
+            {
+                cargoObtenido = "Administrador";
+                break;
+            }
+            case 1:
+            {
+                cargoObtenido = "Director";
+                break;
+            }
+            case 2:
+            {
+                cargoObtenido = "Operario";
+                Operario operario = daoEmpleado.findOpearioId(this.identificacion);
+                this.identificacionJefe = operario.getIdJefe();
+                operario = null;
+                break;
+            }
+            case 3:
+            {
+                cargoObtenido = "Auxiliar";
+                Auxiliar auxiliar = daoEmpleado.findAuxiliarId(this.identificacion);
+                this.identificacionJefe = auxiliar.getIdJefe();
+                this.lugarTrabajo = auxiliar.getTrabajaEn();
+                auxiliar = null;
+                break;
+            }
+            case 4:
+            {
+                cargoObtenido = "Conductor";
+                Conductor conductor = daoEmpleado.findConductorId(this.identificacion);
+                this.licencia = conductor.getLicencia();
+                conductor = null;
+            }
+        }
+        this.cargo = cargoObtenido;
+        this.login = empleado.getLogin();
+        this.estado = empleado.getEstado();
     }
 }
