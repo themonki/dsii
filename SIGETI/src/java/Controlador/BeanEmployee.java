@@ -722,7 +722,7 @@ public class BeanEmployee implements Serializable{
         {
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage("No existe empleado con la identificación proporcionada."));
-            this.isRenderTableSearch = false;
+                this.isRenderTableSearch = false;
             return null;
         }else
         {
