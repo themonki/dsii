@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
@@ -32,7 +33,18 @@ public class BeanReclamo {
     private String descripcion;
     private String motivo;
     private String estado;
+    
+    private boolean isRenderTableSearch = false;
    
+
+    public void setRenderTableSearch(boolean isRenderTableSearch) {
+        this.isRenderTableSearch = isRenderTableSearch;
+    }
+
+    public boolean isRenderTableSearch() {
+        return isRenderTableSearch;
+    }
+
 
    
 
@@ -46,6 +58,7 @@ public class BeanReclamo {
 
     public void setTicket(Integer ticket) {
         this.ticket = ticket;
+        this.isRenderTableSearch =true;//debe ser provicional
     }
 
     public String getFecha() {
@@ -126,38 +139,32 @@ public class BeanReclamo {
         return "resultOperation";
     }
     
-    public String queryReClamo(){
-        FacesContext context = FacesContext.getCurrentInstance();
-        //validate();
-        if (context.getMessageList().size() > 0) {
-            return null;
-        }
-        BeanContent content = (BeanContent) context.getApplication().evaluateExpressionGet(context, "#{beanContent}", BeanContent.class);
-        
+      public List<Reclamo> getFindReclamo()
+    {
         DaoReclamo daoReclamo = new DaoReclamo();
-        Reclamo reclamo = new Reclamo();
-        reclamo.setTicket(ticket);
-        
-        
-       
-        reclamo = daoReclamo.queryReclamo(ticket);
-        
-        if(reclamo.getTicket() != ticket){
-            content.setResultOperation("El reclamo no se encuentra en la base de datos.");
-            return "resultOperation";
-        }            
-        
-        ticket = reclamo.getTicket();
-        estado = reclamo.getEstado();
-        motivo = reclamo .getMotivo();
-        fecha = reclamo.getFecha();
-        
-       
-        content.setResultOperation("El reclamo fue hallado  con exito. ");
+        List<Reclamo> reclamos;
+        if(this.ticket == 0)
+        {
+            reclamos = daoReclamo.findAllReclamos();
+        }else
+        {
+            Reclamo reclamo = daoReclamo.findReclamo(ticket);
+            reclamos = new ArrayList<Reclamo>();
+            reclamos.add(reclamo);
+        }
         daoReclamo = null;
-        return "resultOperation";
+        if(reclamos.get(0).getTicket() == null)
+        {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("No existe empleado con la identificación proporcionada."));
+            this.isRenderTableSearch = false;
+            return null;
+        }else
+        {
+            return reclamos;
+        } 
     }
-    
+
       public List<SelectItem> getAvailableCargo() {
         
         List<SelectItem> medidasDisponibles = new ArrayList<SelectItem>();

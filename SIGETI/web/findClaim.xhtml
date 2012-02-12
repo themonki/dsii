@@ -55,43 +55,50 @@
             <div id="center_center">
                 <h:form>
                     <h:messages styleClass="error"/>
-                    <h:panelGrid columns="2">
+                   <h:panelGrid columns="2">
                         <f:facet name="header">
-                            <h:outputText value="Datos Reclamo Consultado"/>
+                            <h:outputText value="Buscar Reclamo"/>
                         </f:facet>
-                        <h:outputText value="Número del Ticket"/>
-                        <h:inputText  value="#{beanReclamo.ticket}"
-                                      required="true"
-                                      requiredMessage="El numero de ticket es oblitgatorio"/>                 
-
-
-                        <h:outputText value="* Tickect" />
-                        <h:outputLabel value="#{beanReclamo.ticket}"
-                                       />   
-
-                        <h:outputText value="* Fecha" />
-                        <h:outputLabel value="#{beanReclamo.fecha}"
-                                       />   
-
-                        <h:outputText value="* Descripcion" />
-                        <h:outputText value="#{beanReclamo.descripcion}"
-                                      />   
-
-                        <h:outputText value="* Motivo" />
-                        <h:outputText value="#{beanReclamo.motivo}"
-                                      />  
-
-                        <h:outputText value="* Estado" />
-                        <h:outputText value="#{beanReclamo.estado}"
-                                      />   
-
+                        <h:outputText value="Numero de Ticket:"/>
+                        <h:inputText value="#{beanReclamo.ticket}"/>
+                        <h:commandButton value="Buscar"/>
+                        <h:panelGroup>
+                            <i><h:outputText value="Nota: Si desea realizar la consulta de todos los reclamos no proporcione ninguna identificaci&oacute;n"/></i>
+                        </h:panelGroup>
                     </h:panelGrid>
+                    <br/><br/>
+                    <h:dataTable
+                        border="1"
+                        var="claim"
+                        value="#{beanReclamo.findReclamo}"
+                        id="tableReclamo"
+                        rendered="#{beanReclamo.renderTableSearch}">
+                        <f:facet name="caption">Resultado de la b&uacute;squeda</f:facet>
 
-
-
-                    <br/><hr/><br/>                    
-
-                    <h:commandButton value="Consultar Reclamo" action="#{beanReclamo.queryReClamo()}"/>
+                        <h:column>
+                            <f:facet name="header">Numero Ticket</f:facet>
+                            #{beanReclamo.ticket}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Fecha</f:facet>
+                            #{beanReclamo.fecha}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Descripcion</f:facet>
+                            #{beanReclamo.descripcion} 
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Motivo</f:facet>
+                            #{beanReclamo.motivo} 
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Estado</f:facet>
+                            #{beanReclamo.estado} 
+                        </h:column>
+                        <h:column>
+                             <h:commandButton value="Editar"/>
+                        </h:column>
+                    </h:dataTable>
                 </h:form>
             </div>
         </div>
