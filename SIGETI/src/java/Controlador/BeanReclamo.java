@@ -9,15 +9,12 @@ import Entidades.Reclamo;
 import Utilidades.BeanContent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 
 /**
@@ -63,7 +60,7 @@ public class BeanReclamo {
 
     public void setTicket(Integer ticket) {
         this.ticket = ticket;
-        this.isRenderTableSearch = true;//debe ser provisional
+       
     }
 
     public String getFecha() {
@@ -92,10 +89,12 @@ public class BeanReclamo {
 
     public String getEstado() {
         return estado;
+        
     }
 
     public void setEstado(String estado) {
         this.estado = estado;
+         this.isRenderTableSearch = true;//debe ser provisional
     }
 
     public void setAuxiliarRecibe(String auxiliarRecibe) {
@@ -200,22 +199,45 @@ public class BeanReclamo {
     public List<Reclamo> getFindReclamo() {
         DaoReclamo daoReclamo = new DaoReclamo();
         List<Reclamo> reclamos;
-        System.out.println(ticket);
-        if (this.ticket == null) {
-            reclamos = daoReclamo.findAllReclamos();
-        } else {
-            Reclamo reclamo = daoReclamo.findReclamo(ticket);
-            reclamos = new ArrayList<Reclamo>();
-            reclamos.add(reclamo);
-        }
+        System.out.println(estado);
+        
+        reclamos = daoReclamo.findReclamoPorEstado(estado);            
+        
         daoReclamo = null;
-        if (reclamos.get(0).getTicket() == null) {
+        
+         List<Reclamo> reclamosfiltrados = new ArrayList<Reclamo> ();
+         System.out.println("Ticket para filtar "+ticket);
+         if(ticket == null)
+         {
+         
+                reclamosfiltrados = reclamos;
+         
+         }else
+         {
+         
+             for (int i = 0; i < reclamos.size(); i++) {
+
+                 System.out.println("Ticket para comparar "+reclamos.get(i).getTicket());
+
+                 int valor = reclamos.get(i).getTicket();
+                 if ( valor == ticket) {
+                     
+                     reclamosfiltrados.add(reclamos.get(i));
+                     System.out.println("entre");
+                 }
+
+             }
+         
+         }
+        
+         System.out.println("Tamaño de filtrado "+reclamosfiltrados.size());
+        if (reclamosfiltrados.isEmpty()) {
             FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage("No existe empleado con la identificación proporcionada."));
+            context.addMessage(null, new FacesMessage("No hay reclamos con este estado."));
             this.isRenderTableSearch = false;
             return null;
         } else {
-            return reclamos;
+            return reclamosfiltrados;
         }
     }
 
@@ -225,6 +247,15 @@ public class BeanReclamo {
         avaiableTipoUsuario.add(new SelectItem("Personalizada"));
         avaiableTipoUsuario.add(new SelectItem("Generica"));
         return avaiableTipoUsuario;
+    }
+    
+    public List<SelectItem> getAvailableEstadosReclamo() 
+    {
+        List<SelectItem> avaliableEstadosReclamo = new ArrayList<SelectItem>();
+        avaliableEstadosReclamo.add(new SelectItem("Iniciado"));
+        avaliableEstadosReclamo.add(new SelectItem("Tramite"));
+        avaliableEstadosReclamo.add(new SelectItem("Finalizado"));
+        return avaliableEstadosReclamo;
     }
     
     private void validate() {
