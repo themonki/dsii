@@ -4,7 +4,9 @@
  */
 package Controlador;
 
+
 import Dao.DaoReclamo;
+
 import Entidades.Reclamo;
 import Utilidades.BeanContent;
 import java.io.Serializable;
@@ -12,10 +14,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 
 /**
@@ -37,6 +41,8 @@ public class BeanReclamo implements Serializable{
     private String tipoPasajero;
     private boolean disableIdentificacion;
     private int countValidator;
+    private String action;
+    
 
     public void setTicket(int ticket) 
     {
@@ -141,6 +147,13 @@ public class BeanReclamo implements Serializable{
         return this.tipoPasajero;
     }
 
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public String getAction() {
+        return action;
+    }
     public BeanReclamo() {
 
         disableIdentificacion = false;
@@ -205,7 +218,7 @@ public class BeanReclamo implements Serializable{
 
         content.setResultOperation("El reclamo fue creado con exito. Con numero de ticket " + daoReclamo.lastTicketId());
         daoReclamo = null;
-        clearStates();
+       // clearStates();
         return "resultOperation";
     }
 
@@ -290,6 +303,76 @@ public class BeanReclamo implements Serializable{
 
 
 
+    }
+    public void update(String l)
+    {
+    
+        if(l.equals("1"))
+        {
+            this.clearStates();
+        
+        }else if(l.equals("2"))
+        {
+            this.renderTableSearch = false;
+            this.action = "Editar";  
+        }else if(l.equals("3"))
+        {
+            this.renderTableSearch = false;
+            this.action = "Eliminar";     
+        }else if(l.equals("4"))
+        {
+            this.renderTableSearch = false;
+            this.clearStates();
+            this.action = "Detalle";        
+        }
+    
+    
+    
+        System.out.println("accion actual " +this.action);
+    
+    
+    
+    }
+       
+     public void statesForFindReturn(ActionEvent e) {
+        this.clearStates();
+           System.out.println("Retornando de  " +this.action);
+    }
+
+
+    public String getLinkAction() {
+        String link = "";
+        if (this.action.equals("Detalle")) {
+            this.prepareDataClaim();
+            link = "detailClaim";
+        } else if (this.action.equals("Eliminar")) {
+            link = "eraseClaim";
+        } else if (this.action.equals("Editar")) {
+            link = "editClaim";
+        }
+
+        return link;
+    }
+    
+      private Reclamo getCurrentReclamo() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        Application app = context.getApplication();
+        Reclamo reclamo = (Reclamo) app.evaluateExpressionGet(context, "#{claim}", Reclamo.class);
+        return reclamo;
+    }
+    
+        private void prepareDataClaim() {
+        Reclamo reclamo = this.getCurrentReclamo();
+
+        this.ticket = reclamo.getTicket();
+        this.fecha = reclamo.getFecha();
+        this.descripcion = reclamo.getDescripcion();
+        this.motivo = reclamo.getMotivo();
+        this.estado = reclamo.getEstado();
+        this.auxiliarRecibe = reclamo.getAuxiliarRecibe();
+        this.usuarioRealiza = reclamo.getUsuarioRealiza();       
+       
+              
     }
 
     void clearStates() {
