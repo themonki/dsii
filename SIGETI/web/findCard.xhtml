@@ -57,7 +57,7 @@
 
                     <h:form styleClass="Formulario">
 
-                        <h:panelGrid columns="3" >
+                        <h:panelGrid columns="2" >
                             
                             
 
@@ -65,6 +65,12 @@
 
                             <h:inputText value="#{beanCard.pin}" />  
                             
+                           
+                            
+                            <h:outputText value="Ingrese la Cedula del Propietario:"/>
+
+                            <h:inputText value="#{beanCard.cedulaPasajero}" />  
+                                                       
                             <h:commandButton value="Consultar" styleClass="JButton" action="#{beanCard.findCard()}" />
 
                         </h:panelGrid>
@@ -73,6 +79,9 @@
 
                         <h:panelGrid columns="2" >
 
+                            
+                             <h:outputText value="Pin:"/>
+                            <h:outputText value="#{beanCard.pin}" />
                             <h:outputText value="Numero de Pasajes:"/>
                             <h:outputText value="#{beanCard.numberPassages}" />
 
