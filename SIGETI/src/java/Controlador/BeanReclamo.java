@@ -9,6 +9,7 @@ import Entidades.Reclamo;
 import Utilidades.BeanContent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -25,25 +26,25 @@ import javax.faces.model.SelectItem;
 @SessionScoped
 public class BeanReclamo  {
 
-    private Integer ticket;
+    private Integer ticket = 0;
     private String fecha;
     private String descripcion;
     private String motivo;
     private String estado;
     private String auxiliarRecibe;
     private String usuarioRealiza;
-    private boolean isRenderTableSearch;
+    private Boolean renderTableSearch = false;
     private String tipoPasajero;
-    private boolean isDisableIdentificacion;
-    private int countValidator;
+    private Boolean isDisableIdentificacion = false;
+    private Integer countValidator = 0;
     
 
-    public boolean isRenderTableSearch() {
-        return isRenderTableSearch;
+    public boolean getRenderTableSearch() {
+        return renderTableSearch;
     }
 
-    public void setRenderTableSearch(boolean isRenderTableSearch) {
-        this.isRenderTableSearch = isRenderTableSearch;
+    public void setRenderTableSearch(boolean renderTableSearch) {
+        this.renderTableSearch = renderTableSearch;
     }
 
     public boolean isDisableIdentificacion() {
@@ -54,11 +55,11 @@ public class BeanReclamo  {
         this.isDisableIdentificacion = isDisableIdentificacion;
     }
 
-    public Integer getTicket() {
+    public int getTicket() {
         return ticket;
     }
 
-    public void setTicket(Integer ticket) {
+    public void setTicket(int ticket) {
         this.ticket = ticket;
        
     }
@@ -94,7 +95,7 @@ public class BeanReclamo  {
 
     public void setEstado(String estado) {
         this.estado = estado;
-         this.isRenderTableSearch = true;//debe ser provisional
+         this.renderTableSearch = true;//debe ser provisional
     }
 
     public void setAuxiliarRecibe(String auxiliarRecibe) {
@@ -207,7 +208,7 @@ public class BeanReclamo  {
         
          List<Reclamo> reclamosfiltrados = new ArrayList<Reclamo> ();
          System.out.println("Ticket para filtar "+ticket);
-         if(ticket == null)
+         if(ticket == 0)
          {
          
                 reclamosfiltrados = reclamos;
@@ -234,7 +235,7 @@ public class BeanReclamo  {
         if (reclamosfiltrados.isEmpty()) {
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage("No hay reclamos con este estado."));
-            this.isRenderTableSearch = false;
+            this.renderTableSearch = false;
             return null;
         } else {
             return reclamosfiltrados;
@@ -286,7 +287,7 @@ public class BeanReclamo  {
     }
        void clearStates()
     {
-        this.ticket = null;
+        this.ticket = 0;
         this.descripcion = "";
         this.fecha = "";
         this.descripcion = "";
