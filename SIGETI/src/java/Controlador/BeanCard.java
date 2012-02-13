@@ -30,7 +30,17 @@ public class BeanCard implements Serializable {
     private String tipo = "";
     private String numberPassages = "0";
     private boolean estado = true;// solo se modifica si se va a borrar ; 
+    private String cedulaPasajero="";
     private FacesContext context;
+
+    public String getCedulaPasajero() {
+        return cedulaPasajero;
+    }
+
+    public void setCedulaPasajero(String cedulaPasajero) {
+        this.cedulaPasajero = cedulaPasajero;
+    }
+    
 
     public String getCosto() {
         return costo;
@@ -169,6 +179,8 @@ public class BeanCard implements Serializable {
         
          context = FacesContext.getCurrentInstance();
         //validate();
+         
+         
         if (context.getMessageList().size() > 0) {
             return null;
         }
@@ -176,13 +188,22 @@ public class BeanCard implements Serializable {
        
         int result =0;
          DaoCard daoCard = new DaoCard();
-         Tarjeta tarjeta = daoCard.findCard(pin);
-        
-        
+         
+         if(!cedulaPasajero.equals("")){
              
+             String temp ;
+             temp =daoCard.findCardFromUser(cedulaPasajero);
+             if(temp!=null){
+             
+                 pin=temp;
+             }
+        
+         }
+         
+         Tarjeta tarjeta = daoCard.findCard(pin);
          
         pin = tarjeta.getPin();  
-        System.err.println("erororroro::"+pin);
+       
         if(pin==null){
              context.addMessage(null, new FacesMessage(
                     FacesMessage.SEVERITY_ERROR, "La consulta no arrojo resultados.", null));

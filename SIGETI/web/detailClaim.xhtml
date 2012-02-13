@@ -1,26 +1,25 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this template, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
+
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
-        <title>Home page Administrador</title>
-
+         <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
+        <title>Detalle empleado</title>        
+        
         <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
     </h:head>
+
     <h:body>
 
         <div id="top">
             <img src="./resources/logo.png" alt="logo"></img>
-
+        
             <h:form>
                 <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
                 <h:commandLink action="#{authentication.logout}">
@@ -43,30 +42,32 @@ and open the template in the editor.
                     </h:dataTable>
                 </h:form>
             </div>
-            <div id="center_center" >
-                <h:form style="display: inline-block" >
-                    
-                        
-                            <f:facet name="header">
-                                <h:outputText value="Gestionar Reclamos"/>
-                            </f:facet>
-                    <h:dataTable value="#{beanContent.menuClaimsOptions}" var="l" >
-                        <h:column >
-                            <h:commandLink  action="#{beanContent.findLinkClaims(l.get(1))}" 
-                                            actionListener="#{beanReclamo.update(l.get(1))}"
-                                            
-                                            > 
-                                            
-                                <img src="./resources/#{beanContent.findLinkClaims(l.get(1))}.png"  width="100" height="100"></img>
-                                <br></br>
-                                <h:outputText styleClass="Icons" value="#{l.get(0)}"/>
-                            </h:commandLink>
-                        </h:column>                      
-                       
-                    </h:dataTable>
-
+            <div id="center_center">
+                <h:messages styleClass="error"/>
+                <h:form styleClass="Formulario">
+                    <h:panelGrid columns="2">
+                        <f:facet name="header">
+                            <h:outputText value="Datos Reclamo"/>
+                        </f:facet>
+                        <h:outputText value="Numero Ticket:"/>
+                        <h:outputText value="#{beanReclamo.ticket}"/>
+                        <h:outputText value="Fecha(Inicio del Reclamo):"/>
+                        <h:outputText value="#{beanReclamo.fecha}"/>
+                        <h:outputText value="Descripcion:"/>
+                        <h:outputText value="#{beanReclamo.descripcion}"/>
+                        <h:outputText value="Motivo:"/>
+                        <h:outputText value="#{beanReclamo.motivo}"/>
+                        <h:outputText value="Identificacion Auxiliar :"/>
+                        <h:outputText value="#{beanReclamo.auxiliarRecibe}"/>
+                        <h:outputText value="Identificacion Usuario:"/>
+                        <h:outputText value="#{beanReclamo.usuarioRealiza}"/>
+                      </h:panelGrid>
+                          
+                    <h:commandButton value="Aceptar" styleClass="JButton" 
+                                     action="findClaim"
+                                     actionListener="#{beanReclamo.statesForFindReturnfind}"
+                                     immediate="true"/>
                 </h:form>
-
             </div>
         </div>
         <div id="bottom">
@@ -74,4 +75,5 @@ and open the template in the editor.
         </div>
 
     </h:body>
+
 </html>
