@@ -11,7 +11,7 @@ package Entidades;
 public class Tarjeta {
 
     protected String pin;
-    private Integer saldo;
+    private Integer saldo;//en numero de pasajes -1 si debe 1 etc..
     private boolean estado;
     private Integer tipo;
     private Integer costo;

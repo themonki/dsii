@@ -16,7 +16,7 @@
 
 {background: gray ;
  display: inline-block;
- text-align:center;
+ text-align:left;
  padding: 5px 10px 6px;
  color: #000;
  -moz-border-radius: 6px;
@@ -44,10 +44,7 @@
  cursor:pointer;
 
 }
-.Error{
-
-    color: blueviolet;
 
 
-}
+
 

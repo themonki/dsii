@@ -4,35 +4,50 @@ package Controlador;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Felipe
  */
-import java.io.IOException;
 import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ComponentSystemEvent;
-import javax.servlet.http.HttpSession;
 import Utilidades.BeanContent;
 import Dao.DaoCard;
+import Entidades.Tarjeta;
+import Entidades.TarjetaGenerica;
+import Entidades.TarjetaPersonalizada;
+import java.util.Date;
 
 @ManagedBean
 @SessionScoped
+public class BeanCard implements Serializable {
 
-public class BeanCard  implements Serializable {
-
-     
-    private String pin;
-    private String tipo;
-    private String numberPassages;
-    private boolean estado;
+    private String costo = "0";
+    private String pin = "";
+    private String estacion = "";
+    private String tipo = "";
+    private String numberPassages = "0";
+    private boolean estado = true;// solo se modifica si se va a borrar ; 
     private FacesContext context;
-    
+
+    public String getCosto() {
+        return costo;
+    }
+
+    public void setCosto(String costo) {
+        this.costo = costo;
+    }
+
+    public String getEstacion() {
+        return estacion;
+    }
+
+    public void setEstacion(String estacion) {
+        this.estacion = estacion;
+    }
+
     public boolean isEstado() {
         return estado;
     }
@@ -64,60 +79,238 @@ public class BeanCard  implements Serializable {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
-   
-    
-    
-    public String createCard(){
+
+    public String createCard() {
         context = FacesContext.getCurrentInstance();
         //validate();
         if (context.getMessageList().size() > 0) {
             return null;
         }
         BeanContent content = (BeanContent) context.getApplication().evaluateExpressionGet(context, "#{beanContent}", BeanContent.class);
-        int result;
+        int result = 0;
         DaoCard daoCard = new DaoCard();
-        
-        System.err.println("hola "+pin+" tipo:"+tipo+" pasajes  "+ numberPassages);
+
+
+
+        java.util.Date fecha = new Date();
+        String[] diames = fecha.toString().split(" ");
+
+
+        System.err.println("fecha:: " + diames[0] + " tipo:" + diames[1] + " pasajes  " + diames[2]);
         content.setResultOperation("El Empleado fue creado con exito.");
-       
-        /*Bus bus = new Bus();
-        bus.setMatricula(matricula.trim());
-        bus.setCapacidad(capacidad);
-        bus.setEstado(estado);
-        bus.setIdInterno(idInterno.trim());
-        bus.setPerteneceRuta(perteneceRuta.trim());
-        bus.setTipo(tipo.trim());
-        
-        JOptionPane.showMessageDialog(null, "Vamooss");
-        result = daoBus.saveBus(bus);
-        if(result == 0){
-            content.setResultOperation("El Bus no pudo ser creado.");
-            return "resultOperation";
-        }            
-        
-        daoBus = null;
-        content.setResultOperation("El Bus fue creado con exito.");*/
-         context.addMessage(null, new FacesMessage(
-                    FacesMessage.SEVERITY_ERROR, "Creado Con Exito ", null));
-         
-         clearStates();
+        if (validate()) {
+
+
+
+            int tipoTarjeta = Integer.parseInt(tipo);
+
+
+            if (tipoTarjeta == 1) {
+
+
+
+
+                TarjetaPersonalizada tarjeta = new TarjetaPersonalizada();
+                tarjeta.setCosto(Integer.parseInt(costo));
+                tarjeta.setEstacionVenta(Integer.parseInt(estacion));
+                tarjeta.setEstado(true);
+                tarjeta.setFechaVenta(fecha.toString());//fecha
+                tarjeta.setPin(pin);
+                tarjeta.setTipo(tipoTarjeta);
+                tarjeta.setCredito(0);
+                tarjeta.setSaldo(Integer.parseInt(numberPassages));
+
+                System.err.println("antes de guardar");
+
+                result = daoCard.saveCard(tarjeta);
+
+                System.err.println("despues de guardar");
+
+            } else {
+
+                TarjetaGenerica tarjeta = new TarjetaGenerica();
+                tarjeta.setCosto(Integer.parseInt(costo));
+                tarjeta.setEstacionVenta(Integer.parseInt(estacion));
+                tarjeta.setEstado(true);
+                tarjeta.setFechaVenta(fecha.toString());//fecha
+                tarjeta.setPin(pin);
+                tarjeta.setTipo(tipoTarjeta);
+                tarjeta.setSaldo(Integer.parseInt(numberPassages));
+
+                System.err.println("antes de guardar");
+
+                result = daoCard.saveCard(tarjeta);
+
+                System.err.println("despues de guardar");
+
+
+            }
+
+            if (result == 0) {
+
+                context.addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_ERROR, "El registro de la tarjeta no  fue creado ", null));
+
+            } else {
+                context.addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_ERROR, "Creado Con Exito ", null));
+            }
+
+            clearStates();
+
+        };
+      
+
         return null;
-        
+
     }
+    
+    public String findCard(){
+        
+         context = FacesContext.getCurrentInstance();
+        //validate();
+        if (context.getMessageList().size() > 0) {
+            return null;
+        }
+        BeanContent content = (BeanContent) context.getApplication().evaluateExpressionGet(context, "#{beanContent}", BeanContent.class);
+       
+        int result =0;
+         DaoCard daoCard = new DaoCard();
+         Tarjeta tarjeta = daoCard.findCard(pin);
+        
+        
+             
+         
+        pin = tarjeta.getPin();  
+        System.err.println("erororroro::"+pin);
+        if(pin==null){
+             context.addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR, "La consulta no arrojo resultados.", null));
+             return null;
+        
+        
+        }
+        
+         if(tarjeta.getCosto()!=null)
+             costo = Integer.toString(tarjeta.getCosto());     
+         if(tarjeta.getEstacionVenta()!=null)    
+             estacion = Integer.toString(tarjeta.getEstacionVenta());      
+         if(tarjeta.getTipo()!=null)
+             tipo =Integer.toString(tarjeta.getTipo()) ;
+         if(tarjeta.getSaldo()!=null )
+             numberPassages = Integer.toString(tarjeta.getSaldo());
+         
+         
+    
+        return null;
+    }
+
+    private boolean validate() {
+        boolean validar = true;
+
+        if (pin.equals("")) {
+            context.addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR, "El campo Pin no puede estar vacio.", null));
+            validar = false;
+
+
+        };
+        if (estacion.equals("")) {
+            context.addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR, "El campo Estacion Id no puede estar vacio.", null));
+            validar = false;
+
+        };
+
+
+        if (validar) {
+            try {
+
+                int valor =Integer.parseInt(pin);
+                if(!(valor >= 0)){
+                     context.addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_ERROR, "El Pin debe ser un numero positivo.", null));
+                     validar = false;
+                
+                };
+
+            } catch (NumberFormatException e) {
+                context.addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_ERROR, "El Pin debe ser un numero.", null));
+                validar = false;
+            }
+            try {
+
+                int valor =Integer.parseInt(numberPassages);
+                if(!(valor>=0)){
+                 context.addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_ERROR, "El numero de pasajes debe ser un numero positivo.", null));
+                 validar = false;
+                
+                }
+
+            } catch (NumberFormatException e) {
+                context.addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_ERROR, "El numero de pasajes debe ser un numero.", null));
+                validar = false;
+            }
+            try {
+                
+
+                int valor =Integer.parseInt(estacion);
+                if(!(valor>=0)){
+                     context.addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_ERROR, "El id de la estacion debe ser un numero positivo.", null));
+                     validar = false;
+                
+                
+                }
+
+            } catch (NumberFormatException e) {
+                context.addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_ERROR, "El id de la estacion debe ser un numero.", null));
+                validar = false;
+            }
+
+            try {
+
+                int valor =Integer.parseInt(costo);
+                if (!(valor >=0)){
+                    
+                     context.addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_ERROR, "El costo de la tarjeta debe ser un numero positivo.", null));
+                
+                     validar = false;
+                
+                
+                
+                }
+
+            } catch (NumberFormatException e) {
+                context.addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_ERROR, "El costo de la tarjeta debe ser un numero.", null));
+                validar = false;
+            }
+
+        }
+
+
+        return validar;
+
+
+    }
+
+    
 
     public void clearStates() {
 
 
         pin = "";
         tipo = "";
-        numberPassages = "";
+        numberPassages = "0";
         estado = false;
+        estacion = "";
+        costo = "0";
 
     }
-    
-    
-
-    
-    
-    
 }
