@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
+        <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
+         <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
+        <title>Detalle empleado</title>        
+        
+        <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
+    </h:head>
+
+    <h:body>
+
+        <div id="top">
+            <img src="./resources/logo.png" alt="logo"></img>
+        
+            <h:form>
+                <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
+                <h:commandLink action="#{authentication.logout}">
+                    <img src="./resources/exit.png" alt="salir" width="50" height="50"></img>
+                </h:commandLink>
+            </h:form>
+        </div>
+        <div id="center">
+            <div id="center_left">
+                <h:form>
+                    <h:dataTable value="#{beanContent.menuOptions}" var="l">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Menu"/>
+                            </f:facet>
+                            <h:commandLink action="#{beanContent.findLink(l.get(1))}">
+                                <h:outputText value="#{l.get(0)}"/>
+                            </h:commandLink>
+                        </h:column>
+                    </h:dataTable>
+                </h:form>
+            </div>
+            <div id="center_center">
+                <h:messages styleClass="error"/>
+                <h:form styleClass="Formulario">
+                    <h:panelGrid columns="2">
+                        <f:facet name="header">
+                            <h:outputText value="Datos personales"/>
+                        </f:facet>
+                        <h:outputText value="Primer nombre:"/>
+                        <h:outputText value="#{beanEmployee.nombre}"/>
+                        <h:outputText value="Segundo nombre:"/>
+                        <h:outputText value="#{beanEmployee.nombre2}"/>
+                        <h:outputText value="Primer apellido:"/>
+                        <h:outputText value="#{beanEmployee.apellido}"/>
+                        <h:outputText value="Segundo apellido:"/>
+                        <h:outputText value="#{beanEmployee.apellido2}"/>
+                        <h:outputText value="Tipo de identificaci&oacute;n"/>
+                        <h:outputText value="#{beanEmployee.tipoId}"/>
+                        <h:outputText value="* N. identificaci&oacute;n:"/>
+                        <h:outputText value="#{beanEmployee.identificacion}"/>
+                        <h:outputText value="Tel&eacute;fono:"/>
+                        <h:outputText value="#{beanEmployee.telefono}"/>
+                        <h:outputText value="Dirección:"/>
+                        <h:outputText value="#{beanEmployee.direccion}"/>
+                        <h:outputText value="Email:"/>
+                        <h:outputText value="#{beanEmployee.email}"/>
+                        <h:outputText value="Fecha de nacimiento:"/>
+                        <h:outputText value="#{beanEmployee.fechaNacimiento}"/>
+                        <h:outputText value="Fecha de ingreso:"/>
+                        <h:outputText value="#{beanEmployee.fechaIngreso}"/>
+                        <h:outputText value="Salario:"/>
+                        <h:outputText value="#{beanEmployee.salario}"/>
+                        <h:outputText value="Cargo:"/>
+                        <h:outputText value="#{beanEmployee.cargo}"/>
+                        <h:outputText value="N. Licencia:"/>
+                        <h:outputText value="#{beanEmployee.licencia}"/>
+                        <h:outputText value="N. identificaci&oacute;n jefe:"/>
+                        <h:outputText value="#{beanEmployee.identificacionJefe}"/>                     
+                        <h:outputText value="Estaci&oacute;n trabaja:"/>
+                        <h:outputText value="#{beanEmployee.lugarTrabajo}"/>
+                        <h:outputText value="* Login:"/>
+                        <h:outputText value="#{beanEmployee.login}"/>
+                    </h:panelGrid>
+                          
+                    <h:commandButton value="Aceptar" styleClass="JButton" action="findEmployee"/>
+                </h:form>
+            </div>
+        </div>
+        <div id="bottom">
+            <ui:insert name="bottom">Pie de pagina</ui:insert>
+        </div>
+
+    </h:body>
+
+</html>

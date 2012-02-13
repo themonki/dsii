@@ -41,8 +41,8 @@
                 </h:form>
             </div>
             <div  id="center_center">
+                <h:messages styleClass="error"/>
                 <h:form>
-                    <h:messages styleClass="error"/>
                     <h:panelGrid columns="2">
                         <f:facet name="header">
                             <h:outputText value="Buscar Empleado"/>
@@ -77,7 +77,8 @@
                         </h:column>
                         <h:column>
                             <f:facet name="header">Acci&oacute;n</f:facet>
-                            #{beanEmployee.action}
+                            <h:commandLink value="#{beanEmployee.action}" action="#{beanEmployee.getLinkAction}"/>
+                            
                         </h:column>
                     </h:dataTable>
                 </h:form>

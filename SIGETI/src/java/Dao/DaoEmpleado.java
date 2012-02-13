@@ -241,7 +241,7 @@ public class DaoEmpleado {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //System.out.println(sql_insert);
+        System.out.println(sql_insert);
         return result;
     }
 
@@ -406,6 +406,131 @@ public class DaoEmpleado {
             e.printStackTrace();
         }
         return director;
+    }
+    
+    /**
+     * Busca un operario en la base de datos dado su id.
+     * @param id - String que representa el id del operario a buscar
+     * @return Objeto operario que representa el operario encontrado, 
+     * si no existe operario con ese id, todos los atributos del operario retornado son null
+     */
+    public Operario findOpearioId(String id)
+    {
+        String sqlConsulta = "SELECT * FROM operario NATURAL JOIN empleado WHERE operario.id = '" + id + "'";
+        
+        Operario operario = new Operario();
+
+        try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            ResultSet table = sentence.executeQuery(sqlConsulta);
+
+            while (table.next()) {
+                operario.setApellido(table.getString("apellido"));
+                operario.setDireccion(table.getString("direccion"));
+                operario.setEstado(table.getBoolean("estado"));
+                operario.setFechaIngreso(table.getString("fecha_ingreso"));
+                operario.setFechaNacimiento(table.getString("fecha_nacimiento"));
+                operario.setId(table.getString(id));
+                operario.setLogin(table.getString("login"));
+                operario.setNombre(table.getString("nombre"));
+                operario.setPassword(table.getString("password"));
+                operario.setRol(table.getInt("rol"));
+                operario.setSalario(table.getInt("salario"));
+                operario.setTelefono(table.getString("telefono"));
+                operario.setTipoId(table.getString("tipo_id"));
+                operario.setNombre2(table.getString("nombre2"));
+                operario.setApellido2(table.getString("apellido2"));
+                operario.setEmail(table.getString("email"));
+                operario.setIdJefe(table.getString("id_jefe"));
+            }
+            fachada.cerrarConexion(conn);
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return operario;
+    }
+    
+    public Auxiliar findAuxiliarId(String id)
+    {
+        String sqlConsulta = "SELECT * FROM auxiliar NATURAL JOIN empleado WHERE auxiliar.id = '" + id + "'";
+        
+        Auxiliar auxiliar = new Auxiliar();
+
+        try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            ResultSet table = sentence.executeQuery(sqlConsulta);
+
+            while (table.next()) {
+                auxiliar.setApellido(table.getString("apellido"));
+                auxiliar.setDireccion(table.getString("direccion"));
+                auxiliar.setEstado(table.getBoolean("estado"));
+                auxiliar.setFechaIngreso(table.getString("fecha_ingreso"));
+                auxiliar.setFechaNacimiento(table.getString("fecha_nacimiento"));
+                auxiliar.setId(table.getString(id));
+                auxiliar.setLogin(table.getString("login"));
+                auxiliar.setNombre(table.getString("nombre"));
+                auxiliar.setPassword(table.getString("password"));
+                auxiliar.setRol(table.getInt("rol"));
+                auxiliar.setSalario(table.getInt("salario"));
+                auxiliar.setTelefono(table.getString("telefono"));
+                auxiliar.setTipoId(table.getString("tipo_id"));
+                auxiliar.setNombre2(table.getString("nombre2"));
+                auxiliar.setApellido2(table.getString("apellido2"));
+                auxiliar.setEmail(table.getString("email"));
+                auxiliar.setIdJefe(table.getString("id_jefe"));
+                auxiliar.setTrabajaEn(table.getInt("trabaja_en"));
+            }
+            fachada.cerrarConexion(conn);
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return auxiliar;
+    }
+    
+    public Conductor findConductorId(String id)
+    {
+        String sqlConsulta = "SELECT * FROM conductor NATURAL JOIN empleado WHERE conductor.id = '" + id + "'";
+        
+        Conductor conductor = new Conductor();
+
+        try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            ResultSet table = sentence.executeQuery(sqlConsulta);
+
+            while (table.next()) {
+                conductor.setApellido(table.getString("apellido"));
+                conductor.setDireccion(table.getString("direccion"));
+                conductor.setEstado(table.getBoolean("estado"));
+                conductor.setFechaIngreso(table.getString("fecha_ingreso"));
+                conductor.setFechaNacimiento(table.getString("fecha_nacimiento"));
+                conductor.setId(table.getString(id));
+                conductor.setLogin(table.getString("login"));
+                conductor.setNombre(table.getString("nombre"));
+                conductor.setPassword(table.getString("password"));
+                conductor.setRol(table.getInt("rol"));
+                conductor.setSalario(table.getInt("salario"));
+                conductor.setTelefono(table.getString("telefono"));
+                conductor.setTipoId(table.getString("tipo_id"));
+                conductor.setNombre2(table.getString("nombre2"));
+                conductor.setApellido2(table.getString("apellido2"));
+                conductor.setEmail(table.getString("email"));
+                conductor.setLicencia(table.getString("licencia"));
+                conductor.setConduceBus(table.getString("conduce_bus"));
+            }
+            fachada.cerrarConexion(conn);
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return conductor;
     }
     
     /**
