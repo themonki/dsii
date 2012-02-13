@@ -204,13 +204,40 @@ public class BeanReclamo {
         reclamos = daoReclamo.findReclamoPorEstado(estado);            
         
         daoReclamo = null;
-        if (reclamos.isEmpty()) {
+        
+         List<Reclamo> reclamosfiltrados = new ArrayList<Reclamo> ();
+         System.out.println("Ticket para filtar "+ticket);
+         if(ticket == null)
+         {
+         
+                reclamosfiltrados = reclamos;
+         
+         }else
+         {
+         
+             for (int i = 0; i < reclamos.size(); i++) {
+
+                 System.out.println("Ticket para comparar "+reclamos.get(i).getTicket());
+
+                 int valor = reclamos.get(i).getTicket();
+                 if ( valor == ticket) {
+                     
+                     reclamosfiltrados.add(reclamos.get(i));
+                     System.out.println("entre");
+                 }
+
+             }
+         
+         }
+        
+         System.out.println("Tamaño de filtrado "+reclamosfiltrados.size());
+        if (reclamosfiltrados.isEmpty()) {
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage("No hay reclamos con este estado."));
             this.isRenderTableSearch = false;
             return null;
         } else {
-            return reclamos;
+            return reclamosfiltrados;
         }
     }
 
