@@ -91,9 +91,7 @@ public class BeanContent implements Serializable{
            l4.add("Gestionar Reclamos");
            l4.add("4");
            
-              List c1 = new ArrayList();
-           c1.add("Crear Reclamo");
-           c1.add("1");
+            
            List c2 = new ArrayList();
            c2.add("Editar Reclamo");
            c2.add("2");
@@ -106,7 +104,7 @@ public class BeanContent implements Serializable{
            
            menuOptions.add(l1);
            menuOptions.add(l4);
-           menuClaimsOptions.add(c1);
+           
            menuClaimsOptions.add(c2);
            menuClaimsOptions.add(c3);
            menuClaimsOptions.add(c4);

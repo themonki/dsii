@@ -188,4 +188,42 @@ public class DaoReclamo {
         return existeUsuario;
     
     }
+
+    public List<Reclamo> findReclamoPorEstado(String estado) {
+
+        String sqlConsulta = "SELECT * FROM reclamo where estado ='"+estado+"';";
+        
+        System.err.println(sqlConsulta);
+
+        List<Reclamo> reclamos = new ArrayList<Reclamo>();
+
+        try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            ResultSet table = sentence.executeQuery(sqlConsulta);
+
+            while (table.next()) {
+                Reclamo reclamo = new Reclamo();
+
+                reclamo.setTicket(Integer.parseInt(table.getString("ticket")));
+                reclamo.setFecha(table.getString("fecha"));
+                reclamo.setDescripcion(table.getString("descripcion"));
+                reclamo.setMotivo(table.getString("motivo"));
+                reclamo.setEstado(table.getString("estado"));
+                reclamo.setAuxiliarRecibe("auxiliar_recibe");
+                reclamo.setUsuarioRealiza("usuario_realiza");
+
+                reclamos.add(reclamo);
+                
+                System.out.println(reclamo.getTicket());
+            }
+            fachada.cerrarConexion(conn);
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return reclamos;     
+
+    }
 }

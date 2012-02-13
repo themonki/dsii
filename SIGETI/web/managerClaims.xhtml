@@ -45,11 +45,12 @@ and open the template in the editor.
             </div>
             <div id="center_center" >
                 <h:form style="display: inline-block" >
-                    <h:dataTable value="#{beanContent.menuClaimsOptions}" var="l" >
+                    
                         
                             <f:facet name="header">
                                 <h:outputText value="Gestionar Reclamos"/>
                             </f:facet>
+                    <h:dataTable value="#{beanContent.menuClaimsOptions}" var="l" >
                         <h:column >
                             <h:commandLink  action="#{beanContent.findLinkClaims(l.get(1))}" > 
                                             

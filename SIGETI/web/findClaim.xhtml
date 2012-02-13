@@ -58,9 +58,11 @@
                    <h:panelGrid columns="2">
                         <f:facet name="header">
                             <h:outputText value="Buscar Reclamo"/>
-                        </f:facet>
-                        <h:outputText value="Numero de Ticket:"/>
-                        <h:inputText value="#{beanReclamo.ticket}"/>
+                        </f:facet><br/>
+                        <h:outputText value="Estado del reclamo:"/>
+                        <h:selectOneMenu  value="#{beanReclamo.estado}"  >
+                            <f:selectItems value="#{beanReclamo.availableEstadosReclamo}"/>              
+                        </h:selectOneMenu>
                         <h:commandButton value="Buscar"/>
                         <h:panelGroup>
                             <i><h:outputText value="Nota: Si desea realizar la consulta de todos los reclamos no proporcione ninguna identificaci&oacute;n"/></i>
@@ -74,7 +76,6 @@
                         id="tableReclamo"
                         rendered="#{beanReclamo.renderTableSearch}">
                         <f:facet name="caption">Resultado de la b&uacute;squeda</f:facet>
-
                         <h:column>
                             <f:facet name="header">Numero Ticket</f:facet>
                             #{claim.ticket}
