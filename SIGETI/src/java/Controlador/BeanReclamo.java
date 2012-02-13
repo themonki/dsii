@@ -7,6 +7,7 @@ package Controlador;
 import Dao.DaoReclamo;
 import Entidades.Reclamo;
 import Utilidades.BeanContent;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,90 +24,101 @@ import javax.faces.model.SelectItem;
  */
 @ManagedBean
 @SessionScoped
-public class BeanReclamo {
+public class BeanReclamo implements Serializable{
 
-    private Integer ticket;
+    private int ticket = 0;
     private String fecha;
     private String descripcion;
     private String motivo;
     private String estado;
     private String auxiliarRecibe;
     private String usuarioRealiza;
-    private boolean isRenderTableSearch;
+    private boolean renderTableSearch;
     private String tipoPasajero;
-    private boolean isDisableIdentificacion;
+    private boolean disableIdentificacion;
     private int countValidator;
-    private String action;
 
-    public boolean isRenderTableSearch() {
-        return isRenderTableSearch;
-    }
-
-    public void setRenderTableSearch(boolean isRenderTableSearch) {
-        this.isRenderTableSearch = isRenderTableSearch;
-    }
-
-    public boolean isDisableIdentificacion() {
-        return isDisableIdentificacion;
-    }
-
-    public void setDisableIdentificacion(boolean isDisableIdentificacion) {
-        this.isDisableIdentificacion = isDisableIdentificacion;
-    }
-
-    public Integer getTicket() {
-        return ticket;
-    }
-
-    public void setTicket(Integer ticket) {
+    public void setTicket(int ticket) 
+    {
         this.ticket = ticket;
-       
     }
 
-    public String getFecha() {
+    public void setFecha(String fecha)
+    {
+        this.fecha = fecha;
+    }
+
+    public void setDescripcion(String descripcion) 
+    {
+        this.descripcion = descripcion;
+    }
+
+    public void setMotivo(String motivo) 
+    {
+        this.motivo = motivo;
+    }
+
+    public void setEstado(String estado) 
+    {
+        this.estado = estado;
+        this.renderTableSearch = true;//debe ser provisional
+    }
+
+    public void setAuxiliarRecibe(String auxiliarRecibe) 
+    {
+        this.auxiliarRecibe = auxiliarRecibe;
+    }
+
+    public void setUsuarioRealiza(String usuarioRealiza) 
+    {
+        this.usuarioRealiza = usuarioRealiza;
+    }
+
+    public void setRenderTableSearch(boolean renderTableSearch) 
+    {
+        this.renderTableSearch = renderTableSearch;
+    }
+
+    public void setDisableIdentificacion(boolean disableIdentificacion) 
+    {
+        this.disableIdentificacion = disableIdentificacion;
+    }
+
+    public int getTicket() 
+    {
+            return ticket;
+    }
+
+    public String getFecha() 
+    {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
+    public boolean getDisableIdentificacion() 
+    {
+        return disableIdentificacion;
+    }
+
+    public boolean getRenderTableSearch() 
+    {
+        return renderTableSearch;
     }
 
     public String getDescripcion() {
         return descripcion;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
     public String getMotivo() {
         return motivo;
     }
 
-    public void setMotivo(String motivo) {
-        this.motivo = motivo;
-    }
-
     public String getEstado() {
         return estado;
-        
-    }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
-         this.isRenderTableSearch = true;//debe ser provisional
-    }
-
-    public void setAuxiliarRecibe(String auxiliarRecibe) {
-        this.auxiliarRecibe = auxiliarRecibe;
     }
 
     public String getAuxiliarRecibe() {
         return this.auxiliarRecibe;
-    }
-
-    public void setUsuarioRealiza(String usuarioRealiza) {
-        this.usuarioRealiza = usuarioRealiza;
     }
 
     public String getUsuarioRealiza() {
@@ -117,40 +129,42 @@ public class BeanReclamo {
 
         this.tipoPasajero = tipoPasajero;
         if (this.tipoPasajero.equals("Generica")) {
-            this.isDisableIdentificacion = true;
+            this.disableIdentificacion = true;
             usuarioRealiza = null;
 
         } else if (this.tipoPasajero.equals("Personalizada")) {
-            this.isDisableIdentificacion = false;
+            this.disableIdentificacion = false;
         }
-
-
-
     }
 
     public String getTipoPasajero() {
         return this.tipoPasajero;
     }
 
+    public BeanReclamo() {
+
+        disableIdentificacion = false;
+        countValidator = 0;
+        renderTableSearch = false;
+       
+        
+    }
+
     public String createReClamo() {
-        
+
         validate();
-        
-        if(countValidator > 0)
-        {
+
+        if (countValidator > 0) {
             countValidator = 0;
             return null;
-        
+
         }
-        
-        
+
         FacesContext context = FacesContext.getCurrentInstance();
         EmployeeHolder empleadoHolder = (EmployeeHolder) context.getApplication().evaluateExpressionGet(context, "#{employeeHolder}", EmployeeHolder.class);
         String idAuxiliar = empleadoHolder.getCurrentEmpleado().getId();
         auxiliarRecibe = idAuxiliar;
 
-
-        //validate();
         if (context.getMessageList().size() > 0) {
             return null;
         }
@@ -161,8 +175,8 @@ public class BeanReclamo {
         reclamo.setTicket(ticket);
 
         Date fechaHoy = new Date();
-        
-        SimpleDateFormat formato = new  SimpleDateFormat("yyyy-MM-dd");
+
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         fecha = formato.format(fechaHoy);
         reclamo.setFecha(fecha);
         System.out.println(fecha);
@@ -172,9 +186,8 @@ public class BeanReclamo {
         reclamo.setEstado(estado);
 
         reclamo.setAuxiliarRecibe(auxiliarRecibe);
-        
-        if(tipoPasajero.equals("Generica"))
-        {
+
+        if (tipoPasajero.equals("Generica")) {
             usuarioRealiza = "0000001";
         }
         System.out.println(usuarioRealiza);
@@ -200,102 +213,94 @@ public class BeanReclamo {
         DaoReclamo daoReclamo = new DaoReclamo();
         List<Reclamo> reclamos;
         System.out.println(estado);
-        
-        reclamos = daoReclamo.findReclamoPorEstado(estado);            
-        
+
+        reclamos = daoReclamo.findReclamoPorEstado(estado);
+
         daoReclamo = null;
-        
-         List<Reclamo> reclamosfiltrados = new ArrayList<Reclamo> ();
-         System.out.println("Ticket para filtar "+ticket);
-         if(ticket == null)
-         {
-         
-                reclamosfiltrados = reclamos;
-         
-         }else
-         {
-         
-             for (int i = 0; i < reclamos.size(); i++) {
 
-                 System.out.println("Ticket para comparar "+reclamos.get(i).getTicket());
+        List<Reclamo> reclamosfiltrados = new ArrayList<Reclamo>();
+        System.out.println("Ticket para filtar " + ticket);
+        if (ticket ==  0) {
 
-                 int valor = reclamos.get(i).getTicket();
-                 if ( valor == ticket) {
-                     
-                     reclamosfiltrados.add(reclamos.get(i));
-                     System.out.println("entre");
-                 }
+            reclamosfiltrados = reclamos;
 
-             }
-         
-         }
-        
-         System.out.println("Tamaño de filtrado "+reclamosfiltrados.size());
+        } else {
+
+            for (int i = 0; i < reclamos.size(); i++) {
+
+                System.out.println("Ticket para comparar " + reclamos.get(i).getTicket());
+
+                int valor = reclamos.get(i).getTicket();
+                if (valor == ticket) {
+
+                    reclamosfiltrados.add(reclamos.get(i));
+                    System.out.println("entre");
+                }
+
+            }
+
+        }
+
+        System.out.println("Tamaño de filtrado " + reclamosfiltrados.size());
         if (reclamosfiltrados.isEmpty()) {
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage("No hay reclamos con este estado."));
-            this.isRenderTableSearch = false;
+            this.renderTableSearch = false;
             return null;
         } else {
             return reclamosfiltrados;
         }
     }
 
-    public List<SelectItem> getAvailableTipoPasajero() 
-    {
+    public List<SelectItem> getAvailableTipoPasajero() {
         List<SelectItem> avaiableTipoUsuario = new ArrayList<SelectItem>();
         avaiableTipoUsuario.add(new SelectItem("Personalizada"));
         avaiableTipoUsuario.add(new SelectItem("Generica"));
         return avaiableTipoUsuario;
     }
-    
-    public List<SelectItem> getAvailableEstadosReclamo() 
-    {
+
+    public List<SelectItem> getAvailableEstadosReclamo() {
         List<SelectItem> avaliableEstadosReclamo = new ArrayList<SelectItem>();
         avaliableEstadosReclamo.add(new SelectItem("Iniciado"));
         avaliableEstadosReclamo.add(new SelectItem("Tramite"));
         avaliableEstadosReclamo.add(new SelectItem("Finalizado"));
         return avaliableEstadosReclamo;
     }
-    
+
     private void validate() {
         FacesContext context = FacesContext.getCurrentInstance();
         if (motivo.trim().length() > 50) {
             context.addMessage(null, new FacesMessage("El motivo no debe exceder los 15 caracteres."));
             countValidator = 1;
         }
-        if(descripcion.trim().length() > 200)
-        {
+        if (descripcion.trim().length() > 200) {
             context.addMessage(null, new FacesMessage("La descripcion no debe exceder los 200 caracteres."));
             countValidator = 1;
-        
+
         }
-        
+
         // Se usara con el dao de reclamo pero debe ser con el dao de usuario Temporal!!!
         DaoReclamo daoReclamo = new DaoReclamo();
-        
-        if(!daoReclamo.usuarioValido(usuarioRealiza) && usuarioRealiza != null)
-        {
+
+        if (!daoReclamo.usuarioValido(usuarioRealiza) && usuarioRealiza != null) {
             context.addMessage(null, new FacesMessage("El id del usuario  no se encuentra en la base de datos."));
             countValidator = 1;
-        
+
         }
-        
-        
-    
+
+
+
     }
-       void clearStates()
-    {
-        this.ticket = null;
+
+    void clearStates() {
+        this.ticket = 0;
         this.descripcion = "";
         this.fecha = "";
         this.descripcion = "";
-        this.motivo= "";
+        this.motivo = "";
         this.estado = "";
         this.auxiliarRecibe = "";
-        this.usuarioRealiza = "";       
+        this.usuarioRealiza = "";
         this.countValidator = 0;
     }
-    
-   
 }
