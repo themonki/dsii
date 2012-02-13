@@ -48,28 +48,40 @@
                             <h:outputText value="Buscar Empleado"/>
                         </f:facet>
                         <h:outputText value="N. identificaci&oacute;n:"/>
-                        <h:inputText value="#{beanEmployee.identificacion}"/>
+                        <h:inputText value="#{beanEmployee.identificacion}"
+                                     disabled="#{beanEmployee.avancedSearch}"/>
 
                         <h:outputText value="B&uacute;squeda avanzada"/>
                         <h:selectBooleanCheckbox value="#{beanEmployee.avancedSearch}">
                             <f:ajax render="@form"/>
                         </h:selectBooleanCheckbox>
                         <h:outputText value="Nombre:"
-                                      rendered="#{beanEmployee.avancedSearch}"
-                                      id="avancedNombreO"/>
-                        <h:inputText value="#{beanEmployee.nombre}"
-                                     rendered="#{beanEmployee.avancedSearch}"
-                                     id="avancedNombreI"/>
+                                      rendered="#{beanEmployee.avancedSearch}"/>
+                        <h:panelGroup>
+                            <h:inputText value="#{beanEmployee.nombre}"
+                                         rendered="#{beanEmployee.avancedSearch}"/>
+                            <h:selectBooleanCheckbox value="#{beanEmployee.avancedSearchNombre}"
+                                                     rendered="#{beanEmployee.avancedSearch}"/>
+                        </h:panelGroup>
                         <h:outputText value="Apellido:"
                                       rendered="#{beanEmployee.avancedSearch}"/>
-                        <h:inputText value="#{beanEmployee.apellido}"
-                                     rendered="#{beanEmployee.avancedSearch}"/>
+                        <h:panelGroup>
+                            <h:inputText value="#{beanEmployee.apellido}"
+                                         rendered="#{beanEmployee.avancedSearch}"/>
+                            <h:selectBooleanCheckbox value="#{beanEmployee.avancedSearchApellido}"
+                                                     rendered="#{beanEmployee.avancedSearch}"/>
+                        </h:panelGroup>
                         <h:outputText value="Cargo"
                                       rendered="#{beanEmployee.avancedSearch}"/>
-                        <h:selectOneMenu value="#{beanEmployee.cargo}"
-                                         rendered="#{beanEmployee.avancedSearch}">
-                            <f:selectItems value="#{beanEmployee.availableCargo}"/>
-                        </h:selectOneMenu>
+                        <h:panelGroup>
+                            <h:selectOneMenu value="#{beanEmployee.cargo}"
+                                             rendered="#{beanEmployee.avancedSearch}">
+                                <f:selectItems value="#{beanEmployee.availableCargo}"/>
+                            </h:selectOneMenu>
+                            <h:selectBooleanCheckbox value="#{beanEmployee.avancedSearchCargo}"
+                                                     rendered="#{beanEmployee.avancedSearch}"/>
+                        </h:panelGroup>
+
                         <h:commandButton value="Buscar"/>
                     </h:panelGrid>
                 </h:form>

@@ -119,6 +119,46 @@ public class DaoEmpleado {
         return empleado;
     }
 
+    public List<Empleado> findEmpleadoCondition(String condition)
+    {
+        String sqlConsulta = "SELECT * from empleado WHERE " + condition;
+        System.out.println(sqlConsulta);
+        List<Empleado> empleados = new ArrayList<Empleado>();
+
+        try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            ResultSet table = sentence.executeQuery(sqlConsulta);
+
+            while (table.next()) {
+                Empleado empleado = new Empleado();
+                empleado.setApellido(table.getString("apellido"));
+                empleado.setDireccion(table.getString("direccion"));
+                empleado.setEstado(table.getBoolean("estado"));
+                empleado.setFechaIngreso(table.getString("fecha_ingreso"));
+                empleado.setFechaNacimiento(table.getString("fecha_nacimiento"));
+                empleado.setId(table.getString("id"));
+                empleado.setLogin(table.getString("login"));
+                empleado.setNombre(table.getString("nombre"));
+                empleado.setPassword(table.getString("password"));
+                empleado.setRol(table.getInt("rol"));
+                empleado.setSalario(table.getInt("salario"));
+                empleado.setTelefono(table.getString("telefono"));
+                empleado.setTipoId(table.getString("tipo_id"));
+                empleado.setNombre2(table.getString("nombre2"));
+                empleado.setApellido2(table.getString("apellido2"));
+                empleado.setEmail(table.getString("email"));
+                
+                empleados.add(empleado);
+            }
+            fachada.cerrarConexion(conn);
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return empleados;
+    }
     /**
      * Consulta si existe un empleado con el login y el password dado.
      * @param login - String con el login del empleado
