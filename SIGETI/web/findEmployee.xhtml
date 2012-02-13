@@ -48,13 +48,46 @@
                             <h:outputText value="Buscar Empleado"/>
                         </f:facet>
                         <h:outputText value="N. identificaci&oacute;n:"/>
-                        <h:inputText value="#{beanEmployee.identificacion}"/>
-                        <h:commandButton value="Buscar"/>
+                        <h:inputText value="#{beanEmployee.identificacion}"
+                                     disabled="#{beanEmployee.avancedSearch}"/>
+
+                        <h:outputText value="B&uacute;squeda avanzada"/>
+                        <h:selectBooleanCheckbox value="#{beanEmployee.avancedSearch}">
+                            <f:ajax render="@form"/>
+                        </h:selectBooleanCheckbox>
+                        <h:outputText value="Nombre:"
+                                      rendered="#{beanEmployee.avancedSearch}"/>
                         <h:panelGroup>
-                            <i><h:outputText value="Nota: Si desea realizar la consutla de todos los empelados no proporcione ninguna identificaci&oacute;n"/></i>
+                            <h:inputText value="#{beanEmployee.nombre}"
+                                         rendered="#{beanEmployee.avancedSearch}"/>
+                            <h:selectBooleanCheckbox value="#{beanEmployee.avancedSearchNombre}"
+                                                     rendered="#{beanEmployee.avancedSearch}"/>
                         </h:panelGroup>
+                        <h:outputText value="Apellido:"
+                                      rendered="#{beanEmployee.avancedSearch}"/>
+                        <h:panelGroup>
+                            <h:inputText value="#{beanEmployee.apellido}"
+                                         rendered="#{beanEmployee.avancedSearch}"/>
+                            <h:selectBooleanCheckbox value="#{beanEmployee.avancedSearchApellido}"
+                                                     rendered="#{beanEmployee.avancedSearch}"/>
+                        </h:panelGroup>
+                        <h:outputText value="Cargo"
+                                      rendered="#{beanEmployee.avancedSearch}"/>
+                        <h:panelGroup>
+                            <h:selectOneMenu value="#{beanEmployee.cargo}"
+                                             rendered="#{beanEmployee.avancedSearch}">
+                                <f:selectItems value="#{beanEmployee.availableCargo}"/>
+                            </h:selectOneMenu>
+                            <h:selectBooleanCheckbox value="#{beanEmployee.avancedSearchCargo}"
+                                                     rendered="#{beanEmployee.avancedSearch}"/>
+                        </h:panelGroup>
+
+                        <h:commandButton value="Buscar"/>
                     </h:panelGrid>
-                    <br/><br/>
+                </h:form>
+                <i><h:outputText value="Nota: Si desea realizar la consutla de todos los empelados no proporcione ninguna identificaci&oacute;n"/></i>
+                <br/><br/>
+                <h:form>
                     <h:dataTable
                         border="1"
                         var="employee"
@@ -78,10 +111,11 @@
                         <h:column>
                             <f:facet name="header">Acci&oacute;n</f:facet>
                             <h:commandLink value="#{beanEmployee.action}" action="#{beanEmployee.getLinkAction}"/>
-                            
+
                         </h:column>
                     </h:dataTable>
                 </h:form>
+
             </div>
         </div>
         <div id="bottom">

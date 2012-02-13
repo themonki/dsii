@@ -1,8 +1,7 @@
 /**
  * Clase controladora que conecta la vista con la lógia.
- * @author Leoanrdo Ríos
+ * @author Leonardo Ríos
  */
-
 package Controlador;
 
 import Dao.DaoEmpleado;
@@ -27,7 +26,7 @@ import javax.faces.model.SelectItem;
 
 @ManagedBean
 @SessionScoped
-public class BeanEmployee implements Serializable{
+public class BeanEmployee implements Serializable {
 
     private String nombre;
     private String nombre2;
@@ -62,6 +61,44 @@ public class BeanEmployee implements Serializable{
     private boolean isRenderTableSearch;
     private int countValidator;
     private String action;
+    private boolean avancedSearch;
+    private boolean avancedSearchNombre;
+    private boolean avancedSearchApellido;
+    private boolean avancedSearchCargo;
+
+    public void setAvancedSearchApellido(boolean avancedSearchApellido) {
+        this.avancedSearchApellido = avancedSearchApellido;
+    }
+
+    public void setAvancedSearchCargo(boolean avancedSearchCargo) {
+        this.avancedSearchCargo = avancedSearchCargo;
+    }
+
+    public void setAvancedSearchNombre(boolean avancedSearchNombre) {
+        this.avancedSearchNombre = avancedSearchNombre;
+    }
+
+    public boolean isAvancedSearchApellido() {
+        return avancedSearchApellido;
+    }
+
+    public boolean isAvancedSearchCargo() {
+        return avancedSearchCargo;
+    }
+
+    public boolean isAvancedSearchNombre() {
+        return avancedSearchNombre;
+    }
+
+    public void setAvancedSearch(boolean avancedSearch) {
+        this.avancedSearch = avancedSearch;
+        
+        this.isRenderTableSearch = true;
+    }
+
+    public boolean isAvancedSearch() {
+        return avancedSearch;
+    }
 
     public String getFechaIngreso() {
         return fechaIngreso;
@@ -92,6 +129,7 @@ public class BeanEmployee implements Serializable{
     }
 
     public boolean isRenderTableSearch() {
+        //System.err.println("get rendetTableSearch " + this.isRenderTableSearch);
         return isRenderTableSearch;
     }
 
@@ -118,7 +156,7 @@ public class BeanEmployee implements Serializable{
     public boolean isDisableLicencia() {
         return isDisableLicencia;
     }
-  
+
     public String getFechaIngresoAno() {
         //System.out.println("ger fia");
         return fechaIngresoAno;
@@ -322,23 +360,19 @@ public class BeanEmployee implements Serializable{
     public void setCargo(String cargo) {
         //System.out.println("set cargo");
         this.cargo = cargo;
-        if(this.cargo.equals("Auxiliar"))
-        {
+        if (this.cargo.equals("Auxiliar")) {
             this.isDisableEstacion = false;
             this.isDisableIdJefe = false;
             this.isDisableLicencia = true;
-        }else if(this.cargo.equals("Operario"))
-        {
+        } else if (this.cargo.equals("Operario")) {
             this.isDisableEstacion = true;
             this.isDisableIdJefe = false;
             this.isDisableLicencia = true;
-        }else if(this.cargo.equals("Conductor"))
-        {
+        } else if (this.cargo.equals("Conductor")) {
             this.isDisableEstacion = true;
             this.isDisableIdJefe = true;
             this.isDisableLicencia = false;
-        }else
-        {
+        } else {
             this.isDisableEstacion = true;
             this.isDisableIdJefe = true;
             this.isDisableLicencia = true;
@@ -358,8 +392,8 @@ public class BeanEmployee implements Serializable{
     public void setIdentificacion(String identificacion) {
         //System.out.println("set identificacion");
         this.identificacion = identificacion;
-        
-        this.isRenderTableSearch =true;//debe ser provicional
+
+        this.isRenderTableSearch = true;//debe ser provicional
     }
 
     public void setTipoId(String tipoId) {
@@ -420,52 +454,47 @@ public class BeanEmployee implements Serializable{
         return availableTipoId;
     }
 
-    public List<SelectItem> getAvailableEstacionPrincipal(){
+    public List<SelectItem> getAvailableEstacionPrincipal() {
         List<SelectItem> availableEstacion = new ArrayList<SelectItem>();
 
         DaoEstacion daoEstacion = new DaoEstacion();
         List<EstacionPrincipal> estaciones = daoEstacion.findAllEstacionPrincipal();
         daoEstacion = null;
-        
-        availableEstacion.add(new SelectItem(-1,"---"));
-        for(int i=0;i<estaciones.size();i++)
-        {
+
+        availableEstacion.add(new SelectItem(-1, "---"));
+        for (int i = 0; i < estaciones.size(); i++) {
             EstacionPrincipal estacion = estaciones.get(i);
-            availableEstacion.add(new SelectItem(estacion.getId(),estacion.getNombre()));
-        } 
+            availableEstacion.add(new SelectItem(estacion.getId(), estacion.getNombre()));
+        }
         return availableEstacion;
     }
-    
-    public List<SelectItem> getAvailableJefe(){
+
+    public List<SelectItem> getAvailableJefe() {
 
         List<SelectItem> availableJefe = new ArrayList<SelectItem>();
 
-        availableJefe.add(new SelectItem("","---"));
+        availableJefe.add(new SelectItem("", "---"));
         DaoEmpleado daoEmpleado = new DaoEmpleado();
-        if(this.cargo.equals("Operario"))
-        {
-           List<Director> directores = daoEmpleado.findAllDirector();
-           for(int i=0;i<directores.size();i++)
-           {
-               Director director = directores.get(i);
-               String nombreDir = director.getNombre() + " " + director.getApellido();
-               availableJefe.add(new SelectItem(director.getId(),nombreDir));
-           }
-        }else if(this.cargo.equals("Auxiliar"))
-        {
-           List<Operario> operarios = daoEmpleado.findAllOperario();
-           for(int i=0;i<operarios.size();i++)
-           {
-               Operario operario = operarios.get(i);
-               String nombreDir = operario.getNombre() + " " + operario.getApellido();
-               availableJefe.add(new SelectItem(operario.getId(), nombreDir));
-           } 
+        if (this.cargo.equals("Operario")) {
+            List<Director> directores = daoEmpleado.findAllDirector();
+            for (int i = 0; i < directores.size(); i++) {
+                Director director = directores.get(i);
+                String nombreDir = director.getNombre() + " " + director.getApellido();
+                availableJefe.add(new SelectItem(director.getId(), nombreDir));
+            }
+        } else if (this.cargo.equals("Auxiliar")) {
+            List<Operario> operarios = daoEmpleado.findAllOperario();
+            for (int i = 0; i < operarios.size(); i++) {
+                Operario operario = operarios.get(i);
+                String nombreDir = operario.getNombre() + " " + operario.getApellido();
+                availableJefe.add(new SelectItem(operario.getId(), nombreDir));
+            }
         }
         daoEmpleado = null;
-            
+
         return availableJefe;
     }
-    
+
     public String createUser() {
         this.validate();
         if (this.countValidator > 0) {
@@ -488,34 +517,23 @@ public class BeanEmployee implements Serializable{
         empleado.setEmail(email.trim());
         empleado.setFechaNacimiento(fechaNacimiento);
         empleado.setFechaIngreso(fechaIngreso);
-        if(salario.trim().equals("")){
+        if (salario.trim().equals("")) {
             empleado.setSalario(-1);
-        }else{
+        } else {
             empleado.setSalario(Integer.parseInt(salario.trim()));
         }
-        int rol = -1;
-        if (cargo.equals("Administrador")) {
-            rol = 0;
-        } else if (cargo.equals("Director")) {
-            rol = 1;
-        } else if (cargo.equals("Operario")) {
-            rol = 2;
-        } else if (cargo.equals("Auxiliar")) {
-            rol = 3;
-        } else if (cargo.equals("Conductor")) {
-            rol = 4;
-        }
+        int rol = this.findRol(this.cargo);
         empleado.setRol(rol);
         empleado.setLogin(login.trim());
         empleado.setPassword(password.trim());
         empleado.setEstado(estado);
         result = daoEmpleado.saveEmpleado(empleado);
-        if(result == 0){
+        if (result == 0) {
             content.setResultOperation("El Empleado no pudo ser creado.");
             this.clearStates();
             return "resultOperation";
         }
-            
+
         if (rol == 1) {
             Director director = new Director();
             director.setId(identificacion.trim());
@@ -584,47 +602,47 @@ public class BeanEmployee implements Serializable{
         fechaNacimientoMes = fechaNacimientoMes.trim();
         fechaNacimientoDia = fechaNacimientoDia.trim();
         if (fechaNacimientoAno.length() != 0 || fechaNacimientoMes.length() != 0 || fechaNacimientoDia.length() != 0) {
-            if(fechaNacimientoAno.length() != 4 || fechaNacimientoMes.length() != 2 || fechaNacimientoDia.length() != 2){
-               context.addMessage(null, new FacesMessage("Fecha Nacimiento debe tener el formato es aaaa-mm-dd")); 
-               countValidator = 1;
-            }else{
-                try{
-                   Integer.parseInt(fechaNacimientoAno);
-                   int mes = Integer.parseInt(fechaNacimientoMes);
-                   int dia = Integer.parseInt(fechaNacimientoDia);
-                   
-                   if(mes < 1 || mes > 12 || dia < 1 || dia > 31){
-                       context.addMessage(null, new FacesMessage("Fecha Nacimiento, mes o dia fuera de rango."));
-                   }
-                   fechaNacimiento = fechaNacimientoAno + "-" +fechaNacimientoMes + "-" +fechaNacimientoDia;
-                }catch(NumberFormatException e){
+            if (fechaNacimientoAno.length() != 4 || fechaNacimientoMes.length() != 2 || fechaNacimientoDia.length() != 2) {
+                context.addMessage(null, new FacesMessage("Fecha Nacimiento debe tener el formato es aaaa-mm-dd"));
+                countValidator = 1;
+            } else {
+                try {
+                    Integer.parseInt(fechaNacimientoAno);
+                    int mes = Integer.parseInt(fechaNacimientoMes);
+                    int dia = Integer.parseInt(fechaNacimientoDia);
+
+                    if (mes < 1 || mes > 12 || dia < 1 || dia > 31) {
+                        context.addMessage(null, new FacesMessage("Fecha Nacimiento, mes o dia fuera de rango."));
+                    }
+                    fechaNacimiento = fechaNacimientoAno + "-" + fechaNacimientoMes + "-" + fechaNacimientoDia;
+                } catch (NumberFormatException e) {
                     context.addMessage(null, new FacesMessage("Fecha Nacimiento debe de ser numerica."));
                     countValidator = 1;
                 }
-            }    
+            }
         }
         fechaIngresoAno = fechaIngresoAno.trim();
         fechaIngresoMes = fechaIngresoMes.trim();
         fechaIngresoDia = fechaIngresoDia.trim();
         if (fechaIngresoAno.length() != 0 || fechaIngresoMes.length() != 0 || fechaIngresoDia.length() != 0) {
-            if(fechaIngresoAno.length() != 4 || fechaIngresoMes.length() != 2 || fechaIngresoDia.length() != 2){
-               context.addMessage(null, new FacesMessage("Fecha Ingreso debe tener el formato es aaaa-mm-dd")); 
-               countValidator = 1;
-            }else{
-                try{
-                   Integer.parseInt(fechaIngresoAno);
-                   int mes = Integer.parseInt(fechaIngresoMes);
-                   int dia = Integer.parseInt(fechaIngresoDia);
-                   
-                   if(mes < 1 || mes > 12 || dia < 1 || dia > 31){
-                       context.addMessage(null, new FacesMessage("Fecha ingreso, mes o dia fuera de rango."));
-                   }
-                   fechaIngreso = fechaIngresoAno + "-" +fechaIngresoMes + "-" +fechaIngresoDia;
-                }catch(NumberFormatException e){
+            if (fechaIngresoAno.length() != 4 || fechaIngresoMes.length() != 2 || fechaIngresoDia.length() != 2) {
+                context.addMessage(null, new FacesMessage("Fecha Ingreso debe tener el formato es aaaa-mm-dd"));
+                countValidator = 1;
+            } else {
+                try {
+                    Integer.parseInt(fechaIngresoAno);
+                    int mes = Integer.parseInt(fechaIngresoMes);
+                    int dia = Integer.parseInt(fechaIngresoDia);
+
+                    if (mes < 1 || mes > 12 || dia < 1 || dia > 31) {
+                        context.addMessage(null, new FacesMessage("Fecha ingreso, mes o dia fuera de rango."));
+                    }
+                    fechaIngreso = fechaIngresoAno + "-" + fechaIngresoMes + "-" + fechaIngresoDia;
+                } catch (NumberFormatException e) {
                     context.addMessage(null, new FacesMessage("Fecha ingreso debe de ser numerica."));
                     countValidator = 1;
                 }
-            }    
+            }
         }
         if (salario.trim().length() != 0) {
             try {
@@ -655,9 +673,8 @@ public class BeanEmployee implements Serializable{
             countValidator = 1;
         }
     }
-    
-    void clearStates()
-    {
+
+    void clearStates() {
         this.nombre = "";
         this.nombre2 = "";
         this.apellido = "";
@@ -667,11 +684,11 @@ public class BeanEmployee implements Serializable{
         this.telefono = "";
         this.direccion = "";
         this.email = "";
-        this.fechaNacimiento="";
+        this.fechaNacimiento = "";
         this.fechaNacimientoAno = "";
         this.fechaNacimientoMes = "";
         this.fechaNacimientoDia = "";
-        this.fechaIngreso="";
+        this.fechaIngreso = "";
         this.fechaIngresoAno = "";
         this.fechaIngresoMes = "";
         this.fechaIngresoDia = "";
@@ -681,96 +698,143 @@ public class BeanEmployee implements Serializable{
         this.password = "";
         this.passwordConfirmar = "";
         this.estado = true;
-        this.licencia="";
-        this.identificacionJefe="";
-        this.lugarTrabajo=-1;
+        this.licencia = "";
+        this.identificacionJefe = "";
+        this.lugarTrabajo = -1;
         this.isDisableLicencia = true;
         this.isDisableIdJefe = true;
         this.isDisableEstacion = true;
         this.countValidator = 0;
     }
-    
-    public void statesForNew(ActionEvent e)
-    {
-        this.isRenderTableSearch = false;
+
+    public void statesForNew(ActionEvent e) {
         this.clearStates();
     }
-    
-    public void statesForFind(ActionEvent e)
-    {
+
+    public void statesForFind(ActionEvent e) {
         this.isRenderTableSearch = false;
+        this.avancedSearch = false;
+        this.avancedSearchNombre = false;
+        this.avancedSearchApellido = false;
+        this.avancedSearchCargo = false;
+        this.clearStates();
         this.action = "Detalle";
     }
-    
-    public void statesForErase(ActionEvent e)
-    {
+
+    public void statesForFindReturn(ActionEvent e) {
+        this.clearStates();
+    }
+
+    public void statesForErase(ActionEvent e) {
         this.isRenderTableSearch = false;
         this.action = "Eliminar";
     }
-    
-    public void statesForEdit(ActionEvent e)
-    {
+
+    public void statesForEdit(ActionEvent e) {
         this.isRenderTableSearch = false;
         this.action = "Editar";
     }
-    
-    public List<Empleado> getFindEmployee()
-    {
+
+    public List<Empleado> getFindEmployee() {      
+        FacesContext context = FacesContext.getCurrentInstance();
+        EmployeeHolder empleadoHolder = (EmployeeHolder) context.getApplication().evaluateExpressionGet(context, "#{employeeHolder}", EmployeeHolder.class);
+        int rol = empleadoHolder.getCurrentEmpleado().getRol();
+
         DaoEmpleado daoEmpleado = new DaoEmpleado();
-        List<Empleado> empleados;
-        if(this.identificacion.trim().equals(""))
-        {
-            empleados = daoEmpleado.findAllEmpleado();
-        }else
-        {
-            Empleado empleado = daoEmpleado.findEmpleadoId(this.identificacion.trim());
-            empleados = new ArrayList<Empleado>();
-            empleados.add(empleado);
+        List<Empleado> empleados = null;
+
+        System.out.println("avanzada nombre " + this.avancedSearchNombre);
+        System.out.println("avanzada apellido " + this.avancedSearchApellido);
+        System.out.println("avanzada cargo " + this.avancedSearchCargo);
+        String opcion = "";
+        if (this.avancedSearch) {
+
+            if (this.avancedSearchNombre) {
+                opcion += "nombre LIKE '%" + this.nombre + "%'";
+                if (this.avancedSearchApellido) {
+                    opcion += " AND apellido LIKE '%" + this.apellido + "%'";
+                    if (this.avancedSearchCargo) {
+                        int rolF = this.findRol(this.cargo);
+                        opcion += " AND rol = " + rolF;
+                    }
+                } else if (this.avancedSearchCargo) {
+                    int rolF = this.findRol(this.cargo);
+                    opcion += " AND rol = " + rolF;
+                }
+
+            } else if (this.avancedSearchApellido) {
+                opcion += "apellido LIKE '%" + this.apellido + "%'";
+                if (this.avancedSearchCargo) {
+                    int rolF = this.findRol(this.cargo);
+                    opcion += " AND rol = " + rolF;
+                }
+            } else if (this.avancedSearchCargo) {
+                int rolF = this.findRol(this.cargo);
+                opcion += "rol = " + rolF;
+            }
+            
+            if(opcion.equals(""))
+            {
+                empleados = daoEmpleado.findAllEmpleado();
+            }else{
+                System.out.print("opcion " + opcion);
+                empleados = daoEmpleado.findEmpleadoCondition(opcion);
+            }
+        } else {
+            if (this.identificacion.trim().equals("")) {
+                empleados = daoEmpleado.findAllEmpleado();
+            } else {
+                Empleado empleado = daoEmpleado.findEmpleadoId(this.identificacion.trim());
+                empleados = new ArrayList<Empleado>();
+                empleados.add(empleado);
+            }
         }
+
         daoEmpleado = null;
-        if(empleados.get(0).getId() == null)
+   
+        //Si es operario mostrar solo auxiliares
+        if (rol == 2) //Operario
         {
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage("No existe empleado con la identificación proporcionada."));
-                this.isRenderTableSearch = false;
+            for (int i = 0; i < empleados.size(); i++) {
+                if (empleados.get(i).getRol() != 3)//auxiliar
+                {
+                    empleados.remove(i);
+                    i--;
+                }
+            }
+        }
+        if (empleados.isEmpty() || empleados.get(0).getId() == null) {
+            context.addMessage(null, new FacesMessage("No existe empleado con los datos proporcionados."));
             return null;
-        }else
-        {
+        } else {
             return empleados;
-        } 
+        }
     }
-    
-    public String getLinkAction()
-    {
-        System.out.println("llamado a link action");
-        String link="";
-        if(this.action.equals("Detalle"))
-        {
+
+    public String getLinkAction() {
+        String link = "";
+        if (this.action.equals("Detalle")) {
             this.prepareDataEmployee();
             link = "detailEmployee";
-        }else if(this.action.equals("Eliminar"))
-        {
+        } else if (this.action.equals("Eliminar")) {
             link = "eraseEmployee";
-        }else if(this.action.equals("Editar"))
-        {
+        } else if (this.action.equals("Editar")) {
             link = "editEmployee";
         }
-        
+
         return link;
     }
-    
-    private Empleado getCurrentEmpleado()
-    {
+
+    private Empleado getCurrentEmpleado() {
         FacesContext context = FacesContext.getCurrentInstance();
         Application app = context.getApplication();
         Empleado empleado = (Empleado) app.evaluateExpressionGet(context, "#{employee}", Empleado.class);
         return empleado;
     }
-    
-    private void prepareDataEmployee()
-    {
+
+    private void prepareDataEmployee() {
         Empleado empleado = this.getCurrentEmpleado();
-        
+
         this.nombre = empleado.getNombre();
         this.nombre2 = empleado.getNombre2();
         this.apellido = empleado.getApellido();
@@ -781,51 +845,66 @@ public class BeanEmployee implements Serializable{
         this.direccion = empleado.getDireccion();
         this.email = empleado.getEmail();
         this.fechaNacimiento = empleado.getFechaNacimiento();
-        this.fechaIngreso =empleado.getFechaIngreso();
+        this.fechaIngreso = empleado.getFechaIngreso();
         this.salario = Integer.toString(empleado.getSalario());
-        
+
         int rol = empleado.getRol();
-        String cargoObtenido="";
+        String cargoObtenido = "";
         DaoEmpleado daoEmpleado = new DaoEmpleado();
-        switch(rol)
-        {
-            case 0:
-            {
+        switch (rol) {
+            case 0: {
                 cargoObtenido = "Administrador";
                 break;
             }
-            case 1:
-            {
+            case 1: {
                 cargoObtenido = "Director";
                 break;
             }
-            case 2:
-            {
+            case 2: {
                 cargoObtenido = "Operario";
                 Operario operario = daoEmpleado.findOpearioId(this.identificacion);
                 this.identificacionJefe = operario.getIdJefe();
+                this.isDisableIdJefe = false;
                 operario = null;
                 break;
             }
-            case 3:
-            {
+            case 3: {
                 cargoObtenido = "Auxiliar";
                 Auxiliar auxiliar = daoEmpleado.findAuxiliarId(this.identificacion);
                 this.identificacionJefe = auxiliar.getIdJefe();
                 this.lugarTrabajo = auxiliar.getTrabajaEn();
+                this.isDisableEstacion = false;
+                this.isDisableIdJefe = false;
                 auxiliar = null;
                 break;
             }
-            case 4:
-            {
+            case 4: {
                 cargoObtenido = "Conductor";
                 Conductor conductor = daoEmpleado.findConductorId(this.identificacion);
                 this.licencia = conductor.getLicencia();
+                this.isDisableLicencia = false;
                 conductor = null;
             }
         }
         this.cargo = cargoObtenido;
         this.login = empleado.getLogin();
         this.estado = empleado.getEstado();
+    }
+
+    private Integer findRol(String cargo) {
+        Integer rolFind = -1;
+        if (cargo.equals("Administrador")) {
+            rolFind = 0;
+        } else if (cargo.equals("Director")) {
+            rolFind = 1;
+        } else if (cargo.equals("Operario")) {
+            rolFind = 2;
+        } else if (cargo.equals("Auxiliar")) {
+            rolFind = 3;
+        } else if (cargo.equals("Conductor")) {
+            rolFind = 4;
+        }
+
+        return rolFind;
     }
 }

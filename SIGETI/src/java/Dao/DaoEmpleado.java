@@ -119,6 +119,46 @@ public class DaoEmpleado {
         return empleado;
     }
 
+    public List<Empleado> findEmpleadoCondition(String condition)
+    {
+        String sqlConsulta = "SELECT * from empleado WHERE " + condition;
+        System.out.println(sqlConsulta);
+        List<Empleado> empleados = new ArrayList<Empleado>();
+
+        try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            ResultSet table = sentence.executeQuery(sqlConsulta);
+
+            while (table.next()) {
+                Empleado empleado = new Empleado();
+                empleado.setApellido(table.getString("apellido"));
+                empleado.setDireccion(table.getString("direccion"));
+                empleado.setEstado(table.getBoolean("estado"));
+                empleado.setFechaIngreso(table.getString("fecha_ingreso"));
+                empleado.setFechaNacimiento(table.getString("fecha_nacimiento"));
+                empleado.setId(table.getString("id"));
+                empleado.setLogin(table.getString("login"));
+                empleado.setNombre(table.getString("nombre"));
+                empleado.setPassword(table.getString("password"));
+                empleado.setRol(table.getInt("rol"));
+                empleado.setSalario(table.getInt("salario"));
+                empleado.setTelefono(table.getString("telefono"));
+                empleado.setTipoId(table.getString("tipo_id"));
+                empleado.setNombre2(table.getString("nombre2"));
+                empleado.setApellido2(table.getString("apellido2"));
+                empleado.setEmail(table.getString("email"));
+                
+                empleados.add(empleado);
+            }
+            fachada.cerrarConexion(conn);
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return empleados;
+    }
     /**
      * Consulta si existe un empleado con el login y el password dado.
      * @param login - String con el login del empleado
@@ -387,7 +427,7 @@ public class DaoEmpleado {
                 director.setEstado(table.getBoolean("estado"));
                 director.setFechaIngreso(table.getString("fecha_ingreso"));
                 director.setFechaNacimiento(table.getString("fecha_nacimiento"));
-                director.setId(table.getString(id));
+                director.setId(table.getString("id"));
                 director.setLogin(table.getString("login"));
                 director.setNombre(table.getString("nombre"));
                 director.setPassword(table.getString("password"));
@@ -431,7 +471,7 @@ public class DaoEmpleado {
                 operario.setEstado(table.getBoolean("estado"));
                 operario.setFechaIngreso(table.getString("fecha_ingreso"));
                 operario.setFechaNacimiento(table.getString("fecha_nacimiento"));
-                operario.setId(table.getString(id));
+                operario.setId(table.getString("id"));
                 operario.setLogin(table.getString("login"));
                 operario.setNombre(table.getString("nombre"));
                 operario.setPassword(table.getString("password"));
@@ -470,7 +510,7 @@ public class DaoEmpleado {
                 auxiliar.setEstado(table.getBoolean("estado"));
                 auxiliar.setFechaIngreso(table.getString("fecha_ingreso"));
                 auxiliar.setFechaNacimiento(table.getString("fecha_nacimiento"));
-                auxiliar.setId(table.getString(id));
+                auxiliar.setId(table.getString("id"));
                 auxiliar.setLogin(table.getString("login"));
                 auxiliar.setNombre(table.getString("nombre"));
                 auxiliar.setPassword(table.getString("password"));
@@ -510,7 +550,7 @@ public class DaoEmpleado {
                 conductor.setEstado(table.getBoolean("estado"));
                 conductor.setFechaIngreso(table.getString("fecha_ingreso"));
                 conductor.setFechaNacimiento(table.getString("fecha_nacimiento"));
-                conductor.setId(table.getString(id));
+                conductor.setId(table.getString("id"));
                 conductor.setLogin(table.getString("login"));
                 conductor.setNombre(table.getString("nombre"));
                 conductor.setPassword(table.getString("password"));
@@ -672,4 +712,46 @@ public class DaoEmpleado {
         return operarios;
     }
     
+    public List<Auxiliar> findAllAuxiliar()
+    {
+        String sqlConsulta = "SELECT * FROM auxiliar NATURAL JOIN empleado";
+        
+        List<Auxiliar> auxiliares = new ArrayList<Auxiliar>();
+        
+        try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            ResultSet table = sentence.executeQuery(sqlConsulta);
+
+            while (table.next()) {
+                Auxiliar auxiliar = new Auxiliar();
+                auxiliar.setApellido(table.getString("apellido"));
+                auxiliar.setDireccion(table.getString("direccion"));
+                auxiliar.setEstado(table.getBoolean("estado"));
+                auxiliar.setFechaIngreso(table.getString("fecha_ingreso"));
+                auxiliar.setFechaNacimiento(table.getString("fecha_nacimiento"));
+                auxiliar.setId(table.getString("id"));
+                auxiliar.setLogin(table.getString("login"));
+                auxiliar.setNombre(table.getString("nombre"));
+                auxiliar.setPassword(table.getString("password"));
+                auxiliar.setRol(table.getInt("rol"));
+                auxiliar.setSalario(table.getInt("salario"));
+                auxiliar.setTelefono(table.getString("telefono"));
+                auxiliar.setTipoId(table.getString("tipo_id"));
+                auxiliar.setNombre2(table.getString("nombre2"));
+                auxiliar.setApellido2(table.getString("apellido2"));
+                auxiliar.setEmail(table.getString("email"));
+                auxiliar.setIdJefe(table.getString("id_jefe"));
+                auxiliar.setTrabajaEn(table.getInt("trabaja_en"));
+                
+                auxiliares.add(auxiliar);
+            }
+            fachada.cerrarConexion(conn);
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return auxiliares;
+    }
 }

@@ -59,7 +59,7 @@
                         <h:outputText value="#{beanEmployee.apellido2}"/>
                         <h:outputText value="Tipo de identificaci&oacute;n"/>
                         <h:outputText value="#{beanEmployee.tipoId}"/>
-                        <h:outputText value="* N. identificaci&oacute;n:"/>
+                        <h:outputText value="N. identificaci&oacute;n:"/>
                         <h:outputText value="#{beanEmployee.identificacion}"/>
                         <h:outputText value="Tel&eacute;fono:"/>
                         <h:outputText value="#{beanEmployee.telefono}"/>
@@ -75,17 +75,26 @@
                         <h:outputText value="#{beanEmployee.salario}"/>
                         <h:outputText value="Cargo:"/>
                         <h:outputText value="#{beanEmployee.cargo}"/>
-                        <h:outputText value="N. Licencia:"/>
-                        <h:outputText value="#{beanEmployee.licencia}"/>
-                        <h:outputText value="N. identificaci&oacute;n jefe:"/>
-                        <h:outputText value="#{beanEmployee.identificacionJefe}"/>                     
-                        <h:outputText value="Estaci&oacute;n trabaja:"/>
-                        <h:outputText value="#{beanEmployee.lugarTrabajo}"/>
-                        <h:outputText value="* Login:"/>
+                        <h:outputText value="N. Licencia:"
+                                      rendered="#{!beanEmployee.disableLicencia}"/>
+                        <h:outputText value="#{beanEmployee.licencia}"
+                                      rendered="#{!beanEmployee.disableLicencia}"/>
+                        <h:outputText value="N. identificaci&oacute;n jefe:"
+                                      rendered="#{!beanEmployee.disableIdJefe}"/>
+                        <h:outputText value="#{beanEmployee.identificacionJefe}"
+                                      rendered="#{!beanEmployee.disableIdJefe}"/>                     
+                        <h:outputText value="Estaci&oacute;n trabaja:"
+                                      rendered="#{!beanEmployee.disableEstacion}"/>
+                        <h:outputText value="#{beanEmployee.lugarTrabajo}"
+                                      rendered="#{!beanEmployee.disableEstacion}"/>
+                        <h:outputText value="Login:"/>
                         <h:outputText value="#{beanEmployee.login}"/>
                     </h:panelGrid>
                           
-                    <h:commandButton value="Aceptar" styleClass="JButton" action="findEmployee"/>
+                    <h:commandButton value="Aceptar" styleClass="JButton" 
+                                     action="findEmployee"
+                                     actionListener="#{beanEmployee.statesForFindReturn}"
+                                     immediate="true"/>
                 </h:form>
             </div>
         </div>
