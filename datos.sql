@@ -66,3 +66,23 @@ INSERT INTO estacion_principal (id_estacion, nombre) VALUES (3,'estacion3');
 INSERT INTO estacion_principal (id_estacion, nombre) VALUES (4,'estacion4');
 INSERT INTO estacion_paradero VALUES(5);
 INSERT INTO estacion_paradero VALUES(6);
+
+
+--Insertando algunas  Tarjetas
+insert into tarjeta values('001',0,true,1,0,'1-1-1',1); -- Representa la tarjeta del usuario generico
+insert into tarjeta values('002',0,true,1,0,'1-1-1',1);
+insert into tarjeta values('003',0,true,1,0,'1-1-1',1);
+insert into tarjeta values('004',0,true,1,0,'1-1-1',1);
+--Insertar Tarjeta Personalizada
+insert into tarjeta_personalizada values ('001',1);
+insert into tarjeta_personalizada values ('002',1);
+insert into tarjeta_personalizada values ('003',1);
+insert into tarjeta_personalizada values ('004',1);
+--Insertar Usuarios:
+insert into usuario values('0000001','CC','Generico','Generico','Generico','Generico','1-1-1','g','001','123',true);
+insert into usuario values('1144150245','CC','Generico','g','g','g','1-1-1','g','002','123',true);
+insert into usuario values('1144150246','CC','Generico','g','g','g','1-1-1','g','003','123',true);
+insert into usuario values('1144150247','CC','Generico','g','g','g','1-1-1','g','004','123',true);
+
+
+
