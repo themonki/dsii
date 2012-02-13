@@ -27,6 +27,20 @@ public class BeanContent implements Serializable{
     private List<List<String>> menuOptions = null;
     private List<List<String>> menuClaimsOptions = null;
     private String resultOperation = null;
+    private boolean pair = false;
+    
+    public boolean getPair()
+    {
+        return pair;
+    }
+    
+    public void setPair(boolean pair)
+    {
+        this.pair = pair;
+            
+    }
+    
+    
     
    
 
@@ -91,7 +105,7 @@ public class BeanContent implements Serializable{
            c4.add("4");
            
            menuOptions.add(l1);
-            menuOptions.add(l4);
+           menuOptions.add(l4);
            menuClaimsOptions.add(c1);
            menuClaimsOptions.add(c2);
            menuClaimsOptions.add(c3);
@@ -142,6 +156,7 @@ public class BeanContent implements Serializable{
         
         beanContentInit();
         }
+      
         return menuClaimsOptions;
     
     
@@ -151,16 +166,37 @@ public class BeanContent implements Serializable{
     {
         String link = null;
         if(l.equals("1"))
+        {
             link = "newClaim";
+            
+            
+           
+        }
         else if(l.equals("2"))
+        {
             link = "editClaim";
+             
+            
+            
+        }
         else if(l.equals("3"))
+        {
             link = "deleteClaim";
+             
+           
+           
+        }
         else if(l.equals("4"))
+        {
             link = "findClaim";
+           
+           
+           
+        }
         
         return link;
     }
+    
     
     public String findLink(String l)
     {

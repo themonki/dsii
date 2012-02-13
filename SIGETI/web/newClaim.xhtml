@@ -75,9 +75,24 @@
                         <h:outputText value="* Motivo"/>
                         <h:inputText size="50" value="#{beanReclamo.motivo}"
                                      required="true"
-                                     requiredMessage="El motivo del reclamo es obligatorio"/>   
+                                     requiredMessage="El motivo del reclamo es obligatorio"/> 
+                         <h:outputText value="Tipo Usuario, con Tarjeta:"/>
+                        
+                         <h:selectOneMenu  value="#{beanReclamo.tipoPasajero}"  >
+                             <f:selectItems value="#{beanReclamo.availableTipoPasajero}"/>              
+                             <f:ajax render="identificacion "/>
+                        </h:selectOneMenu>
+                        <h:outputText value="Numero Identificacion:"/>
+                        <h:inputText value="#{beanReclamo.usuarioRealiza}"                                     
+                                     disabled="#{beanReclamo.disableIdentificacion}"
+                                     required="true"
+                                     requiredMessage="El id del usuario es obligatorio"
+                                     id="identificacion"/><br/><br/>
+                       
+                        <h:panelGroup>
+                            <i><h:outputText value="Nota: Si el usuario tiene una tarjeta generica la identificacion es unica para todos"/></i>
+                        </h:panelGroup><br/><br/>
                       
-                        <br/>                     
                         <h:commandButton value="Crear Reclamo" styleClass="JButton" action="#{beanReclamo.createReClamo()}" /><br/>
                         </h:panelGrid>
                     </h:form>

@@ -15,6 +15,8 @@ public class Reclamo {
     private String descripcion;
     private String motivo;
     private String estado;
+    private String auxiliarRecibe;
+    private String usuarioRealiza;
 
     public Reclamo() {
     }
@@ -61,6 +63,26 @@ public class Reclamo {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+       
+    public void setAuxiliarRecibe(String auxiliarRecibe)
+    {
+        this.auxiliarRecibe = auxiliarRecibe;                
+    }
+    
+    public String getAuxiliarRecibe()
+    {
+           return this.auxiliarRecibe;
+    }
+
+    public void setUsuarioRealiza(String usuarioRealiza)
+    {
+        this.usuarioRealiza = usuarioRealiza;                
+    }
+    
+    public String getUsuarioRealiza()
+    {
+           return this.usuarioRealiza;
     }
 
     @Override
