@@ -27,6 +27,20 @@ public class BeanContent implements Serializable{
     private List<List<String>> menuOptions = null;
     private List<List<String>> menuClaimsOptions = null;
     private String resultOperation = null;
+    private boolean pair = false;
+    
+    public boolean getPair()
+    {
+        return pair;
+    }
+    
+    public void setPair(boolean pair)
+    {
+        this.pair = pair;
+            
+    }
+    
+    
     
    
 
@@ -52,32 +66,15 @@ public class BeanContent implements Serializable{
            List l3 = new ArrayList();
            l3.add("Gestionar Tarjetas");
            l3.add("3");
-           List l4 = new ArrayList();
-           l4.add("Gestionar Reclamos");
-           l4.add("4");
+          
            
            
-           List c1 = new ArrayList();
-           c1.add("Crear Reclamo");
-           c1.add("1");
-           List c2 = new ArrayList();
-           c2.add("Editar Reclamo");
-           c2.add("2");
-           List c3 = new ArrayList();
-           c3.add("Eliminar Reclamo");
-           c3.add("3");
-           List c4 = new ArrayList();
-           c4.add("Consultar Reclamo");
-           c4.add("4");
-           
+        
            menuOptions.add(l1);
            menuOptions.add(l2);
            menuOptions.add(l3);
-           menuOptions.add(l4);
-           menuClaimsOptions.add(c1);
-           menuClaimsOptions.add(c2);
-           menuClaimsOptions.add(c3);
-           menuClaimsOptions.add(c4);
+           
+           
        }else if(rol == 1) //director
        {
            List l1 = new ArrayList();
@@ -93,8 +90,28 @@ public class BeanContent implements Serializable{
            List l4 = new ArrayList();
            l4.add("Gestionar Reclamos");
            l4.add("4");
-            menuOptions.add(l1);
-            menuOptions.add(l4);
+           
+              List c1 = new ArrayList();
+           c1.add("Crear Reclamo");
+           c1.add("1");
+           List c2 = new ArrayList();
+           c2.add("Editar Reclamo");
+           c2.add("2");
+           List c3 = new ArrayList();
+           c3.add("Eliminar Reclamo");
+           c3.add("3");
+           List c4 = new ArrayList();
+           c4.add("Consultar Reclamo");
+           c4.add("4");
+           
+           menuOptions.add(l1);
+           menuOptions.add(l4);
+           menuClaimsOptions.add(c1);
+           menuClaimsOptions.add(c2);
+           menuClaimsOptions.add(c3);
+           menuClaimsOptions.add(c4);
+           
+            
            
        }else if(rol == 3) //Auxiliar
        {
@@ -139,6 +156,7 @@ public class BeanContent implements Serializable{
         
         beanContentInit();
         }
+      
         return menuClaimsOptions;
     
     
@@ -148,16 +166,37 @@ public class BeanContent implements Serializable{
     {
         String link = null;
         if(l.equals("1"))
+        {
             link = "newClaim";
+            
+            
+           
+        }
         else if(l.equals("2"))
+        {
             link = "editClaim";
+             
+            
+            
+        }
         else if(l.equals("3"))
+        {
             link = "deleteClaim";
+             
+           
+           
+        }
         else if(l.equals("4"))
+        {
             link = "findClaim";
+           
+           
+           
+        }
         
         return link;
     }
+    
     
     public String findLink(String l)
     {
