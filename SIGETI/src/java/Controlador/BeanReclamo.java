@@ -23,7 +23,7 @@ import javax.faces.model.SelectItem;
  */
 @ManagedBean
 @SessionScoped
-public class BeanReclamo {
+public class BeanReclamo  {
 
     private Integer ticket;
     private String fecha;
@@ -36,7 +36,7 @@ public class BeanReclamo {
     private String tipoPasajero;
     private boolean isDisableIdentificacion;
     private int countValidator;
-    private String action;
+    
 
     public boolean isRenderTableSearch() {
         return isRenderTableSearch;
