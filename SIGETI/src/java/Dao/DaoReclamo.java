@@ -27,14 +27,16 @@ public class DaoReclamo {
 
     public int saveReclamo(Reclamo reclamo) {
         String sql_insert = "INSERT INTO reclamo (ticket,fecha,"
-                + "descripcion,motivo,estado";
+                + "descripcion,motivo,estado,auxiliar_recibe,usuario_realiza";
 
         sql_insert += ") VALUES (DEFAULT"
                 + ",'" + reclamo.getFecha()
                 + "','" + reclamo.getDescripcion()
                 + "','" + reclamo.getMotivo()
                 + "','" + reclamo.getEstado()
-                + "')";
+                 + "','" + reclamo.getAuxiliarRecibe()
+                 + "','" + reclamo.getUsuarioRealiza()
+                + "');";
 
         System.err.println(sql_insert);
         int result = 0;

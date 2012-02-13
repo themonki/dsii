@@ -122,14 +122,12 @@ public class BeanContent implements Serializable{
            List c1 = new ArrayList();
            c1.add("Crear Reclamo");
            c1.add("1");
-           List c4 = new ArrayList();
-           c4.add("Consultar Reclamo");
-           c4.add("4");
+           
            
            
             menuOptions.add(l4);
             menuClaimsOptions.add(c1);
-            menuClaimsOptions.add(c4);
+           
            
        }else if(rol == 4) //conductor
        {

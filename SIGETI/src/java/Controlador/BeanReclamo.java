@@ -38,23 +38,18 @@ public class BeanReclamo {
     public boolean isRenderTableSearch() {
         return isRenderTableSearch;
     }
-    
+
     public void setRenderTableSearch(boolean isRenderTableSearch) {
         this.isRenderTableSearch = isRenderTableSearch;
     }
 
-    
     public boolean isDisableIdentificacion() {
         return isDisableIdentificacion;
     }
-    
+
     public void setDisableIdentificacion(boolean isDisableIdentificacion) {
         this.isDisableIdentificacion = isDisableIdentificacion;
     }
-
-   
-
-   
 
     public Integer getTicket() {
         return ticket;
@@ -96,58 +91,48 @@ public class BeanReclamo {
     public void setEstado(String estado) {
         this.estado = estado;
     }
-    
-    public void setAuxiliarRecibe(String auxiliarRecibe)
-    {
-        this.auxiliarRecibe = auxiliarRecibe;                
-    }
-    
-    public String getAuxiliarRecibe()
-    {
-           return this.auxiliarRecibe;
+
+    public void setAuxiliarRecibe(String auxiliarRecibe) {
+        this.auxiliarRecibe = auxiliarRecibe;
     }
 
-    public void setUsuarioRealiza(String usuarioRealiza)
-    {
-        this.usuarioRealiza = usuarioRealiza;                
+    public String getAuxiliarRecibe() {
+        return this.auxiliarRecibe;
     }
-    
-    public String getUsuarioRealiza()
-    {
-           return this.usuarioRealiza;
+
+    public void setUsuarioRealiza(String usuarioRealiza) {
+        this.usuarioRealiza = usuarioRealiza;
     }
-    
-    public void setTipoPasajero(String tipoPasajero)
-    {
-       
+
+    public String getUsuarioRealiza() {
+        return this.usuarioRealiza;
+    }
+
+    public void setTipoPasajero(String tipoPasajero) {
+
         this.tipoPasajero = tipoPasajero;
-        if(this.tipoPasajero.equals("Generica"))
-        {
+        if (this.tipoPasajero.equals("Generica")) {
             this.isDisableIdentificacion = true;
-            
-        }else if(this.tipoPasajero.equals("Personalizada"))
-        {
-             this.isDisableIdentificacion = false;
+
+        } else if (this.tipoPasajero.equals("Personalizada")) {
+            this.isDisableIdentificacion = false;
         }
-        
-        
-                 
+
+
+
     }
-    
-    public String getTipoPasajero()
-    {
-           return this.tipoPasajero;
+
+    public String getTipoPasajero() {
+        return this.tipoPasajero;
     }
-    
-  
 
     public String createReClamo() {
         FacesContext context = FacesContext.getCurrentInstance();
         EmployeeHolder empleadoHolder = (EmployeeHolder) context.getApplication().evaluateExpressionGet(context, "#{employeeHolder}", EmployeeHolder.class);
         String idAuxiliar = empleadoHolder.getCurrentEmpleado().getId();
         auxiliarRecibe = idAuxiliar;
-        
-        
+
+
         //validate();
         if (context.getMessageList().size() > 0) {
             return null;
@@ -172,10 +157,16 @@ public class BeanReclamo {
         reclamo.setMotivo(motivo.trim());
         estado = "Iniciado";
         reclamo.setEstado(estado);
-       
+
         reclamo.setAuxiliarRecibe(auxiliarRecibe);
         
-        
+        if(usuarioRealiza == null)
+        {
+            usuarioRealiza = "0000001";
+        }
+        reclamo.setUsuarioRealiza(usuarioRealiza);
+
+
 
         System.out.println("Añadiendo reclamo");
         result = daoReclamo.saveReclamo(reclamo);
@@ -212,21 +203,11 @@ public class BeanReclamo {
         }
     }
 
-    public List<SelectItem> getAvailableTipoPasajero() {
-
-        
-        
-    
+    public List<SelectItem> getAvailableTipoPasajero() 
+    {
         List<SelectItem> avaiableTipoUsuario = new ArrayList<SelectItem>();
-
-       
-           
-            avaiableTipoUsuario.add(new SelectItem("Personalizada"));
-            avaiableTipoUsuario.add(new SelectItem("Generica"));
-           
-        
-
+        avaiableTipoUsuario.add(new SelectItem("Personalizada"));
+        avaiableTipoUsuario.add(new SelectItem("Generica"));
         return avaiableTipoUsuario;
-    
     }
 }
