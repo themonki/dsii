@@ -29,7 +29,7 @@ public class Auxiliar extends Empleado {
         this.idJefe = idJefe;
     }
 
-    public int getTrabajaEn() {
+    public Integer getTrabajaEn() {
         return trabajaEn;
     }
 
