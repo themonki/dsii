@@ -154,4 +154,38 @@ public class DaoReclamo {
         }
         return reclamos;
     }
+    
+    public boolean usuarioValido(String id)
+    {
+       boolean  existeUsuario = false;
+
+        String sql_query = "SELECT * FROM usuario WHERE id = '" + id + "';";
+
+        try {
+
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            ResultSet table = sentence.executeQuery(sql_query);
+            
+            while (table.next()) {
+
+                existeUsuario = true;                              
+
+            }
+
+
+
+
+
+        } catch (SQLException se) {
+            // JOptionPane.showMessageDialog(null, se.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+   
+        return existeUsuario;
+    
+    }
 }

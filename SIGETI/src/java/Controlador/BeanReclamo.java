@@ -7,13 +7,17 @@ package Controlador;
 import Dao.DaoReclamo;
 import Entidades.Reclamo;
 import Utilidades.BeanContent;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 
 /**
@@ -21,7 +25,7 @@ import javax.faces.model.SelectItem;
  * @author Yerminson Gonzalez
  */
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class BeanReclamo {
 
     private Integer ticket;
@@ -34,6 +38,8 @@ public class BeanReclamo {
     private boolean isRenderTableSearch;
     private String tipoPasajero;
     private boolean isDisableIdentificacion;
+    private int countValidator;
+    private String action;
 
     public boolean isRenderTableSearch() {
         return isRenderTableSearch;
@@ -127,6 +133,17 @@ public class BeanReclamo {
     }
 
     public String createReClamo() {
+        
+        validate();
+        
+        if(countValidator > 0)
+        {
+            countValidator = 0;
+            return null;
+        
+        }
+        
+        
         FacesContext context = FacesContext.getCurrentInstance();
         EmployeeHolder empleadoHolder = (EmployeeHolder) context.getApplication().evaluateExpressionGet(context, "#{employeeHolder}", EmployeeHolder.class);
         String idAuxiliar = empleadoHolder.getCurrentEmpleado().getId();
@@ -143,14 +160,10 @@ public class BeanReclamo {
         Reclamo reclamo = new Reclamo();
         reclamo.setTicket(ticket);
 
-        Calendar calendario = Calendar.getInstance();
-
-        String dia = Integer.toString(calendario.get(Calendar.DATE));
-        String mes = Integer.toString(calendario.get(Calendar.MONTH));
-        String anio = Integer.toString(Calendar.YEAR);
-
-        fecha = "" + anio + "-" + mes + "-" + dia + "";
-
+        Date fechaHoy = new Date();
+        
+        SimpleDateFormat formato = new  SimpleDateFormat("yyyy-MM-dd");
+        fecha = formato.format(fechaHoy);
         reclamo.setFecha(fecha);
         System.out.println(fecha);
         reclamo.setDescripcion(descripcion.trim());
@@ -160,10 +173,11 @@ public class BeanReclamo {
 
         reclamo.setAuxiliarRecibe(auxiliarRecibe);
         
-        if(usuarioRealiza == null)
+        if(tipoPasajero.equals("Generica"))
         {
             usuarioRealiza = "0000001";
         }
+        System.out.println(usuarioRealiza);
         reclamo.setUsuarioRealiza(usuarioRealiza);
 
 
@@ -178,6 +192,7 @@ public class BeanReclamo {
 
         content.setResultOperation("El reclamo fue creado con exito. Con numero de ticket " + daoReclamo.lastTicketId());
         daoReclamo = null;
+        clearStates();
         return "resultOperation";
     }
 
@@ -210,4 +225,45 @@ public class BeanReclamo {
         avaiableTipoUsuario.add(new SelectItem("Generica"));
         return avaiableTipoUsuario;
     }
+    
+    private void validate() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        if (motivo.trim().length() > 50) {
+            context.addMessage(null, new FacesMessage("El motivo no debe exceder los 15 caracteres."));
+            countValidator = 1;
+        }
+        if(descripcion.trim().length() > 200)
+        {
+            context.addMessage(null, new FacesMessage("La descripcion no debe exceder los 200 caracteres."));
+            countValidator = 1;
+        
+        }
+        
+        // Se usara con el dao de reclamo pero debe ser con el dao de usuario Temporal!!!
+        DaoReclamo daoReclamo = new DaoReclamo();
+        
+        if(!daoReclamo.usuarioValido(usuarioRealiza))
+        {
+            context.addMessage(null, new FacesMessage("El id del usuario  no se encuentra en la base de datos."));
+            countValidator = 1;
+        
+        }
+        
+        
+    
+    }
+       void clearStates()
+    {
+        this.ticket = null;
+        this.descripcion = "";
+        this.fecha = "";
+        this.descripcion = "";
+        this.motivo= "";
+        this.estado = "";
+        this.auxiliarRecibe = "";
+        this.usuarioRealiza = "";       
+        this.countValidator = 0;
+    }
+    
+   
 }
