@@ -119,6 +119,7 @@ public class BeanReclamo {
         this.tipoPasajero = tipoPasajero;
         if (this.tipoPasajero.equals("Generica")) {
             this.isDisableIdentificacion = true;
+            usuarioRealiza = null;
 
         } else if (this.tipoPasajero.equals("Personalizada")) {
             this.isDisableIdentificacion = false;
@@ -242,7 +243,7 @@ public class BeanReclamo {
         // Se usara con el dao de reclamo pero debe ser con el dao de usuario Temporal!!!
         DaoReclamo daoReclamo = new DaoReclamo();
         
-        if(!daoReclamo.usuarioValido(usuarioRealiza))
+        if(!daoReclamo.usuarioValido(usuarioRealiza) && usuarioRealiza != null)
         {
             context.addMessage(null, new FacesMessage("El id del usuario  no se encuentra en la base de datos."));
             countValidator = 1;
