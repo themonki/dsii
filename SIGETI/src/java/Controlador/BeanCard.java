@@ -24,7 +24,6 @@ import Entidades.TarjetaPersonalizada;
 public class BeanCard implements Serializable {
 
     private String actual = "";
-    
     private String costo = "0";
     private String pin = "";
     private String estacion = "";
@@ -34,10 +33,16 @@ public class BeanCard implements Serializable {
     private String cedulaPasajero = "";
     private String isFind = "false";
     private String fecha = "";
+    private int recarga =0;
+
+    public int getRecarga() {
+        return recarga;
+    }
+
+    public void setRecarga(int recarga) {
+        this.recarga = recarga;
+    }
    
-
-    
-
     public String getFecha() {
         return fecha;
     }
@@ -108,6 +113,38 @@ public class BeanCard implements Serializable {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+    
+    public String reloadCard(){
+    
+        FacesContext context;
+        context = FacesContext.getCurrentInstance();
+        //validate();
+        if (context.getMessageList().size() > 0) {
+            return null;
+        }
+        
+    
+        DaoCard dao = new DaoCard(); 
+        int result = dao.reloadCard(pin,recarga);
+        
+        if (result ==0){
+             context.addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_ERROR, "La recarga no se realizo.", null));
+        
+        
+        }
+        else {
+              context.addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_ERROR, "La recarga fue exitosa.", null));
+        
+        
+        }
+           
+    
+        
+        return null;
+    
     }
     
     
