@@ -50,7 +50,7 @@
                 <br></br>
                 
                 <h:form style="display: inline-block" >
-                    <h:panelGrid columns="2"   >
+                    <h:panelGrid columns="3"   cellspacing="25" >
                         <h:commandLink   action="newCard">
                             <img src="./resources/AddCard.gif"  width="100" height="100"></img>
                             <br></br>
@@ -61,6 +61,13 @@
                             <br></br>
                             <h:outputText styleClass=""  value="Editar Tarjeta"/>
                         </h:commandLink>
+                        
+                         <h:commandLink   action="userCard">
+                            <img src="./resources/userCard.png"  width="100" height="100"></img>
+                            <br></br>
+                            <h:outputText styleClass=""  value=" Usuario para Tarjeta"/>
+                        </h:commandLink>
+                        
                         <h:commandLink   action="eraseCard">
                              <img src="./resources/EliminarCard.gif"  width="100" height="100"></img>
                             <br></br>
