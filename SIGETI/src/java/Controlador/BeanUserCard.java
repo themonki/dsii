@@ -24,7 +24,7 @@ import Entidades.TarjetaPersonalizada;
 @SessionScoped
 public class BeanUserCard implements Serializable 
 {
-     private FacesContext context;
+     
     private String id="";
     private String tipoId="";
     private String nombre="";
@@ -128,6 +128,8 @@ public class BeanUserCard implements Serializable
     
     public String createUser() {
         
+           FacesContext context;
+        
         context = FacesContext.getCurrentInstance();
         //validate();
         if (context.getMessageList().size() > 0) {
@@ -191,7 +193,8 @@ public class BeanUserCard implements Serializable
     }
     
     public boolean validate(){
-        
+           FacesContext context;
+        context = FacesContext.getCurrentInstance();
         
         boolean validar=true; 
         
@@ -276,13 +279,6 @@ public class BeanUserCard implements Serializable
          
      
      }
-    
-    
-    
-    
-    
-    
-    
     
         return validar;
         

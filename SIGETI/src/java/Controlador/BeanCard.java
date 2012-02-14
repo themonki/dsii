@@ -24,7 +24,7 @@ import Entidades.TarjetaPersonalizada;
 public class BeanCard implements Serializable {
 
     private String actual = "";
-    private FacesContext context;
+    
     private String costo = "0";
     private String pin = "";
     private String estacion = "";
@@ -114,6 +114,7 @@ public class BeanCard implements Serializable {
     
 
     public String createCard() {
+        FacesContext context;
         context = FacesContext.getCurrentInstance();
         //validate();
         if (context.getMessageList().size() > 0) {
@@ -175,6 +176,7 @@ public class BeanCard implements Serializable {
     }
 
     public String eraseCard() {
+        FacesContext context;
 
         context = FacesContext.getCurrentInstance();
         //validate();
@@ -201,6 +203,7 @@ public class BeanCard implements Serializable {
 
     public String findCard() {
 
+        FacesContext context;
         context = FacesContext.getCurrentInstance();
         //validate();
 
@@ -279,6 +282,10 @@ public class BeanCard implements Serializable {
     }
 
     private boolean validate() {
+        
+           FacesContext context;
+        context = FacesContext.getCurrentInstance();
+        
         boolean validar = true;
 
         if (pin.equals("")) {
@@ -373,6 +380,8 @@ public class BeanCard implements Serializable {
 
     }
     public String editCard(){
+           FacesContext context;
+      
         
           context = FacesContext.getCurrentInstance();
         //validate();
