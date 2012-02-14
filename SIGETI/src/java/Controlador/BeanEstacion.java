@@ -5,7 +5,6 @@
 
 package Controlador;
 
-import Entidades.Estacion;
 import Entidades.EstacionParadero;
 import Entidades.EstacionPrincipal;
 import Dao.DaoEstacion;
@@ -19,7 +18,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent; //.......................
 import javax.faces.model.SelectItem;
 
 /**
@@ -41,6 +39,9 @@ public class BeanEstacion implements Serializable{
     boolean disableNombre;
     boolean disableIdOperario;
 
+    boolean renderTable;
+    String nombreBusqueda;
+
     public BeanEstacion()
     {
         disableIdOperario=true;
@@ -59,6 +60,8 @@ public class BeanEstacion implements Serializable{
 
         disableIdOperario=true;
         disableNombre=true;
+
+        renderTable=false;
     }
 
     public String getTipo()
@@ -98,6 +101,16 @@ public class BeanEstacion implements Serializable{
     public boolean getdisableIdOperario()
     {
         return disableIdOperario;
+    }
+
+    public boolean getRenderTable()
+    {
+        return renderTable;
+    }
+
+    public String getNombreBusqueda()
+    {
+        return nombreBusqueda;
     }
 
     public void setTipo(String tipoNew)
@@ -148,6 +161,16 @@ public class BeanEstacion implements Serializable{
     public void setdisableIdOperario(boolean disableIdOperarioNew)
     {
         disableIdOperario=disableIdOperarioNew;
+    }
+
+    public void setRenderTable(boolean renderTableNew)
+    {
+        renderTable= renderTableNew;
+    }
+
+    public void setNombreBusqueda(String nombreBusquedaNew)
+    {
+        nombreBusqueda=nombreBusquedaNew.trim();
     }
 
     public boolean existEstacion(String ubicacion)
@@ -240,7 +263,61 @@ public class BeanEstacion implements Serializable{
 
         return errores;
     }
+
     
+    public List<EstacionPrincipal> findEstacionesPrincipales()
+    {
+        FacesContext context = FacesContext.getCurrentInstance();
+        BeanContent content = (BeanContent) context.getApplication().evaluateExpressionGet(context, "#{beanContent}", BeanContent.class);
+        DaoEstacion daoEstacion = new DaoEstacion();
+        List<EstacionPrincipal> estaciones= daoEstacion.findEstacionesPrincipales(nombreBusqueda);
+
+        if(estaciones.size()>0)
+        {
+            /*for(int i=0; i<estaciones.size(); i++)
+            {
+                context.addMessage(null, new FacesMessage("Estacion No.: " + estaciones.get(i).getId()
+                        + " Ubicacion: "+ estaciones.get(i).getUbicacion()
+                        + " Estado: "+ estaciones.get(i).getEstado()
+                        + " Nombre: " + estaciones.get(i).getNombre()
+                        + " Id Operario: " + estaciones.get(i).getIdOperario()));
+            }*/
+            renderTable=true;
+
+            return estaciones;
+
+        }else{
+            context.addMessage(null, new FacesMessage("No se encontraron coincidencias en la base de datos, por favor verifique su busqueda"));
+            renderTable=false;
+            return null;
+            //return "resultOperation";
+
+        }
+    }
+
+    public EstacionPrincipal getEstacionPrincipal()
+    {
+        FacesContext context= FacesContext.getCurrentInstance();
+        Application app= context.getApplication();
+        EstacionPrincipal estacion  = (EstacionPrincipal) app.evaluateExpressionGet(context, "#{estacion}", EstacionPrincipal.class);
+
+        return estacion;
+    }
+
+    public void detalleEstacion()
+    {
+        EstacionPrincipal estacion= getEstacionPrincipal();
+        id= estacion.getId();
+        ubicacion= estacion.getUbicacion();
+        estado= estacion.getEstado();
+        nombre= estacion.getNombre();
+        idOperario= estacion.getIdOperario();
+    }
+
+    public void actionFindEstacionPrincipal()
+    {
+        this.findEstacionesPrincipales();
+    }
 }
 
 

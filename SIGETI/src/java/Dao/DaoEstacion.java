@@ -217,7 +217,7 @@ public class DaoEstacion {
     {
         String sql_query= "SELECT id, ubicacion, estado, nombre, id_operario FROM "
                 + " estacion_principal JOIN estacion ON estacion_principal.id_estacion="
-                + " estacion.id WHERE nombre= '" + nombre + "'";
+                + " estacion.id WHERE nombre = '" + nombre + "'";
         
         EstacionPrincipal estacion= new EstacionPrincipal();
 
@@ -241,6 +241,55 @@ public class DaoEstacion {
             e.printStackTrace();
         }
         return estacion;
+    }
+
+    public List<EstacionPrincipal> findEstacionesPrincipales(String nombre)
+    {
+        String sql_nombre="";
+        //String sql_ubicacion= "";
+        String sql_where="";
+        /*if(!nombre.equals("") || !ubicacion.equals(""))
+        {
+            sql_where=" WHERE ";
+        }*/
+        if(!nombre.equals(""))
+        {
+            sql_where=" WHERE ";
+            sql_nombre=" nombre like '%"+nombre+"%' ";
+        }
+        /*if(!ubicacion.equals(""))
+        {
+            sql_ubicacion= " ubicacion like '%"+ubicacion+"%' ";
+        }*/
+        String sql_query= "SELECT id, ubicacion, estado, nombre, id_operario FROM "
+                + " estacion_principal JOIN estacion ON estacion_principal.id_estacion="
+                + " estacion.id " +sql_where + sql_nombre; //+ sql_ubicacion;
+
+        List<EstacionPrincipal> estaciones= new ArrayList<EstacionPrincipal>();
+
+        try{
+            Connection conn = fachada.conectar();
+            Statement sequence = conn.createStatement();
+            ResultSet table = sequence.executeQuery(sql_query);
+
+
+            while(table.next())
+            {
+                EstacionPrincipal estacion = new EstacionPrincipal();
+                estacion.setId(table.getInt("id"));
+                estacion.setUbicacion(table.getString("ubicacion"));
+                estacion.setEstado(table.getBoolean("estado"));
+                estacion.setNombre(table.getString("nombre"));
+                estacion.setIdOperario(table.getString("id_operario"));
+                estaciones.add(estacion);
+            }
+
+        }catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return estaciones;
     }
 
     public int saveEstacionParadero(EstacionParadero estacion)
