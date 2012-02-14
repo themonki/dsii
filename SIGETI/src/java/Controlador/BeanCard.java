@@ -137,6 +137,7 @@ public class BeanCard implements Serializable {
         else {
               context.addMessage(null, new FacesMessage(
                         FacesMessage.SEVERITY_ERROR, "La recarga fue exitosa.", null));
+              clearStates();
         
         
         }
@@ -479,6 +480,7 @@ public class BeanCard implements Serializable {
         costo = "0";
         fecha = "";
         cedulaPasajero="";
+        recarga=0;
 
     }
 }
