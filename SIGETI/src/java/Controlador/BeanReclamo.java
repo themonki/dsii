@@ -35,7 +35,38 @@ import javax.faces.model.SelectItem;
 @SessionScoped
 public class BeanReclamo implements Serializable {
 
-    public String getNombreEstacion() {
+   
+
+    private int ticket = 0;
+    private String fecha;
+    private String descripcion;
+
+   
+   
+    private String motivo;
+    private String estado;
+    private String auxiliarRecibe;
+    private String usuarioRealiza;
+    private boolean renderTableSearch;
+    private String tipoPasajero;
+    private boolean disableIdentificacion;
+    private int countValidator;
+    private String action;
+    private String nombreUsuario;
+    private String nombreEstacion;
+    private List<Medida> medidas;
+    private int idMedida;
+    private String accionMedida;
+    
+     public List<Medida> getMedidas() {
+        return medidas;
+    }
+
+    public void setMedidas(List<Medida> medidas) {
+        this.medidas = medidas;
+    }
+    
+     public String getNombreEstacion() {
         return nombreEstacion;
     }
 
@@ -50,21 +81,6 @@ public class BeanReclamo implements Serializable {
     public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
     }
-
-    private int ticket = 0;
-    private String fecha;
-    private String descripcion;
-    private String motivo;
-    private String estado;
-    private String auxiliarRecibe;
-    private String usuarioRealiza;
-    private boolean renderTableSearch;
-    private String tipoPasajero;
-    private boolean disableIdentificacion;
-    private int countValidator;
-    private String action;
-    private String nombreUsuario;
-    private String nombreEstacion;
 
     public void setTicket(int ticket) {
         this.ticket = ticket;
@@ -163,6 +179,22 @@ public class BeanReclamo implements Serializable {
     public String getAction() {
         return action;
     }
+     public String getAccionMedida() {
+        return accionMedida;
+    }
+
+    public void setAccionMedida(String accionMedida) {
+        this.accionMedida = accionMedida;
+    }
+
+    public int getIdMedida() {
+        return idMedida;
+    }
+
+    public void setIdMedida(int idMedida) {
+        this.idMedida = idMedida;
+    }
+
  
     public BeanReclamo() {
 
@@ -276,9 +308,9 @@ public class BeanReclamo implements Serializable {
     }
 
     
-     public List<Medida> getFindMedida() {
+     public void getFindMedida() {
         DaoMedida daoMedida = new DaoMedida();
-        List<Medida> medidas;
+       
         System.out.println(estado);
 
         medidas = daoMedida.findAllMedidas(ticket);
@@ -294,11 +326,9 @@ public class BeanReclamo implements Serializable {
             Medida medida = new Medida(0, "Aun no se han añadido medidas para este reclamo");
             
             medidas.add(medida);
-            
-            return medidas;
-        } else {
-            return medidas;
         }
+            
+        
     }
 
     public List<SelectItem> getAvailableTipoPasajero() {
@@ -339,6 +369,29 @@ public class BeanReclamo implements Serializable {
 
 
 
+    }
+    
+    
+    public void addMedidaReclamo()
+    {
+        Medida medida = new Medida();
+        
+        medida.setId(idMedida);
+        medida.setAccion(accionMedida);
+        
+        medidas.add(medida);
+        
+    }
+    
+     public void removeMedidaReclamo()
+    {
+        Medida medida = new Medida();
+        
+        medida.setId(idMedida);
+        medida.setAccion(accionMedida);
+        
+        medidas.remove(medida);
+        
     }
 
     public void update(String l) {
@@ -418,12 +471,15 @@ public class BeanReclamo implements Serializable {
         DaoEstacion daoEstacion = new DaoEstacion();
         
         EstacionPrincipal estacionPrincipal = daoEstacion.findEstacionPrincipal(auxiliar.getTrabajaEn());
-        nombreEstacion = estacionPrincipal.getNombre();     
+        nombreEstacion = estacionPrincipal.getNombre(); 
+        getFindMedida();
         
         
 
 
     }
+    
+    
 
      public String findLinkClaims(String l)
     {
