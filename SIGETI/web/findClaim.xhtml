@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8' ?>
+<?xml version='1.0' encoding='UTF-8' ?> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -7,23 +7,9 @@
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-       <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
+        <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
-        <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
-        <title>Crear Reclamo</title>        
-
-        <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
-
-        <f:verbatim>  
-            <script type="text/javascript">  
-      
-                function doPopup(source) {
-                popup = window.open(source, "popup", "height=600,width=900)");
-                popup.focus();
-            }  
-            </script>  
-        </f:verbatim> 
-        }
+        <title>Buscar Reclamo</title>
     </h:head>
 
     <h:body>
@@ -37,6 +23,7 @@
                     <img src="./resources/exit.png" alt="salir" width="50" height="50"></img>
                 </h:commandLink>
             </h:form>
+
         </div>
         <div id="center">
             <div id="center_left">
@@ -53,10 +40,10 @@
                     </h:dataTable>
                 </h:form>
             </div>
-            <div id="center_center">
-                <h:form styleClass="Formulario">
-                    <h:messages styleClass="error"/>
-                   <h:panelGrid columns="2">
+            <div  id="center_center">
+                <h:messages styleClass="error"/>
+                <h:form>
+                    <h:panelGrid columns="2">
                         <f:facet name="header">
                             <h:outputText value="Buscar Reclamo"/>
                         </f:facet>
@@ -64,21 +51,23 @@
                         <h:selectOneMenu  value="#{beanReclamo.estado}"  >
                             <f:selectItems value="#{beanReclamo.availableEstadosReclamo}"/>              
                         </h:selectOneMenu>
-                        <h:outputText value="Identificacion"/>
-                        <h:inputText value="#{beanReclamo.ticket}" size="8"/>
+                        <h:outputText value="*Identificacion"/>
+                        <h:inputText value="#{beanReclamo.ticket}" required="true" requiredMessage="El numero de ticket es obligatorio" size="8"/>
                         <h:commandButton value="Buscar"/>
-                        <h:panelGroup>
-                            <i><h:outputText value="Nota: Si desea realizar la consulta de todos los reclamos no proporcione ninguna identificaci&oacute;n"/></i>
-                        </h:panelGroup>
+                       
                     </h:panelGrid>
-                    <br/><br/>
+                </h:form>
+                <i><h:outputText value="Nota: Si desea realizar la consutla de todos los reclamos escriba 0 en identificacion"/></i>
+                <br/><br/>
+                <h:form>
                     <h:dataTable
                         border="1"
                         var="claim"
                         value="#{beanReclamo.findReclamo}"
-                        id="tableReclamo"
+                        id="tableClaim"
                         rendered="#{beanReclamo.renderTableSearch}">
                         <f:facet name="caption">Resultado de la b&uacute;squeda</f:facet>
+
                         <h:column>
                             <f:facet name="header">Numero Ticket</f:facet>
                             #{claim.ticket}
@@ -100,10 +89,13 @@
                             #{claim.estado} 
                         </h:column>
                         <h:column>
-                            <h:commandButton value="Editar" actionListener="#{beanReclamo.renderTableSearch}"/>
+                            <f:facet name="header">Acci&oacute;n</f:facet>
+                            <h:commandButton value="#{beanReclamo.action}" action ="#{beanReclamo.getLinkAction}"/>
                         </h:column>
+                        
                     </h:dataTable>
                 </h:form>
+
             </div>
         </div>
         <div id="bottom">

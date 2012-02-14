@@ -119,10 +119,16 @@ public class DaoEmpleado {
         return empleado;
     }
 
+     /**
+     * Consulta si existe un empleado con las condiciones dadas.
+     * @param condition - String con la condición que debe de tener la consuta.
+     * @return Lsita de objetos empleado que representa los empleados encontrados
+     *  si no existe nngún empleado la lista sera vacía.
+     */
     public List<Empleado> findEmpleadoCondition(String condition)
     {
         String sqlConsulta = "SELECT * from empleado WHERE " + condition;
-        System.out.println(sqlConsulta);
+        //System.out.println(sqlConsulta);
         List<Empleado> empleados = new ArrayList<Empleado>();
 
         try {
@@ -281,7 +287,7 @@ public class DaoEmpleado {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(sql_insert);
+        //System.out.println(sql_insert);
         return result;
     }
 
@@ -304,7 +310,7 @@ public class DaoEmpleado {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(sql_insert);
+        //System.out.println(sql_insert);
         return result;
     }
 
@@ -331,7 +337,7 @@ public class DaoEmpleado {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(sql_insert);
+        //System.out.println(sql_insert);
         return result;
     }
 
@@ -370,7 +376,7 @@ public class DaoEmpleado {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(sql_insert);
+        //System.out.println(sql_insert);
         return result;
     }
 
@@ -400,7 +406,7 @@ public class DaoEmpleado {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(sql_insert);
+        //System.out.println(sql_insert);
         return result;
     }
     
@@ -753,5 +759,30 @@ public class DaoEmpleado {
             e.printStackTrace();
         }
         return auxiliares;
+    }
+    
+    public int updateEmpleado(Empleado empleado)
+    {
+        return 0;
+    }
+    
+    public int updateDirector(Director director)
+    {
+        return 0;
+    }
+    
+    public int updateOperario(Operario operario)
+    {
+        return 0;
+    }
+    
+    public int updateAuxiliar(Auxiliar auxiliar)
+    {
+        return 0;
+    }
+    
+    public int updateConductor(Conductor conductor)
+    {
+        return 0;
     }
 }

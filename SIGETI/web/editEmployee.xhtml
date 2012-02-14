@@ -1,14 +1,157 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this template, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>TODO supply a title</title>
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
+        <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
+        <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
+        <title>Editar empleado</title>        
+
+        <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
+    </h:head>
+
+    <h:body>
+
+        <div id="top">
+            <img src="./resources/logo.png" alt="logo"></img>
+
+            <h:form>
+                <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
+                <h:commandLink action="#{authentication.logout}">
+                    <img src="./resources/exit.png" alt="salir" width="50" height="50"></img>
+                </h:commandLink>
+            </h:form>
+        </div>
+        <div id="center">
+            <div id="center_left">
+                <h:form>
+                    <h:dataTable value="#{beanContent.menuOptions}" var="l">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Menu"/>
+                            </f:facet>
+                            <h:commandLink action="#{beanContent.findLink(l.get(1))}">
+                                <h:outputText value="#{l.get(0)}"/>
+                            </h:commandLink>
+                        </h:column>
+                    </h:dataTable>
+                </h:form>
+            </div>
+            <div id="center_center">
+                <h:messages styleClass="error"/>
+                <h:form styleClass="Formulario">
+                    <h:panelGrid columns="2">
+                        <f:facet name="header">
+                            <h:outputText value="Datos personales"/>
+                        </f:facet>
+                        <h:outputText value="* Primer nombre:"/>
+                        <h:inputText value="#{beanEmployee.nombre}" 
+                                     required="true"
+                                     requiredMessage="Primer nombre es obligatorio"/>
+                        <h:outputText value="Segundo nombre:"/>
+                        <h:inputText value="#{beanEmployee.nombre2}"/>
+                        <h:outputText value="* Primer apellido:"/>
+                        <h:inputText value="#{beanEmployee.apellido}"
+                                     required="true"
+                                     requiredMessage="Primer apellido es obligatorio"/>
+                        <h:outputText value="Segundo apellido:"/>
+                        <h:inputText value="#{beanEmployee.apellido2}"/>
+                        <h:outputText value="Tipo de identificaci&oacute;n"/>
+                        <h:selectOneMenu value="#{beanEmployee.tipoId}">
+                            <f:selectItems value="#{beanEmployee.availableTipoId}"/>
+                        </h:selectOneMenu>
+                        <h:outputText value="* N. identificaci&oacute;n:"/>
+                        <h:inputText value="#{beanEmployee.identificacion}"
+                                     required="true"
+                                     requiredMessage="N. identificaci&oacute;n es obligatorio"
+                                     disabled="#{!beanEmployee.editIdentificacion}"/>
+                        <h:outputText value="Tel&eacute;fono:"/>
+                        <h:inputText value="#{beanEmployee.telefono}"/>
+                        <h:outputText value="Dirección:"/>
+                        <h:inputText value="#{beanEmployee.direccion}"/>
+                        <h:outputText value="Email:"/>
+                        <h:inputText value="#{beanEmployee.email}"/>
+                        <h:outputText value="Fecha de nacimiento:"/>
+                        <h:panelGroup>
+                            <h:outputText value="A&ntilde;o:"/>
+                            <h:inputText value="#{beanEmployee.fechaNacimientoAno}" size="4"/>
+                            <h:outputText value="Mes:"/>
+                            <h:inputText value="#{beanEmployee.fechaNacimientoMes}" size="2"/>
+                            <h:outputText value="D&iacute;a:"/>
+                            <h:inputText value="#{beanEmployee.fechaNacimientoDia}" size="2"/>
+                        </h:panelGroup>
+                        <h:outputText value="Fecha de ingreso:"/>
+                        <h:panelGroup>
+                            <h:outputText value="A&ntilde;o:"/>
+                            <h:inputText value="#{beanEmployee.fechaIngresoAno}" size="4"/>
+                            <h:outputText value="Mes:"/>
+                            <h:inputText value="#{beanEmployee.fechaIngresoMes}" size="2"/>
+                            <h:outputText value="D&iacute;a:"/>
+                            <h:inputText value="#{beanEmployee.fechaIngresoDia}" size="2"/>
+                        </h:panelGroup>
+                        <h:outputText value="Salario:"/>
+                        <h:inputText value="#{beanEmployee.salario}"/>
+                        <h:outputText value="Cargo:"/>
+                        <h:selectOneMenu value="#{beanEmployee.cargo}">
+                            <f:selectItems value="#{beanEmployee.availableCargo}"/>
+                            <f:ajax render="licenciaIn idJefeIn idEstacionIn"/>
+                        </h:selectOneMenu>
+                        <h:outputText value="N. Licencia:"/>
+                        <h:inputText value="#{beanEmployee.licencia}"
+                                     disabled="#{beanEmployee.disableLicencia}"
+                                     id="licenciaIn"/>
+                        <h:outputText value="N. identificaci&oacute;n jefe:"/>
+                        <h:selectOneMenu value="#{beanEmployee.identificacionJefe}"
+                                         disabled="#{beanEmployee.disableIdJefe}"
+                                         id="idJefeIn">
+                            <f:selectItems value="#{beanEmployee.availableJefe}"/>
+                        </h:selectOneMenu>                      
+                        <h:outputText value="Estaci&oacute;n trabaja:"/>
+                        <h:selectOneMenu value="#{beanEmployee.lugarTrabajo}"
+                                         disabled="#{beanEmployee.disableEstacion}"
+                                         id="idEstacionIn">
+                            <f:selectItems value="#{beanEmployee.availableEstacionPrincipal}"/>
+                        </h:selectOneMenu>                      
+                    </h:panelGrid>
+                    <br/><hr/><br/>
+                    <h:panelGrid columns="2">
+                        <f:facet name="header">
+                            <h:outputText value="Datos de ingreso al sistemas"/>
+                        </f:facet>
+                        <h:outputText value="* Login:"/>
+                        <h:inputText value="#{beanEmployee.login}" 
+                                     required="true"
+                                     requiredMessage="Login, es obligatorio."/>
+                        <h:outputText value="* Password:"/>
+                        <h:inputSecret value="#{beanEmployee.password}"
+                                       required="true"
+                                       requiredMessage="Password, es obligatorio."/>
+                        <h:outputText value="* Confirmar password:"/>
+                        <h:inputSecret value="#{beanEmployee.passwordConfirmar}"
+                                       required="true"
+                                       requiredMessage="Confirmar password, es obligatorio."/>
+                    </h:panelGrid>
+
+                    <h:panelGrid>
+                        <h:commandButton  value="Actualizar" styleClass="JButton" action="#{beanEmployee.updateUser}"/>
+                        <h:commandButton  value="Atr&aacute;s" styleClass="JButton"
+                                         action="findEmployee"
+                                         actionListener="#{beanEmployee.statesForFindReturn}"
+                                         immediate="true"/>
+                    </h:panelGrid>
+
+                </h:form>
+            </div>
+        </div>
+        <div id="bottom">
+            <ui:insert name="bottom">Pie de pagina</ui:insert>
+        </div>
+
+    </h:body>
+
 </html>

@@ -65,6 +65,15 @@ public class BeanEmployee implements Serializable {
     private boolean avancedSearchNombre;
     private boolean avancedSearchApellido;
     private boolean avancedSearchCargo;
+    private boolean editIdentificacion;
+
+    public void setEditIdentificacion(boolean editIdentificacion) {
+        this.editIdentificacion = editIdentificacion;
+    }
+
+    public boolean isEditIdentificacion() {
+        return editIdentificacion;
+    }
 
     public void setAvancedSearchApellido(boolean avancedSearchApellido) {
         this.avancedSearchApellido = avancedSearchApellido;
@@ -732,6 +741,11 @@ public class BeanEmployee implements Serializable {
 
     public void statesForEdit(ActionEvent e) {
         this.isRenderTableSearch = false;
+        this.avancedSearch = false;
+        this.avancedSearchNombre = false;
+        this.avancedSearchApellido = false;
+        this.avancedSearchCargo = false;
+        this.clearStates();
         this.action = "Editar";
     }
 
@@ -740,6 +754,11 @@ public class BeanEmployee implements Serializable {
         EmployeeHolder empleadoHolder = (EmployeeHolder) context.getApplication().evaluateExpressionGet(context, "#{employeeHolder}", EmployeeHolder.class);
         int rol = empleadoHolder.getCurrentEmpleado().getRol();
 
+        if(rol == 2)
+        {
+            this.avancedSearchCargo = true;
+        }
+        
         DaoEmpleado daoEmpleado = new DaoEmpleado();
         List<Empleado> empleados = null;
 
@@ -775,34 +794,41 @@ public class BeanEmployee implements Serializable {
             
             if(opcion.equals(""))
             {
-                empleados = daoEmpleado.findAllEmpleado();
+                if(rol == 2)//opeario
+                {
+                    empleados = daoEmpleado.findEmpleadoCondition("rol = 3");
+                }else
+                {
+                    empleados = daoEmpleado.findAllEmpleado();
+                }
+                
             }else{
-                System.out.print("opcion " + opcion);
                 empleados = daoEmpleado.findEmpleadoCondition(opcion);
             }
         } else {
             if (this.identificacion.trim().equals("")) {
-                empleados = daoEmpleado.findAllEmpleado();
+                if(rol == 2)//Operario
+                {
+                    empleados = daoEmpleado.findEmpleadoCondition("rol = 3");//busca solo auxiliares
+                }else
+                {
+                    empleados = daoEmpleado.findAllEmpleado();
+                }
             } else {
-                Empleado empleado = daoEmpleado.findEmpleadoId(this.identificacion.trim());
-                empleados = new ArrayList<Empleado>();
-                empleados.add(empleado);
+                if(rol == 2)
+                {
+                    empleados = daoEmpleado.findEmpleadoCondition("id = " + this.identificacion.trim() + " AND rol = 3");//buscar auxiliar con un id dado
+                }else
+                {
+                    Empleado empleado = daoEmpleado.findEmpleadoId(this.identificacion.trim());
+                    empleados = new ArrayList<Empleado>();
+                    empleados.add(empleado);
+                }        
             }
         }
 
         daoEmpleado = null;
    
-        //Si es operario mostrar solo auxiliares
-        if (rol == 2) //Operario
-        {
-            for (int i = 0; i < empleados.size(); i++) {
-                if (empleados.get(i).getRol() != 3)//auxiliar
-                {
-                    empleados.remove(i);
-                    i--;
-                }
-            }
-        }
         if (empleados.isEmpty() || empleados.get(0).getId() == null) {
             context.addMessage(null, new FacesMessage("No existe empleado con los datos proporcionados."));
             return null;
@@ -819,6 +845,7 @@ public class BeanEmployee implements Serializable {
         } else if (this.action.equals("Eliminar")) {
             link = "eraseEmployee";
         } else if (this.action.equals("Editar")) {
+            this.prepareDataEmployee();
             link = "editEmployee";
         }
 
@@ -889,6 +916,21 @@ public class BeanEmployee implements Serializable {
         this.cargo = cargoObtenido;
         this.login = empleado.getLogin();
         this.estado = empleado.getEstado();
+        
+        if(this.fechaIngreso != null)
+        {
+            String[] partes = this.fechaIngreso.split("-");
+            this.fechaIngresoAno = partes[0];
+            this.fechaIngresoMes = partes[1];
+            this.fechaIngresoDia = partes[2];
+        }
+        if(this.fechaNacimiento != null)
+        {
+            String[] partes = this.fechaNacimiento.split("-");
+            this.fechaNacimientoAno = partes[0];
+            this.fechaNacimientoMes = partes[1];
+            this.fechaNacimientoDia = partes[2];
+        }
     }
 
     private Integer findRol(String cargo) {
@@ -906,5 +948,75 @@ public class BeanEmployee implements Serializable {
         }
 
         return rolFind;
+    }
+    
+    public String updateUser()
+    {
+        this.validate();
+        if (this.countValidator > 0) {
+            this.countValidator = 0;
+            return null;
+        }
+        FacesContext context = FacesContext.getCurrentInstance();
+        BeanContent content = (BeanContent) context.getApplication().evaluateExpressionGet(context, "#{beanContent}", BeanContent.class);
+        int result;
+        DaoEmpleado daoEmpleado = new DaoEmpleado();
+        Empleado empleado = new Empleado();
+        empleado.setNombre(nombre.trim());
+        empleado.setNombre2(nombre2.trim());
+        empleado.setApellido(apellido.trim());
+        empleado.setApellido2(apellido2.trim());
+        empleado.setTipoId(tipoId.trim());
+        empleado.setId(identificacion.trim());
+        empleado.setTelefono(telefono.trim());
+        empleado.setDireccion(direccion.trim());
+        empleado.setEmail(email.trim());
+        empleado.setFechaNacimiento(fechaNacimiento);
+        empleado.setFechaIngreso(fechaIngreso);
+        if (salario.trim().equals("")) {
+            empleado.setSalario(-1);
+        } else {
+            empleado.setSalario(Integer.parseInt(salario.trim()));
+        }
+        int rol = this.findRol(this.cargo);
+        empleado.setRol(rol);
+        empleado.setLogin(login.trim());
+        empleado.setPassword(password.trim());
+        empleado.setEstado(estado);
+        result = daoEmpleado.updateEmpleado(empleado);
+        if (result == 0) {
+            content.setResultOperation("El Empleado no pudo ser actualizado.");
+            this.clearStates();
+            return "resultOperation";
+        }
+
+        if (rol == 1) {
+            Director director = new Director();
+            director.setId(identificacion.trim());
+            result = daoEmpleado.updateDirector(director);
+        }
+        if (rol == 2) {
+            Operario operario = new Operario();
+            operario.setId(identificacion.trim());
+            operario.setIdJefe(identificacionJefe.trim());
+            daoEmpleado.updateOperario(operario);
+        }
+        if (rol == 3) {
+            Auxiliar auxiliar = new Auxiliar();
+            auxiliar.setId(identificacion.trim());
+            auxiliar.setIdJefe(identificacionJefe.trim());
+            auxiliar.setTrabajaEn(lugarTrabajo);
+            daoEmpleado.updateAuxiliar(auxiliar);
+        }
+        if (rol == 4) {
+            Conductor conductor = new Conductor();
+            conductor.setId(identificacion.trim());
+            conductor.setLicencia(licencia.trim());
+            daoEmpleado.updateConductor(conductor);
+        }
+        daoEmpleado = null;
+        content.setResultOperation("El Empleado fue actualizado con éxito.");
+        this.clearStates();
+        return "resultOperation";
     }
 }

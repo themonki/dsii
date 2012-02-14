@@ -4,11 +4,13 @@
  */
 package Entidades;
 
+import java.io.Serializable;
+
 /**
  *
  * @author leonardo
  */
-public class Reclamo {
+public class Reclamo implements Serializable{
 
     private Integer ticket;
     private String fecha;
