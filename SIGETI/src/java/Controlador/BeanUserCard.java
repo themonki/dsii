@@ -25,17 +25,17 @@ import Entidades.TarjetaPersonalizada;
 public class BeanUserCard implements Serializable 
 {
      private FacesContext context;
-    private String id;
-    private String tipoId;
-    private String nombre;
-    private String apellido;
-    private String direccion;
-    private String email;
-    private String fecha_nacimiento;
-    private String telefono;
-    private String adquiere_tarjeta;
-    private String password;
-    private boolean estado;
+    private String id="";
+    private String tipoId="";
+    private String nombre="";
+    private String apellido="";
+    private String direccion="";
+    private String email="";
+    private String fecha_nacimiento="";
+    private String telefono="";
+    private String adquiere_tarjeta="";
+    private String password="";
+    private boolean estado=true;
 
     public String getAdquiere_tarjeta() {
         return adquiere_tarjeta;
@@ -138,6 +138,7 @@ public class BeanUserCard implements Serializable
         DaoUser daoUser = new DaoUser();
 
 
+        
 
 
 
@@ -161,7 +162,9 @@ public class BeanUserCard implements Serializable
             
             
             user.setEmail(email);
-            user.setEstado(true);
+            user.setEstado(estado);
+            
+           result = daoUser.saveUser(user);
             
             
 
@@ -171,7 +174,7 @@ public class BeanUserCard implements Serializable
             if (result == 0) {
 
                 context.addMessage(null, new FacesMessage(
-                        FacesMessage.SEVERITY_ERROR, "El registro de la tarjeta no  fue creado ", null));
+                        FacesMessage.SEVERITY_ERROR, "El registro del usuario no  fue creado ", null));
 
             } else {
                 context.addMessage(null, new FacesMessage(
