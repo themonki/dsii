@@ -37,6 +37,8 @@ public class BeanReclamo implements Serializable {
 
    
 
+   
+
     private int ticket = 0;
     private String fecha;
     private String descripcion;
@@ -48,6 +50,7 @@ public class BeanReclamo implements Serializable {
     private String auxiliarRecibe;
     private String usuarioRealiza;
     private boolean renderTableSearch;
+    private boolean rendeEstadoReclamo;
     private String tipoPasajero;
     private boolean disableIdentificacion;
     private int countValidator;
@@ -84,6 +87,7 @@ public class BeanReclamo implements Serializable {
 
     public void setTicket(int ticket) {
         this.ticket = ticket;
+        this.renderTableSearch = true;//debe ser provisional
     }
 
     public void setFecha(String fecha) {
@@ -203,6 +207,13 @@ public class BeanReclamo implements Serializable {
         renderTableSearch = false;
 
 
+    }
+     public boolean getRendeEstadoReclamo() {
+        return rendeEstadoReclamo;
+    }
+
+    public void setRendeEstadoReclamo(boolean rendeEstadoReclamo) {
+        this.rendeEstadoReclamo = rendeEstadoReclamo;
     }
 
     public String createReClamo() {
@@ -487,17 +498,27 @@ public class BeanReclamo implements Serializable {
 
         } else if (l.equals("2")) {
             this.renderTableSearch = false;
+            this.rendeEstadoReclamo = true;
              this.clearStates();
             this.action = "Editar";
         } else if (l.equals("3")) {
-            this.renderTableSearch = false;
+           
+            this.rendeEstadoReclamo = true;
              this.clearStates();
             this.action = "Eliminar";
         } else if (l.equals("4")) {
-            this.renderTableSearch = false;
+          
+            this.rendeEstadoReclamo = true;
+            this.clearStates();
+            this.action = "Detalle";
+        }else if (l.equals("5")) {
+          
+            this.rendeEstadoReclamo = false;
+            estado = "";
             this.clearStates();
             this.action = "Detalle";
         }
+        
 
 
 
@@ -591,6 +612,11 @@ public class BeanReclamo implements Serializable {
         else if(l.equals("4"))
         {
             link = "findClaim";        
+           
+        }
+        else if(l.equals("5"))
+        {
+            link = "deleteClaim";        
            
         }
         

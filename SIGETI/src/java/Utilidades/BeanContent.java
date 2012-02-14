@@ -112,6 +112,9 @@ public class BeanContent implements Serializable{
            List c4 = new ArrayList();
            c4.add("Consultar Reclamo");
            c4.add("4");
+           List c5 = new ArrayList();
+           c5.add("Estado Mi Reclamo");
+           c5.add("5");
            
            menuOptions.add(l1);
            menuOptions.add(l4);
@@ -119,6 +122,7 @@ public class BeanContent implements Serializable{
            menuClaimsOptions.add(c2);
            menuClaimsOptions.add(c3);
            menuClaimsOptions.add(c4);
+           menuClaimsOptions.add(c5);
            
             
            
@@ -194,6 +198,11 @@ public class BeanContent implements Serializable{
            
         }
         else if(l.equals("4"))
+        {
+            link = "findClaim";      
+           
+           
+        } else if(l.equals("5"))
         {
             link = "findClaim";      
            

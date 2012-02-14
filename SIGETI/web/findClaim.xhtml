@@ -47,8 +47,8 @@
                         <f:facet name="header">
                             <h:outputText value="Buscar Reclamo"/>
                         </f:facet>
-                        <h:outputText value="Estado del reclamo:"/>
-                        <h:selectOneMenu  value="#{beanReclamo.estado}"  >
+                        <h:outputText value="Estado del reclamo:" rendered="#{beanReclamo.rendeEstadoReclamo}"/>
+                        <h:selectOneMenu  value="#{beanReclamo.estado}"  rendered="#{beanReclamo.rendeEstadoReclamo}" >
                             <f:selectItems value="#{beanReclamo.availableEstadosReclamo}"/>              
                         </h:selectOneMenu>
                         <h:outputText value="*Identificacion"/>
