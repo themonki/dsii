@@ -13,7 +13,7 @@
         <title>Facelets Template</title>
     </h:head>
 
-    #{beanCard.refresh("newCard")}
+    #{beanUserCard.refresh("userCard")}
 
 
     <h:body>
@@ -62,7 +62,7 @@
 
 
                             <h:outputText value="*Documento:"/>
-                            <h:inputText value="#{beanUserCard.id}"  size="30"/>
+                            <h:inputText value="#{beanUserCard.id}"  size="19"  maxlength="19"/>
 
 
 
@@ -75,29 +75,42 @@
                             </h:selectOneMenu>
 
                             <h:outputText value="Nombres:"/>
-                            <h:inputText value="#{beanUserCard.nombre}"  size="30"/>
+                            <h:inputText value="#{beanUserCard.nombre}"  size="49"  maxlength="49" />
 
                             <h:outputText value="Apellidos:"/>
-                            <h:inputText value="#{beanUserCard.apellido}"  size="30"/>
+                            <h:inputText value="#{beanUserCard.apellido}"  size="49" maxlength="49"/>
 
                             <h:outputText value="Direccion:"/>
-                            <h:inputText value="#{beanUserCard.direccion}"  size="30"/>
+                            <h:inputText value="#{beanUserCard.direccion}"  size="49" maxlength="49"/>
 
                             <h:outputText value="Email:"/>
-                            <h:inputText value="#{beanUserCard.email}"  size="30"/>
+                            <h:inputText value="#{beanUserCard.email}"  size="49" maxlength="49"/>
 
                             <h:outputText value="Telefono:"/>
-                            <h:inputText value="#{beanUserCard.telefono}"  size="30"/>
+                            <h:inputText value="#{beanUserCard.telefono}"  size="9" maxlength="9"/>
 
                             <h:outputText value="*Tarjeta Id"/>
-                            <h:inputText value="#{beanUserCard.adquiere_tarjeta}"  size="20" />
+                            <h:inputText value="#{beanUserCard.adquiere_tarjeta}"  size="29" maxlength="29" />
                             
                             <h:outputText value="Password"/>
-                            <h:inputSecret value="#{beanUserCard.password}"  size="20" />
+                            <h:inputSecret value="#{beanUserCard.password}"  size="31" maxlength="31"  />
                             
+                             </h:panelGrid>
+                        <h:panelGrid columns="7">
+                             <h:outputText value="Fecha De Nacimiento:"  />
+                            
+                            <h:outputText value="Año"/>
+                            <h:inputText value="#{beanUserCard.year}" size="4" maxlength="4" />
+                            
+                             <h:outputText value="Mes"/>
+                            <h:inputText value="#{beanUserCard.month}" size="2" maxlength="2" />
+                             <h:outputText value="Dia"/>
+                            <h:inputText value="#{beanUserCard.day}"  size="2" maxlength="2"/>
+                            
+                             </h:panelGrid>
 
                             <h:commandButton value="Registrar" styleClass="JButton" action="#{beanUserCard.createUser()}" /><br/>
-                        </h:panelGrid>
+                       
 
 
                     </h:form>

@@ -34,7 +34,7 @@ public class DaoUser {
         if (usuario.getApellido()!=null &&!usuario.getApellido().equals("")){ sql_insert+= "apellido,";sql_values+=usuario.getApellido() +","; }
         if (usuario.getDireccion()!=null &&!usuario.getDireccion().equals("")){ sql_insert+= "direccion,"; sql_values+= usuario.getDireccion()+",";}
         if (usuario.getEmail()!=null &&!usuario.getEmail().equals("")){ sql_insert+= "email,"; sql_values+=usuario.getEmail() +",";}
-        if (usuario.getFechaNacimiento()!=null &&!usuario.getFechaNacimiento().equals("")){ sql_insert+= "fecha_nacimiento,"; sql_values+=usuario.getFechaNacimiento()+",";}
+        if (usuario.getFechaNacimiento()!=null &&!usuario.getFechaNacimiento().equals("")){ sql_insert+= "fecha_nacimiento,"; sql_values+="'"+usuario.getFechaNacimiento()+"',";}
         if (usuario.getTelefono()!=null &&!usuario.getTelefono().equals("")){ sql_insert+= "telefono,"; sql_values+=usuario.getTelefono()+",";}
       
        

@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8' ?> 
+<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -9,8 +9,10 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
-        <title>Buscar Reclamo</title>
+        <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
+        <title>Consultar estaci&oacute;n</title>
     </h:head>
+
 
     <h:body>
 
@@ -41,61 +43,58 @@
                 </h:form>
             </div>
             <div  id="center_center">
-                <h:messages styleClass="error"/>
-                <h:form>
+                <h:messages style="color: red"/>
+                <br></br>
+                <h:form styleClass="Formulario">
                     <h:panelGrid columns="2">
                         <f:facet name="header">
-                            <h:outputText value="Buscar Reclamo"/>
+                            <center>
+                                <h:outputText value="Consultar estaci&oacute;n"/>
+                            </center>
                         </f:facet>
-                        <h:outputText value="Estado del reclamo:" rendered="#{beanReclamo.rendeEstadoReclamo}"/>
-                        <h:selectOneMenu  value="#{beanReclamo.estado}"  rendered="#{beanReclamo.rendeEstadoReclamo}" >
-                            <f:selectItems value="#{beanReclamo.availableEstadosReclamo}"/>              
-                        </h:selectOneMenu>
-                        <h:outputText value="*Identificacion"/>
-                        <h:inputText value="#{beanReclamo.ticket}" required="true" requiredMessage="El numero de ticket es obligatorio" size="8"/>
-                        <h:commandButton value="Buscar"/>
-                       
+                        <h:outputText value="Nombre:"/>
+                        <h:inputText value="#{beanEstacion.nombreBusqueda}"/>
+                        <center>
+                            <h:commandButton value="Consultar"
+                                             styleClass="JButton"
+                                             action="#{beanEstacion.actionFindEstacionPrincipal()}"
+                                              /><br/>
+                        </center>
                     </h:panelGrid>
                 </h:form>
-                <i><h:outputText value="Nota: Si desea realizar la consutla de todos los reclamos escriba 0 en identificacion"/></i>
+
+                <br/>
+                <h:outputLabel value="Para buscar todas las estaciones, deje vacio el campo nombre"/>
                 <br/><br/>
-                <h:form>
+
+                <h:form styleClass="Formulario"
+                        rendered="#{beanEstacion.renderTable}">
                     <h:dataTable
                         border="1"
-                        var="claim"
-                        value="#{beanReclamo.findReclamo}"
-                        id="tableClaim"
-                        rendered="#{beanReclamo.renderTableSearch}">
-                        <f:facet name="caption">Resultado de la b&uacute;squeda</f:facet>
+                        var="estacion"
+                        value="#{beanEstacion.findEstacionesPrincipales()}">
+                        <f:facet name="caption">Resultado de la consulta</f:facet>
 
                         <h:column>
-                            <f:facet name="header">Numero Ticket</f:facet>
-                            #{claim.ticket}
+                            <f:facet name="header">Id estacion</f:facet>
+                            #{estacion.id}
                         </h:column>
                         <h:column>
-                            <f:facet name="header">Fecha</f:facet>
-                            #{claim.fecha}
+                            <f:facet name="header">Ubicaci&oacute;n</f:facet>
+                            #{estacion.ubicacion}
                         </h:column>
                         <h:column>
-                            <f:facet name="header">Descripcion</f:facet>
-                            #{claim.descripcion} 
+                            <f:facet name="header">Nombre</f:facet>
+                            #{estacion.nombre}
                         </h:column>
                         <h:column>
-                            <f:facet name="header">Motivo</f:facet>
-                            #{claim.motivo} 
+                            <f:facet name="header">Acci&oacute;n</f:facet>                            
+                            <h:commandLink value="Detalle" 
+                                           action="detailEstacion"
+                                           actionListener="#{beanEstacion.detalleEstacion()}"/>
                         </h:column>
-                        <h:column>
-                            <f:facet name="header">Estado</f:facet>
-                            #{claim.estado} 
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">Acci&oacute;n</f:facet>
-                            <h:commandButton value="#{beanReclamo.action}" action ="#{beanReclamo.getLinkAction}"/>
-                        </h:column>
-                        
                     </h:dataTable>
                 </h:form>
-
             </div>
         </div>
         <div id="bottom">

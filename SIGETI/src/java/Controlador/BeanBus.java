@@ -175,10 +175,12 @@ public class BeanBus implements Serializable {
         daoBus = null;
         if(result == 0){
             content.setResultOperation("El Bus no pudo ser creado.");
+            content.setImage("./resources/fail.png");
             return "resultOperation";
         }    
         content.setResultOperation("El Bus fue creado con exito.");
         this.clearStates();
+        content.setImage("./resources/ok.png");
         return "resultOperation";
     }
     

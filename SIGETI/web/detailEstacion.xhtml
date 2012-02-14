@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8' ?> 
+<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -9,21 +9,22 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
-        <title>Resultado Operaci&oacute;n</title>
+        <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
+        <title>Crear estaci&oacute;n</title>
     </h:head>
 
     <h:body>
 
         <div id="top">
             <img src="./resources/logo.png" alt="logo"></img>
-        
+
             <h:form>
                 <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
                 <h:commandLink action="#{authentication.logout}">
                     <img src="./resources/exit.png" alt="salir" width="50" height="50"></img>
                 </h:commandLink>
             </h:form>
-            
+
         </div>
         <div id="center">
             <div id="center_left">
@@ -41,11 +42,32 @@
                 </h:form>
             </div>
             <div  id="center_center">
-                <h:form>
-                    <img src="#{beanContent.image}" alt="imagen" /> &nbsp;&nbsp;&nbsp;
-                    <h:outputText value="#{beanContent.resultOperation}"/> &nbsp;&nbsp;&nbsp;
-                    <h:commandButton value="Aceptar" action="home"/>
-                </h:form>
+                <div>
+                    <h:messages style="color: red"   />
+                    <br></br>
+                    <h:form styleClass="Formulario">
+                        <h:panelGrid columns="2">
+                            <f:facet name="header">
+                                <center>
+                                <h:outputText value="Crear nueva estaci&oacute;n"/>
+                                </center>
+                            </f:facet>
+                            <h:outputText value="Id de estaci&oacute;n: "/>
+                            <h:outputText value="#{beanEstacion.id}"/>
+                            <h:outputText value="Ubicaci&oacute;n: "/>
+                            <h:outputText value="#{beanEstacion.ubicacion}"/>
+                            <h:outputText value="Estado: "/>
+                            <h:outputText value="#{beanEstacion.estado}"/>
+                            <h:outputText value="Nombre estaci&oacute;n principal: "/>
+                            <h:outputText value="#{beanEstacion.nombre}"/>
+                            <h:outputText value="Operario acargo: "/>
+                            <h:outputText value="#{beanEstacion.idOperario}"/>
+                            <br/><br/>
+                            <h:commandButton value="Aceptar" styleClass="JButton" action="findEstacion" /><br/>
+                        </h:panelGrid>
+                    </h:form>
+
+                </div>
             </div>
         </div>
         <div id="bottom">

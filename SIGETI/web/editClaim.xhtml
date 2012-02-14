@@ -57,13 +57,11 @@
                         <h:inputText value="#{beanReclamo.fecha}"
                                      disabled="true"/>
                         <h:outputText value="Descripcion"/>
-                        <h:inputText value="#{beanReclamo.descripcion}"
-                                     required="true"
-                                     requiredMessage="La descripcion es obligatorio"/>
+                        <h:inputTextarea cols="40" rows="10" value="#{beanReclamo.descripcion}"
+                                         disabled="true"/>
                         <h:outputText value="Motivo:"/>
                         <h:inputText value="#{beanReclamo.motivo}"
-                                     required="true"
-                                     requiredMessage="Primer apellido es obligatorio"/>
+                                     disabled="true"/>
                         <h:outputText value="Tipo de identificaci&oacute;n"/>
                         <h:selectOneMenu value="#{beanReclamo.estado}">
                             <f:selectItems value="#{beanReclamo.availableEstadosReclamo}"/>
