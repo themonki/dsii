@@ -27,10 +27,9 @@ public class DaoCard {
         int result=0;
         String sql_insert = "INSERT INTO tarjeta  (pin,saldo,estado,tipo,costo,fecha_venta,estacion_venta)";
         
-        sql_insert+="VALUES ("+ tarjeta.getPin()+"  ,"+tarjeta.getSaldo()+",true"+ ","+tarjeta.getTipo()+ ","+tarjeta.getCosto()+ ","+"null"+ ","+"null"+")";
+        sql_insert+="VALUES ("+ tarjeta.getPin()+"  ,"+tarjeta.getSaldo()+",true"+ ","+tarjeta.getTipo()+ ","+tarjeta.getCosto()+ ",'"+tarjeta.getFechaVenta()+ "',"+"null"+")";
 
       
-         System.err.println(sql_insert);
         try {
             Connection conn = fachada.conectar();
             Statement sentence = conn.createStatement();
@@ -55,7 +54,7 @@ public class DaoCard {
         
         
         
-        System.err.println(sql_insert);
+       
         return result;
         
     }
@@ -68,7 +67,7 @@ public class DaoCard {
         sql_insert+="VALUES ("+pin+ ",3)";
 
       
-         System.err.println("ENTRE A PERSONA"+sql_insert);
+        
         try {
             Connection conn = fachada.conectar();
             Statement sentence = conn.createStatement();
@@ -79,7 +78,7 @@ public class DaoCard {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.err.println(sql_insert);
+       
         return result;
      
     }
@@ -92,7 +91,7 @@ public class DaoCard {
         sql_insert+="VALUES ("+pin+ ")";
 
       
-         System.err.println("ENTRE A GENERICA"+sql_insert);
+        
         try {
             Connection conn = fachada.conectar();
             Statement sentence = conn.createStatement();
@@ -103,7 +102,7 @@ public class DaoCard {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.err.println(sql_insert);
+        
         return result;
      
     }
@@ -114,7 +113,7 @@ public class DaoCard {
         String sql_insert = "UPDATE tarjeta SET  estado=false WHERE  pin='"+pin+"'";
      
         
-         System.err.println("ENTRE A GENERICA"+sql_insert);
+       
         try {
             Connection conn = fachada.conectar();
             Statement sentence = conn.createStatement();
@@ -125,7 +124,7 @@ public class DaoCard {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.err.println(sql_insert);
+       
        
         
         return result;
@@ -150,13 +149,24 @@ public class DaoCard {
             
 
             while (table.next()) { 
-                 System.err.println("Entre:::" );
+               
                 tarjeta.setPin(table.getString("pin"));
-                 System.err.println("pase:::" + tarjeta.getPin() );
+           
                 tarjeta.setSaldo(Integer.parseInt(table.getString("saldo")));          
                 tarjeta.setTipo(Integer.parseInt(table.getString("tipo")));
                 tarjeta.setCosto(Integer.parseInt(table.getString("costo")));
                 tarjeta.setFechaVenta(table.getString("fecha_venta"));
+                
+                if(table.getString("estado").equals("t")){
+                    tarjeta.setEstado(true);
+                
+                }
+                else {
+                    tarjeta.setEstado(false);
+                
+                
+                }
+             
                 
                 String estacion=table.getString("estacion_venta");
                 if(estacion ==null){
@@ -175,8 +185,36 @@ public class DaoCard {
             e.printStackTrace();
         }
         
-        System.err.println("AQUIIIIIIIIIIIIIII:::" +pin);
+        
         return tarjeta;
+     }
+     
+     public  int editCard(Tarjeta tarjeta){
+         
+         
+        int result=0;
+        String sql_insert = "UPDATE  tarjeta  (pin,saldo,estado,tipo,costo,fecha_venta,estacion_venta)";
+        
+        sql_insert+="SET saldo=  "+tarjeta.getSaldo() +"WHERE pin='"+ tarjeta.getPin()+"'";
+
+      
+        try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            result = sentence.executeUpdate(sql_insert);
+            fachada.cerrarConexion(conn);
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+         
+         
+        
+         return 0;
+     
+     
+     
      }
      
      

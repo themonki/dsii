@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
+        <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
+        <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
+        <title>Editar Reclamo</title>        
+
+        <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
+    </h:head>
+
+    <h:body>
+
+        <div id="top">
+            <img src="./resources/logo.png" alt="logo"></img>
+
+            <h:form>
+                <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
+                <h:commandLink action="#{authentication.logout}">
+                    <img src="./resources/exit.png" alt="salir" width="50" height="50"></img>
+                </h:commandLink>
+            </h:form>
+        </div>
+        <div id="center">
+            <div id="center_left">
+                <h:form>
+                    <h:dataTable value="#{beanContent.menuOptions}" var="l">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Menu"/>
+                            </f:facet>
+                            <h:commandLink action="#{beanContent.findLink(l.get(1))}">
+                                <h:outputText value="#{l.get(0)}"/>
+                            </h:commandLink>
+                        </h:column>
+                    </h:dataTable>
+                </h:form>
+            </div>
+            <div id="center_center">
+                <h:messages style="color: purple"/>
+                <h:form styleClass="Formulario">
+                    <h:panelGrid columns="2">
+                        <f:facet name="header">
+                            <h:outputText value="Datos del Reclamo"/>
+                        </f:facet>
+                        <h:outputText value="Numero de Ticket:"/>
+                        <h:inputText value="#{beanReclamo.ticket}" 
+                                     disabled="true"/>
+                                     
+                        <h:outputText value="Fecha del Reclamo"/>
+                        <h:inputText value="#{beanReclamo.fecha}"
+                                     disabled="true"/>
+                        <h:outputText value="Descripcion"/>
+                        <h:inputText value="#{beanReclamo.descripcion}"
+                                     required="true"
+                                     requiredMessage="La descripcion es obligatorio"/>
+                        <h:outputText value="Motivo:"/>
+                        <h:inputText value="#{beanReclamo.motivo}"
+                                     required="true"
+                                     requiredMessage="Primer apellido es obligatorio"/>
+                        <h:outputText value="Tipo de identificaci&oacute;n"/>
+                        <h:selectOneMenu value="#{beanReclamo.estado}">
+                            <f:selectItems value="#{beanReclamo.availableEstadosReclamo}"/>
+                        </h:selectOneMenu>
+                        <h:outputText value="Auxiliar quien recibe"/>
+                        <h:inputText value="#{beanReclamo.auxiliarRecibe}"                                    
+                                     disabled="true"/>
+                        <h:outputText value="Nombre de la estacion"/>
+                        <h:inputText value="#{beanReclamo.nombreEstacion}"                                    
+                                     disabled="true"/>
+                        <h:outputText value="Usuario que realiza:"/>
+                        <h:inputText value="#{beanReclamo.usuarioRealiza}"
+                                     disabled="true"/>
+                        <h:outputText value="Nombre Usuerio:"/>
+                        <h:inputText value="#{beanReclamo.nombreUsuario}"
+                                     disabled="true"/>
+                                 
+                    </h:panelGrid>
+                    <br/>
+                    <h:dataTable
+                        border="1"
+                        var="medida"
+                        value="#{beanReclamo.medidas}"
+                        id="tableMedida"
+                        >
+                        <f:facet name="caption">Medidas tomadas para este Reclamo</f:facet>
+
+                        <h:column>
+                            <f:facet name="header">Identificador Medida</f:facet>
+                            #{medida.id}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Accion</f:facet>
+                            #{medida.accion}
+                        </h:column>  
+                        <h:column>
+                            <f:facet name="header">Accion</f:facet>
+                            <h:commandButton  value="Borrar Medida" styleClass="JButton" action="#{beanReclamo.removeMedidaReclamo()}"/>
+                        </h:column> 
+                        
+                    </h:dataTable>
+                    <br/> 
+                   
+                    <h:selectOneMenu value="#{beanReclamo.accionMedida}">
+                        <f:selectItems value="#{beanMedida.findMedida}"/>
+                        </h:selectOneMenu>
+                    <h:commandButton  value="Agregar Medida" styleClass="JButton" action="#{beanReclamo.addMedidaReclamo}"/>
+                    <br/>
+                    <br/>
+                    <h:panelGrid columns="2">
+                        <h:commandButton  value="Actualizar" styleClass="JButton" action="#{beanReclamo.updateReclamo()}"/>
+                        <h:commandButton  value="Atr&aacute;s" styleClass="JButton"
+                                         action="findClaim"
+                                         actionListener="#{beanReclamo.statesForFindReturn}"
+                                         immediate="true"/>
+                    </h:panelGrid>
+
+                </h:form>
+            </div>
+        </div>
+        <div id="bottom">
+            <ui:insert name="bottom">Pie de pagina</ui:insert>
+        </div>
+
+    </h:body>
+
+</html>

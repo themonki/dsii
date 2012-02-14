@@ -12,6 +12,9 @@
         <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
         <title>Facelets Template</title>
     </h:head>
+    
+    #{beanCard.refresh("newCard")}
+
 
     <h:body>
 
@@ -67,23 +70,23 @@
                        <h:outputText value="*Estacion ID:"/>
                        <h:inputText value="#{beanCard.estacion}" />
                        
-                       <h:outputText value="Costo Tarjeta:"/>
+                       <h:outputText value="Costo:"/>
                        <h:inputText value="#{beanCard.costo}" />
                        
                        
                         
                         <h:outputText value="*Tipo:"/>
                         
-                        <h:selectOneMenu  value="#{beanCard.tipo}"  >
-                            <f:selectItem id="item1" itemLabel="Personalizada " itemValue="1" />
+                        <h:selectOneMenu  value="#{beanCard.tipo}"  onchange="submit()"  >
+                            <f:selectItem  id="item1" itemLabel="Personalizada " itemValue="1" />
                             <f:selectItem id="item2" itemLabel="Generica" itemValue="2" />
                             
-                        </h:selectOneMenu><br/>
-
+                        </h:selectOneMenu>
                         
-
-                        <h:commandButton value="Registrar" styleClass="JButton" action="#{beanCard.createCard()}" /><br/>
+                         <h:commandButton value="Registrar" styleClass="JButton" action="#{beanCard.createCard()}" /><br/>
                         </h:panelGrid>
+                        
+                       
                     </h:form>
 
                 </div>

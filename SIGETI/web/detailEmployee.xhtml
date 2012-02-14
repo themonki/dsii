@@ -89,8 +89,10 @@
                                       rendered="#{!beanEmployee.disableEstacion}"/>
                         <h:outputText value="Login:"/>
                         <h:outputText value="#{beanEmployee.login}"/>
+                        <h:outputText value="Estado:"/>
+                        <h:outputText value="#{beanEmployee.estadoS}"/>
                     </h:panelGrid>
-                          
+                    <br/><br/>      
                     <h:commandButton value="Aceptar" styleClass="JButton" 
                                      action="findEmployee"
                                      actionListener="#{beanEmployee.statesForFindReturn}"
