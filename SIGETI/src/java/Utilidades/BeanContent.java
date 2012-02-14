@@ -66,6 +66,11 @@ public class BeanContent implements Serializable{
            List l3 = new ArrayList();
            l3.add("Gestionar Tarjetas");
            l3.add("3");
+           List l4 = new ArrayList();
+           l4.add("Gestionar Estaciones");
+           l4.add("5");
+
+           System.err.println("l4: "+l4.get(0)+"l4: "+l4.get(1));
           
            
            
@@ -73,6 +78,7 @@ public class BeanContent implements Serializable{
            menuOptions.add(l1);
            menuOptions.add(l2);
            menuOptions.add(l3);
+           menuOptions.add(l4);
            
            
        }else if(rol == 1) //director
@@ -80,8 +86,13 @@ public class BeanContent implements Serializable{
            List l1 = new ArrayList();
            l1.add("Gestionar Empleados");
            l1.add("1");
+           List l2 = new ArrayList();
+           l2.add("Gestinar Estaciones");
+           l2.add("5");
+
            
            menuOptions.add(l1);
+           menuOptions.add(l2);
        }else if(rol == 2) //Operario
        {
            List l1 = new ArrayList();
@@ -184,11 +195,11 @@ public class BeanContent implements Serializable{
         }
         else if(l.equals("4"))
         {
-            link = "findClaim";
-           
+            link = "findClaim";      
            
            
         }
+
         
         return link;
     }
@@ -196,6 +207,7 @@ public class BeanContent implements Serializable{
     
     public String findLink(String l)
     {
+        System.err.println("l es: " + l);
         String link = null;
         if(l.equals("1"))
             link = "managerEmployees";
@@ -205,7 +217,8 @@ public class BeanContent implements Serializable{
             link = "managerCards";
         else if(l.equals("4"))
             link = "managerClaims";
-        
+        else if (l.equals("5"))
+            link="managerEstaciones";
         return link;
     }
 

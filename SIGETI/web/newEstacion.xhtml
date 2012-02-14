@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8' ?> 
+<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -10,10 +10,8 @@
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
-        <title>Facelets Template</title>
+        <title>Crear estaci&oacute;n</title>
     </h:head>
-     
-    #{beanCard.refresh("findCard")}
 
     <h:body>
 
@@ -45,66 +43,38 @@
             </div>
             <div  id="center_center">
                 <div>
-                    <ui:insert name="content">Consultar Tarjeta</ui:insert>
-
-                    <br></br>
-
-                    <img src="./resources/BuscarCard.gif"  width="100" height="100"></img>
-
-                    <br></br>
                     <h:messages style="color: red"   />
-
                     <br></br>
-
-
                     <h:form styleClass="Formulario">
+                        <h:panelGrid columns="2">
+                            <f:facet name="header">
+                                <center>
+                                <h:outputText value="Crear nueva estaci&oacute;n"/>
+                                </center>
+                            </f:facet>
+                            <h:outputText value="*Ubicaci&oacute;n:"/>
+                            <h:inputText value="#{beanEstacion.ubicacion}"
+                                         size="20"
+                                         required="true"
+                                         requiredMessage="La ubicaci&oacute;n es un dato requerido."/>
+                            <h:outputText value="Tipo de estaci&oacute;n:"/>
+                            <h:selectOneMenu value="#{beanEstacion.tipo}">
+                                <f:selectItems value="#{beanEstacion.tipos}"/>
+                                <f:ajax render="nombreOn idOperarioOn"/>
+                            </h:selectOneMenu>
+                            <h:outputText value="Nombre estaci&oacute;n principal:"/>
+                            <h:inputText value="#{beanEstacion.nombre}"
+                                         disabled="#{beanEstacion.disableNombre}"
+                                         id="nombreOn"/>
 
-                        <h:panelGrid columns="2" >
-                            
-                            
-
-                            <h:outputText value="Ingrese el Pin:"/>
-
-                            <h:inputText value="#{beanCard.pin}" />  
-                            
-                           
-                            
-                            <h:outputText value="Ingrese la Cedula del Propietario:"/>
-
-                            <h:inputText value="#{beanCard.cedulaPasajero}" />  
-                                                       
-                            <h:commandButton value="Consultar" styleClass="JButton" action="#{beanCard.findCard()}" />
-
-                        </h:panelGrid>
-                        
-                         <br/><hr/><br/>
-
-                        <h:panelGrid columns="2" >
-
-                            
-                             <h:outputText value="Pin:"/>
-                            <h:outputText value="#{beanCard.pin}" />
-                            <h:outputText value="Numero de Pasajes:"/>
-                            <h:outputText value="#{beanCard.numberPassages}" />
-
-                            <h:outputText value="Estacion ID:"/>
-                            <h:outputText value="#{beanCard.estacion}" />
-
-                            <h:outputText value="Costo Tarjeta:"/>
-                            <h:outputText value="#{beanCard.costo}" />
-
-
-
-                            
-                            <h:outputText value="Tipo:"/>
-
-                            <h:outputText  value="#{beanCard.tipo}" /> 
-                            
-                            <h:outputText value="Fecha de Venta:"/>
-
-                            <h:outputText  value="#{beanCard.fecha}" /> 
-
-                            
+                            <h:outputText value="Operario acargo:"/>
+                            <h:selectOneMenu value="#{beanEstacion.idOperario}"
+                                             disabled="#{beanEstacion.disableIdOperario}"
+                                             id="idOperarioOn">
+                                <f:selectItems value="#{beanEmployee.availableCargo}"/>
+                            </h:selectOneMenu>
+                            <br/><br/>
+                            <h:commandButton value="Crear" styleClass="JButton" action="#{beanEstacion.createEstacion()}" /><br/>
                         </h:panelGrid>
                     </h:form>
 

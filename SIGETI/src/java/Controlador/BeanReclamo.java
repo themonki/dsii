@@ -4,7 +4,6 @@
  */
 package Controlador;
 
-
 import Dao.DaoReclamo;
 
 import Entidades.Reclamo;
@@ -28,7 +27,7 @@ import javax.faces.model.SelectItem;
  */
 @ManagedBean
 @SessionScoped
-public class BeanReclamo implements Serializable{
+public class BeanReclamo implements Serializable {
 
     private int ticket = 0;
     private String fecha;
@@ -42,71 +41,57 @@ public class BeanReclamo implements Serializable{
     private boolean disableIdentificacion;
     private int countValidator;
     private String action;
-    
 
-    public void setTicket(int ticket) 
-    {
+    public void setTicket(int ticket) {
         this.ticket = ticket;
     }
 
-    public void setFecha(String fecha)
-    {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 
-    public void setDescripcion(String descripcion) 
-    {
+    public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
 
-    public void setMotivo(String motivo) 
-    {
+    public void setMotivo(String motivo) {
         this.motivo = motivo;
     }
 
-    public void setEstado(String estado) 
-    {
+    public void setEstado(String estado) {
         this.estado = estado;
         this.renderTableSearch = true;//debe ser provisional
     }
 
-    public void setAuxiliarRecibe(String auxiliarRecibe) 
-    {
+    public void setAuxiliarRecibe(String auxiliarRecibe) {
         this.auxiliarRecibe = auxiliarRecibe;
     }
 
-    public void setUsuarioRealiza(String usuarioRealiza) 
-    {
+    public void setUsuarioRealiza(String usuarioRealiza) {
         this.usuarioRealiza = usuarioRealiza;
     }
 
-    public void setRenderTableSearch(boolean renderTableSearch) 
-    {
+    public void setRenderTableSearch(boolean renderTableSearch) {
         this.renderTableSearch = renderTableSearch;
     }
 
-    public void setDisableIdentificacion(boolean disableIdentificacion) 
-    {
+    public void setDisableIdentificacion(boolean disableIdentificacion) {
         this.disableIdentificacion = disableIdentificacion;
     }
 
-    public int getTicket() 
-    {
-            return ticket;
+    public int getTicket() {
+        return ticket;
     }
 
-    public String getFecha() 
-    {
+    public String getFecha() {
         return fecha;
     }
 
-    public boolean getDisableIdentificacion() 
-    {
+    public boolean getDisableIdentificacion() {
         return disableIdentificacion;
     }
 
-    public boolean getRenderTableSearch() 
-    {
+    public boolean getRenderTableSearch() {
         return renderTableSearch;
     }
 
@@ -154,13 +139,14 @@ public class BeanReclamo implements Serializable{
     public String getAction() {
         return action;
     }
+
     public BeanReclamo() {
 
         disableIdentificacion = false;
         countValidator = 0;
         renderTableSearch = false;
-       
-        
+
+
     }
 
     public String createReClamo() {
@@ -218,7 +204,7 @@ public class BeanReclamo implements Serializable{
 
         content.setResultOperation("El reclamo fue creado con exito. Con numero de ticket " + daoReclamo.lastTicketId());
         daoReclamo = null;
-       // clearStates();
+        // clearStates();
         return "resultOperation";
     }
 
@@ -233,7 +219,7 @@ public class BeanReclamo implements Serializable{
 
         List<Reclamo> reclamosfiltrados = new ArrayList<Reclamo>();
         System.out.println("Ticket para filtar " + ticket);
-        if (ticket ==  0) {
+        if (ticket == 0) {
 
             reclamosfiltrados = reclamos;
 
@@ -304,41 +290,36 @@ public class BeanReclamo implements Serializable{
 
 
     }
-    public void update(String l)
-    {
-    
-        if(l.equals("1"))
-        {
+
+    public void update(String l) {
+
+        if (l.equals("1")) {
             this.clearStates();
-        
-        }else if(l.equals("2"))
-        {
+
+        } else if (l.equals("2")) {
             this.renderTableSearch = false;
-            this.action = "Editar";  
-        }else if(l.equals("3"))
-        {
+            this.action = "Editar";
+        } else if (l.equals("3")) {
             this.renderTableSearch = false;
-            this.action = "Eliminar";     
-        }else if(l.equals("4"))
-        {
+            this.action = "Eliminar";
+        } else if (l.equals("4")) {
             this.renderTableSearch = false;
             this.clearStates();
-            this.action = "Detalle";        
+            this.action = "Detalle";
         }
-    
-    
-    
-        System.out.println("accion actual " +this.action);
-    
-    
-    
-    }
-       
-     public void statesForFindReturn(ActionEvent e) {
-        this.clearStates();
-           System.out.println("Retornando de  " +this.action);
+
+
+
+        System.out.println("accion actual " + this.action);
+
+
+
     }
 
+    public void statesForFindReturn(ActionEvent e) {
+        this.clearStates();
+        System.out.println("Retornando de  " + this.action);
+    }
 
     public String getLinkAction() {
         String link = "";
@@ -353,15 +334,15 @@ public class BeanReclamo implements Serializable{
 
         return link;
     }
-    
-      private Reclamo getCurrentReclamo() {
+
+    private Reclamo getCurrentReclamo() {
         FacesContext context = FacesContext.getCurrentInstance();
         Application app = context.getApplication();
         Reclamo reclamo = (Reclamo) app.evaluateExpressionGet(context, "#{claim}", Reclamo.class);
         return reclamo;
     }
-    
-        private void prepareDataClaim() {
+
+    private void prepareDataClaim() {
         Reclamo reclamo = this.getCurrentReclamo();
 
         this.ticket = reclamo.getTicket();
@@ -370,9 +351,9 @@ public class BeanReclamo implements Serializable{
         this.motivo = reclamo.getMotivo();
         this.estado = reclamo.getEstado();
         this.auxiliarRecibe = reclamo.getAuxiliarRecibe();
-        this.usuarioRealiza = reclamo.getUsuarioRealiza();       
-       
-              
+        this.usuarioRealiza = reclamo.getUsuarioRealiza();
+
+
     }
 
     void clearStates() {
@@ -385,5 +366,6 @@ public class BeanReclamo implements Serializable{
         this.auxiliarRecibe = "";
         this.usuarioRealiza = "";
         this.countValidator = 0;
+        this.renderTableSearch = false;
     }
 }
