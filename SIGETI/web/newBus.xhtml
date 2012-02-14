@@ -49,20 +49,25 @@
                             <h:outputText value="Datos Bus"/>
                         </f:facet>
                         <h:outputText value="* Matricula:"/>
-                        <h:inputText value="#{beanBus.matricula}" 
+                        <h:inputText value="#{beanBus.matricula}"  
                                      required="true"
-                                     requiredMessage="La Matricula es obligatoria"/>
+                                     requiredMessage="La Matricula es obligatoria"
+                                     validator="#{beanBus.validateMatricula}">
+                        </h:inputText>
                         <h:outputText value="* Identificador Interno"/>
                         <h:inputText value="#{beanBus.idInterno}"
                                      required="true"
-                                     requiredMessage="El Identificador Interno del Bus es obligatorio"/>
-                        <h:outputText value="Capacidad:"/>
-                        <h:inputText value="#{beanBus.capacidad}"/>
-                        <h:outputText value="Tipo:"/>
-                        <h:inputText value="#{beanBus.tipo}"/>
-                        <h:outputText value="Estado:"/>
-                        <h:selectOneMenu value="#{beanBus.estado}">
-                            <f:selectItems value="#{beanBus.availableEstado}"/>
+                                     requiredMessage="El Identificador Interno del Bus es obligatorio"
+                                     validator="#{beanBus.validateMatricula}"/>
+                        <h:outputText value="Capacidad:" id="Capacidad"/>
+                        <h:inputText value="#{beanBus.capacidad}" />
+                        <h:outputText value="Tipo: "/>
+                        <h:selectOneMenu value="#{beanBus.tipo}">                             
+                             <f:selectItems value="#{beanBus.availableTipo}"/>                       
+                        </h:selectOneMenu>
+                        <h:outputText value="Estado Fisico:"/>
+                        <h:selectOneMenu value="#{beanBus.estadoFisico}">
+                            <f:selectItems value="#{beanBus.availableEstadoFisico}"/>
                         </h:selectOneMenu>
                         <h:outputText value="Ruta a la que pertenece:"/>
                         <h:selectOneMenu value="#{beanBus.perteneceRuta}">

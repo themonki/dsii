@@ -4,14 +4,16 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
+
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
-        <title>Editar Bus</title>        
+        <title>Detalles del Bus</title>        
         
         <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
     </h:head>
+
     <h:body>
 
         <div id="top">
@@ -44,30 +46,26 @@
                     <h:messages styleClass="error"/>
                     <h:panelGrid columns="2">
                         <f:facet name="header">
-                            <h:outputText value="Datos Bus"/>
+                            <h:outputText value="Datos del Bus"/>
                         </f:facet>
-                        <h:outputText value="Matricula"/>
+                        <h:outputText value="Matricula:"/>
                         <h:outputText value="#{beanBus.matricula}"/>
-                        <h:outputText value="* Identificador Interno"/>
-                        <h:inputText value="#{beanBus.idInterno}"
-                                     required="true"
-                                     requiredMessage="El Identificador Interno del Bus es obligatorio"
-                                     validator="#{beanBus.validateIdInterno}"/>
+                        <h:outputText value="Identificador Interno"/>
+                        <h:outputText value="#{beanBus.idInterno}"/>
+                        <h:outputText value="Capacidad "/>
+                        <h:outputText value="#{beanBus.capacidad}"/>
+                        <h:outputText value="Tipo: "/>
+                        <h:outputText value="#{beanBus.tipo}"/>
                         <h:outputText value="Estado Fisico:"/>
-                        <h:selectOneMenu value="#{beanBus.estadoFisico}" tabindex="#{beanBus.estadoFisico}">
-                            <f:selectItems value="#{beanBus.availableEstadoFisico}"/>                       
-                        </h:selectOneMenu>                        
-<!--                        <h:outputText value="Ruta a la que pertenece:"/>
-                        <h:selectOneMenu value="#{beanBus.perteneceRuta}">
-                            <f:selectItems value="#{beanBus.availableRutaPertenece}"/>
-                        </h:selectOneMenu>                       -->
+                        <h:outputText value="#{beanBus.estadoFisico}"/>
+                        <h:outputText value="Ruta a la que pertenece:"/>
+                        <h:outputText value="#{beanBus.perteneceRuta}"/>                      
                     </h:panelGrid>
                     <br/><hr/><br/>                    
-                    
-                    <h:commandButton value="Editar" action="#{beanBus.updateBus}"/>
                     <h:commandButton  value="Atr&aacute;s"
-                                          action="findBus"
+                                          action="findBus"                                          
                                           immediate="true"/>
+                    
                 </h:form>
             </div>
         </div>
@@ -76,4 +74,5 @@
         </div>
 
     </h:body>
+
 </html>
