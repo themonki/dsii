@@ -4,6 +4,7 @@
  */
 package Dao;
 
+import Entidades.Medida;
 import Entidades.Reclamo;
 import Utilidades.FachadaBD;
 import java.sql.Connection;
@@ -155,11 +156,11 @@ public class DaoReclamo {
         return reclamos;
     }
     
-    public boolean usuarioValido(String id)
+    public String usuarioValido(String id)
     {
-       boolean  existeUsuario = false;
+       String  nombreUsuario = "";
 
-        String sql_query = "SELECT * FROM usuario WHERE id = '" + id + "';";
+        String sql_query = "SELECT nombre FROM usuario WHERE id = '" + id + "';";
 
         try {
 
@@ -169,7 +170,7 @@ public class DaoReclamo {
             
             while (table.next()) {
 
-                existeUsuario = true;                              
+                nombreUsuario = table.getString("nombre");                              
 
             }
 
@@ -185,7 +186,7 @@ public class DaoReclamo {
 
 
    
-        return existeUsuario;
+        return nombreUsuario;
     
     }
 
@@ -226,4 +227,6 @@ public class DaoReclamo {
         return reclamos;     
 
     }
+    
+   
 }

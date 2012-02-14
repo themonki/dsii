@@ -1,11 +1,17 @@
-/*
+    /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 package Controlador;
 
+import Dao.DaoEmpleado;
+import Dao.DaoEstacion;
+import Dao.DaoMedida;
 import Dao.DaoReclamo;
 
+import Entidades.Auxiliar;
+import Entidades.EstacionPrincipal;
+import Entidades.Medida;
 import Entidades.Reclamo;
 import Utilidades.BeanContent;
 import java.io.Serializable;
@@ -29,6 +35,22 @@ import javax.faces.model.SelectItem;
 @SessionScoped
 public class BeanReclamo implements Serializable {
 
+    public String getNombreEstacion() {
+        return nombreEstacion;
+    }
+
+    public void setNombreEstacion(String nombreEstacion) {
+        this.nombreEstacion = nombreEstacion;
+    }
+
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
+    }
+
     private int ticket = 0;
     private String fecha;
     private String descripcion;
@@ -41,6 +63,8 @@ public class BeanReclamo implements Serializable {
     private boolean disableIdentificacion;
     private int countValidator;
     private String action;
+    private String nombreUsuario;
+    private String nombreEstacion;
 
     public void setTicket(int ticket) {
         this.ticket = ticket;
@@ -139,7 +163,7 @@ public class BeanReclamo implements Serializable {
     public String getAction() {
         return action;
     }
-
+ 
     public BeanReclamo() {
 
         disableIdentificacion = false;
@@ -251,6 +275,32 @@ public class BeanReclamo implements Serializable {
         }
     }
 
+    
+     public List<Medida> getFindMedida() {
+        DaoMedida daoMedida = new DaoMedida();
+        List<Medida> medidas;
+        System.out.println(estado);
+
+        medidas = daoMedida.findAllMedidas(ticket);
+
+        daoMedida = null;
+
+      
+       
+ 
+
+        System.out.println("Tamaño de filtrado " + medidas.size());
+        if (medidas.isEmpty()) {
+            Medida medida = new Medida(0, "Aun no se han añadido medidas para este reclamo");
+            
+            medidas.add(medida);
+            
+            return medidas;
+        } else {
+            return medidas;
+        }
+    }
+
     public List<SelectItem> getAvailableTipoPasajero() {
         List<SelectItem> avaiableTipoUsuario = new ArrayList<SelectItem>();
         avaiableTipoUsuario.add(new SelectItem("Personalizada"));
@@ -281,7 +331,7 @@ public class BeanReclamo implements Serializable {
         // Se usara con el dao de reclamo pero debe ser con el dao de usuario Temporal!!!
         DaoReclamo daoReclamo = new DaoReclamo();
 
-        if (!daoReclamo.usuarioValido(usuarioRealiza) && usuarioRealiza != null) {
+        if (daoReclamo.usuarioValido(usuarioRealiza).equals("") && usuarioRealiza != null) {
             context.addMessage(null, new FacesMessage("El id del usuario  no se encuentra en la base de datos."));
             countValidator = 1;
 
@@ -298,9 +348,11 @@ public class BeanReclamo implements Serializable {
 
         } else if (l.equals("2")) {
             this.renderTableSearch = false;
+             this.clearStates();
             this.action = "Editar";
         } else if (l.equals("3")) {
             this.renderTableSearch = false;
+             this.clearStates();
             this.action = "Eliminar";
         } else if (l.equals("4")) {
             this.renderTableSearch = false;
@@ -329,6 +381,7 @@ public class BeanReclamo implements Serializable {
         } else if (this.action.equals("Eliminar")) {
             link = "eraseClaim";
         } else if (this.action.equals("Editar")) {
+            this.prepareDataClaim();
             link = "editClaim";
         }
 
@@ -344,6 +397,8 @@ public class BeanReclamo implements Serializable {
 
     private void prepareDataClaim() {
         Reclamo reclamo = this.getCurrentReclamo();
+        
+        System.out.println(reclamo);
 
         this.ticket = reclamo.getTicket();
         this.fecha = reclamo.getFecha();
@@ -352,10 +407,53 @@ public class BeanReclamo implements Serializable {
         this.estado = reclamo.getEstado();
         this.auxiliarRecibe = reclamo.getAuxiliarRecibe();
         this.usuarioRealiza = reclamo.getUsuarioRealiza();
+        
+        DaoReclamo daoReclamo = new DaoReclamo();
+        
+        this.nombreUsuario = daoReclamo.usuarioValido(usuarioRealiza);
+        DaoEmpleado daoEmpleado = new DaoEmpleado();
+         
+        Auxiliar auxiliar = daoEmpleado.findAuxiliarId(this.auxiliarRecibe);
+        
+        DaoEstacion daoEstacion = new DaoEstacion();
+        
+        EstacionPrincipal estacionPrincipal = daoEstacion.findEstacionPrincipal(auxiliar.getTrabajaEn());
+        nombreEstacion = estacionPrincipal.getNombre();     
+        
+        
 
 
     }
 
+     public String findLinkClaims(String l)
+    {
+        String link = null;
+        if(l.equals("1"))
+        {
+            link = "newClaim";
+            
+            
+           
+        }
+        else if(l.equals("2"))
+        {
+            link = "editClaim";
+            
+            
+        }
+        else if(l.equals("3"))
+        {
+            link = "deleteClaim";           
+           
+        }
+        else if(l.equals("4"))
+        {
+            link = "findClaim";        
+           
+        }
+        
+        return link;
+    }
     void clearStates() {
         this.ticket = 0;
         this.descripcion = "";

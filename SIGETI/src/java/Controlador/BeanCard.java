@@ -16,9 +16,8 @@ import javax.faces.context.FacesContext;
 import Utilidades.BeanContent;
 import Dao.DaoCard;
 import Entidades.Tarjeta;
-import Entidades.TarjetaGenerica;
+
 import Entidades.TarjetaPersonalizada;
-import java.util.Date;
 
 @ManagedBean
 @SessionScoped
@@ -29,12 +28,15 @@ public class BeanCard implements Serializable {
     private String costo = "0";
     private String pin = "";
     private String estacion = "";
-    private String tipo = "";
+    private String tipo ="1";
     private String numberPassages = "0";
     private boolean estado = true;// solo se modifica si se va a borrar ; 
     private String cedulaPasajero = "";
     private String isFind = "false";
     private String fecha = "";
+   
+
+    
 
     public String getFecha() {
         return fecha;
@@ -107,6 +109,9 @@ public class BeanCard implements Serializable {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
+    
+    
+    
 
     public String createCard() {
         context = FacesContext.getCurrentInstance();
@@ -124,7 +129,7 @@ public class BeanCard implements Serializable {
 
         java.util.Date date = new java.util.Date();
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
-        String fecha = sdf.format(date);
+        fecha = sdf.format(date);
 
 
         content.setResultOperation("El Empleado fue creado con exito.");
@@ -145,11 +150,9 @@ public class BeanCard implements Serializable {
             tarjeta.setTipo(tipoTarjeta);
             tarjeta.setSaldo(Integer.parseInt(numberPassages));
 
-            System.err.println("antes de guardar");
-
             result = daoCard.saveCard(tarjeta);
 
-            System.err.println("despues de guardar");
+           
 
 
             if (result == 0) {
@@ -164,7 +167,7 @@ public class BeanCard implements Serializable {
 
             clearStates();
 
-        };
+        }
 
 
         return null;
@@ -240,16 +243,16 @@ public class BeanCard implements Serializable {
             
 
             context.addMessage(null, new FacesMessage(
-                    FacesMessage.SEVERITY_ERROR, "El registro de la tarjeta fue deshabilitado del sistema"+tarjeta.getEstado(), null));
+                    FacesMessage.SEVERITY_ERROR, "El registro de la tarjeta fue deshabilitado del sistema", null));
             return null;
 
 
         }
 
 
-        isFind = "true";
-        if (!actual.equals("eraseCard")) {
-            isFind = "false";
+        isFind = "false";
+        if (actual.equals("eraseCard") || actual.equals("editCard")) {
+            isFind = "true";
         }
         
 
@@ -369,6 +372,41 @@ public class BeanCard implements Serializable {
 
 
     }
+    public String editCard(){
+        
+          context = FacesContext.getCurrentInstance();
+        //validate();
+        if (context.getMessageList().size() > 0) {
+            return null;
+        }
+        BeanContent content = (BeanContent) context.getApplication().evaluateExpressionGet(context, "#{beanContent}", BeanContent.class);
+        int result = 0;
+        DaoCard daoCard = new DaoCard();
+        
+        
+        
+        
+        Tarjeta tarjeta = new TarjetaPersonalizada();
+        tarjeta.setCosto(Integer.parseInt(costo));
+        tarjeta.setEstacionVenta(Integer.parseInt(estacion));
+        tarjeta.setEstado(true);
+        tarjeta.setFechaVenta(fecha);//fecha
+        tarjeta.setPin(pin);
+        tarjeta.setTipo(Integer.parseInt(tipo));
+        tarjeta.setSaldo(Integer.parseInt(numberPassages));
+
+        daoCard.editCard(tarjeta);
+
+        context.addMessage(null, new FacesMessage(
+                FacesMessage.SEVERITY_ERROR, "La modificiacion fue exitosa", null));
+        
+
+        isFind="false";
+        clearStates();
+         
+        return null; 
+    
+    }
 
     public void refresh(String actual) {
 
@@ -393,6 +431,7 @@ public class BeanCard implements Serializable {
         estacion = "";
         costo = "0";
         fecha = "";
+        cedulaPasajero="";
 
     }
 }
