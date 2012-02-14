@@ -141,35 +141,34 @@
                                       rendered="#{beanEmployee.editPassword}" 
                                       id="pao"/>
                         <h:inputSecret value="#{beanEmployee.password}"
-                            required="true"
-                            requiredMessage="Password actual es obligatorio."
-                            rendered="#{beanEmployee.editPassword}"
-                            id="pai"/>
+                                       required="true"
+                                       requiredMessage="Password actual es obligatorio."
+                                       rendered="#{beanEmployee.editPassword}"
+                                       id="pai"/>
                         <h:outputText value="* Nuevo password:"
                                       rendered="#{beanEmployee.editPassword}"
                                       id="npo"/>
                         <h:inputSecret value="#{beanEmployee.nuevoPassword}"
-                            required="true"
-                            requiredMessage="Nuevo Password es obligatorio."
-                            rendered="#{beanEmployee.editPassword}"
-                            id="npi"/>
+                                       required="true"
+                                       requiredMessage="Nuevo Password es obligatorio."
+                                       rendered="#{beanEmployee.editPassword}"
+                                       id="npi"/>
                         <h:outputText value="* Confirmar nuevo password:"
                                       rendered="#{beanEmployee.editPassword}"
                                       id="cnpo"/>
                         <h:inputSecret value="#{beanEmployee.nuevoPasswordConfirmar}"
-                            required="true"
-                            requiredMessage="Confimar nuevo password es obligatorio."
-                            rendered="#{beanEmployee.editPassword}"
-                            id="cnpi"/>
+                                       required="true"
+                                       requiredMessage="Confimar nuevo password es obligatorio."
+                                       rendered="#{beanEmployee.editPassword}"
+                                       id="cnpi"/>
                     </h:panelGrid>
 
-                    <h:panelGrid>
-                        <h:commandButton  value="Actualizar" styleClass="JButton" action="#{beanEmployee.updateUser}"/>
-                        <h:commandButton  value="Atr&aacute;s" styleClass="JButton"
-                                          action="findEmployee"
-                                          actionListener="#{beanEmployee.statesForFindReturn}"
-                                          immediate="true"/>
-                    </h:panelGrid>
+                    <h:commandButton  value="Actualizar" styleClass="JButton" action="#{beanEmployee.updateUser}"/>
+                    &nbsp;&nbsp;
+                    <h:commandButton  value="Atr&aacute;s" styleClass="JButton"
+                                      action="findEmployee"
+                                      actionListener="#{beanEmployee.statesForFindReturn}"
+                                      immediate="true"/>
 
                 </h:form>
             </div>

@@ -265,11 +265,13 @@ public class BeanReclamo implements Serializable {
         result = daoReclamo.saveReclamo(reclamo);
         if (result == 0) {
             content.setResultOperation("El reclamo no pudo ser creado.");
+            content.setImage("./resources/fail.png");
             return "resultOperation";
         }
 
 
         content.setResultOperation("El reclamo fue creado con exito. Con numero de ticket " + daoReclamo.lastTicketId());
+        content.setImage("./resources/ok.png");
         daoReclamo = null;
         // clearStates();
         return "resultOperation";
@@ -310,12 +312,14 @@ public class BeanReclamo implements Serializable {
         System.out.println("Actualizando reclamo");
         result = daoReclamo.updateReclamo(reclamo);
         if (result == -1) {
-            content.setResultOperation("El reclamo no pudo ser creado.");
+            content.setResultOperation("El reclamo no pudo ser actualizado.");
+            content.setImage("./resources/fail.png");
             return "resultOperation";
         }
 
 
         content.setResultOperation("El reclamo fue actualizado con exito. Con numero de ticket " + reclamo.getTicket());
+        content.setImage("./resources/ok.png");
         daoReclamo = null;
         // clearStates();
         return "resultOperation";

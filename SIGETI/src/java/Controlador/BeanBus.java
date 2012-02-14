@@ -105,11 +105,13 @@ public class BeanBus {
         result = daoBus.saveBus(bus);
         if(result == 0){
             content.setResultOperation("El Bus no pudo ser creado.");
+            content.setImage("./resources/fail.png");
             return "resultOperation";
         }            
         
         daoBus = null;
         content.setResultOperation("El Bus fue creado con exito.");
+        content.setImage("./resources/ok.png");
         return "resultOperation";
     }
 }

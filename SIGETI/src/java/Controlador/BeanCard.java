@@ -171,6 +171,7 @@ public class BeanCard implements Serializable {
 
 
         content.setResultOperation("El Empleado fue creado con exito.");
+        content.setImage("./resources/ok.png");
         if (validate()) {
 
 

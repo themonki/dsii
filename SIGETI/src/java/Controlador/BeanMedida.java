@@ -79,11 +79,13 @@ public class BeanMedida implements Serializable{
         result = daoMedida.saveMedida(medida);
         if (result == 0) {
             content.setResultOperation("La medida no pudo ser creado.");
+            content.setImage("./resources/fail.png");
             return "resultOperation";
         }
 
 
         content.setResultOperation("La medida fue creada con exito. Con numero de identificacion " + daoMedida.lastTicketId());
+        content.setImage("./resources/ok.png");
         daoMedida = null;
         // clearStates();
         return "resultOperation";
