@@ -129,11 +129,13 @@ public class DaoMedida {
             String sql_insert = "";
             for(int i = 0; i< medidas.size();i++)
             {
+                if(medidas.get(i).getId() !=0)
+                {
                 sql_insert = "INSERT INTO medida_reclamo_operario_agrega VALUES("+idOperario+","+ticket+","+medidas.get(i).getId() +")";
                 System.err.println(sql_insert);
 
                 sentence.executeUpdate(sql_insert);                
-                
+                }
             
             }
             System.err.println("Se insertaron todas las medidas");
