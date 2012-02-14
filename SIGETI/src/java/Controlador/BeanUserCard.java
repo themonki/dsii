@@ -141,13 +141,29 @@ public class BeanUserCard implements Serializable
 
 
 
-        java.util.Date date = new java.util.Date();
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
-        fecha = sdf.format(date);
-
+       
 
         content.setResultOperation("El Empleado fue creado con exito.");
         if (validate()) {
+            
+            Usuario user = new Usuario();
+            
+            user.setAdquiereTarjeta(adquiere_tarjeta);
+            user.setId(id);
+            user.setTipoId(tipoId);
+            user.setNombre(nombre);
+            user.setApellido(apellido);
+            
+            user.setTelefono(telefono);
+            user.setDireccion(direccion);
+            user.setPassword(password);
+            user.setFechaNacimiento(fecha_nacimiento);
+            
+            
+            user.setEmail(email);
+            user.setEstado(true);
+            
+            
 
 
 
@@ -169,6 +185,15 @@ public class BeanUserCard implements Serializable
 
         return null;
 
+    }
+    
+    public boolean validate(){
+    
+    
+    
+    
+        return true;
+        
     }
     
     

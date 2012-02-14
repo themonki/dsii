@@ -12,7 +12,7 @@
         <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
         <title>Facelets Template</title>
     </h:head>
-    
+
     #{beanCard.refresh("newCard")}
 
 
@@ -46,47 +46,60 @@
             </div>
             <div  id="center_center">
                 <div>
-                    <ui:insert name="content">Nueva Tarjeta</ui:insert>
+                    <ui:insert name="content">Crear Usuario</ui:insert>
 
                     <br></br>
-                    
-                    
-                    <img src="./resources/AddCard.gif"  width="100" height="100"></img>
-                            
+
+
+                    <img src="./resources/userCard.png"  width="100" height="100"></img>
+
                     <br></br>
                     <h:messages style="color: red"   />
-                    
+
                     <br></br>
                     <h:form styleClass="Formulario">
                         <h:panelGrid columns="2">
-                             
+
+
+                            <h:outputText value="*Documento:"/>
+                            <h:inputText value="#{beanUserCard.id}"  size="30"/>
+
+
+
+                            <h:outputText value="Tipo Documento:"/>
+
+                            <h:selectOneMenu  value="#{beanUserCard.tipoId}"  onchange="submit()"  >
+                                <f:selectItem  id="item1" itemLabel="C.C." itemValue="C.C." />
+                                <f:selectItem id="item2" itemLabel="T.I." itemValue="T.I."  />
+
+                            </h:selectOneMenu>
+
+                            <h:outputText value="Nombres:"/>
+                            <h:inputText value="#{beanUserCard.nombre}"  size="30"/>
+
+                            <h:outputText value="Apellidos:"/>
+                            <h:inputText value="#{beanUserCard.apellido}"  size="30"/>
+
+                            <h:outputText value="Direccion:"/>
+                            <h:inputText value="#{beanUserCard.direccion}"  size="30"/>
+
+                            <h:outputText value="Email:"/>
+                            <h:inputText value="#{beanUserCard.email}"  size="30"/>
+
+                            <h:outputText value="Telefono:"/>
+                            <h:inputText value="#{beanUserCard.telefono}"  size="30"/>
+
+                            <h:outputText value="*Tarjeta Id"/>
+                            <h:inputText value="#{beanUserCard.adquiere_tarjeta}"  size="20" />
                             
-                        <h:outputText value="*Pin:"/>
-                        <h:inputText value="#{beanCard.pin}"  size="30"/>
-                        
-                        <h:outputText value="Numero de Pasajes:"/>
-                        <h:inputText value="#{beanCard.numberPassages}" />
-                       
-                       <h:outputText value="*Estacion ID:"/>
-                       <h:inputText value="#{beanCard.estacion}" />
-                       
-                       <h:outputText value="#{beanCard.isPersonalizada}"/>
-                       <h:inputText value="#{beanCard.costo}" />
-                       
-                       
-                        
-                        <h:outputText value="*Tipo:"/>
-                        
-                        <h:selectOneMenu  value="#{beanCard.tipo}"  onchange="submit()"  >
-                            <f:selectItem  id="item1" itemLabel="Personalizada " itemValue="1" />
-                            <f:selectItem id="item2" itemLabel="Generica" itemValue="2" />
+                            <h:outputText value="Password"/>
+                            <h:inputSecret value="#{beanUserCard.password}"  size="20" />
                             
-                        </h:selectOneMenu>
-                        
-                         <h:commandButton value="Registrar" styleClass="JButton" action="#{beanCard.createCard()}" /><br/>
+
+                            <h:commandButton value="Registrar" styleClass="JButton" action="#{beanUserCard.createUser()}" /><br/>
                         </h:panelGrid>
-                        
-                       
+
+
                     </h:form>
 
                 </div>
