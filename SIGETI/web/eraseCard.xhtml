@@ -12,6 +12,8 @@
         <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
         <title>Facelets Template</title>
     </h:head>
+    
+    #{beanCard.refresh("eraseCard")}
 
     <h:body>
 
@@ -61,7 +63,7 @@
                             
                             
 
-                            <h:outputText value="Ingrese el Pin:"/>
+                            <h:outputText value="Ingrese el Pin:" />
 
                             <h:inputText value="#{beanCard.pin}" />  
                             
@@ -96,6 +98,9 @@
                             <h:outputText value="Tipo:"/>
 
                             <h:outputText  value="#{beanCard.tipo}" /> 
+                             <h:outputText value="Fecha de Venta:"/>
+
+                            <h:outputText  value="#{beanCard.fecha}" /> 
                             
                              <h:commandButton value="Borrar" styleClass="JButton"  rendered="#{beanCard.isFind}" action="#{beanCard.eraseCard()}" />
 

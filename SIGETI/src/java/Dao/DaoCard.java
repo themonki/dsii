@@ -27,7 +27,7 @@ public class DaoCard {
         int result=0;
         String sql_insert = "INSERT INTO tarjeta  (pin,saldo,estado,tipo,costo,fecha_venta,estacion_venta)";
         
-        sql_insert+="VALUES ("+ tarjeta.getPin()+"  ,"+tarjeta.getSaldo()+",true"+ ","+tarjeta.getTipo()+ ","+tarjeta.getCosto()+ ","+"null"+ ","+"null"+")";
+        sql_insert+="VALUES ("+ tarjeta.getPin()+"  ,"+tarjeta.getSaldo()+",true"+ ","+tarjeta.getTipo()+ ","+tarjeta.getCosto()+ ",'"+tarjeta.getFechaVenta()+ "',"+"null"+")";
 
       
          System.err.println(sql_insert);
@@ -157,6 +157,17 @@ public class DaoCard {
                 tarjeta.setTipo(Integer.parseInt(table.getString("tipo")));
                 tarjeta.setCosto(Integer.parseInt(table.getString("costo")));
                 tarjeta.setFechaVenta(table.getString("fecha_venta"));
+                
+                if(table.getString("estado").equals("t")){
+                    tarjeta.setEstado(true);
+                
+                }
+                else {
+                    tarjeta.setEstado(false);
+                
+                
+                }
+             
                 
                 String estacion=table.getString("estacion_venta");
                 if(estacion ==null){
