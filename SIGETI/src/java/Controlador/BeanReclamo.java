@@ -35,7 +35,38 @@ import javax.faces.model.SelectItem;
 @SessionScoped
 public class BeanReclamo implements Serializable {
 
-    public String getNombreEstacion() {
+   
+
+    private int ticket = 0;
+    private String fecha;
+    private String descripcion;
+
+   
+   
+    private String motivo;
+    private String estado;
+    private String auxiliarRecibe;
+    private String usuarioRealiza;
+    private boolean renderTableSearch;
+    private String tipoPasajero;
+    private boolean disableIdentificacion;
+    private int countValidator;
+    private String action;
+    private String nombreUsuario;
+    private String nombreEstacion;
+    private List<Medida> medidas;
+    private int idMedida;
+    private String accionMedida;
+    
+     public List<Medida> getMedidas() {
+        return medidas;
+    }
+
+    public void setMedidas(List<Medida> medidas) {
+        this.medidas = medidas;
+    }
+    
+     public String getNombreEstacion() {
         return nombreEstacion;
     }
 
@@ -50,21 +81,6 @@ public class BeanReclamo implements Serializable {
     public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
     }
-
-    private int ticket = 0;
-    private String fecha;
-    private String descripcion;
-    private String motivo;
-    private String estado;
-    private String auxiliarRecibe;
-    private String usuarioRealiza;
-    private boolean renderTableSearch;
-    private String tipoPasajero;
-    private boolean disableIdentificacion;
-    private int countValidator;
-    private String action;
-    private String nombreUsuario;
-    private String nombreEstacion;
 
     public void setTicket(int ticket) {
         this.ticket = ticket;
@@ -163,6 +179,22 @@ public class BeanReclamo implements Serializable {
     public String getAction() {
         return action;
     }
+     public String getAccionMedida() {
+        return accionMedida;
+    }
+
+    public void setAccionMedida(String accionMedida) {
+        this.accionMedida = accionMedida;
+    }
+
+    public int getIdMedida() {
+        return idMedida;
+    }
+
+    public void setIdMedida(int idMedida) {
+        this.idMedida = idMedida;
+    }
+
  
     public BeanReclamo() {
 
@@ -231,6 +263,54 @@ public class BeanReclamo implements Serializable {
         // clearStates();
         return "resultOperation";
     }
+    
+    
+    
+     public String updateReclamo() {
+
+        
+
+        FacesContext context = FacesContext.getCurrentInstance();
+        EmployeeHolder empleadoHolder = (EmployeeHolder) context.getApplication().evaluateExpressionGet(context, "#{employeeHolder}", EmployeeHolder.class);
+        String idOperario = empleadoHolder.getCurrentEmpleado().getId();
+        
+
+        if (context.getMessageList().size() > 0) {
+            return null;
+        }
+        BeanContent content = (BeanContent) context.getApplication().evaluateExpressionGet(context, "#{beanContent}", BeanContent.class);
+        int result;
+        DaoReclamo daoReclamo = new DaoReclamo();
+        Reclamo reclamo = new Reclamo();
+        reclamo.setTicket(ticket);     
+        reclamo.setFecha(fecha);       
+        reclamo.setDescripcion(descripcion.trim());
+        reclamo.setMotivo(motivo.trim());   
+        System.out.println(estado);
+        reclamo.setEstado(estado);
+        reclamo.setAuxiliarRecibe(auxiliarRecibe);      
+        reclamo.setUsuarioRealiza(usuarioRealiza);
+
+        DaoMedida daoMedida = new DaoMedida();
+        
+        daoMedida.insertarMedidasReclamo(medidas, idOperario, ticket);
+
+
+        System.out.println("Actualizando reclamo");
+        result = daoReclamo.updateReclamo(reclamo);
+        if (result == -1) {
+            content.setResultOperation("El reclamo no pudo ser creado.");
+            return "resultOperation";
+        }
+
+
+        content.setResultOperation("El reclamo fue actualizado con exito. Con numero de ticket " + reclamo.getTicket());
+        daoReclamo = null;
+        // clearStates();
+        return "resultOperation";
+    }
+    
+    
 
     public List<Reclamo> getFindReclamo() {
         DaoReclamo daoReclamo = new DaoReclamo();
@@ -276,9 +356,9 @@ public class BeanReclamo implements Serializable {
     }
 
     
-     public List<Medida> getFindMedida() {
+     public void getFindMedida() {
         DaoMedida daoMedida = new DaoMedida();
-        List<Medida> medidas;
+       
         System.out.println(estado);
 
         medidas = daoMedida.findAllMedidas(ticket);
@@ -294,11 +374,9 @@ public class BeanReclamo implements Serializable {
             Medida medida = new Medida(0, "Aun no se han añadido medidas para este reclamo");
             
             medidas.add(medida);
-            
-            return medidas;
-        } else {
-            return medidas;
         }
+            
+        
     }
 
     public List<SelectItem> getAvailableTipoPasajero() {
@@ -339,6 +417,67 @@ public class BeanReclamo implements Serializable {
 
 
 
+    }
+    
+    
+    public void addMedidaReclamo()
+    {
+     
+        FacesContext context = FacesContext.getCurrentInstance();
+        if(medidas.size() == 1)
+        {
+        
+            if(medidas.get(0).getId() == 0)
+            {
+            
+                medidas.remove(0);
+                
+            }            
+            
+        }
+        
+        Medida medida = new Medida();
+        
+        idMedida = Integer.parseInt(accionMedida.charAt(0)+"");        
+     
+        medida.setId(idMedida);
+        medida.setAccion(accionMedida.substring(2,accionMedida.length()));
+        
+        if(medidas.contains(medida))
+        {
+        
+            context.addMessage(null, new FacesMessage("Al reclamo ya se le ha asignado esa medida."));
+            
+        }else
+        {       
+             medidas.add(medida); 
+             context.addMessage(null, new FacesMessage("Medida agregada con exito recuerde guardar los cambios."));
+        }
+        
+       
+        
+    }
+    
+     public void removeMedidaReclamo()
+    {
+        
+        FacesContext context = FacesContext.getCurrentInstance();
+        Application app = context.getApplication();
+        Medida medida= (Medida) app.evaluateExpressionGet(context, "#{medida}", Medida.class);
+      
+        
+        medidas.remove(medida);
+        
+        
+         if(medidas.isEmpty())
+        {
+        
+            medida = new Medida(0, "Aun no se han añadido medidas para este reclamo");
+            
+            medidas.add(medida);      
+            
+        }
+        
     }
 
     public void update(String l) {
@@ -418,12 +557,15 @@ public class BeanReclamo implements Serializable {
         DaoEstacion daoEstacion = new DaoEstacion();
         
         EstacionPrincipal estacionPrincipal = daoEstacion.findEstacionPrincipal(auxiliar.getTrabajaEn());
-        nombreEstacion = estacionPrincipal.getNombre();     
+        nombreEstacion = estacionPrincipal.getNombre(); 
+        getFindMedida();
         
         
 
 
     }
+    
+    
 
      public String findLinkClaims(String l)
     {
@@ -443,7 +585,7 @@ public class BeanReclamo implements Serializable {
         }
         else if(l.equals("3"))
         {
-            link = "deleteClaim";           
+            link = "newMeasure";           
            
         }
         else if(l.equals("4"))

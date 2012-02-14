@@ -24,18 +24,18 @@ import Entidades.TarjetaPersonalizada;
 @SessionScoped
 public class BeanUserCard implements Serializable 
 {
-     private FacesContext context;
-    private String id;
-    private String tipoId;
-    private String nombre;
-    private String apellido;
-    private String direccion;
-    private String email;
-    private String fecha_nacimiento;
-    private String telefono;
-    private String adquiere_tarjeta;
-    private String password;
-    private boolean estado;
+     
+    private String id="";
+    private String tipoId="";
+    private String nombre="";
+    private String apellido="";
+    private String direccion="";
+    private String email="";
+    private String fecha_nacimiento="";
+    private String telefono="";
+    private String adquiere_tarjeta="";
+    private String password="";
+    private boolean estado=true;
 
     public String getAdquiere_tarjeta() {
         return adquiere_tarjeta;
@@ -128,6 +128,8 @@ public class BeanUserCard implements Serializable
     
     public String createUser() {
         
+           FacesContext context;
+        
         context = FacesContext.getCurrentInstance();
         //validate();
         if (context.getMessageList().size() > 0) {
@@ -138,6 +140,7 @@ public class BeanUserCard implements Serializable
         DaoUser daoUser = new DaoUser();
 
 
+        
 
 
 
@@ -161,7 +164,9 @@ public class BeanUserCard implements Serializable
             
             
             user.setEmail(email);
-            user.setEstado(true);
+            user.setEstado(estado);
+            
+           result = daoUser.saveUser(user);
             
             
 
@@ -171,7 +176,7 @@ public class BeanUserCard implements Serializable
             if (result == 0) {
 
                 context.addMessage(null, new FacesMessage(
-                        FacesMessage.SEVERITY_ERROR, "El registro de la tarjeta no  fue creado ", null));
+                        FacesMessage.SEVERITY_ERROR, "El registro del usuario no  fue creado ", null));
 
             } else {
                 context.addMessage(null, new FacesMessage(
@@ -188,11 +193,94 @@ public class BeanUserCard implements Serializable
     }
     
     public boolean validate(){
+           FacesContext context;
+        context = FacesContext.getCurrentInstance();
+        
+        boolean validar=true; 
+        
+       
+    if(id==null || id.equals("")){
+           context.addMessage(null, new FacesMessage(
+                            FacesMessage.SEVERITY_ERROR, "Es obligatorio el campo documento .", null));
+           
+           validar=false;
+                    
+    }
     
+    if(adquiere_tarjeta==null || adquiere_tarjeta.equals("")){
+           context.addMessage(null, new FacesMessage(
+                            FacesMessage.SEVERITY_ERROR, "Es obligatorio el campo Tarjeta Id .", null));
+           validar=false;
+                    
+    }
     
+     if(password==null || password.equals("")){
+           context.addMessage(null, new FacesMessage(
+                            FacesMessage.SEVERITY_ERROR, "Es obligatorio el campo password .", null));
+           validar=false;
+                    
+    }
+     
+     
+     if(validar){
+         
+         try {
+
+                int valor = Integer.parseInt(id);
+                if (!(valor >= 0)) {
+                    context.addMessage(null, new FacesMessage(
+                            FacesMessage.SEVERITY_ERROR, "El id debe ser un numero positivo.", null));
+                    validar = false;
+
+                };
+
+            } catch (NumberFormatException e) {
+                context.addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_ERROR, "El id debe ser un numero.", null));
+                validar = false;
+            }
+         
+            try {
+
+                int valor = Integer.parseInt(telefono);
+                if (!(valor >= 0)) {
+                    context.addMessage(null, new FacesMessage(
+                            FacesMessage.SEVERITY_ERROR, "El telefono debe ser un numero positivo.", null));
+                    validar = false;
+
+                };
+
+            } catch (NumberFormatException e) {
+                context.addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_ERROR, "El telefono debe ser un numero.", null));
+                validar = false;
+            }
+            
+              try {
+
+                int valor = Integer.parseInt(adquiere_tarjeta);
+                if (!(valor >= 0)) {
+                    context.addMessage(null, new FacesMessage(
+                            FacesMessage.SEVERITY_ERROR, "Tarjeta Id debe ser un numero positivo.", null));
+                    validar = false;
+
+                };
+
+            } catch (NumberFormatException e) {
+                context.addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_ERROR, "Tarjeta Id debe ser un numero.", null));
+                validar = false;
+            }
+              
+              
+         
+        
+         
+         
+     
+     }
     
-    
-        return true;
+        return validar;
         
     }
     

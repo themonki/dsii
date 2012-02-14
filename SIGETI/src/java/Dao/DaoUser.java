@@ -24,12 +24,27 @@ public class DaoUser {
     }
     
     
-     public int saveCard(Usuario usuario) {
+     public int saveUser(Usuario usuario) {
 
         int result=0;
-        String sql_insert = "INSERT INTO usuario  (id,tipo_id,nombre,apellido,direccion,email,fecha_nacimiento,telefono,adquiere_tarjeta,password,estado)";
+        String sql_insert = "INSERT INTO usuario  (id,tipo_id,";
+        String sql_values = "VALUES("+ usuario.getId()+",'"+usuario.getTipoId()+"',";
         
-        sql_insert+="VALUES ("+ usuario.getId()+","+usuario.getTipoId()+","+usuario.getNombre()+","+usuario.getApellido()+","+usuario.getDireccion()+","+usuario.getEmail() +","+usuario.getFechaNacimiento()+","+usuario.getTelefono()+","+usuario.getAdquiereTarjeta()+","+usuario.getPassword()+","+usuario.getEstado();  ;
+        if (usuario.getNombre()!=null &&!usuario.getNombre().equals("")){ sql_insert+= "nombre,";     sql_values+= usuario.getNombre()+",";   }
+        if (usuario.getApellido()!=null &&!usuario.getApellido().equals("")){ sql_insert+= "apellido,";sql_values+=usuario.getApellido() +","; }
+        if (usuario.getDireccion()!=null &&!usuario.getDireccion().equals("")){ sql_insert+= "direccion,"; sql_values+= usuario.getDireccion()+",";}
+        if (usuario.getEmail()!=null &&!usuario.getEmail().equals("")){ sql_insert+= "email,"; sql_values+=usuario.getEmail() +",";}
+        if (usuario.getFechaNacimiento()!=null &&!usuario.getFechaNacimiento().equals("")){ sql_insert+= "fecha_nacimiento,"; sql_values+=usuario.getFechaNacimiento()+",";}
+        if (usuario.getTelefono()!=null &&!usuario.getTelefono().equals("")){ sql_insert+= "telefono,"; sql_values+=usuario.getTelefono()+",";}
+      
+       
+        sql_insert+="adquiere_tarjeta,password,estado)   ";
+        
+        sql_values+=usuario.getAdquiereTarjeta()+","+usuario.getPassword()+","+usuario.getEstado()+")";
+       
+        sql_insert+=sql_values;
+        
+        System.err.println(sql_insert);
 
       
         try {
