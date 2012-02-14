@@ -191,11 +191,100 @@ public class BeanUserCard implements Serializable
     }
     
     public boolean validate(){
+        
+        
+        boolean validar=true; 
+        
+       
+    if(id==null || id.equals("")){
+           context.addMessage(null, new FacesMessage(
+                            FacesMessage.SEVERITY_ERROR, "Es obligatorio el campo documento .", null));
+           
+           validar=false;
+                    
+    }
+    
+    if(adquiere_tarjeta==null || adquiere_tarjeta.equals("")){
+           context.addMessage(null, new FacesMessage(
+                            FacesMessage.SEVERITY_ERROR, "Es obligatorio el campo Tarjeta Id .", null));
+           validar=false;
+                    
+    }
+    
+     if(password==null || password.equals("")){
+           context.addMessage(null, new FacesMessage(
+                            FacesMessage.SEVERITY_ERROR, "Es obligatorio el campo password .", null));
+           validar=false;
+                    
+    }
+     
+     
+     if(validar){
+         
+         try {
+
+                int valor = Integer.parseInt(id);
+                if (!(valor >= 0)) {
+                    context.addMessage(null, new FacesMessage(
+                            FacesMessage.SEVERITY_ERROR, "El id debe ser un numero positivo.", null));
+                    validar = false;
+
+                };
+
+            } catch (NumberFormatException e) {
+                context.addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_ERROR, "El id debe ser un numero.", null));
+                validar = false;
+            }
+         
+            try {
+
+                int valor = Integer.parseInt(telefono);
+                if (!(valor >= 0)) {
+                    context.addMessage(null, new FacesMessage(
+                            FacesMessage.SEVERITY_ERROR, "El telefono debe ser un numero positivo.", null));
+                    validar = false;
+
+                };
+
+            } catch (NumberFormatException e) {
+                context.addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_ERROR, "El telefono debe ser un numero.", null));
+                validar = false;
+            }
+            
+              try {
+
+                int valor = Integer.parseInt(adquiere_tarjeta);
+                if (!(valor >= 0)) {
+                    context.addMessage(null, new FacesMessage(
+                            FacesMessage.SEVERITY_ERROR, "Tarjeta Id debe ser un numero positivo.", null));
+                    validar = false;
+
+                };
+
+            } catch (NumberFormatException e) {
+                context.addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_ERROR, "Tarjeta Id debe ser un numero.", null));
+                validar = false;
+            }
+              
+              
+         
+        
+         
+         
+     
+     }
     
     
     
     
-        return true;
+    
+    
+    
+    
+        return validar;
         
     }
     
