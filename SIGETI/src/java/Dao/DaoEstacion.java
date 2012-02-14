@@ -14,6 +14,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Clase encargada de realizar transacciones en la base de datos relacionadas 
@@ -214,7 +216,7 @@ public class DaoEstacion {
     public EstacionPrincipal findEstacionPrincipal(String nombre)
     {
         String sql_query= "SELECT id, ubicacion, estado, nombre, id_operario FROM "
-                + " estacion_principal JOIN estacion ON estacion_principal.id_esatcion="
+                + " estacion_principal JOIN estacion ON estacion_principal.id_estacion="
                 + " estacion.id WHERE nombre= '" + nombre + "'";
         
         EstacionPrincipal estacion= new EstacionPrincipal();
@@ -286,14 +288,14 @@ public class DaoEstacion {
 
         String sql_insert="INSERT INTO estacion (ubicacion, estado) VALUES('"
                 + estacion.getUbicacion() +"' , '"+estacion.getEstado() +"')";
+        int insert=0;
+        int id=0;
 
         try
         {
             Connection conn= fachada.conectar();
             Statement sequence= conn.createStatement();
-            result= sequence.executeUpdate(sql_insert);
-
-            int id=0;
+            int executeUpdate = sequence.executeUpdate(sql_insert);
 
             String sql_last_value="SELECT last_value FROM estacion_id_seq";
 
@@ -302,14 +304,28 @@ public class DaoEstacion {
             while(table.next())
             {
                 id=table.getInt("last_value");
+                insert++;
             }
 
             String sql_insert_estacion="INSERT INTO estacion_principal(id_estacion, nombre, id_operario) VALUES('"
                     +id +"', '"+ estacion.getNombre() + "' , '" + estacion.getIdOperario() + "')";
 
             result=sequence.executeUpdate(sql_insert_estacion);
-
+            insert++;
         }catch (SQLException se) {
+            if(insert==1)
+            {
+                try {
+                    String sql = "ALTER SEQUENCE estacion_id_seq RESTART WITH " + id;
+                    String delete = "DELETE FROM estacion WHERE id=" + id;
+                    Connection conn = fachada.conectar();
+                    Statement sequence = conn.createStatement();
+                    int resultado = sequence.executeUpdate(sql);
+                    resultado = sequence.executeUpdate(delete);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
             se.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
