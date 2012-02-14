@@ -263,6 +263,69 @@ public class BeanReclamo implements Serializable {
         // clearStates();
         return "resultOperation";
     }
+    
+    
+    
+     public String updateReclamo() {
+
+        validate();
+
+        if (countValidator > 0) {
+            countValidator = 0;
+            return null;
+
+        }
+
+        FacesContext context = FacesContext.getCurrentInstance();
+        EmployeeHolder empleadoHolder = (EmployeeHolder) context.getApplication().evaluateExpressionGet(context, "#{employeeHolder}", EmployeeHolder.class);
+        String idAuxiliar = empleadoHolder.getCurrentEmpleado().getId();
+        auxiliarRecibe = idAuxiliar;
+
+        if (context.getMessageList().size() > 0) {
+            return null;
+        }
+        BeanContent content = (BeanContent) context.getApplication().evaluateExpressionGet(context, "#{beanContent}", BeanContent.class);
+        int result;
+        DaoReclamo daoReclamo = new DaoReclamo();
+        Reclamo reclamo = new Reclamo();
+        reclamo.setTicket(ticket);
+
+        Date fechaHoy = new Date();
+
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+        fecha = formato.format(fechaHoy);
+        reclamo.setFecha(fecha);
+        System.out.println(fecha);
+        reclamo.setDescripcion(descripcion.trim());
+        reclamo.setMotivo(motivo.trim());
+        estado = "Iniciado";
+        reclamo.setEstado(estado);
+
+        reclamo.setAuxiliarRecibe(auxiliarRecibe);
+
+        if (tipoPasajero.equals("Generica")) {
+            usuarioRealiza = "0000001";
+        }
+        System.out.println(usuarioRealiza);
+        reclamo.setUsuarioRealiza(usuarioRealiza);
+
+
+
+        System.out.println("Añadiendo reclamo");
+        result = daoReclamo.saveReclamo(reclamo);
+        if (result == 0) {
+            content.setResultOperation("El reclamo no pudo ser creado.");
+            return "resultOperation";
+        }
+
+
+        content.setResultOperation("El reclamo fue creado con exito. Con numero de ticket " + daoReclamo.lastTicketId());
+        daoReclamo = null;
+        // clearStates();
+        return "resultOperation";
+    }
+    
+    
 
     public List<Reclamo> getFindReclamo() {
         DaoReclamo daoReclamo = new DaoReclamo();
@@ -374,23 +437,61 @@ public class BeanReclamo implements Serializable {
     
     public void addMedidaReclamo()
     {
+     
+        FacesContext context = FacesContext.getCurrentInstance();
+        if(medidas.size() == 1)
+        {
+        
+            if(medidas.get(0).getId() == 0)
+            {
+            
+                medidas.remove(0);
+                
+            }            
+            
+        }
+        
         Medida medida = new Medida();
         
+        idMedida = Integer.parseInt(accionMedida.charAt(0)+"");        
+     
         medida.setId(idMedida);
-        medida.setAccion(accionMedida);
+        medida.setAccion(accionMedida.substring(2,accionMedida.length()));
         
-        medidas.add(medida);
+        if(medidas.contains(medida))
+        {
+        
+            context.addMessage(null, new FacesMessage("Al reclamo ya se le ha asignado esa medida."));
+            
+        }else
+        {       
+             medidas.add(medida); 
+             context.addMessage(null, new FacesMessage("Medida agregada con exito recuerde guardar los cambios."));
+        }
+        
+       
         
     }
     
      public void removeMedidaReclamo()
     {
-        Medida medida = new Medida();
         
-        medida.setId(idMedida);
-        medida.setAccion(accionMedida);
+        FacesContext context = FacesContext.getCurrentInstance();
+        Application app = context.getApplication();
+        Medida medida= (Medida) app.evaluateExpressionGet(context, "#{medida}", Medida.class);
+      
         
         medidas.remove(medida);
+        
+        
+         if(medidas.isEmpty())
+        {
+        
+            medida = new Medida(0, "Aun no se han añadido medidas para este reclamo");
+            
+            medidas.add(medida);      
+            
+        }
         
     }
 
@@ -499,7 +600,7 @@ public class BeanReclamo implements Serializable {
         }
         else if(l.equals("3"))
         {
-            link = "deleteClaim";           
+            link = "newMeasure";           
            
         }
         else if(l.equals("4"))

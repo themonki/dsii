@@ -107,7 +107,7 @@ public class BeanContent implements Serializable{
            c2.add("Editar Reclamo");
            c2.add("2");
            List c3 = new ArrayList();
-           c3.add("Eliminar Reclamo");
+           c3.add("Crear Medida");
            c3.add("3");
            List c4 = new ArrayList();
            c4.add("Consultar Reclamo");
@@ -188,7 +188,7 @@ public class BeanContent implements Serializable{
         }
         else if(l.equals("3"))
         {
-            link = "findClaim";
+            link = "newMeasure";
              
            
            

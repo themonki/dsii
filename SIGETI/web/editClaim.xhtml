@@ -43,7 +43,7 @@
                 </h:form>
             </div>
             <div id="center_center">
-                <h:messages styleClass="error"/>
+                <h:messages style="color: purple"/>
                 <h:form styleClass="Formulario">
                     <h:panelGrid columns="2">
                         <f:facet name="header">
@@ -99,16 +99,20 @@
                             <f:facet name="header">Accion</f:facet>
                             #{medida.accion}
                         </h:column>  
+                        <h:column>
+                            <f:facet name="header">Accion</f:facet>
+                            <h:commandButton  value="Borrar Medida" styleClass="JButton" action="#{beanReclamo.removeMedidaReclamo()}"/>
+                        </h:column> 
                         
                     </h:dataTable>
                     <br/> 
-                    <h:outputText value="Id Medida:"/>
-                    <h:inputText value="#{beanReclamo.idMedida}"
-                                     />
-                     <h:outputText value="Accion:"/>
-                     <h:inputText value="#{beanReclamo.accionMedida}"
-                                     />
+                   
+                    <h:selectOneMenu value="#{beanReclamo.accionMedida}">
+                        <f:selectItems value="#{beanMedida.findMedida}"/>
+                        </h:selectOneMenu>
                     <h:commandButton  value="Agregar Medida" styleClass="JButton" action="#{beanReclamo.addMedidaReclamo}"/>
+                    <br/>
+                    <br/>
                     <h:panelGrid columns="2">
                         <h:commandButton  value="Actualizar" styleClass="JButton" action="#{beanReclamo.updateUser}"/>
                         <h:commandButton  value="Atr&aacute;s" styleClass="JButton"
