@@ -573,6 +573,7 @@ public class BeanEmployee implements Serializable {
         result = daoEmpleado.saveEmpleado(empleado);
         if (result == 0) {
             content.setResultOperation("El Empleado no pudo ser creado.");
+            content.setImage("./resources/fail.png");
             this.clearStates();
             return "resultOperation";
         }
@@ -604,6 +605,7 @@ public class BeanEmployee implements Serializable {
         }
         daoEmpleado = null;
         content.setResultOperation("El Empleado fue creado con exito.");
+        content.setImage("./resources/ok.png");
         this.clearStates();
         return "resultOperation";
     }

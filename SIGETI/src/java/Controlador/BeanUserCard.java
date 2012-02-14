@@ -204,6 +204,7 @@ public class BeanUserCard implements Serializable {
 
 
         content.setResultOperation("El Empleado fue creado con exito.");
+        content.setImage("./resources/ok.png");
         if (validate()) {
 
             fecha_nacimiento = "" + year + "-" + month + "-" + day;
