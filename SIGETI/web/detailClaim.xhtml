@@ -44,7 +44,7 @@
             </div>
             <div id="center_center">
                 <h:messages styleClass="error"/>
-                <h:form styleClass="Formulario">
+                <h:form styleClass="Formulario" title="Datos Reclamo">
                     <h:panelGrid columns="2">
                         <f:facet name="header">
                             <h:outputText value="Datos Reclamo"/>
@@ -65,29 +65,31 @@
                         <h:outputText value="#{beanReclamo.usuarioRealiza}"/>
                         <h:outputText value="Nombre del Usuario:"/>
                         <h:outputText value="#{beanReclamo.nombreUsuario}"/>
-                        <br/><br/>
-                        <h:form >
-                            <h:dataTable
-                                border="1"
-                                var="medida"
-                                value="#{beanReclamo.findMedida}"
-                                id="tableMedida"
-                                >
-                                <f:facet name="caption">Medidas tomadas para este Reclamo</f:facet>
 
-                                <h:column>
-                                    <f:facet name="header">Identificador Medida</f:facet>
-                                    #{medida.id}
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">Accion</f:facet>
-                                    #{medida.accion}
-                                </h:column>                                
-                            </h:dataTable>
-                        </h:form>
+
+
+
 
                     </h:panelGrid>
+                    <br/>
+                    <h:dataTable
+                        border="1"
+                        var="medida"
+                        value="#{beanReclamo.findMedida}"
+                        id="tableMedida"
+                        >
+                        <f:facet name="caption">Medidas tomadas para este Reclamo</f:facet>
 
+                        <h:column>
+                            <f:facet name="header">Identificador Medida</f:facet>
+                            #{medida.id}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Accion</f:facet>
+                            #{medida.accion}
+                        </h:column>                                
+                    </h:dataTable>
+                    <br/>
                     <h:commandButton value="Aceptar" styleClass="JButton" 
                                      action="findClaim"
                                      actionListener="#{beanReclamo.statesForFindReturn}"
