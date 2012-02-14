@@ -12,6 +12,8 @@
         <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
         <title>Facelets Template</title>
     </h:head>
+     
+    #{beanCard.refresh("findCard")}
 
     <h:body>
 
@@ -93,9 +95,14 @@
 
 
 
+                            
                             <h:outputText value="Tipo:"/>
 
                             <h:outputText  value="#{beanCard.tipo}" /> 
+                            
+                            <h:outputText value="Fecha de Venta:"/>
+
+                            <h:outputText  value="#{beanCard.fecha}" /> 
 
                             
                         </h:panelGrid>
