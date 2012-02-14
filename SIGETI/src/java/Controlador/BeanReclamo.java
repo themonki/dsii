@@ -268,18 +268,12 @@ public class BeanReclamo implements Serializable {
     
      public String updateReclamo() {
 
-        validate();
-
-        if (countValidator > 0) {
-            countValidator = 0;
-            return null;
-
-        }
+        
 
         FacesContext context = FacesContext.getCurrentInstance();
         EmployeeHolder empleadoHolder = (EmployeeHolder) context.getApplication().evaluateExpressionGet(context, "#{employeeHolder}", EmployeeHolder.class);
-        String idAuxiliar = empleadoHolder.getCurrentEmpleado().getId();
-        auxiliarRecibe = idAuxiliar;
+        String idOperario = empleadoHolder.getCurrentEmpleado().getId();
+        
 
         if (context.getMessageList().size() > 0) {
             return null;
@@ -288,38 +282,29 @@ public class BeanReclamo implements Serializable {
         int result;
         DaoReclamo daoReclamo = new DaoReclamo();
         Reclamo reclamo = new Reclamo();
-        reclamo.setTicket(ticket);
-
-        Date fechaHoy = new Date();
-
-        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-        fecha = formato.format(fechaHoy);
-        reclamo.setFecha(fecha);
-        System.out.println(fecha);
+        reclamo.setTicket(ticket);     
+        reclamo.setFecha(fecha);       
         reclamo.setDescripcion(descripcion.trim());
-        reclamo.setMotivo(motivo.trim());
-        estado = "Iniciado";
+        reclamo.setMotivo(motivo.trim());   
+        System.out.println(estado);
         reclamo.setEstado(estado);
-
-        reclamo.setAuxiliarRecibe(auxiliarRecibe);
-
-        if (tipoPasajero.equals("Generica")) {
-            usuarioRealiza = "0000001";
-        }
-        System.out.println(usuarioRealiza);
+        reclamo.setAuxiliarRecibe(auxiliarRecibe);      
         reclamo.setUsuarioRealiza(usuarioRealiza);
 
+        DaoMedida daoMedida = new DaoMedida();
+        
+        daoMedida.insertarMedidasReclamo(medidas, idOperario, ticket);
 
 
-        System.out.println("Añadiendo reclamo");
-        result = daoReclamo.saveReclamo(reclamo);
-        if (result == 0) {
+        System.out.println("Actualizando reclamo");
+        result = daoReclamo.updateReclamo(reclamo);
+        if (result == -1) {
             content.setResultOperation("El reclamo no pudo ser creado.");
             return "resultOperation";
         }
 
 
-        content.setResultOperation("El reclamo fue creado con exito. Con numero de ticket " + daoReclamo.lastTicketId());
+        content.setResultOperation("El reclamo fue actualizado con exito. Con numero de ticket " + reclamo.getTicket());
         daoReclamo = null;
         // clearStates();
         return "resultOperation";

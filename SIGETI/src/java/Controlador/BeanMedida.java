@@ -76,7 +76,7 @@ public class BeanMedida implements Serializable{
       
 
         System.out.println("Añadiendo reclamo");
-        result = daoMedida.saveReclamo(medida);
+        result = daoMedida.saveMedida(medida);
         if (result == 0) {
             content.setResultOperation("La medida no pudo ser creado.");
             return "resultOperation";

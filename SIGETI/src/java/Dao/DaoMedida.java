@@ -25,7 +25,7 @@ public class DaoMedida {
         fachada = new FachadaBD();
     }
 
-    public int saveReclamo(Medida medida) {
+    public int saveMedida(Medida medida) {
         String sql_insert = "INSERT INTO medida (id,accion";
                 
 
@@ -112,6 +112,45 @@ public class DaoMedida {
         return medidas;     
 
     }
+       
+       
+      
+       public void insertarMedidasReclamo(List<Medida> medidas,String idOperario,int ticket)
+       {
+       
+           String sql_delete = "delete from medida_reclamo_operario_agrega where ticket="+ticket+";";
+           System.err.println(sql_delete);
+
+           try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            sentence.executeUpdate(sql_delete);
+            
+            String sql_insert = "";
+            for(int i = 0; i< medidas.size();i++)
+            {
+                sql_insert = "INSERT INTO medida_reclamo_operario_agrega VALUES("+idOperario+","+ticket+","+medidas.get(i).getId() +")";
+                System.err.println(sql_insert);
+
+                sentence.executeUpdate(sql_insert);                
+                
+            
+            }
+            System.err.println("Se insertaron todas las medidas");
+
+
+           
+            fachada.cerrarConexion(conn);
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       
+       
+       
+       }
+       
 
     public int lastTicketId() {
         

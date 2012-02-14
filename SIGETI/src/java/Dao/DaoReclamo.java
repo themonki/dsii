@@ -227,6 +227,29 @@ public class DaoReclamo {
         return reclamos;     
 
     }
+
+    public int updateReclamo(Reclamo reclamo) {
+        
+        
+        System.out.println("Antes de actualizar  Reclamo");
+         String sql_update = "UPDATE reclamo SET estado = '"+reclamo.getEstado()+"' WHERE ticket ="+reclamo.getTicket()+";";
+               
+
+        System.err.println(sql_update);
+        int result = -1;
+        try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            result = sentence.executeUpdate(sql_update);
+            fachada.cerrarConexion(conn);
+            System.out.println("Actualice Reclamo");
+        } catch (SQLException se) {
+            // JOptionPane.showMessageDialog(null, se.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result; //result
+    }
     
    
 }
