@@ -4,11 +4,13 @@
  */
 package Entidades;
 
+import java.io.Serializable;
+
 /**
  *
  * @author leonardo
  */
-public class Medida {
+public class Medida implements Serializable{
 
     private Integer id;
     private String accion;
@@ -56,6 +58,6 @@ public class Medida {
 
     @Override
     public String toString() {
-        return "Entidades.Medida[ id=" + id + " accion=" + accion + " ]";
+        return "" + id + ". " + accion + "";
     }
 }

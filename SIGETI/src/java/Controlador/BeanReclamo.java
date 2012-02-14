@@ -374,23 +374,61 @@ public class BeanReclamo implements Serializable {
     
     public void addMedidaReclamo()
     {
+     
+        FacesContext context = FacesContext.getCurrentInstance();
+        if(medidas.size() == 1)
+        {
+        
+            if(medidas.get(0).getId() == 0)
+            {
+            
+                medidas.remove(0);
+                
+            }            
+            
+        }
+        
         Medida medida = new Medida();
         
+        idMedida = Integer.parseInt(accionMedida.charAt(0)+"");        
+     
         medida.setId(idMedida);
-        medida.setAccion(accionMedida);
+        medida.setAccion(accionMedida.substring(2,accionMedida.length()));
         
-        medidas.add(medida);
+        if(medidas.contains(medida))
+        {
+        
+            context.addMessage(null, new FacesMessage("Al reclamo ya se le ha asignado esa medida."));
+            
+        }else
+        {       
+             medidas.add(medida); 
+             context.addMessage(null, new FacesMessage("Medida agregada con exito recuerde guardar los cambios."));
+        }
+        
+       
         
     }
     
      public void removeMedidaReclamo()
     {
-        Medida medida = new Medida();
         
-        medida.setId(idMedida);
-        medida.setAccion(accionMedida);
+        FacesContext context = FacesContext.getCurrentInstance();
+        Application app = context.getApplication();
+        Medida medida= (Medida) app.evaluateExpressionGet(context, "#{medida}", Medida.class);
+      
         
         medidas.remove(medida);
+        
+        
+         if(medidas.isEmpty())
+        {
+        
+            medida = new Medida(0, "Aun no se han añadido medidas para este reclamo");
+            
+            medidas.add(medida);      
+            
+        }
         
     }
 
@@ -499,7 +537,7 @@ public class BeanReclamo implements Serializable {
         }
         else if(l.equals("3"))
         {
-            link = "deleteClaim";           
+            link = "newMeasure";           
            
         }
         else if(l.equals("4"))

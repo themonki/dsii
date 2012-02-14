@@ -81,5 +81,63 @@ public class DaoMedida {
     }
     
 
+       public List<Medida> findAllMedidas()
+    {        
+        String sqlConsulta = "SELECT * FROM medida;";
+        System.err.println(sqlConsulta);
+
+        List<Medida> medidas = new ArrayList<Medida>();
+
+        try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            ResultSet table = sentence.executeQuery(sqlConsulta);
+
+            while (table.next()) {
+                Medida medida = new Medida();
+
+                medida.setId(Integer.parseInt(table.getString("id")));
+                medida.setAccion(table.getString("accion"));
+               
+                medidas.add(medida);
+                
+                System.out.println(medida.getAccion());
+            }
+            fachada.cerrarConexion(conn);
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return medidas;     
+
+    }
+
+    public int lastTicketId() {
+        
+        int idNumber = 0;
+
+        String sql_count = "SELECT * FROM medida ORDER BY id DESC      LIMIT 1";
+
+        try {
+
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            ResultSet table = sentence.executeQuery(sql_count);
+
+            while (table.next()) {
+                idNumber = Integer.parseInt(table.getString(1));
+
+            }
+
+
+        } catch (SQLException se) {
+            // JOptionPane.showMessageDialog(null, se.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return idNumber;
+    }
     
 }
