@@ -22,7 +22,7 @@ public class DaoCard {
         fachada = new FachadaBD();
     }
 
-    public int saveCard(TarjetaPersonalizada tarjeta) {
+    public int saveCard(Tarjeta tarjeta) {
 
         int result=0;
         String sql_insert = "INSERT INTO tarjeta  (pin,saldo,estado,tipo,costo,fecha_venta,estacion_venta)";
@@ -41,6 +41,20 @@ public class DaoCard {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
+        
+        if (tarjeta.getTipo()==1 && result!=0)
+        {
+        saveCardCustom(tarjeta.getPin());
+        }
+        if (tarjeta.getTipo()==2 && result!=0)
+        {
+        saveCardGeneric(tarjeta.getPin());
+        }
+        
+        
+        
+        
         System.err.println(sql_insert);
         return result;
         
@@ -93,17 +107,14 @@ public class DaoCard {
         return result;
      
     }
-     public int saveCard(TarjetaGenerica tarjeta) {
-
-        int result=0;
-        String sql_insert = "INSERT INTO tarjeta  (pin,saldo,estado,tipo,costo,fecha_venta,estacion_venta)";
+    public int logicalErase(String pin){
         
-        sql_insert+="VALUES ("+ tarjeta.getPin()+"  ,"+tarjeta.getSaldo()+",true"+ ","+tarjeta.getTipo()+ ","+tarjeta.getCosto()+ ","+"null"+ ","+tarjeta.getEstacionVenta()+")";
-
-       
-       
-       
-         System.err.println(sql_insert);
+         
+         int result=0;
+        String sql_insert = "UPDATE tarjeta SET  estado=false WHERE  pin='"+pin+"'";
+     
+        
+         System.err.println("ENTRE A GENERICA"+sql_insert);
         try {
             Connection conn = fachada.conectar();
             Statement sentence = conn.createStatement();
@@ -114,28 +125,14 @@ public class DaoCard {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.err.println(sql_insert);
+       
         
-        
-       System.err.println("antes de condciion ");
-        if( tarjeta.getTipo()==2){
-           saveCardGeneric( tarjeta.getPin());
-       
-       
-     
-        }
-       
-     
-        if( tarjeta.getTipo()==1){
-           saveCardCustom(tarjeta.getPin());
-       
-       
-    
-        }
-        
-        System.err.println("despues de condciion ");
         return result;
-        
+     
     }
+  
+    
      
      public Tarjeta findCard (String pin){
      

@@ -31,7 +31,17 @@ public class BeanCard implements Serializable {
     private String numberPassages = "0";
     private boolean estado = true;// solo se modifica si se va a borrar ; 
     private String cedulaPasajero="";
+    private String isFind="false";   
     private FacesContext context;
+
+    public String getIsFind() {
+        return isFind;
+    }
+
+    public void setIsFind(String isFind) {
+        this.isFind = isFind;
+    }
+ 
 
     public String getCedulaPasajero() {
         return cedulaPasajero;
@@ -115,30 +125,8 @@ public class BeanCard implements Serializable {
             int tipoTarjeta = Integer.parseInt(tipo);
 
 
-            if (tipoTarjeta == 1) {
-
-
-
-
-                TarjetaPersonalizada tarjeta = new TarjetaPersonalizada();
-                tarjeta.setCosto(Integer.parseInt(costo));
-                tarjeta.setEstacionVenta(Integer.parseInt(estacion));
-                tarjeta.setEstado(true);
-                tarjeta.setFechaVenta(fecha.toString());//fecha
-                tarjeta.setPin(pin);
-                tarjeta.setTipo(tipoTarjeta);
-                tarjeta.setCredito(0);
-                tarjeta.setSaldo(Integer.parseInt(numberPassages));
-
-                System.err.println("antes de guardar");
-
-                result = daoCard.saveCard(tarjeta);
-
-                System.err.println("despues de guardar");
-
-            } else {
-
-                TarjetaGenerica tarjeta = new TarjetaGenerica();
+           
+                Tarjeta tarjeta = new TarjetaPersonalizada();
                 tarjeta.setCosto(Integer.parseInt(costo));
                 tarjeta.setEstacionVenta(Integer.parseInt(estacion));
                 tarjeta.setEstado(true);
@@ -153,8 +141,6 @@ public class BeanCard implements Serializable {
 
                 System.err.println("despues de guardar");
 
-
-            }
 
             if (result == 0) {
 
@@ -175,6 +161,26 @@ public class BeanCard implements Serializable {
 
     }
     
+    
+    public String eraseCard(){
+        
+          context = FacesContext.getCurrentInstance();
+        //validate();
+        if (context.getMessageList().size() > 0) {
+            return null;
+        }
+        BeanContent content = (BeanContent) context.getApplication().evaluateExpressionGet(context, "#{beanContent}", BeanContent.class);
+        int result = 0;
+        DaoCard daoCard = new DaoCard();
+        
+        daoCard.logicalErase(pin);
+        
+        
+    
+    
+        return null;
+    
+    }
     public String findCard(){
         
          context = FacesContext.getCurrentInstance();
@@ -207,10 +213,14 @@ public class BeanCard implements Serializable {
         if(pin==null){
              context.addMessage(null, new FacesMessage(
                     FacesMessage.SEVERITY_ERROR, "La consulta no arrojo resultados.", null));
+             
+              isFind="false";
              return null;
         
         
         }
+        
+        isFind="true";
         
          if(tarjeta.getCosto()!=null)
              costo = Integer.toString(tarjeta.getCosto());     
