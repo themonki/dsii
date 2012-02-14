@@ -6,10 +6,12 @@ package Controlador;
 
 import Dao.DaoEmpleado;
 import Dao.DaoEstacion;
+import Dao.DaoMedida;
 import Dao.DaoReclamo;
 
 import Entidades.Auxiliar;
 import Entidades.EstacionPrincipal;
+import Entidades.Medida;
 import Entidades.Reclamo;
 import Utilidades.BeanContent;
 import java.io.Serializable;
@@ -270,6 +272,32 @@ public class BeanReclamo implements Serializable {
             return null;
         } else {
             return reclamosfiltrados;
+        }
+    }
+
+    
+     public List<Medida> getFindMedida() {
+        DaoMedida daoMedida = new DaoMedida();
+        List<Medida> medidas;
+        System.out.println(estado);
+
+        medidas = daoMedida.findAllMedidas(ticket);
+
+        daoMedida = null;
+
+      
+       
+ 
+
+        System.out.println("Tamaño de filtrado " + medidas.size());
+        if (medidas.isEmpty()) {
+            Medida medida = new Medida(0, "Aun no se han añadido medidas para este reclamo");
+            
+            medidas.add(medida);
+            
+            return medidas;
+        } else {
+            return medidas;
         }
     }
 

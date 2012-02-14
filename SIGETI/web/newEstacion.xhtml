@@ -71,7 +71,7 @@
                             <h:selectOneMenu value="#{beanEstacion.idOperario}"
                                              disabled="#{beanEstacion.disableIdOperario}"
                                              id="idOperarioOn">
-                                <f:selectItems value="#{beanEmployee.availableCargo}"/>
+                                <f:selectItems value="#{beanEmployee.availableOperario}"/>
                             </h:selectOneMenu>
                             <br/><br/>
                             <h:commandButton value="Crear" styleClass="JButton" action="#{beanEstacion.createEstacion()}" /><br/>

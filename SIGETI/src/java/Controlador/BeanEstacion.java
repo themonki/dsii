@@ -45,6 +45,7 @@ public class BeanEstacion implements Serializable{
     {
         disableIdOperario=true;
         disableNombre=true;
+
     }
 
     public void clearBeanEstacion()
@@ -116,12 +117,12 @@ public class BeanEstacion implements Serializable{
 
     public void setNombre(String nombreNew)
     {
-        nombre= nombreNew;
+        nombre= nombreNew.trim();
     }
 
     public void setUbicacion(String ubicacionNew)
     {
-        ubicacion=ubicacionNew;
+        ubicacion=ubicacionNew.trim();
     }
 
     public void setIdOperario(String idOperarioNew)
@@ -158,6 +159,11 @@ public class BeanEstacion implements Serializable{
 
     public String createEstacion()
     {
+        if(validar()>0)
+        {
+            return null;
+        }
+
         FacesContext context = FacesContext.getCurrentInstance();
         BeanContent content = (BeanContent) context.getApplication().evaluateExpressionGet(context, "#{beanContent}", BeanContent.class);
 
@@ -166,6 +172,8 @@ public class BeanEstacion implements Serializable{
             context.addMessage(null, new FacesMessage("La ubicacion ya existe, por favor verifique que sea una nueva ubicacion."));
             return null;
         }
+
+        
 
         DaoEstacion daoEstacion= new DaoEstacion();
 
@@ -193,9 +201,11 @@ public class BeanEstacion implements Serializable{
         if(result==0)
         {
             content.setResultOperation("La estacion no pudo ser creada.");
+            clearBeanEstacion();
             return "resultOperation";
         }else{
             content.setResultOperation("La estacion fue creada con exito.");
+            clearBeanEstacion();
             return "resultOperation";
         }
         
@@ -211,6 +221,26 @@ public class BeanEstacion implements Serializable{
 
         return tipos;
     }
+
+    public int validar()
+    {
+        FacesContext context = FacesContext.getCurrentInstance();
+        int errores=0;
+        if(ubicacion.trim().length()>20)
+        {
+            context.addMessage(null, new FacesMessage("La ubicacion debe tener maximo 20 caracteres."));
+            errores++;
+        }
+        if(!tipo.equals("paradero"))
+            if(nombre.trim().length()>50)
+            {
+                context.addMessage(null, new FacesMessage("El nombre debe tener maximo 50 caracteres."));
+                errores++;
+            }
+
+        return errores;
+    }
+    
 }
 
 

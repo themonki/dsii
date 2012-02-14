@@ -50,22 +50,22 @@
 
                 <h:form style="display: inline-block" >
                     <h:panelGrid columns="2"   >
-                        <h:commandLink   action="newEstacion">
+                        <h:commandLink   action="newEstacion" onclick="#{beanEstacion.clearBeanEstacion()}">
                             <img src="./resources/addEstacion.png"  width="100" height="100"></img>
                             <br></br>
                             <h:outputText value="Crear Estacion"/>
                         </h:commandLink>
-                        <h:commandLink   action="editEstacion">
+                        <h:commandLink   action="editEstacion" onclick="#{beanEstacion.clearBeanEstacion()}">
                             <img src="./resources/editarEstacion.png"  width="100" height="100"></img>
                             <br></br>
                             <h:outputText  value="Editar Estacion"/>
                         </h:commandLink>
-                        <h:commandLink   action="eraseEstacion">
+                        <h:commandLink   action="eraseEstacion" onclick="#{beanEstacion.clearBeanEstacion()}">
                              <img src="./resources/eliminarEstacion.png"  width="100" height="100"></img>
                             <br></br>
                             <h:outputText  value="Eliminar Estacion"/>
                         </h:commandLink>
-                        <h:commandLink   action="findEstacion">
+                        <h:commandLink   action="findEstacion" onclick="#{beanEstacion.clearBeanEstacion()}">
                              <img src="./resources/buscarEstacion.png"  width="100" height="100"></img>
                             <br></br>
                             <h:outputText value="Consultar Estacion"/>
