@@ -265,7 +265,7 @@ public class DaoEstacion {
                 id=table.getInt("last_value");
             }
 
-            String sql_insert_estacion="INSERT INTO estacion_paradero(id) VALUES('"
+            String sql_insert_estacion="INSERT INTO estacion_paradero(id_estacion) VALUES('"
                     +id +"')";
 
             result=sequence.executeUpdate(sql_insert_estacion);
@@ -304,7 +304,7 @@ public class DaoEstacion {
                 id=table.getInt("last_value");
             }
 
-            String sql_insert_estacion="INSERT INTO estacion_principal(id, nombre, id_operario) VALUES('"
+            String sql_insert_estacion="INSERT INTO estacion_principal(id_estacion, nombre, id_operario) VALUES('"
                     +id +"', '"+ estacion.getNombre() + "' , '" + estacion.getIdOperario() + "')";
 
             result=sequence.executeUpdate(sql_insert_estacion);
@@ -315,5 +315,30 @@ public class DaoEstacion {
             e.printStackTrace();
         }
         return result;
+    }
+    
+    public boolean existEstacion(String ubicacion)
+    {
+        String sql_query ="SELECT id FROM estacion WHERE ubicacion='"+ubicacion+"'";
+        
+        boolean exist=false;
+        
+        try{
+            Connection conn= fachada.conectar();
+            Statement sequence = conn.createStatement();
+            ResultSet table = sequence.executeQuery(sql_query);
+            
+            while(table.next())
+            {
+                exist=true;
+            }
+        }catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return exist;
+                
     }
 }
