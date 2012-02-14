@@ -7,9 +7,13 @@ package Controlador;
 import Dao.DaoBus;
 import Entidades.Bus;
 import Utilidades.BeanContent;
+import java.util.ArrayList;
+import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import javax.faces.model.SelectItem;
 import javax.swing.JOptionPane;
 
 /**
@@ -85,8 +89,12 @@ public class BeanBus {
     }
     
     public String createBus(){
+        
+        if(!validate()){
+            return null;
+        }
         context = FacesContext.getCurrentInstance();
-        //validate();
+        
         if (context.getMessageList().size() > 0) {
             return null;
         }
@@ -110,6 +118,56 @@ public class BeanBus {
         
         daoBus = null;
         content.setResultOperation("El Bus fue creado con exito.");
+        this.clearStates();
         return "resultOperation";
+    }
+    
+    public List<SelectItem> getAvailableRutaPertenece(){
+        List<SelectItem> availableRutaPertenece = new ArrayList<SelectItem>();
+        //DaoRuta daoRuta = new DaoRuta();
+        
+        availableRutaPertenece.add(new SelectItem("E31"));
+        availableRutaPertenece.add(new SelectItem("E37"));
+
+        return availableRutaPertenece;
+    }
+    
+    public boolean validate(){
+        return true;
+    }
+    
+    public List<SelectItem> getAvailableEstado(){
+        List<SelectItem> availableRutaPertenece = new ArrayList<SelectItem>();
+        
+        availableRutaPertenece.add(new SelectItem("Reparacion"));
+        availableRutaPertenece.add(new SelectItem("Mantenimiento"));
+        availableRutaPertenece.add(new SelectItem("Funcionando"));
+
+        return availableRutaPertenece;
+    }
+    
+    public void clearStates(){
+        this.capacidad=0;
+        this.estado=false;
+        this.idInterno="";
+        this.matricula="";
+        this.perteneceRuta="";
+        this.tipo="";
+    }
+    
+    public void statesForNew(ActionEvent e){
+        this.clearStates();
+    }
+    
+    public void statesForErase(ActionEvent e){
+        
+    }
+    
+    public void stateForEdit(ActionEvent e){
+    
+    }
+    
+    public void stateForFind(ActionEvent e){
+    
     }
 }

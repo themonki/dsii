@@ -52,18 +52,22 @@
                         <h:inputText value="#{beanBus.matricula}" 
                                      required="true"
                                      requiredMessage="La Matricula es obligatoria"/>
-                        <h:outputText value="* Tipo:"/>
-                        <h:inputText value="#{beanBus.tipo}"
+                        <h:outputText value="* Identificador Interno"/>
+                        <h:inputText value="#{beanBus.idInterno}"
                                      required="true"
-                                     requiredMessage="El Tipo del bus es obligatorio"/>
+                                     requiredMessage="El Identificador Interno del Bus es obligatorio"/>
                         <h:outputText value="Capacidad:"/>
                         <h:inputText value="#{beanBus.capacidad}"/>
-                        <h:outputText value="Identificador Interno"/>
-                        <h:inputText value="#{beanBus.idInterno}"/>
+                        <h:outputText value="Tipo:"/>
+                        <h:inputText value="#{beanBus.tipo}"/>
                         <h:outputText value="Estado:"/>
-                        <h:inputText value="#{beanBus.estado}"/>
+                        <h:selectOneMenu value="#{beanBus.estado}">
+                            <f:selectItems value="#{beanBus.availableEstado}"/>
+                        </h:selectOneMenu>
                         <h:outputText value="Ruta a la que pertenece:"/>
-                        <h:inputText value="#{beanBus.perteneceRuta}"/>                        
+                        <h:selectOneMenu value="#{beanBus.perteneceRuta}">
+                            <f:selectItems value="#{beanBus.availableRutaPertenece}"/>
+                        </h:selectOneMenu>                        
                     </h:panelGrid>
                     <br/><hr/><br/>                    
                     

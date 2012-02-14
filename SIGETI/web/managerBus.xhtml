@@ -46,16 +46,24 @@ and open the template in the editor.
             <div id="center_center">
                 <h:form>
                     <h:panelGrid columns="1">
-                        <h:commandLink action="newBus">
+                        <h:commandLink action="newBus"
+                            actionListener="#{beanBus.statesForNew}"
+                            immediate="true">
                             <h:outputText value="Crear nuevo Bus"/>
                         </h:commandLink>
-                        <h:commandLink action="editBus">
+                        <h:commandLink action="editBus"
+                            actionListener="#{beanBus.statesForEdit}"
+                            immediate="true">
                             <h:outputText value="Editar bus"/>
                         </h:commandLink>
-                        <h:commandLink action="eraseBus">
+                        <h:commandLink action="eraseBus"
+                            actionListener="#{beanBus.statesForErase}"
+                            immediate="true">
                             <h:outputText value="Eliminar bus"/>
                         </h:commandLink>
-                        <h:commandLink action="findBus">
+                        <h:commandLink action="findBus"
+                            actionListener="#{beanBus.statesForFind}"
+                            immediate="true">
                             <h:outputText value="Consultar bus"/>
                         </h:commandLink>
                     </h:panelGrid>
