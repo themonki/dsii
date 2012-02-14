@@ -181,14 +181,14 @@ public class BeanContent implements Serializable{
         }
         else if(l.equals("2"))
         {
-            link = "editClaim";
+            link = "findClaim";
              
             
             
         }
         else if(l.equals("3"))
         {
-            link = "deleteClaim";
+            link = "findClaim";
              
            
            
