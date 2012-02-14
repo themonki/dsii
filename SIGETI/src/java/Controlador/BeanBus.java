@@ -7,10 +7,11 @@ package Controlador;
 import Dao.DaoBus;
 import Entidades.Bus;
 import Utilidades.BeanContent;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
@@ -21,8 +22,8 @@ import javax.swing.JOptionPane;
  * @author Edgar Andres Moncada
  */
 @ManagedBean
-@RequestScoped
-public class BeanBus {
+@SessionScoped
+public class BeanBus implements Serializable {
     
     private String matricula;
     private String tipo;
@@ -31,7 +32,29 @@ public class BeanBus {
     private boolean estado;
     private String perteneceRuta;
     private FacesContext context;
+    /**/
+    private boolean isRenderTableSearch;
+    private String action;
 
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public boolean isIsRenderTableSearch() {
+        return isRenderTableSearch;
+    }
+
+    public void setIsRenderTableSearch(boolean isRenderTableSearch) {
+        this.isRenderTableSearch = isRenderTableSearch;
+    }
+    
+    public boolean isRenderTableSearch() {       
+        return isRenderTableSearch;
+    }
 
     public Integer getCapacidad() {
         return capacidad;
@@ -63,6 +86,7 @@ public class BeanBus {
 
     public void setMatricula(String matricula) {
         this.matricula = matricula;
+        isRenderTableSearch=true;
     }
 
     public String getPerteneceRuta() {
@@ -109,7 +133,6 @@ public class BeanBus {
         bus.setPerteneceRuta(perteneceRuta.trim());
         bus.setTipo(tipo.trim());
         
-        JOptionPane.showMessageDialog(null, "Vamooss");
         result = daoBus.saveBus(bus);
         if(result == 0){
             content.setResultOperation("El Bus no pudo ser creado.");
@@ -160,14 +183,42 @@ public class BeanBus {
     }
     
     public void statesForErase(ActionEvent e){
-        
+        this.clearStates();
+        this.action = "Eliminar";
     }
     
-    public void stateForEdit(ActionEvent e){
-    
+    public void statesForEdit(ActionEvent e){
+
+        this.isRenderTableSearch=false;
+        this.clearStates();
+        this.action = "Editar";
     }
     
-    public void stateForFind(ActionEvent e){
+    public void statesForFind(ActionEvent e){
+        this.clearStates();
+        this.action = "Detalle";
+    }
     
+    public List<Bus> getFindBuses(){        
+        DaoBus daoBus = new DaoBus();
+        Bus b = daoBus.consultarBus(matricula);
+        List<Bus> buses = new ArrayList<Bus>();
+        buses.add(b);
+        return buses;
+    }
+    
+    public String getLinkAction() {
+        String link = "";
+        if (this.action.equals("Detalle")) {
+            //this.prepareDataEmployee();
+            link = "detailBus";
+        } else if (this.action.equals("Eliminar")) {
+            link = "eraseBus";
+        } else if (this.action.equals("Editar")) {
+            //this.prepareDataEmployee();
+            link = "editBus";
+        }
+
+        return link;
     }
 }

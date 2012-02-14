@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -9,22 +9,20 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
-        <title>Home page Administrador</title>
-        
-        <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
+        <title>Buscar Bus</title>        
     </h:head>
     
     <h:body>
-
         <div id="top">
             <img src="./resources/logo.png" alt="logo"></img>
-        
+
             <h:form>
                 <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
                 <h:commandLink action="#{authentication.logout}">
                     <img src="./resources/exit.png" alt="salir" width="50" height="50"></img>
                 </h:commandLink>
             </h:form>
+
         </div>
         <div id="center">
             <div id="center_left">
@@ -41,40 +39,42 @@
                     </h:dataTable>
                 </h:form>
             </div>
-            <div id="center_center">
-                <ui:insert name="content" >Gestion Buses </ui:insert>
-                <br/>
-                <br/>
-                <br/>
+            <div  id="center_center">
+                 <h:messages styleClass="error"/>
                 <h:form>
-                    <h:panelGrid columns="1">
-                        <h:commandLink action="newBus"
-                            actionListener="#{beanBus.statesForNew}"
-                            immediate="true">
-                            <h:outputText value="Crear nuevo Bus"/>
-                        </h:commandLink>
-                        <h:commandLink action="findBus"
-                                       actionListener="#{beanBus.statesForEdit}"
-                            immediate="true">
-                            <h:outputText value="Editar bus"/>
-                        </h:commandLink>
-                        <h:commandLink action="findBus"
-                            actionListener="#{beanBus.statesForErase}"
-                            immediate="true">
-                            <h:outputText value="Eliminar bus"/>
-                        </h:commandLink>
-                        <h:commandLink action="findBus"
-                            actionListener="#{beanBus.statesForFind}"
-                            immediate="true">
-                            <h:outputText value="Consultar bus"/>
-                        </h:commandLink>
+                    <h:panelGrid columns="2">
+                        <f:facet name="header">
+                            <h:outputText value="Buscar Buses"/>
+                        </f:facet>
+                        <h:outputText value="Matricula:"/>
+                        <h:inputText value="#{beanBus.matricula}"/>
+                        <h:commandButton value="Buscar"/>
                     </h:panelGrid>
+                </h:form>                
+                <h:form>
+                    <h:dataTable
+                        border="1"
+                        var="bus"
+                        id="tableBus"
+                        value="#{beanBus.findBuses}"                        
+                        rendered="#{beanBus.renderTableSearch}">
+                        <f:facet name="caption">Resultado de la b&uacute;squeda</f:facet>
+                        <h:column>
+                            <f:facet name="header">Matricula</f:facet>
+                            #{bus.matricula}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Identificador Interno</f:facet>
+                            #{bus.idInterno}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header"> Acci&oacute;n</f:facet>
+                            <h:commandLink value="#{beanBus.action}" action="#{beanBus.getLinkAction}"/>                        
+                        </h:column>
+                    </h:dataTable>
                 </h:form>
             </div>
         </div>
-        <div id="bottom">
-            <ui:insert name="bottom">Pie de pagina</ui:insert>
-        </div>
-
     </h:body>
 </html>
+
