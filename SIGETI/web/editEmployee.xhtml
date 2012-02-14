@@ -116,33 +116,59 @@
                                          disabled="#{beanEmployee.disableEstacion}"
                                          id="idEstacionIn">
                             <f:selectItems value="#{beanEmployee.availableEstacionPrincipal}"/>
-                        </h:selectOneMenu>                      
+                        </h:selectOneMenu>
+                        <h:outputText value="Estado:"/>
+                        <h:selectOneMenu value="#{beanEmployee.estado}">
+                            <f:selectItems value="#{beanEmployee.availableEstado}"/>
+                        </h:selectOneMenu>
                     </h:panelGrid>
                     <br/><hr/><br/>
+
                     <h:panelGrid columns="2">
                         <f:facet name="header">
-                            <h:outputText value="Datos de ingreso al sistemas"/>
+                            <h:outputText value="Datos de ingreso al sistema"/>
                         </f:facet>
                         <h:outputText value="* Login:"/>
                         <h:inputText value="#{beanEmployee.login}" 
                                      required="true"
                                      requiredMessage="Login, es obligatorio."/>
-                        <h:outputText value="* Password:"/>
+                        <h:outputText value="Cambiar password:"/>
+                        <h:selectBooleanCheckbox value="#{beanEmployee.editPassword}">
+                            <!--<f:ajax render="pai pao npo npi cnpo cnpi"/>-->
+                            <f:ajax render="@form"/>
+                        </h:selectBooleanCheckbox>
+                        <h:outputText value="* Password actual:" 
+                                      rendered="#{beanEmployee.editPassword}" 
+                                      id="pao"/>
                         <h:inputSecret value="#{beanEmployee.password}"
-                                       required="true"
-                                       requiredMessage="Password, es obligatorio."/>
-                        <h:outputText value="* Confirmar password:"/>
-                        <h:inputSecret value="#{beanEmployee.passwordConfirmar}"
-                                       required="true"
-                                       requiredMessage="Confirmar password, es obligatorio."/>
+                            required="true"
+                            requiredMessage="Password actual es obligatorio."
+                            rendered="#{beanEmployee.editPassword}"
+                            id="pai"/>
+                        <h:outputText value="* Nuevo password:"
+                                      rendered="#{beanEmployee.editPassword}"
+                                      id="npo"/>
+                        <h:inputSecret value="#{beanEmployee.nuevoPassword}"
+                            required="true"
+                            requiredMessage="Nuevo Password es obligatorio."
+                            rendered="#{beanEmployee.editPassword}"
+                            id="npi"/>
+                        <h:outputText value="* Confirmar nuevo password:"
+                                      rendered="#{beanEmployee.editPassword}"
+                                      id="cnpo"/>
+                        <h:inputSecret value="#{beanEmployee.nuevoPasswordConfirmar}"
+                            required="true"
+                            requiredMessage="Confimar nuevo password es obligatorio."
+                            rendered="#{beanEmployee.editPassword}"
+                            id="cnpi"/>
                     </h:panelGrid>
 
                     <h:panelGrid>
                         <h:commandButton  value="Actualizar" styleClass="JButton" action="#{beanEmployee.updateUser}"/>
                         <h:commandButton  value="Atr&aacute;s" styleClass="JButton"
-                                         action="findEmployee"
-                                         actionListener="#{beanEmployee.statesForFindReturn}"
-                                         immediate="true"/>
+                                          action="findEmployee"
+                                          actionListener="#{beanEmployee.statesForFindReturn}"
+                                          immediate="true"/>
                     </h:panelGrid>
 
                 </h:form>

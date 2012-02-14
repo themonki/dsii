@@ -50,7 +50,10 @@ public class BeanEmployee implements Serializable {
     private String login;
     private String password;
     private String passwordConfirmar;
+    private String nuevoPassword;
+    private String nuevoPasswordConfirmar;
     private boolean estado;
+    private String estadoS;
     private String licencia;
     private String identificacionJefe;
     private Integer lugarTrabajo;
@@ -66,6 +69,39 @@ public class BeanEmployee implements Serializable {
     private boolean avancedSearchApellido;
     private boolean avancedSearchCargo;
     private boolean editIdentificacion;
+    private boolean editPassword;
+
+    public void setEstadoS(String estadoS) {
+        this.estadoS = estadoS;
+    }
+
+    public String getEstadoS() {
+        return estadoS;
+    }
+
+    public void setNuevoPassword(String nuevoPassword) {
+        this.nuevoPassword = nuevoPassword;
+    }
+
+    public void setNuevoPasswordConfirmar(String nuevoPasswordConfirmar) {
+        this.nuevoPasswordConfirmar = nuevoPasswordConfirmar;
+    }
+
+    public String getNuevoPassword() {
+        return nuevoPassword;
+    }
+
+    public String getNuevoPasswordConfirmar() {
+        return nuevoPasswordConfirmar;
+    }
+
+    public void setEditPassword(boolean editPassword) {
+        this.editPassword = editPassword;
+    }
+
+    public boolean isEditPassword() {
+        return editPassword;
+    }
 
     public void setEditIdentificacion(boolean editIdentificacion) {
         this.editIdentificacion = editIdentificacion;
@@ -101,7 +137,7 @@ public class BeanEmployee implements Serializable {
 
     public void setAvancedSearch(boolean avancedSearch) {
         this.avancedSearch = avancedSearch;
-        
+
         this.isRenderTableSearch = true;
     }
 
@@ -341,11 +377,6 @@ public class BeanEmployee implements Serializable {
         return telefono;
     }
 
-    public boolean getEstado() {
-        //System.out.println("get estado");
-        return estado;
-    }
-
     public void setIdentificacionJefe(String identificacionJefe) {
         //System.out.println("set id jefe");
         this.identificacionJefe = identificacionJefe;
@@ -502,6 +533,28 @@ public class BeanEmployee implements Serializable {
         daoEmpleado = null;
 
         return availableJefe;
+    }
+
+    public List<SelectItem> getAvailableEstado()
+    {
+        List<SelectItem> availableCargo = new ArrayList<SelectItem>();
+        availableCargo.add(new SelectItem(true,"Activo"));
+        availableCargo.add(new SelectItem(false,"Inactivo"));
+        return availableCargo;
+    }
+    
+    public List<SelectItem> getAvailableOperario() {
+        List<SelectItem> availableOperarios = new ArrayList<SelectItem>();
+        DaoEmpleado daoEmpleado = new DaoEmpleado();
+        
+        List<Operario> operarios = daoEmpleado.findAllOperario();
+        for (int i = 0; i < operarios.size(); i++) {
+            Operario operario = operarios.get(i);
+            String nombreOper = operario.getNombre() + " " + operario.getApellido();
+            availableOperarios.add(new SelectItem(operario.getId(), nombreOper));
+        }
+        
+        return availableOperarios;
     }
 
     public String createUser() {
@@ -683,6 +736,12 @@ public class BeanEmployee implements Serializable {
         }
     }
 
+    private void validateEdit()
+    {
+        this.passwordConfirmar = this.password;
+        this.validate();
+        
+    }
     void clearStates() {
         this.nombre = "";
         this.nombre2 = "";
@@ -707,6 +766,7 @@ public class BeanEmployee implements Serializable {
         this.password = "";
         this.passwordConfirmar = "";
         this.estado = true;
+        this.estadoS = "Activo";
         this.licencia = "";
         this.identificacionJefe = "";
         this.lugarTrabajo = -1;
@@ -745,26 +805,26 @@ public class BeanEmployee implements Serializable {
         this.avancedSearchNombre = false;
         this.avancedSearchApellido = false;
         this.avancedSearchCargo = false;
+        this.editIdentificacion = false;
+        this.editPassword = false;
+        this.nuevoPassword = "";
+        this.nuevoPasswordConfirmar = "";
         this.clearStates();
         this.action = "Editar";
     }
 
-    public List<Empleado> getFindEmployee() {      
+    public List<Empleado> getFindEmployee() {
         FacesContext context = FacesContext.getCurrentInstance();
         EmployeeHolder empleadoHolder = (EmployeeHolder) context.getApplication().evaluateExpressionGet(context, "#{employeeHolder}", EmployeeHolder.class);
         int rol = empleadoHolder.getCurrentEmpleado().getRol();
 
-        if(rol == 2)
-        {
+        if (rol == 2) {
             this.avancedSearchCargo = true;
         }
-        
+
         DaoEmpleado daoEmpleado = new DaoEmpleado();
         List<Empleado> empleados = null;
 
-        System.out.println("avanzada nombre " + this.avancedSearchNombre);
-        System.out.println("avanzada apellido " + this.avancedSearchApellido);
-        System.out.println("avanzada cargo " + this.avancedSearchCargo);
         String opcion = "";
         if (this.avancedSearch) {
 
@@ -791,44 +851,39 @@ public class BeanEmployee implements Serializable {
                 int rolF = this.findRol(this.cargo);
                 opcion += "rol = " + rolF;
             }
-            
-            if(opcion.equals(""))
-            {
-                if(rol == 2)//opeario
+
+            if (opcion.equals("")) {
+                if (rol == 2)//opeario
                 {
                     empleados = daoEmpleado.findEmpleadoCondition("rol = 3");
-                }else
-                {
+                } else {
                     empleados = daoEmpleado.findAllEmpleado();
                 }
-                
-            }else{
+
+            } else {
                 empleados = daoEmpleado.findEmpleadoCondition(opcion);
             }
         } else {
             if (this.identificacion.trim().equals("")) {
-                if(rol == 2)//Operario
+                if (rol == 2)//Operario
                 {
                     empleados = daoEmpleado.findEmpleadoCondition("rol = 3");//busca solo auxiliares
-                }else
-                {
+                } else {
                     empleados = daoEmpleado.findAllEmpleado();
                 }
             } else {
-                if(rol == 2)
-                {
+                if (rol == 2) {
                     empleados = daoEmpleado.findEmpleadoCondition("id = " + this.identificacion.trim() + " AND rol = 3");//buscar auxiliar con un id dado
-                }else
-                {
+                } else {
                     Empleado empleado = daoEmpleado.findEmpleadoId(this.identificacion.trim());
                     empleados = new ArrayList<Empleado>();
                     empleados.add(empleado);
-                }        
+                }
             }
         }
 
         daoEmpleado = null;
-   
+
         if (empleados.isEmpty() || empleados.get(0).getId() == null) {
             context.addMessage(null, new FacesMessage("No existe empleado con los datos proporcionados."));
             return null;
@@ -916,16 +971,20 @@ public class BeanEmployee implements Serializable {
         this.cargo = cargoObtenido;
         this.login = empleado.getLogin();
         this.estado = empleado.getEstado();
-        
-        if(this.fechaIngreso != null)
+        if(this.estado)
         {
+            this.estadoS = "Activo";
+        }else{
+            this.estadoS = "Inactivo";
+        }
+
+        if (this.fechaIngreso != null) {
             String[] partes = this.fechaIngreso.split("-");
             this.fechaIngresoAno = partes[0];
             this.fechaIngresoMes = partes[1];
             this.fechaIngresoDia = partes[2];
         }
-        if(this.fechaNacimiento != null)
-        {
+        if (this.fechaNacimiento != null) {
             String[] partes = this.fechaNacimiento.split("-");
             this.fechaNacimientoAno = partes[0];
             this.fechaNacimientoMes = partes[1];
@@ -949,10 +1008,9 @@ public class BeanEmployee implements Serializable {
 
         return rolFind;
     }
-    
-    public String updateUser()
-    {
-        this.validate();
+
+    public String updateUser() {
+        this.validateEdit();
         if (this.countValidator > 0) {
             this.countValidator = 0;
             return null;
