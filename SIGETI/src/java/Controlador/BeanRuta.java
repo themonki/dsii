@@ -122,6 +122,7 @@ public class BeanRuta implements Serializable{
         ruta.setEstado(estado);
        
         result = daoRuta.saveRuta(ruta);
+        daoRuta.insertarEstacionesRuta(estacionesRuta, nombre);
         if (result == 0) {
             content.setResultOperation("La ruta no pudo ser creada.");
             content.setImage("./resources/fail.png");
@@ -259,7 +260,7 @@ public class BeanRuta implements Serializable{
         
      public void clearBeanRuta()
     {
-        idEstacion = 0;
+       
         if(estacionesRuta == null)
         {
              estacionesRuta = new ArrayList<Estacion>();
@@ -279,8 +280,10 @@ public class BeanRuta implements Serializable{
         
         }
        
-        ubicacion="";
+        nombre = "";
+        descripcion="";
         idEstacion = 0;
+        ubicacion = "";
         
         estado=true;        
 
@@ -307,8 +310,8 @@ public class BeanRuta implements Serializable{
         // Se usara con el dao de reclamo pero debe ser con el dao de usuario Temporal!!!
         DaoRuta daoRuta = new DaoRuta();
 
-        if (daoRuta.rutaValida(nombre).equals("") ) {
-            context.addMessage(null, new FacesMessage("El id del usuario  no se encuentra en la base de datos."));
+        if (!daoRuta.rutaValida(nombre).equals("") ) {
+            context.addMessage(null, new FacesMessage("El nombre de la ruta ya existe seleccione otro"));
             countValidator = 1;
 
         }
