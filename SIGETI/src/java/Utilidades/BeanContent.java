@@ -88,7 +88,7 @@ public class BeanContent implements Serializable {
 
            
 
-       
+            
             menuClaimsOptions.add(c3);
             menuClaimsOptions.add(c4);
             menuClaimsOptions.add(c5);
@@ -146,6 +146,11 @@ public class BeanContent implements Serializable {
 
         } else if (rol == 3) //Auxiliar
         {
+            
+            
+            List l3 = new ArrayList();
+            l3.add("Gestionar Tarjetas");
+            l3.add("3");
             List l4 = new ArrayList();
             l4.add("Gestionar Reclamos");
             l4.add("4");
@@ -154,6 +159,7 @@ public class BeanContent implements Serializable {
             c1.add("Crear Reclamo");
             c1.add("1");
 
+            menuOptions.add(l3);
             menuOptions.add(l4);
             menuClaimsOptions.add(c1);
 
