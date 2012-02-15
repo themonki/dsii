@@ -9,6 +9,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
+        <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
         <title>Buscar Empleado</title>
     </h:head>
 
@@ -42,82 +43,86 @@
             </div>
             <div  id="center_center">
                 <h:messages styleClass="error"/>
-                <h:form>
-                    <h:panelGrid columns="2">
-                        <f:facet name="header">
-                            <h:outputText value="Buscar Empleado"/>
-                        </f:facet>
-                        <h:outputText value="N. identificaci&oacute;n:"/>
-                        <h:inputText value="#{beanEmployee.identificacion}"
-                                     disabled="#{beanEmployee.avancedSearch}"/>
+                <center>
+                    <h:form styleClass="Formulario">
+                        <h:panelGrid columns="2">
+                            <f:facet name="header">
+                                <center><h:outputText value="Buscar Empleado"/></center>
+                            </f:facet>
+                            <h:outputText value="N. identificaci&oacute;n:"/>
+                            <h:inputText value="#{beanEmployee.identificacion}"
+                                         disabled="#{beanEmployee.avancedSearch}"/>
 
-                        <h:outputText value="B&uacute;squeda avanzada"/>
-                        <h:selectBooleanCheckbox value="#{beanEmployee.avancedSearch}">
-                            <f:ajax render="@form"/>
-                        </h:selectBooleanCheckbox>
-                        <h:outputText value="Nombre:"
-                                      rendered="#{beanEmployee.avancedSearch}"/>
-                        <h:panelGroup>
-                            <h:inputText value="#{beanEmployee.nombre}"
-                                         rendered="#{beanEmployee.avancedSearch}"/>
-                            <h:selectBooleanCheckbox value="#{beanEmployee.avancedSearchNombre}"
-                                                     rendered="#{beanEmployee.avancedSearch}"/>
-                        </h:panelGroup>
-                        <h:outputText value="Apellido:"
-                                      rendered="#{beanEmployee.avancedSearch}"/>
-                        <h:panelGroup>
-                            <h:inputText value="#{beanEmployee.apellido}"
-                                         rendered="#{beanEmployee.avancedSearch}"/>
-                            <h:selectBooleanCheckbox value="#{beanEmployee.avancedSearchApellido}"
-                                                     rendered="#{beanEmployee.avancedSearch}"/>
-                        </h:panelGroup>
-                        <h:outputText value="Cargo"
-                                      rendered="#{beanEmployee.avancedSearch}"/>
-                        <h:panelGroup>
-                            <h:selectOneMenu value="#{beanEmployee.cargo}"
-                                             rendered="#{beanEmployee.avancedSearch}">
-                                <f:selectItems value="#{beanEmployee.availableCargo}"/>
-                            </h:selectOneMenu>
-                            <h:selectBooleanCheckbox value="#{beanEmployee.avancedSearchCargo}"
-                                                     rendered="#{beanEmployee.avancedSearch}"/>
-                        </h:panelGroup>
+                            <h:outputText value="B&uacute;squeda avanzada"/>
+                            <h:selectBooleanCheckbox value="#{beanEmployee.avancedSearch}">
+                                <f:ajax render="@form"/>
+                            </h:selectBooleanCheckbox>
+                            <h:outputText value="Nombre:"
+                                          rendered="#{beanEmployee.avancedSearch}"/>
+                            <h:panelGroup>
+                                <h:inputText value="#{beanEmployee.nombre}"
+                                             rendered="#{beanEmployee.avancedSearch}"/>
+                                <h:selectBooleanCheckbox value="#{beanEmployee.avancedSearchNombre}"
+                                                         rendered="#{beanEmployee.avancedSearch}"/>
+                            </h:panelGroup>
+                            <h:outputText value="Apellido:"
+                                          rendered="#{beanEmployee.avancedSearch}"/>
+                            <h:panelGroup>
+                                <h:inputText value="#{beanEmployee.apellido}"
+                                             rendered="#{beanEmployee.avancedSearch}"/>
+                                <h:selectBooleanCheckbox value="#{beanEmployee.avancedSearchApellido}"
+                                                         rendered="#{beanEmployee.avancedSearch}"/>
+                            </h:panelGroup>
+                            <h:outputText value="Cargo"
+                                          rendered="#{beanEmployee.avancedSearch}"/>
+                            <h:panelGroup>
+                                <h:selectOneMenu value="#{beanEmployee.cargo}"
+                                                 rendered="#{beanEmployee.avancedSearch}">
+                                    <f:selectItems value="#{beanEmployee.availableCargo}"/>
+                                </h:selectOneMenu>
+                                <h:selectBooleanCheckbox value="#{beanEmployee.avancedSearchCargo}"
+                                                         rendered="#{beanEmployee.avancedSearch}"/>
+                            </h:panelGroup>
 
-                        <h:commandButton value="Buscar"/>
-                    </h:panelGrid>
-                </h:form>
+                            <h:commandButton value="Buscar" styleClass="JButton"/>
+                        </h:panelGrid>
+                    </h:form>
+                </center>
+                <br/>
                 <i><h:outputText value="Nota: Si desea realizar la consutla de todos los empelados no proporcione ninguna identificaci&oacute;n"/></i>
-                <br/><br/>
-                <h:form>
-                    <h:dataTable
-                        border="1"
-                        var="employee"
-                        value="#{beanEmployee.findEmployee}"
-                        id="tableEmployee"
-                        rendered="#{beanEmployee.renderTableSearch}">
-                        <f:facet name="caption">Resultado de la b&uacute;squeda</f:facet>
-
-                        <h:column>
-                            <f:facet name="header">Identificaci&oacute;n</f:facet>
-                            #{employee.id}
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">Nombres</f:facet>
-                            #{employee.nombre} #{employee.nombre2}
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">Apellidos</f:facet>
-                            #{employee.apellido} #{employee.apellido2}
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">Acci&oacute;n</f:facet>
-                            <h:commandLink value="#{beanEmployee.action}" action="#{beanEmployee.getLinkAction}"/>
-                        </h:column>
-                    </h:dataTable>  
-                </h:form>
+                <br/><br/><br/>
+                <center>
+                    <h:form styleClass="Formulario" rendered="#{beanEmployee.renderTableSearch}">
+                        <h:dataTable
+                            cellpadding="3"
+                            border="1"
+                            var="employee"
+                            value="#{beanEmployee.findEmployee}"
+                            id="tableEmployee">
+                            <f:facet name="caption">Resultado de la b&uacute;squeda</f:facet>
+                            <h:column>
+                                <f:facet name="header">Identificaci&oacute;n</f:facet>
+                                #{employee.id}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Nombres</f:facet>
+                                #{employee.nombre} #{employee.nombre2}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Apellidos</f:facet>
+                                #{employee.apellido} #{employee.apellido2}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Acci&oacute;n</f:facet>
+                                <h:commandLink value="#{beanEmployee.action}" action="#{beanEmployee.getLinkAction}"/>
+                            </h:column>
+                        </h:dataTable>  
+                    </h:form>
+                </center>
             </div>
         </div>
         <div id="bottom">
-            <ui:insert name="bottom">Pie de pagina</ui:insert>
+            <ui:insert name="bottom">SIGETI: Sistema de Gesti&oacute;n de Transporte Integrado.</ui:insert>
         </div>
 
     </h:body>

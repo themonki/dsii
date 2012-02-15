@@ -47,7 +47,7 @@
                 <h:form styleClass="Formulario">
                     <h:panelGrid columns="2">
                         <f:facet name="header">
-                            <h:outputText value="Datos personales"/>
+                            <center><h:outputText value="Datos personales"/></center>
                         </f:facet>
                         <h:outputText value="* Primer nombre:"/>
                         <h:inputText value="#{beanEmployee.nombre}" 
@@ -120,7 +120,7 @@
                     <br/><hr/><br/>
                     <h:panelGrid columns="2">
                         <f:facet name="header">
-                            <h:outputText value="Datos de ingreso al sistemas"/>
+                            <center><h:outputText value="Datos de ingreso al sistemas"/></center>
                         </f:facet>
                         <h:outputText value="* Login:"/>
                         <h:inputText value="#{beanEmployee.login}" 
@@ -135,13 +135,14 @@
                                      required="true"
                                      requiredMessage="Confirmar password, es obligatorio."/>
                     </h:panelGrid>
-                    
-                    <h:commandButton style="text-align: right" value="Crear" styleClass="JButton" action="#{beanEmployee.createUser}"/>
+                    <center>
+                    <h:commandButton value="Crear" styleClass="JButton" action="#{beanEmployee.createUser}"/>
+                    </center>
                 </h:form>
             </div>
         </div>
         <div id="bottom">
-            <ui:insert name="bottom">Pie de pagina</ui:insert>
+            <ui:insert name="bottom">SIGETI: Sistema de Gesti&oacute;n de Transporte Integrado.</ui:insert>
         </div>
 
     </h:body>
