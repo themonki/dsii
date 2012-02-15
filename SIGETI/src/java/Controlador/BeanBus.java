@@ -41,12 +41,21 @@ public class BeanBus implements Serializable {
     private boolean isRenderTableSearch;
     private String action;
     private int indexEstadoFisico;
+    private int indexPerteneceRuta;
 
-    public int getIndexTipo() {
+    public int getIndexPerteneceRuta() {
+        return indexPerteneceRuta;
+    }
+
+    public void setIndexPerteneceRuta(int indexPerteneceRuta) {
+        this.indexPerteneceRuta = indexPerteneceRuta;
+    }
+
+    public int getIndexEstadoFisico() {
         return indexEstadoFisico;
     }
 
-    public void setIndexTipo(int indexTipo) {
+    public void setIndexEstadoFisico(int indexTipo) {
         this.indexEstadoFisico = indexTipo;
     }
 
@@ -133,6 +142,8 @@ public class BeanBus implements Serializable {
 
     public void setPerteneceRuta(String perteneceRuta) {
         this.perteneceRuta = perteneceRuta;
+        
+        
     }
 
     public String getTipo() {
@@ -241,6 +252,9 @@ public class BeanBus implements Serializable {
         List<Ruta> nombresRuta = daoRuta.consultarAllRutas();
         
         for(int i = 0; i< nombresRuta.size(); i++){
+            if(nombresRuta.get(i).getNombre().equals(perteneceRuta)){
+                indexPerteneceRuta=i;
+            }
             availableRutaPertenece.add(new SelectItem(nombresRuta.get(i).getNombre()));
         }
         
@@ -384,6 +398,8 @@ public class BeanBus implements Serializable {
                 throw new ValidatorException(new FacesMessage("El Identificador Interno ya existe"));
         }        
     }
+    
+    
     
     
 }

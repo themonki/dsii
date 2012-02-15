@@ -33,6 +33,6 @@ public class EstacionParadero extends Estacion{
 
     @Override
     public String toString() {
-        return "EstacionParadero[ idEstacion=" + id + " ]";
+        return  id + "." +super.getUbicacion();
     }
 }

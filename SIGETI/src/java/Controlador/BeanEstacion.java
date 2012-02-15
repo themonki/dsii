@@ -204,7 +204,7 @@ public class BeanEstacion implements Serializable{
 
     public void setUbicacionBusqueda(String ubicacionBusquedaNew)
     {
-        ubicacionBusqueda=ubicacionBusquedaNew;
+        ubicacionBusqueda=ubicacionBusquedaNew.trim();
     }
 
     public void setBuscarPrincipales(boolean buscarPrincipalesNew)
@@ -438,7 +438,7 @@ public class BeanEstacion implements Serializable{
         DaoEstacion daoEstacion = new DaoEstacion();
         List<EstacionParadero> estaciones;
         if(!action.equals("Eliminar"))
-            estaciones= daoEstacion.findEstacionParadero(nombreBusqueda);
+            estaciones= daoEstacion.findEstacionParadero(ubicacionBusqueda);
         else
             estaciones= daoEstacion.findEstacionParaderoActivas(ubicacionBusqueda);
 
@@ -456,6 +456,58 @@ public class BeanEstacion implements Serializable{
             //return "resultOperation";
 
         }
+    }
+
+    public String editarEstacion()
+    {
+        DaoEstacion daoEstacion= new DaoEstacion();
+        FacesContext context = FacesContext.getCurrentInstance();
+        BeanContent content = (BeanContent) context.getApplication().evaluateExpressionGet(context, "#{beanContent}", BeanContent.class);
+
+
+        int result=0;
+        if(buscarPrincipales)
+        {
+            EstacionPrincipal estacion = new EstacionPrincipal();
+            estacion.setEstado(estado);
+            estacion.setId(id);
+            estacion.setIdOperario(idOperario);
+            estacion.setNombre(nombre);
+            estacion.setUbicacion(ubicacion);
+            if(existEstacion(ubicacion) && !daoEstacion.findEstacion(id).getUbicacion().equals(ubicacion))
+            {
+                context.addMessage(null, new FacesMessage("La ubiacion ya existe, verifique que sea una nueva ubicacion"));
+                return null;
+            }
+            result=daoEstacion.editarEstacionPrincipal(estacion);
+        }else
+        {
+            EstacionParadero estacion = new EstacionParadero();
+            estacion.setId(id);
+            estacion.setUbicacion(ubicacion);
+            estacion.setEstado(estado);
+            if(existEstacion(ubicacion) && !daoEstacion.findEstacion(id).getUbicacion().equals(ubicacion))
+            {
+                context.addMessage(null, new FacesMessage("La ubiacion ya existe, verifique que sea una nueva ubicacion"));
+                return null;
+            }
+            result= daoEstacion.editarEstacionParadero(estacion);
+        }
+
+        
+        if(result==0)
+        {
+            content.setResultOperation("La estacion no pudo ser editada.");
+            content.setImage("./resources/fail.png");
+            clearBeanEstacion();
+            return "resultOperation";
+        }else{
+            content.setResultOperation("La estacion fue editada con exito.");
+            content.setImage("./resources/ok.png");
+            clearBeanEstacion();
+            return "resultOperation";
+        }
+
     }
 
 }
