@@ -212,7 +212,6 @@ public class BeanContent implements Serializable {
     }
 
     public String findLink(String l) {
-        System.err.println("l es: " + l);
         String link = null;
         if (l.equals("1")) {
             link = "managerEmployees";

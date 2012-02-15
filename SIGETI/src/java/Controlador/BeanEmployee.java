@@ -4,9 +4,11 @@
  */
 package Controlador;
 
+import Dao.DaoBus;
 import Dao.DaoEmpleado;
 import Dao.DaoEstacion;
 import Entidades.Auxiliar;
+import Entidades.Bus;
 import Entidades.Conductor;
 import Entidades.Director;
 import Entidades.Empleado;
@@ -57,6 +59,7 @@ public class BeanEmployee implements Serializable {
     private String licencia;
     private String identificacionJefe;
     private Integer lugarTrabajo;
+    private String conduceBus;
     //usado para control y calculos
     private boolean isDisableLicencia;
     private boolean isDisableIdJefe;
@@ -71,6 +74,14 @@ public class BeanEmployee implements Serializable {
     private boolean editIdentificacion;
     private boolean editPassword;
     private String loginOld;
+
+    public void setConduceBus(String conduceBus) {
+        this.conduceBus = conduceBus;
+    }
+
+    public String getConduceBus() {
+        return conduceBus;
+    }
 
     public void setEstadoS(String estadoS) {
         this.estadoS = estadoS;
@@ -503,7 +514,7 @@ public class BeanEmployee implements Serializable {
         List<EstacionPrincipal> estaciones = daoEstacion.findAllEstacionPrincipal();
         daoEstacion = null;
 
-        availableEstacion.add(new SelectItem(-1, "---"));
+        availableEstacion.add(new SelectItem(-1, "Sin Estación"));
         for (int i = 0; i < estaciones.size(); i++) {
             EstacionPrincipal estacion = estaciones.get(i);
             availableEstacion.add(new SelectItem(estacion.getId(), estacion.getNombre()));
@@ -515,7 +526,7 @@ public class BeanEmployee implements Serializable {
 
         List<SelectItem> availableJefe = new ArrayList<SelectItem>();
 
-        availableJefe.add(new SelectItem("", "---"));
+        availableJefe.add(new SelectItem("", "Sin Jefe"));
         DaoEmpleado daoEmpleado = new DaoEmpleado();
         if (this.cargo.equals("Operario")) {
             List<Director> directores = daoEmpleado.findAllDirector(false);
@@ -556,6 +567,21 @@ public class BeanEmployee implements Serializable {
         }
 
         return availableOperarios;
+    }
+
+    public List<SelectItem> getAvailableBus() {
+        DaoBus daoBus = new DaoBus();
+        List<Bus> buses = daoBus.consultarBusesSinConductor();
+        List<SelectItem> availabeBus = new ArrayList<SelectItem>();
+        availabeBus.add(new SelectItem("","Sin Bus"));
+        if(!this.conduceBus.equals("")){
+            availabeBus.add(new SelectItem(this.conduceBus,this.conduceBus));
+        }
+        for(int i=0;i<buses.size();i++){
+            Bus bus = buses.get(i);
+            availabeBus.add(new SelectItem(bus.getMatricula(),bus.getMatricula()));
+        }
+        return availabeBus;
     }
 
     public String createUser() {
@@ -601,14 +627,19 @@ public class BeanEmployee implements Serializable {
             Conductor conductor = new Conductor();
             conductor.setId(identificacion.trim());
             conductor.setLicencia(licencia.trim());
+            conductor.setConduceBus(conduceBus);
             result = daoEmpleado.saveConductor(conductor);
         }
         daoEmpleado = null;
-        if(result != 0)
-        {
-        content.setResultOperation("El Empleado fue creado con exito.");
-        content.setImage("./resources/ok.png");
-        this.clearStates();
+        if (result != 0) {
+            content.setResultOperation("El Empleado fue creado con exito.");
+            content.setImage("./resources/ok.png");
+            this.clearStates();
+        }else{
+            content.setResultOperation("Esto es un error GRAVE, se actualizó la"
+                    + " tabla empleado pero no la tabla específica del rol.");
+            content.setImage("./resources/fail.png");
+            this.clearStates();
         }
         return "resultOperation";
     }
@@ -751,8 +782,7 @@ public class BeanEmployee implements Serializable {
     private void validateEdit() {
         this.passwordConfirmar = this.password;
         this.validate();
-        if(!this.login.equals(this.loginOld))
-        {
+        if (!this.login.equals(this.loginOld)) {
             this.validateExist(false);
         }
         if (this.editPassword) {
@@ -802,10 +832,20 @@ public class BeanEmployee implements Serializable {
         this.isDisableIdJefe = true;
         this.isDisableEstacion = true;
         this.countValidator = 0;
+        this.conduceBus = "";
     }
 
     public void statesForNew(ActionEvent e) {
         this.clearStates();
+        FacesContext context = FacesContext.getCurrentInstance();
+        EmployeeHolder empleadoHolder = (EmployeeHolder) context.getApplication().evaluateExpressionGet(context, "#{employeeHolder}", EmployeeHolder.class);
+        int rol = empleadoHolder.getCurrentEmpleado().getRol();
+        if(rol==2)//operario
+        {
+            this.isDisableEstacion = false;
+            this.isDisableIdJefe = false;
+            this.cargo = "Auxiliar";
+        } 
     }
 
     public void statesForFind(ActionEvent e) {
@@ -902,9 +942,9 @@ public class BeanEmployee implements Serializable {
                 }
             } else {
                 if (rol == 2) {
-                    empleados = daoEmpleado.findEmpleadoCondition("id = " + this.identificacion.trim() + " AND rol = 3");//buscar auxiliar con un id dado
+                    empleados = daoEmpleado.findEmpleadoCondition("id = '" + this.identificacion.trim() + "' AND rol = 3");//buscar auxiliar con un id dado
                 } else {
-                    Empleado empleado = daoEmpleado.findEmpleadoId(this.identificacion.trim(),true);
+                    Empleado empleado = daoEmpleado.findEmpleadoId(this.identificacion.trim(), true);
                     empleados = new ArrayList<Empleado>();
                     empleados.add(empleado);
                 }
@@ -949,27 +989,26 @@ public class BeanEmployee implements Serializable {
 
         this.nombre = empleado.getNombre();
         this.nombre2 = empleado.getNombre2();
-        if(this.nombre2 == null){
+        if (this.nombre2 == null) {
             this.nombre2 = "";
         }
         this.apellido = empleado.getApellido();
         this.apellido2 = empleado.getApellido2();
-        if(this.apellido2 == null){
+        if (this.apellido2 == null) {
             this.apellido2 = "";
         }
         this.tipoId = empleado.getTipoId();
         this.identificacion = empleado.getId();
         this.telefono = empleado.getTelefono();
-        if(this.telefono == null){
+        if (this.telefono == null) {
             this.telefono = "";
         }
         this.direccion = empleado.getDireccion();
-        if(this.direccion == null)
-        {
+        if (this.direccion == null) {
             this.direccion = "";
         }
         this.email = empleado.getEmail();
-        if(this.email == null){
+        if (this.email == null) {
             this.email = "";
         }
         this.fechaNacimiento = empleado.getFechaNacimiento();
@@ -990,7 +1029,7 @@ public class BeanEmployee implements Serializable {
             }
             case 2: {
                 cargoObtenido = "Operario";
-                Operario operario = daoEmpleado.findOpearioId(this.identificacion,true);
+                Operario operario = daoEmpleado.findOpearioId(this.identificacion, true);
                 this.identificacionJefe = operario.getIdJefe();
                 this.isDisableIdJefe = false;
                 operario = null;
@@ -998,7 +1037,7 @@ public class BeanEmployee implements Serializable {
             }
             case 3: {
                 cargoObtenido = "Auxiliar";
-                Auxiliar auxiliar = daoEmpleado.findAuxiliarId(this.identificacion,true);
+                Auxiliar auxiliar = daoEmpleado.findAuxiliarId(this.identificacion, true);
                 this.identificacionJefe = auxiliar.getIdJefe();
                 this.lugarTrabajo = auxiliar.getTrabajaEn();
                 this.isDisableEstacion = false;
@@ -1008,8 +1047,15 @@ public class BeanEmployee implements Serializable {
             }
             case 4: {
                 cargoObtenido = "Conductor";
-                Conductor conductor = daoEmpleado.findConductorId(this.identificacion,true);
+                Conductor conductor = daoEmpleado.findConductorId(this.identificacion, true);
                 this.licencia = conductor.getLicencia();
+                if(this.licencia == null){
+                    this.licencia = "";
+                }
+                this.conduceBus = conductor.getConduceBus();
+                if(this.conduceBus == null){
+                    this.conduceBus = "";
+                }
                 this.isDisableLicencia = false;
                 conductor = null;
             }
@@ -1029,8 +1075,7 @@ public class BeanEmployee implements Serializable {
             this.fechaIngresoAno = partes[0];
             this.fechaIngresoMes = partes[1];
             this.fechaIngresoDia = partes[2];
-        }else
-        {
+        } else {
             this.fechaIngreso = "";
         }
         if (this.fechaNacimiento != null) {
@@ -1038,7 +1083,7 @@ public class BeanEmployee implements Serializable {
             this.fechaNacimientoAno = partes[0];
             this.fechaNacimientoMes = partes[1];
             this.fechaNacimientoDia = partes[2];
-        }else{
+        } else {
             this.fechaNacimiento = "";
         }
     }
@@ -1071,10 +1116,9 @@ public class BeanEmployee implements Serializable {
         int result;
         DaoEmpleado daoEmpleado = new DaoEmpleado();
         Empleado empleado = this.createEmpleado();
-        if(!this.editPassword)
-        {
+        if (!this.editPassword) {
             empleado.setPassword("");
-        }else{
+        } else {
             empleado.setPassword(this.nuevoPassword);
         }
         result = daoEmpleado.updateEmpleado(empleado);
@@ -1102,6 +1146,7 @@ public class BeanEmployee implements Serializable {
             Conductor conductor = new Conductor();
             conductor.setId(identificacion.trim());
             conductor.setLicencia(licencia.trim());
+            conductor.setConduceBus(conduceBus);
             daoEmpleado.updateConductor(conductor);
         }
         daoEmpleado = null;
@@ -1110,33 +1155,30 @@ public class BeanEmployee implements Serializable {
         this.clearStates();
         return "resultOperation";
     }
-    
-    public String eraseUser()
-    {
+
+    public String eraseUser() {
         FacesContext context = FacesContext.getCurrentInstance();
         BeanContent content = (BeanContent) context.getApplication().evaluateExpressionGet(context, "#{beanContent}", BeanContent.class);
         int result;
-        
+
         DaoEmpleado daoEmpelado = new DaoEmpleado();
         result = daoEmpelado.eraseEmpleado(this.identificacion);
         daoEmpelado = null;
-        
+
         if (result == 0) {
             content.setResultOperation("El Empleado no se pudo eliminar.");
             content.setImage("./resources/fail.png");
             this.clearStates();
             return "resultOperation";
-        }else
-        {
-             content.setResultOperation("El Empleado se eliminó correctamente.");
+        } else {
+            content.setResultOperation("El Empleado se eliminó correctamente.");
             content.setImage("./resources/ok.png");
             this.clearStates();
             return "resultOperation";
         }
     }
-    
-    private Empleado createEmpleado()
-    {
+
+    private Empleado createEmpleado() {
         Empleado empleado = new Empleado();
         empleado.setNombre(nombre.trim());
         empleado.setNombre2(nombre2.trim());
@@ -1159,7 +1201,7 @@ public class BeanEmployee implements Serializable {
         empleado.setLogin(login.trim());
         empleado.setPassword(password.trim());
         empleado.setEstado(estado);
-        
+
         return empleado;
     }
 }

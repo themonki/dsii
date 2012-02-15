@@ -102,12 +102,18 @@
                         <h:outputText value="Cargo:"/>
                         <h:selectOneMenu value="#{beanEmployee.cargo}">
                             <f:selectItems value="#{beanEmployee.availableCargo}"/>
-                            <f:ajax render="licenciaIn idJefeIn idEstacionIn"/>
+                            <f:ajax render="licenciaIn idJefeIn idEstacionIn conduceBusIn"/>
                         </h:selectOneMenu>
                         <h:outputText value="N. Licencia:"/>
                         <h:inputText value="#{beanEmployee.licencia}"
                                      disabled="#{beanEmployee.disableLicencia}"
                                      id="licenciaIn"/>
+                        <h:outputText value="Conduce Bus:"/>
+                        <h:selectOneMenu value="#{beanEmployee.conduceBus}"
+                                         disabled="#{beanEmployee.disableLicencia}"
+                                         id="conduceBusIn">
+                            <f:selectItems value="#{beanEmployee.availableBus}"/>
+                        </h:selectOneMenu>
                         <h:outputText value="N. identificaci&oacute;n jefe:"/>
                         <h:selectOneMenu value="#{beanEmployee.identificacionJefe}"
                                          disabled="#{beanEmployee.disableIdJefe}"
