@@ -108,7 +108,7 @@ public class DaoCard {
      
     }
     
-    public int reloadCard(String pin, int recarga ){
+    public int reloadCard(String pin, int recarga,int estacion ){
         int valor =recarga ;
        
         TarjetaPersonalizada tarjeta = new TarjetaPersonalizada();
@@ -133,9 +133,9 @@ public class DaoCard {
         int result= editCard(tarjeta);
         
         
-        /*
+        
         if (result !=0){
-        String sql_insert = "INSERT INTO recarga (pin,fecha,hora,valor,id_estacion)";
+        String sql_insert = "INSERT INTO recarga (pin,fecha,hora,valor,estacion)";
         
          java.util.Date date = new java.util.Date();
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
@@ -159,7 +159,7 @@ public class DaoCard {
             e.printStackTrace();
         }
         
-        }*/
+        }
         
         
         
