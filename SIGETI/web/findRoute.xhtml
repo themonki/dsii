@@ -12,7 +12,7 @@
         <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
         <title>Consultar Ruta</title>
 
-        <script src="http://maps.google.com/maps?file=api&amp;v=2&oe=ISO-8859-1" type="text/javascript"></script>
+        <script src="http://maps.google.com/maps?file=api&amp;v=2" type="text/javascript"></script>
         <script type="text/javascript">
 
             var map;
@@ -58,13 +58,7 @@
         </script>
     </h:head>
 
-    <h:body>
-        <link href="./resources/css/table.css" rel="stylesheet" type="text/css" />
-
-        <title>Buscar Ruta</title>        
-    </h:head>
-
-    <h:body>
+    <h:body onload="initialize();" onunload="GUnload()">
 
         <div id="top">
             <img src="./resources/logo.png" alt="logo"  ></img>
@@ -106,61 +100,39 @@
                             </center>
                         </f:facet>
 
-                        <h:selectOneMenu value="#{beanRuta.nombre}">
-                            
+                        <h:selectOneMenu value="#{beanRuta.rutaSeleccion}">
+                            <f:selectItems value="#{beanRuta.findAllRutas()}"/>
                         </h:selectOneMenu>
                         <h:commandButton value="Consultar"
-                                         actionListener="#{beanRuta.}"
+                                         actionListener="#{beanRuta.consultarRuta()}"
                                          styleClass="JButton"/>
 
-                </h:panelGrid>
+                    </h:panelGrid>
+                </h:form>
+
+                <br/><br/>
+
+                <h:form styleClass="Formulario"
+                        rendered="#{beanRuta.renderMap}"
+                        onsubmit="setDirections(#{beanRuta.rutaMaps}); return false">
+                    <h:outputLabel value="Ruta"/>
+                    <br/><br/>
+                    <div id="mapa_ruta" style="width: 710px; height: 300px; border: 4px solid #FF6600;" />
+                    <br/><br/>
+                    <h:panelGrid columns="2">
+                        <h:outputText value="Nombre: "/>
+                        <h:outputText value="#{beanRuta.nombre}"/>
+                        <h:outputText value="Descripcion"/>
+                        <h:inputTextarea value="#{beanRuta.descripcion}" readonly="true"/>
+                    </h:panelGrid>
+
+                </h:form>
+
         </div>
     </div>
     <div id="bottom">
         <ui:insert name="bottom">SIGETI: Sistema de Gesti&oacute;n de Transporte Integrado.</ui:insert>
     </div>
-
-</h:body>
-
-            <div  id="center_center">                 
-                <h:form styleClass="Formulario">
-                    <h:panelGrid columns="2">
-                        <f:facet name="header">
-                            <h:outputText value="Buscar Ruta"/>
-                        </f:facet>
-                        <h:outputText value="Ruta"/>
-                        <h:inputText value="#{beanRuta.nombre}"/>                        
-                        <center>
-                            <h:commandButton value="Buscar" styleClass="JButton"/>
-                        </center>
-                    </h:panelGrid>
-                </h:form>
-                <br/><br/><br/>
-                <center>
-                    <h:form  rendered="#{beanRuta.renderTableSearch}">
-                        <h:dataTable
-                            styleClass="order-table"
-                            headerClass="order-table-header"
-                            rowClasses="order-table-odd-row,order-table-even-row"                            
-                            border="1"
-                            var="ruta"
-                            id="tableBus"
-                            value="#{beanRuta.findBuses}"                        
-                            rendered="#{beanRuta.renderTableSearch}">
-                            <f:facet name="caption">Resultado de la b&uacute;squeda</f:facet>
-                            <h:column>
-                                <f:facet name="header">Nombre</f:facet>
-                                #{ruta.nombre}
-                            </h:column>                            
-                            <h:column>
-                                <f:facet name="header"> Acci&oacute;n</f:facet>
-                                <h:commandLink value="#{beanRuta.action}" action="#{beanRuta.getLinkAction}"/>
-                            </h:column>
-                        </h:dataTable>
-                    </h:form>
-                </center>
-            </div>
-        </div>
     </h:body>
 </html>
 
