@@ -148,6 +148,36 @@ public class DaoRuta {
        
        }
        
+       /**        
+        * Busca las rutas de una determinada estacion usando el id de la estacion
+        */
+       public List<Ruta> consultarRutasEstacion(String id_estacion){
+           String sqlConsulta = "SELECT * from ruta NATURAL JOIN ruta_formado_estacion WHERE id_estacion = '"
+                   +id_estacion+"' AND estado = 't'";
+        
+        List<Ruta> nombreRutas = null;
+        try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+                ResultSet table = sentence.executeQuery(sqlConsulta);
+            nombreRutas = new ArrayList<Ruta>();
+            while (table.next()) {
+                Ruta ruta = new Ruta();
+                ruta.setDescripcion(table.getString("descripcion"));
+                ruta.setEstado(table.getBoolean("estado"));
+                ruta.setNombre(table.getString("nombre"));
+                nombreRutas.add(ruta);                
+            }
+            fachada.cerrarConexion(conn);
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }       
+       
+       return nombreRutas;
+       }
+       
 }
 
     
