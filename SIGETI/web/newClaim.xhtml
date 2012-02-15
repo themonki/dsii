@@ -7,7 +7,7 @@
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        
+
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
@@ -15,29 +15,24 @@
 
         <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
 
-        <f:verbatim>  
-            <script type="text/javascript">  
-      
-                function doPopup(source) {
-                popup = window.open(source, "popup", "height=600,width=900)");
-                popup.focus();
-            }  
-            </script>  
-        </f:verbatim> 
-        
+       
     </h:head>
 
     <h:body>
 
         <div id="top">
-            <img src="./resources/logo.png" alt="logo"></img>
+            <img src="./resources/logo.png" alt="logo"  ></img>
+            <div id="top_rigth">
 
-            <h:form>
-                <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
-                <h:commandLink action="#{authentication.logout}">
-                    <img src="./resources/exit.png" alt="salir" width="50" height="50"></img>
-                </h:commandLink>
-            </h:form>
+
+                <h:form>
+                    <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
+                    <h:commandLink action="#{authentication.logout}">
+                        <img src="./resources/exit.png" alt="salir" width="30" height="30"></img>
+                    </h:commandLink>
+                </h:form>
+            </div>
+
         </div>
         <div id="center">
             <div id="center_left">
@@ -60,40 +55,40 @@
 
                     <br></br>                    
                     <img src="./resources/newClaim.png"  width="100" height="100"></img>
-                            
+
                     <br></br>
                     <h:messages style="color: purple"   />
-                    
+
                     <br></br>
                     <h:form styleClass="Formulario">
                         <h:panelGrid columns="2">
-                        
-                        <h:outputText value="* Descripcion"/>
-                        <h:inputTextarea cols="40" rows="10" value="#{beanReclamo.descripcion}"
+
+                            <h:outputText value="* Descripcion"/>
+                            <h:inputTextarea cols="40" rows="10" value="#{beanReclamo.descripcion}"
+                                             required="true"
+                                             requiredMessage="La descripcion del reclamo es obligatoria"/>
+                            <h:outputText value="* Motivo"/>
+                            <h:inputText size="50" value="#{beanReclamo.motivo}"
                                          required="true"
-                                         requiredMessage="La descripcion del reclamo es obligatoria"/>
-                        <h:outputText value="* Motivo"/>
-                        <h:inputText size="50" value="#{beanReclamo.motivo}"
-                                     required="true"
-                                     requiredMessage="El motivo del reclamo es obligatorio"/> 
-                         <h:outputText value="Tipo Usuario, con Tarjeta:"/>
-                        
-                         <h:selectOneMenu  value="#{beanReclamo.tipoPasajero}"  >
-                             <f:selectItems value="#{beanReclamo.availableTipoPasajero}"/>              
-                             <f:ajax render="identificacion "/>
-                        </h:selectOneMenu>
-                        <h:outputText value="Numero Identificacion:"/>
-                        <h:inputText value="#{beanReclamo.usuarioRealiza}"                                     
-                                     disabled="#{beanReclamo.disableIdentificacion}"
-                                     required="true"
-                                     requiredMessage="El id del usuario es obligatorio"
-                                     id="identificacion"/><br/><br/>
-                       
-                        <h:panelGroup>
-                            <i><h:outputText value="Nota: Si el usuario tiene una tarjeta generica la identificacion es unica para todos"/></i>
-                        </h:panelGroup><br/><br/>
-                      
-                        <h:commandButton value="Crear Reclamo" styleClass="JButton" action="#{beanReclamo.createReClamo()}" /><br/>
+                                         requiredMessage="El motivo del reclamo es obligatorio"/> 
+                            <h:outputText value="Tipo Usuario, con Tarjeta:"/>
+
+                            <h:selectOneMenu  value="#{beanReclamo.tipoPasajero}"  >
+                                <f:selectItems value="#{beanReclamo.availableTipoPasajero}"/>              
+                                <f:ajax render="identificacion "/>
+                            </h:selectOneMenu>
+                            <h:outputText value="Numero Identificacion:"/>
+                            <h:inputText value="#{beanReclamo.usuarioRealiza}"                                     
+                                         disabled="#{beanReclamo.disableIdentificacion}"
+                                         required="true"
+                                         requiredMessage="El id del usuario es obligatorio"
+                                         id="identificacion"/><br/><br/>
+
+                            <h:panelGroup>
+                                <i><h:outputText value="Nota: Si el usuario tiene una tarjeta generica la identificacion es unica para todos"/></i>
+                            </h:panelGroup><br/><br/>
+
+                            <h:commandButton value="Crear Reclamo" styleClass="JButton" action="#{beanReclamo.createReClamo()}" /><br/>
                         </h:panelGrid>
                     </h:form>
 

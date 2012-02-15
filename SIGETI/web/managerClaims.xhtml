@@ -3,7 +3,7 @@
 To change this template, choose Tools | Templates
 and open the template in the editor.
 -->
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -19,14 +19,17 @@ and open the template in the editor.
     <h:body>
 
         <div id="top">
-            <img src="./resources/logo.png" alt="logo"></img>
+            <img src="./resources/logo.png" alt="logo"  ></img>
+            <div id="top_rigth">
 
-            <h:form>
-                <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
-                <h:commandLink action="#{authentication.logout}">
-                    <img src="./resources/exit.png" alt="salir" width="50" height="50"></img>
-                </h:commandLink>
-            </h:form>
+                <h:form>
+                    <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
+                    <h:commandLink action="#{authentication.logout}">
+                        <img src="./resources/exit.png" alt="salir" width="30" height="30"></img>
+                    </h:commandLink>
+                </h:form>
+            </div>
+
         </div>
         <div id="center">
             <div id="center_left">
@@ -45,24 +48,24 @@ and open the template in the editor.
             </div>
             <div id="center_center" >
                 <h:form style="display: inline-block" >
-                    
-                        
-                            <f:facet name="header">
-                                <h:outputText value="Gestionar Reclamos"/>
-                            </f:facet>
+
+
+                    <f:facet name="header">
+                        <h:outputText value="Gestionar Reclamos"/>
+                    </f:facet>
                     <h:dataTable value="#{beanContent.menuClaimsOptions}" var="l" >
                         <h:column >
                             <h:commandLink  action="#{beanContent.findLinkClaims(l.get(1))}" 
                                             actionListener="#{beanReclamo.update(l.get(1))}"
-                                            
+
                                             > 
-                                            
+
                                 <img src="./resources/#{beanReclamo.findLinkClaims(l.get(1))}.png"  width="100" height="100"></img>
                                 <br></br>
                                 <h:outputText styleClass="Icons" value="#{l.get(0)}"/>
                             </h:commandLink>
                         </h:column>                      
-                       
+
                     </h:dataTable>
 
                 </h:form>

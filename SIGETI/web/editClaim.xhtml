@@ -18,14 +18,18 @@
     <h:body>
 
         <div id="top">
-            <img src="./resources/logo.png" alt="logo"></img>
+            <img src="./resources/logo.png" alt="logo"  ></img>
+            <div id="top_rigth">
 
-            <h:form>
-                <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
-                <h:commandLink action="#{authentication.logout}">
-                    <img src="./resources/exit.png" alt="salir" width="50" height="50"></img>
-                </h:commandLink>
-            </h:form>
+
+                <h:form>
+                    <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
+                    <h:commandLink action="#{authentication.logout}">
+                        <img src="./resources/exit.png" alt="salir" width="30" height="30"></img>
+                    </h:commandLink>
+                </h:form>
+            </div>
+
         </div>
         <div id="center">
             <div id="center_left">
@@ -52,7 +56,7 @@
                         <h:outputText value="Numero de Ticket:"/>
                         <h:inputText value="#{beanReclamo.ticket}" 
                                      disabled="true"/>
-                                     
+
                         <h:outputText value="Fecha del Reclamo"/>
                         <h:inputText value="#{beanReclamo.fecha}"
                                      disabled="true"/>
@@ -78,7 +82,7 @@
                         <h:outputText value="Nombre Usuerio:"/>
                         <h:inputText value="#{beanReclamo.nombreUsuario}"
                                      disabled="true"/>
-                                 
+
                     </h:panelGrid>
                     <br/>
                     <h:dataTable
@@ -101,22 +105,22 @@
                             <f:facet name="header">Accion</f:facet>
                             <h:commandButton  value="Borrar Medida" styleClass="JButton" action="#{beanReclamo.removeMedidaReclamo()}"/>
                         </h:column> 
-                        
+
                     </h:dataTable>
                     <br/> 
-                   
+
                     <h:selectOneMenu value="#{beanReclamo.accionMedida}">
                         <f:selectItems value="#{beanMedida.findMedida}"/>
-                        </h:selectOneMenu>
+                    </h:selectOneMenu>
                     <h:commandButton  value="Agregar Medida" styleClass="JButton" action="#{beanReclamo.addMedidaReclamo}"/>
                     <br/>
                     <br/>
                     <h:panelGrid columns="2">
                         <h:commandButton  value="Actualizar" styleClass="JButton" action="#{beanReclamo.updateReclamo()}"/>
                         <h:commandButton  value="Atr&aacute;s" styleClass="JButton"
-                                         action="findClaim"
-                                         actionListener="#{beanReclamo.statesForFindReturn}"
-                                         immediate="true"/>
+                                          action="findClaim"
+                                          actionListener="#{beanReclamo.statesForFindReturn}"
+                                          immediate="true"/>
                     </h:panelGrid>
 
                 </h:form>
