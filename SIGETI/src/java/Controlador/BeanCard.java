@@ -612,6 +612,8 @@ public class BeanCard implements Serializable {
         recarga=0;
         credito=0;
         nombrePasajero="";
+        isFindList="false";
+        isFind="false";
 
     }
 }
