@@ -52,8 +52,8 @@ public class EstacionPrincipal extends Estacion{
 
     @Override
     public String toString() {
-        return "EstacionPrincipal[ idEstacion=" + id 
-                + " nombre=" + nombre
-                + " idOperario=" + idOperario + " ]";
+        return id 
+                + "." + nombre
+               ;
     }
 }

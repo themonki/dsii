@@ -73,4 +73,44 @@ public class DaoRuta {
         return result;
     }
 
+    public String rutaValida(String nombre)       
+    {
+       String  nombreRuta = "";
+
+        String sql_query = "SELECT *  FROM ruta WHERE nombre = '" + nombre + "';";
+
+        try {
+
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            ResultSet table = sentence.executeQuery(sql_query);
+            
+            while (table.next()) {
+
+                nombreRuta = table.getString("nombre");                              
+
+            }
+
+
+
+
+
+        } catch (SQLException se) {
+            // JOptionPane.showMessageDialog(null, se.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        
+        
+        }
+
+
+        return  nombreRuta;
+    }
+    
 }
+
+    
+     
+    
+    
+    
