@@ -63,7 +63,7 @@ public class DaoEstacion {
 
     public List<EstacionParadero> findAllEstacionParadero()
     {
-        String sql_query = " SELECT id, nombre, ubicacion from estacion_paradero JOIN"
+        String sql_query = " SELECT id, ubicacion, estado from estacion_paradero JOIN"
                 + " estacion ON estacion_paradero.id_estacion = estacion.id WHERE estado=true";
 
         List<EstacionParadero> estaciones = new ArrayList<EstacionParadero>();
@@ -295,7 +295,8 @@ public class DaoEstacion {
         if(!nombre.equals(""))
         {
             sql_nombre=" nombre like '%"+nombre+"%' ";
-            sql_and=" and ";
+            if(!ubicacion.equals(""))
+                sql_and=" and ";
             
         }
         if(!ubicacion.equals(""))
@@ -312,6 +313,7 @@ public class DaoEstacion {
         try{
             Connection conn = fachada.conectar();
             Statement sequence = conn.createStatement();
+            System.err.println(sql_query);
             ResultSet table = sequence.executeQuery(sql_query);
 
 
