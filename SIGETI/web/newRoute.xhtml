@@ -95,12 +95,15 @@
                                     </h:column>
                                 </h:dataTable>
                             </h:panelGrid>
-
+                            <br/><br/>
+                            
+                            <h:panelGrid columns="2">
                             <h:selectOneMenu value="#{beanRuta.ubicacion}">
                                 <f:selectItems value="#{beanRuta.findEstacion}"/>
                             </h:selectOneMenu>
                             <h:commandButton  value="Agregar Medida" styleClass="JButton" action="#{beanRuta.addEstacion}"/>
 
+                            </h:panelGrid>
 
                             <h:commandButton value="Crear Reclamo" styleClass="JButton" action="#{beanRuta.createRuta()}" /><br/>
                         </h:panelGrid>
