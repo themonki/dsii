@@ -12,12 +12,12 @@
         <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
         <title>Facelets Template</title>
     </h:head>
-     
+
     #{beanCard.refresh("findCard")}
 
     <h:body>
 
-          <div id="top">
+        <div id="top">
             <img src="./resources/logo.png" alt="logo"  ></img>
             <div id="top_rigth">
 
@@ -29,7 +29,7 @@
                     </h:commandLink>
                 </h:form>
             </div>
-         </div>
+        </div>
         <div id="center">
             <div id="center_left">
                 <h:form>
@@ -62,29 +62,31 @@
                     <h:form styleClass="Formulario">
 
                         <h:panelGrid columns="2" >
-                            
-                            
+
+
 
                             <h:outputText value="Ingrese el Pin:"/>
 
                             <h:inputText value="#{beanCard.pin}" />  
-                            
-                           
-                            
+
                             <h:outputText value="Ingrese la Cedula del Propietario:"/>
 
-                            <h:inputText value="#{beanCard.cedulaPasajero}" />  
-                                                       
+                            <h:inputText value="#{beanCard.cedulaPasajero}" />
+
+                            <h:outputText value="Ingrese el Nombre del Propietario:"/>
+
+                            <h:inputText value="#{beanCard.nombrePasajero}" />
+
                             <h:commandButton value="Consultar" styleClass="JButton" action="#{beanCard.findCard()}" />
 
                         </h:panelGrid>
-                        
-                         <br/><hr/><br/>
+
+                        <br/><hr/><br/>
 
                         <h:panelGrid columns="2" >
 
-                            
-                             <h:outputText value="Pin:"/>
+
+                            <h:outputText value="Pin:"/>
                             <h:outputText value="#{beanCard.pin}" />
                             <h:outputText value="Numero de Pasajes:"/>
                             <h:outputText value="#{beanCard.numberPassages}" />
@@ -97,17 +99,54 @@
 
 
 
-                            
+
                             <h:outputText value="Tipo:"/>
 
                             <h:outputText  value="#{beanCard.tipo}" /> 
-                            
+
                             <h:outputText value="Fecha de Venta:"/>
 
                             <h:outputText  value="#{beanCard.fecha}" /> 
 
-                            
+
                         </h:panelGrid>
+                    </h:form>
+                    
+                    
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+
+                    <h:form styleClass="Formulario"
+                            rendered="#{beanCard.isFindList}">
+                        <h:dataTable
+                            border="1"
+                            var="tarjeta"
+                            value="#{beanCard.tarjetas}">
+                            <f:facet name="caption">Resultado de la consulta</f:facet>
+
+                            <h:column>
+                                <f:facet name="header">Pin</f:facet>
+                                #{tarjeta.pin}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Saldo</f:facet>
+                                #{tarjeta.saldo}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Fecha Venta</f:facet>
+                                #{tarjeta.fechaVenta}
+                            </h:column>
+                             <h:column>
+                                <f:facet name="header">Acci&oacute;n</f:facet>                            
+                                <h:commandLink value="Detalle"
+                                               
+                                               actionListener="#{beanCard.detalleCard(tarjeta)}"/>
+                            </h:column>
+                           
+                        </h:dataTable>
                     </h:form>
 
                 </div>

@@ -20,6 +20,8 @@ import Entidades.Auxiliar;
 import Entidades.Tarjeta;
 
 import Entidades.TarjetaPersonalizada;
+import java.util.List;
+import java.util.Vector;
 
 @ManagedBean
 @SessionScoped
@@ -38,6 +40,24 @@ public class BeanCard implements Serializable {
     private int recarga =0;
     private int  credito=0;
     private String isPersonal = "false";
+    private String nombrePasajero="";
+    private String isFindList = "false";
+
+    public String getIsFindList() {
+        return isFindList;
+    }
+
+    public void setIsFindList(String isFindList) {
+        this.isFindList = isFindList;
+    }
+
+    public String getNombrePasajero() {
+        return nombrePasajero;
+    }
+
+    public void setNombrePasajero(String nombrePasajero) {
+        this.nombrePasajero = nombrePasajero;
+    }
 
     public String getIsPersonal() {
         return isPersonal;
@@ -280,7 +300,44 @@ public class BeanCard implements Serializable {
         return null;
 
     }
+    //--------------------------
+    
+     private List <Tarjeta> tarjetas;
 
+    public List<Tarjeta> getTarjetas() {
+        return tarjetas;
+    }
+
+    public void setTarjetas(List<Tarjeta> tarjetas) {
+        this.tarjetas = tarjetas;
+    }
+    //------------------------
+
+    
+    public void detalleCard(Tarjeta tarjeta){
+        
+        
+       
+        pin=tarjeta.getPin();
+           if (tarjeta.getCosto() != null) {
+            costo = Integer.toString(tarjeta.getCosto());
+        }
+        if (tarjeta.getEstacionVenta() != null) {
+            estacion = Integer.toString(tarjeta.getEstacionVenta());
+        }
+        if (tarjeta.getTipo() != null) {
+            tipo = Integer.toString(tarjeta.getTipo());
+            
+        }
+        if (tarjeta.getSaldo() != null) {
+            numberPassages = Integer.toString(tarjeta.getSaldo());
+        }
+
+        fecha = tarjeta.getFechaVenta();
+        estado=tarjeta.getEstado();
+        
+    
+    }
     public String findCard() {
 
         FacesContext context;
@@ -289,8 +346,10 @@ public class BeanCard implements Serializable {
         credito=0;
         isPersonal = "false";
         numberPassages="0";
+        isFindList = "false";
        
 
+        
 
         if (context.getMessageList().size() > 0) {
             return null;
@@ -299,6 +358,21 @@ public class BeanCard implements Serializable {
 
         int result = 0;
         DaoCard daoCard = new DaoCard();
+        if(cedulaPasajero.equals("")&& pin.equals("") )
+        
+        {
+             tarjetas = daoCard.findCardsFromName(nombrePasajero);
+          
+             
+                
+                if(tarjetas!=null&&tarjetas.size()>0)
+                isFindList = "true";
+             
+             return null ; 
+            
+            
+        
+        }
 
         if (!cedulaPasajero.equals("")) {
 
@@ -524,6 +598,9 @@ public class BeanCard implements Serializable {
     public void clearStates() {
 
 
+        if (tarjetas!=null){
+            tarjetas.clear();
+        };
         pin = "";
         tipo = "";
         numberPassages = "0";
@@ -534,6 +611,7 @@ public class BeanCard implements Serializable {
         cedulaPasajero="";
         recarga=0;
         credito=0;
+        nombrePasajero="";
 
     }
 }
