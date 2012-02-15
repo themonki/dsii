@@ -29,6 +29,7 @@ import javax.faces.model.SelectItem;
 @ManagedBean
 @SessionScoped
 public class BeanRuta implements Serializable{
+    private int countValidator;
 
     public boolean isRenderTable() {
         return renderTable;
@@ -99,6 +100,14 @@ public class BeanRuta implements Serializable{
 
      public String createRuta() {
 
+         validate();
+         
+         if(countValidator > 0)
+         {
+ 
+             countValidator = 0;
+             return null;
+         }
       
         FacesContext context = FacesContext.getCurrentInstance();
               
@@ -141,27 +150,23 @@ public class BeanRuta implements Serializable{
         System.out.println(estado);
 
         List<EstacionPrincipal> estacionesPrincipales = daoEstacion.findAllEstacionPrincipal();
-        List<EstacionParadero> estacioonesParadedos = daoEstacion.findAllEstacionParadero();
+        List<EstacionParadero> estacioonesParaderos = daoEstacion.findAllEstacionParadero();
         
-        
+         System.out.println(estacionesPrincipales.size());
         for(int i=0;i<estacionesPrincipales.size();i++)
         {     
             estaciones.add(estacionesPrincipales.get(i));
             
         }
-        for(int i=0;i<estacioonesParadedos.size();i++)
+        
+         System.out.println(estacioonesParaderos.size());
+        for(int i=0;i<estacioonesParaderos.size();i++)
         {        
-            estaciones.add(estacioonesParadedos.get(i));
+            estaciones.add(estacioonesParaderos.get(i));
             
         }
         
-        estacionesRuta = new ArrayList<Estacion>();
        
-        if(estacionesRuta.isEmpty())
-        {
-        
-             estacionesRuta.add(new Estacion(0, "No hay paraderos asignados", true));
-        }
 
         daoEstacion = null;     
        
@@ -169,7 +174,7 @@ public class BeanRuta implements Serializable{
         
     }
      
-       public void addMedidaReclamo()
+       public void addEstacionRuta()
     {
      
         FacesContext context = FacesContext.getCurrentInstance();
@@ -229,7 +234,7 @@ public class BeanRuta implements Serializable{
         
     }
        
-        public void removeMedidaReclamo()
+        public void removeEstacionRuta()
     {
         
         FacesContext context = FacesContext.getCurrentInstance();
@@ -255,8 +260,25 @@ public class BeanRuta implements Serializable{
      public void clearBeanRuta()
     {
         idEstacion = 0;
-        if(estacionesRuta != null)
-        estacionesRuta.clear();
+        if(estacionesRuta == null)
+        {
+             estacionesRuta = new ArrayList<Estacion>();
+
+            if(estacionesRuta.isEmpty())
+            {
+
+                 estacionesRuta.add(new Estacion(0, "No hay paraderos asignados", true));
+            }
+        
+        
+        }else
+        {
+        
+             estacionesRuta.clear();
+             estacionesRuta.add(new Estacion(0, "No hay paraderos asignados", true));
+        
+        }
+       
         ubicacion="";
         idEstacion = 0;
         
@@ -265,4 +287,34 @@ public class BeanRuta implements Serializable{
         renderTable=false;
     }
     
+     
+     
+       private int  validate() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        
+       
+        
+        if (this.nombre.trim().length() > 50) {
+            context.addMessage(null, new FacesMessage("El motivo no debe exceder los 15 caracteres."));
+            countValidator = 1;
+        }
+        if (descripcion.trim().length() > 200) {
+            context.addMessage(null, new FacesMessage("La descripcion no debe exceder los 200 caracteres."));
+            countValidator = 1;
+
+        }
+
+        // Se usara con el dao de reclamo pero debe ser con el dao de usuario Temporal!!!
+        DaoRuta daoRuta = new DaoRuta();
+
+        if (daoRuta.rutaValida(nombre).equals("") ) {
+            context.addMessage(null, new FacesMessage("El id del usuario  no se encuentra en la base de datos."));
+            countValidator = 1;
+
+        }
+
+        return 0;
+
+    }
+     
 }

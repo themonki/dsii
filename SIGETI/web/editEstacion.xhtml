@@ -54,6 +54,8 @@
                                 <h:outputText value="Editar una estaci&oacute;n"/>
                                 </center>
                             </f:facet>
+                            <h:outputText value="Id:"/>
+                            <h:outputText value="#{beanEstacion.id}"/>
                             <h:outputText value="*Ubicaci&oacute;n:"/>
                             <h:inputText value="#{beanEstacion.ubicacion}"
                                          size="20"
@@ -68,13 +70,16 @@
                                           rendered="#{beanEstacion.buscarPrincipales}"/>
                             <h:inputText value="#{beanEstacion.nombre}"
                                          rendered="#{beanEstacion.buscarPrincipales}"/>
-                            <h:outputText value="Operario acargo:"/>
+                            <h:outputText value="Operario acargo:"
+                                          rendered="#{beanEstacion.buscarPrincipales}"/>
                             <h:selectOneMenu value="#{beanEstacion.idOperario}"
                                              rendered="#{beanEstacion.buscarPrincipales}">
                                 <f:selectItems value="#{beanEmployee.availableOperario}"/>
                             </h:selectOneMenu>
                             <br/><br/>
-                            <h:commandButton value="Crear" styleClass="JButton" action="#{beanEstacion.createEstacion()}" /><br/>
+                            <h:commandButton value="Editar"
+                                             styleClass="JButton"
+                                             action="#{beanEstacion.editarEstacion()}" /><br/>
                         </h:panelGrid>
                     </h:form>
 

@@ -5,10 +5,10 @@
 package Dao;
 
 import Entidades.Tarjeta;
-import Entidades.TarjetaGenerica;
 import Entidades.TarjetaPersonalizada;
 import Utilidades.FachadaBD;
 import java.sql.*;
+import java.util.Vector;
 
 /**
  *
@@ -107,6 +107,64 @@ public class DaoCard {
         return result;
      
     }
+    public Vector  <Tarjeta>  findCardsFromName(String nombre ){
+        
+        String sqlConsulta = "SELECT * from tarjeta NATURAL JOIN usuario WHERE nombre LIKE '%"+nombre+"%'";
+        
+        
+        int a;
+        Vector <Tarjeta> tarjetas = new Vector<Tarjeta>();
+
+        try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            ResultSet table = sentence.executeQuery(sqlConsulta);
+            
+
+            while (table.next()) { 
+                Tarjeta tarjeta = new Tarjeta();
+               
+                tarjeta.setPin(table.getString("pin"));
+           
+                tarjeta.setSaldo(Integer.parseInt(table.getString("saldo")));          
+                tarjeta.setTipo(Integer.parseInt(table.getString("tipo")));
+                tarjeta.setCosto(Integer.parseInt(table.getString("costo")));
+                tarjeta.setFechaVenta(table.getString("fecha_venta"));
+                
+                if(table.getString("estado").equals("t")){
+                    tarjeta.setEstado(true);
+                
+                }
+                else {
+                    tarjeta.setEstado(false);
+                
+                
+                }
+             
+                
+                String estacion=table.getString("estacion_venta");
+                if(estacion ==null){
+                
+                    tarjeta.setEstacionVenta(0);
+                }
+                else{
+                    tarjeta.setEstacionVenta(Integer.parseInt(table.getString("estacion_venta")));
+                
+                }
+                
+                tarjetas.add(tarjeta);
+            }
+            fachada.cerrarConexion(conn);
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        
+        return tarjetas;
+    
+    }
     
     public int reloadCard(String pin, int recarga,int estacion ){
         int valor =recarga ;
@@ -115,9 +173,9 @@ public class DaoCard {
         
         tarjeta = findCardCustom(pin);
         if (tarjeta.getPin()==null){return 0;}
+        if (tarjeta.getEstado()==false){return 0;}
         
         
-        System.err.println("objeto tarjeta "+tarjeta);
         if(tarjeta.getCredito()<3){
             int temp = recarga;
             for (int i=0;i<temp;i++){
@@ -162,20 +220,7 @@ public class DaoCard {
         
         }
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+       
         
         return result;
         
@@ -249,7 +294,7 @@ public class DaoCard {
                     tarjeta.setEstacionVenta(0);
                 }
                 else{
-                    tarjeta.setEstacionVenta(Integer.parseInt(table.getString("fecha_venta")));
+                    tarjeta.setEstacionVenta(Integer.parseInt(table.getString("estacion_venta")));
                 
                 }
             }
@@ -307,7 +352,7 @@ public class DaoCard {
                     tarjeta.setEstacionVenta(0);
                 }
                 else{
-                    tarjeta.setEstacionVenta(Integer.parseInt(table.getString("fecha_venta")));
+                    tarjeta.setEstacionVenta(Integer.parseInt(table.getString("estacion_venta")));
                 
                 }
             }

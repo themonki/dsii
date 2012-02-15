@@ -54,7 +54,7 @@
                     <ui:insert name="content">Nueva Ruta</ui:insert>
 
                     <br></br>                    
-                    <img src="./resources/newRoute.png"  width="100" height="100"></img>
+                    <img src="./resources/createRoute.png"  width="100" height="100"></img>
 
                     <br></br>
                     <h:messages style="color: purple"   />
@@ -64,13 +64,13 @@
                         <h:panelGrid columns="2">
 
                             <h:outputText value="* Nombre"/>
-                            <h:inputText size="50" value="#{beanReclamo.motivo}"
+                            <h:inputText size="50" value="#{beanRuta.nombre}"
                                          required="true"
-                                         requiredMessage="El nombre de la ruta es obligatorio"/> 
+                                         requiredMessage="El nombre de la ruta es obligatorio, despues podra añadir estaciones"/> 
                             <h:outputText value="* Descripcion"/>
                             <h:inputTextarea cols="40" rows="10" value="#{beanRuta.descripcion}"
                                              required="true"
-                                             requiredMessage="La descripcion de ruta es obligatoria"/>
+                                             requiredMessage="La descripcion de ruta es obligatoria ,despues podra añadir estaciones"/><br/>
 
                             <h:panelGrid>
                                 <h:dataTable
@@ -91,16 +91,19 @@
                                     </h:column>   
                                     <h:column>
                                         <f:facet name="header">Accion</f:facet>
-                                        <h:commandButton  value="Borrar Estacion" styleClass="JButton" action="#{beanRuta.removeEstacion}"/>
+                                        <h:commandButton  value="Borrar Estacion" styleClass="JButton" action="#{beanRuta.removeEstacionRuta()}"/>
                                     </h:column>
                                 </h:dataTable>
                             </h:panelGrid>
-
+                            <br/><br/>
+                            
+                            <h:panelGrid columns="2">
                             <h:selectOneMenu value="#{beanRuta.ubicacion}">
                                 <f:selectItems value="#{beanRuta.findEstacion}"/>
                             </h:selectOneMenu>
-                            <h:commandButton  value="Agregar Medida" styleClass="JButton" action="#{beanRuta.addEstacion}"/>
+                                <h:commandButton  value="Agregar Estacion" styleClass="JButton" action="#{beanRuta.addEstacionRuta()}"/>
 
+                            </h:panelGrid><br/>
 
                             <h:commandButton value="Crear Reclamo" styleClass="JButton" action="#{beanRuta.createRuta()}" /><br/>
                         </h:panelGrid>
