@@ -10,6 +10,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
+        <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
         <title>Editar Bus</title>        
         
         <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
@@ -44,11 +45,11 @@
                 </h:form>
             </div>
             <div id="center_center">
-                <h:form>
+                <h:form styleClass="Formulario">
                     <h:messages styleClass="error"/>
                     <h:panelGrid columns="2">
                         <f:facet name="header">
-                            <h:outputText value="Datos Bus"/>
+                             <center><h:outputText value="Datos Bus"/> </center>
                         </f:facet>                        
                         <h:outputText value="* Identificador Interno"/>
                         <h:outputText value="#{beanBus.idInterno}"/>
@@ -58,10 +59,13 @@
                         <h:outputText value="#{beanBus.perteneceRuta}"/>                                                
                     </h:panelGrid>
                     <br/><hr/><br/>
-                    <h:commandButton value="Eliminar" action="#{beanBus.eraseBus}"/>     
-                    <h:commandButton  value="Atr&aacute;s"
+                    <center>
+                        <h:commandButton value="Eliminar" action="#{beanBus.eraseBus}" styleClass="JButton"/>     
+                        <h:commandButton  value="Atr&aacute;s" styleClass="JButton"
                                           action="findBus"                                          
                                           immediate="true"/>
+                    </center>
+                   <h:messages styleClass="error"/>
                 </h:form>
             </div>
         </div>            

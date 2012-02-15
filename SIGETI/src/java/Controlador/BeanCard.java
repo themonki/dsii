@@ -146,15 +146,15 @@ public class BeanCard implements Serializable {
         }
         
        
-        EmployeeHolder empleadoHolder = (EmployeeHolder) context.getApplication().evaluateExpressionGet(context, "#{employeeHolder}", EmployeeHolder.class);
+       EmployeeHolder empleadoHolder = (EmployeeHolder) context.getApplication().evaluateExpressionGet(context, "#{employeeHolder}", EmployeeHolder.class);
         String idAuxiliar = empleadoHolder.getCurrentEmpleado().getId();
         
 
-         DaoEmpleado daoEmpleado = new DaoEmpleado();
+       DaoEmpleado daoEmpleado = new DaoEmpleado();
          
         Auxiliar auxiliar = daoEmpleado.findAuxiliarId(idAuxiliar,true);
         
-        
+       
     
         if (recarga<=0){
               context.addMessage(null, new FacesMessage(
@@ -165,6 +165,7 @@ public class BeanCard implements Serializable {
         
         }
         DaoCard dao = new DaoCard(); 
+        
         int result = dao.reloadCard(pin,recarga,auxiliar.getTrabajaEn());
         
         

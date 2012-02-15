@@ -9,14 +9,15 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
+        <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
         <title>Crear Bus</title>        
-        
+
         <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
     </h:head>
 
     <h:body>
 
-          <div id="top">
+        <div id="top">
             <img src="./resources/logo.png" alt="logo"  ></img>
             <div id="top_rigth">
 
@@ -28,7 +29,7 @@
                     </h:commandLink>
                 </h:form>
             </div>
-         </div>
+        </div>
         <div id="center">
             <div id="center_left">
                 <h:form>
@@ -45,42 +46,45 @@
                 </h:form>
             </div>
             <div id="center_center">
-                <h:form>
-                    <h:messages styleClass="error"/>
-                    <h:panelGrid columns="2">
-                        <f:facet name="header">
-                            <h:outputText value="Datos Bus"/>
-                        </f:facet>
-                        <h:outputText value="* Matricula:"/>
-                        <h:inputText value="#{beanBus.matricula}"  
-                                     required="true"
-                                     requiredMessage="La Matricula es obligatoria"
-                                     validator="#{beanBus.validateMatricula}">
-                        </h:inputText>
-                        <h:outputText value="* Identificador Interno"/>
-                        <h:inputText value="#{beanBus.idInterno}"
-                                     required="true"
-                                     requiredMessage="El Identificador Interno del Bus es obligatorio"
-                                     validator="#{beanBus.validateMatricula}"/>
-                        <h:outputText value="Capacidad:" id="Capacidad"/>
-                        <h:inputText value="#{beanBus.capacidad}" />
-                        <h:outputText value="Tipo: "/>
-                        <h:selectOneMenu value="#{beanBus.tipo}">                             
-                             <f:selectItems value="#{beanBus.availableTipo}"/>                       
-                        </h:selectOneMenu>
-                        <h:outputText value="Estado Fisico:"/>
-                        <h:selectOneMenu value="#{beanBus.estadoFisico}">
-                            <f:selectItems value="#{beanBus.availableEstadoFisico}"/>
-                        </h:selectOneMenu>
-                        <h:outputText value="Ruta a la que pertenece:"/>
-                        <h:selectOneMenu value="#{beanBus.perteneceRuta}">
-                            <f:selectItems value="#{beanBus.availableRutaPertenece}"/>
-                        </h:selectOneMenu>                        
-                    </h:panelGrid>
-                    <br/><hr/><br/>                    
-                    
-                    <h:commandButton value="Crear" action="#{beanBus.createBus}"/>
-                </h:form>
+                <div>                    
+                    <h:form styleClass="Formulario">                        
+                        <h:panelGrid columns="2">
+                            <f:facet name="header">
+                                <center><h:outputText value="Datos Bus"/></center>
+                            </f:facet>
+                            <h:outputText value="* Matricula:"/>
+                            <h:inputText value="#{beanBus.matricula}"  
+                                         required="true"
+                                         requiredMessage="La Matricula es obligatoria"
+                                         validator="#{beanBus.validateMatricula}">
+                            </h:inputText>
+                            <h:outputText value="* Identificador Interno"/>
+                            <h:inputText value="#{beanBus.idInterno}"
+                                         required="true"
+                                         requiredMessage="El Identificador Interno del Bus es obligatorio"
+                                         validator="#{beanBus.validateMatricula}"/>
+                            <h:outputText value="Capacidad:" id="Capacidad"/>
+                            <h:inputText value="#{beanBus.capacidad}" />
+                            <h:outputText value="Tipo: "/>
+                            <h:selectOneMenu value="#{beanBus.tipo}">                             
+                                <f:selectItems value="#{beanBus.availableTipo}"/>                       
+                            </h:selectOneMenu>
+                            <h:outputText value="Estado Fisico:"/>
+                            <h:selectOneMenu value="#{beanBus.estadoFisico}">
+                                <f:selectItems value="#{beanBus.availableEstadoFisico}"/>
+                            </h:selectOneMenu>
+                            <h:outputText value="Ruta a la que pertenece:"/>
+                            <h:selectOneMenu value="#{beanBus.perteneceRuta}">
+                                <f:selectItems value="#{beanBus.availableRutaPertenece}"/>
+                            </h:selectOneMenu>                        
+                        </h:panelGrid>
+                        <br/><hr/><br/>                    
+                        <center>
+                        <h:commandButton value="Crear" styleClass="JButton" action="#{beanBus.createBus}"/>
+                        </center>
+                        <h:messages styleClass="error"/>
+                    </h:form>
+                </div>
             </div>
         </div>
         <div id="bottom">

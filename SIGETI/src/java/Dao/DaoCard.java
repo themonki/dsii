@@ -135,16 +135,17 @@ public class DaoCard {
         
         
         if (result !=0){
-        String sql_insert = "INSERT INTO recarga (pin,fecha,hora,valor,estacion)";
+        String sql_insert = "INSERT INTO recarga (pin,fecha,hora,valor,id_estacion)";
         
          java.util.Date date = new java.util.Date();
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
         String fecha = sdf.format(date);
        
-        long time =date.getTime() ;
-        System.err.println("hola "+time);
         
-        sql_insert+=" VALUES ("+pin+ ",'"+fecha+"',"+time+","+valor+","+2+")";
+        String [] hora =date.toString().split(" "); 
+        
+        
+        sql_insert+=" VALUES ("+pin+ ",'"+fecha+"','"+hora[3]+"',"+valor+","+estacion+")";
 
       
         
