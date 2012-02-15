@@ -54,6 +54,38 @@
                         <h:outputText value="Descripcion"/>
                         <h:inputTextarea value="#{beanRuta.descripcion}"/>
                     </h:panelGrid>
+                    <h:panelGrid>
+                                <h:dataTable
+                                    border="1"
+                                    var="estacion"
+                                    value="#{beanRuta.estacionesRuta}"
+                                    id="tableMedida"
+                                    >
+                                    <f:facet name="caption">Paraderos de la Ruta</f:facet>
+
+                                    <h:column >
+                                        <f:facet name="header">Id</f:facet>
+                                        #{estacion.id}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Ubicacion</f:facet>
+                                        #{estacion.ubicacion}
+                                    </h:column>   
+                                    <h:column>
+                                        <f:facet name="header">Accion</f:facet>
+                                        <h:commandButton  value="Borrar Estacion" styleClass="JButton" action="#{beanRuta.removeEstacionRuta()}"/>
+                                    </h:column>
+                                </h:dataTable>
+                            </h:panelGrid>
+                            <br/><br/>
+                            
+                            <h:panelGrid columns="2">
+                            <h:selectOneMenu value="#{beanRuta.ubicacion}">
+                                <f:selectItems value="#{beanRuta.findEstacion}"/>
+                            </h:selectOneMenu>
+                                <h:commandButton  value="Agregar Estacion" styleClass="JButton" action="#{beanRuta.addEstacionRuta()}"/>
+
+                            </h:panelGrid><br/> 
                     <br/><hr/><br/>                    
                     <center>
                     <h:commandButton value="Editar"  styleClass="JButton" action="#{beanRuta.updateRuta}"/>

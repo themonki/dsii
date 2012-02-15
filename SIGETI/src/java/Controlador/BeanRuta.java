@@ -19,7 +19,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
+import javax.swing.JOptionPane;
 
 /*
  *
@@ -38,6 +40,34 @@ public class BeanRuta implements Serializable{
     private boolean renderTable;
     private boolean renderMap;
     private String rutaMaps;
+    private String action;
+    private Estacion estacion;
+    private boolean buscarEstaciones;
+    private boolean isCreando = true;
+
+    public boolean isBuscarEstaciones() {
+        return buscarEstaciones;
+    }
+
+    public void setBuscarEstaciones(boolean buscarEstaciones) {
+        this.buscarEstaciones = buscarEstaciones;
+    }
+
+    public Estacion getEstacion() {
+        return estacion;
+    }
+
+    public void setEstacion(Estacion estacion) {
+        this.estacion = estacion;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
 
 
     public boolean isRenderTable() {
@@ -111,6 +141,7 @@ public class BeanRuta implements Serializable{
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+        renderTable=true;
     }
 
     public String getDescripcion() {
@@ -341,7 +372,9 @@ public class BeanRuta implements Serializable{
             countValidator = 1;
 
         }
-
+        
+        if(!isCreando) return 0;
+        
         // Se usara con el dao de reclamo pero debe ser con el dao de usuario Temporal!!!
         DaoRuta daoRuta = new DaoRuta();
 
@@ -377,7 +410,7 @@ public class BeanRuta implements Serializable{
 
         rutaMaps="from: ";
         DaoRuta daoRuta= new DaoRuta();
-        List<Estacion> estaciones = daoRuta.estacioneRuta(nombre);
+        List<Estacion> estaciones = daoRuta.estacionesRuta(nombre);
 
         for(int i=0; i<estaciones.size(); i++)
         {
@@ -392,5 +425,131 @@ public class BeanRuta implements Serializable{
         descripcion=ruta.getDescripcion();
         estado=ruta.getEstado();
     }
-     
+    
+    
+    public void statesForErase(ActionEvent e){
+        this.renderTable=false;        
+        this.action = "Eliminar";
+        isCreando=false;
+    }
+    
+    public void statesForEdit(ActionEvent e){
+        this.renderTable=false;
+        this.action = "Editar";
+        isCreando=false;
+    }
+    
+    public String getLinkAction() {
+        String link = "";
+        if (this.action.equals("Eliminar")) {
+            this.preparateDataRuta();
+            link = "eraseRoute";
+        } else if (this.action.equals("Editar")) {
+            this.preparateDataRuta();
+            link = "editRoute";
+        }
+
+        return link;
+    }
+    private Ruta getCurrentRuta() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        Application app = context.getApplication();
+        Ruta ruta = (Ruta) app.evaluateExpressionGet(context, "#{ruta}", Ruta.class);
+        return ruta;
+    }
+    
+    public void preparateDataRuta(){
+        Ruta ruta = getCurrentRuta();
+        this.estado = ruta.getEstado();
+        this.nombre = ruta.getNombre();
+        this.descripcion = ruta.getDescripcion();
+        DaoRuta daoRuta = new DaoRuta();
+        this.estacionesRuta = daoRuta.estacionesRuta(nombre.trim());
+    }
+    
+    public List<Ruta> consultarRutaNormal(){
+        DaoRuta daoRuta = new DaoRuta();        
+        List<Ruta> buses = null;
+        JOptionPane.showMessageDialog(null, "hola "+buscarEstaciones);
+        if(buscarEstaciones){
+            
+            buses = daoRuta.consultarRutasEstacion(estacion.getId().toString());
+            JOptionPane.showMessageDialog(null, "tonces "+buses.size());
+        }else{
+            buses = new ArrayList<Ruta>();
+            buses.add(daoRuta.getRuta(nombre.trim()));            
+        }       
+        return buses;
+        
+    }
+    
+    public String updateRuta(){
+        FacesContext context = FacesContext.getCurrentInstance();
+        BeanContent content = (BeanContent) context.getApplication().evaluateExpressionGet(context, "#{beanContent}", BeanContent.class);
+        validate();
+         
+         if(countValidator > 0)
+         {
+ 
+             countValidator = 0;
+             return null;
+         }
+        int result;
+        DaoRuta daoRuta = new DaoRuta();
+        Ruta ruta= new Ruta();
+        ruta.setDescripcion(descripcion.trim());
+        ruta.setEstado(estado);
+        ruta.setNombre(nombre.trim());
+        result = daoRuta.updateRuta(ruta);        
+        daoRuta.insertarEstacionesRuta(estacionesRuta, nombre);
+        
+        if (result == 0) {
+            content.setResultOperation("La Ruta no pudo ser actualizada.");
+            this.clearBeanRuta();
+            content.setImage("./resources/fail.png");
+            return "resultOperation";
+        }
+        
+        daoRuta = null;
+        content.setResultOperation("La Ruta fue actualizada con éxito.");
+        content.setImage("./resources/ok.png");
+        this.clearBeanRuta();
+        return "resultOperation";        
+    }
+    
+     public String eraseRuta(){
+        FacesContext context = FacesContext.getCurrentInstance();
+        BeanContent content = (BeanContent) context.getApplication().evaluateExpressionGet(context, "#{beanContent}", BeanContent.class);
+        validate();
+         
+         if(countValidator > 0)
+         {
+ 
+             countValidator = 0;
+             return null;
+         }
+        int result;
+        DaoRuta daoRuta = new DaoRuta();
+        Ruta ruta= new Ruta();
+        ruta.setDescripcion(descripcion.trim());
+        ruta.setEstado(estado);
+        ruta.setNombre(nombre.trim());
+        result = daoRuta.eraseRuta(ruta);
+        
+        
+        if (result == 0) {
+            content.setResultOperation("La Ruta no pudo ser eliminada.");
+            this.clearBeanRuta();
+            content.setImage("./resources/fail.png");
+            return "resultOperation";
+        }
+        
+        daoRuta = null;
+        content.setResultOperation("La Ruta fue eliminada con éxito.");
+        content.setImage("./resources/ok.png");
+        this.clearBeanRuta();
+        return "resultOperation";        
+    }
+    
+    
 }

@@ -58,12 +58,12 @@
                             <br></br>
                             <h:outputText value="Crear Ruta"/>
                         </h:commandLink>
-                        <h:commandLink   action="editRoute" onclick="#{beanRuta.clearBeanRuta()}">
+                        <h:commandLink   action="findRouteNormal" onclick="#{beanRuta.clearBeanRuta()}" actionListener="#{beanRuta.statesForEdit}">
                             <img src="./resources/editRoute.png"  width="100" height="100"></img>
                             <br></br>
                             <h:outputText  value="Editar Ruta"/>
                         </h:commandLink>
-                        <h:commandLink   action="eraseRoute" onclick="#{beanRuta.clearBeanRuta()}">
+                        <h:commandLink   action="findRouteNormal" onclick="#{beanRuta.clearBeanRuta()}" actionListener="#{beanRuta.statesForErase}">
                              <img src="./resources/eraseRoute.png"  width="100" height="100"></img>
                             <br></br>
                             <h:outputText  value="Eliminar Ruta"/>

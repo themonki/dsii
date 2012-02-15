@@ -73,6 +73,44 @@ public class DaoRuta {
         }
         return result;
     }
+    
+    public int updateRuta(Ruta ruta) {
+         String sql_insert = "UPDATE ruta set "                
+                 + "descripcion= '"+ruta.getDescripcion()+"',"
+                 + "estado= '"+ruta.getEstado()+"' "
+                 + "WHERE nombre = '"+ruta.getNombre()+"'";               
+        
+        System.err.println(sql_insert);
+        int result = 0;
+        try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            result = sentence.executeUpdate(sql_insert);
+            fachada.cerrarConexion(conn);           
+        } catch (SQLException se) {
+             se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+    
+    public int eraseRuta(Ruta ruta) {
+        String sql_erase = "DELETE FROM ruta WHERE nombre = '" 
+                + ruta.getNombre()+ "';";
+        int result = 0;
+        try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            result = sentence.executeUpdate(sql_erase);
+            fachada.cerrarConexion(conn);
+        } catch (SQLException se) {
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return result; //result
+    }
 
     public String rutaValida(String nombre)       
     {
@@ -178,7 +216,7 @@ public class DaoRuta {
        return nombreRutas;
        }
 
-       public List<Estacion> estacioneRuta(String nombre)
+       public List<Estacion> estacionesRuta(String nombre)
        {
            List<Estacion> estaciones = new ArrayList<Estacion>();
 
@@ -234,6 +272,8 @@ public class DaoRuta {
            return ruta;
 
        }
+       
+       
        
 }
 
