@@ -30,6 +30,8 @@ public class Authentication implements Serializable {
     private int rol;
 
     public String login() {
+        
+        
         DaoEmpleado dao = new DaoEmpleado();
 
         Empleado empleado = new Empleado();

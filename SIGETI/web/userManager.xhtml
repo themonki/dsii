@@ -37,16 +37,42 @@
                             <f:facet name="header">
                                 <h:outputText value="Menu"/>
                             </f:facet>
-                            <h:commandLink action="#{beanContent.findLink(l.get(1))}">
-                                <h:outputText value="#{l.get(0)}"/>
-                            </h:commandLink>
+                           
+                            
                         </h:column>
                     </h:dataTable>
-            
+                    <h:commandLink action="userManager">
+                                <h:outputText value=" Gestion Usuario"/>
+                            </h:commandLink>
                 </h:form>
             </div>
             <div id="center_center">
-                <ui:insert name="content">Home page </ui:insert>
+                <ui:insert name="content">Home Visitante </ui:insert>
+                
+                
+                <br></br>
+                <br></br>
+                <br></br>
+                
+                 <h:form style="display: inline-block" >
+                    <h:panelGrid columns="2"   cellspacing="25" >
+                        <h:commandLink   action="editUserCard">
+                            <img src="./resources/editUser.png"  width="100" height="100"></img>
+                            <br></br>
+                            <h:outputText value="Modificar Datos"/>
+                        </h:commandLink>
+                        
+                         <h:commandLink   action="cardPassages">
+                            <img src="./resources/BuscarCard.gif"  width="100" height="100"></img>
+                            <br></br>
+                            <h:outputText value="Consultar Saldo"/>
+                        </h:commandLink>
+                       
+                    </h:panelGrid>
+                </h:form>
+                
+                
+                
             </div>
         </div>
         <div id="bottom">
