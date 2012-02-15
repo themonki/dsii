@@ -141,7 +141,7 @@ public class DaoUser {
         if (usuario.getTelefono()!=null &&!usuario.getTelefono().equals("")){ sql_insert+= "telefono='"+usuario.getTelefono()+"',";}
       
        
-        sql_insert+="password='"+usuario.getPassword()+"',estado="+usuario.getEstado();
+        sql_insert+="password='"+usuario.getPassword()+"',estado="+usuario.getEstado()+" WHERE id='"+ usuario.getId()+"'";
         
         
         

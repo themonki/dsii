@@ -9,70 +9,63 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
-        <title>Home page Administrador</title>        
-        
-        <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
+        <title>Administrar Usuario</title>        
+
     </h:head>
 
     <h:body>
 
-          <div id="top">
+        <div id="top">
             <img src="./resources/logo.png" alt="logo"  ></img>
             <div id="top_rigth">
 
 
                 <h:form>
-                    <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
-                    <h:commandLink action="#{authentication.logout}">
-                        <img src="./resources/exit.png" alt="salir" width="30" height="30"></img>
-                    </h:commandLink>
+                    <h:outputText value="Bievenido Visitante"/>
                 </h:form>
             </div>
-         </div>
+        </div>
         <div id="center">
             <div id="center_left">
                 <h:form>
-                    <h:dataTable value="#{beanContent.menuOptions}" var="l">
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Menu"/>
-                            </f:facet>
-                           
-                            
-                        </h:column>
-                    </h:dataTable>
-                    <h:commandLink action="userManager">
-                                <h:outputText value=" Gestion Usuario"/>
-                            </h:commandLink>
+                    <center><strong><h:outputText value="Men&uacute;"/></strong><br/><br/>
+                        <h:commandLink action="index">
+                            <h:outputText value="Inicio"/>
+                        </h:commandLink>
+                        <br/>
+                        <h:commandLink action="userManager">
+                            <h:outputText value="Gestión Usuario"/>
+                        </h:commandLink>                        
+                    </center>
                 </h:form>
             </div>
             <div id="center_center">
                 <ui:insert name="content">Home Visitante </ui:insert>
-                
-                
+
+
                 <br></br>
                 <br></br>
                 <br></br>
-                
-                 <h:form style="display: inline-block" >
+
+                <h:form style="display: inline-block" >
                     <h:panelGrid columns="2"   cellspacing="25" >
                         <h:commandLink   action="editUserCard" onclick="#{beanUserCard.clearStates()}">
                             <img src="./resources/editUser.png"  width="100" height="100"></img>
                             <br></br>
                             <h:outputText value="Modificar Datos"/>
                         </h:commandLink>
-                        
-                         <h:commandLink   action="cardPassages" onclick="#{beanCard.clearStates()}">
+
+                        <h:commandLink   action="cardPassages" onclick="#{beanCard.clearStates()}">
                             <img src="./resources/BuscarCard.gif"  width="100" height="100"></img>
                             <br></br>
                             <h:outputText value="Consultar Saldo"/>
                         </h:commandLink>
-                       
+
                     </h:panelGrid>
                 </h:form>
-                
-                
-                
+
+
+
             </div>
         </div>
         <div id="bottom">

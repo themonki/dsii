@@ -29,6 +29,7 @@ import javax.faces.model.SelectItem;
 @ManagedBean
 @SessionScoped
 public class BeanRuta implements Serializable{
+    private int countValidator;
 
     public boolean isRenderTable() {
         return renderTable;
@@ -99,6 +100,14 @@ public class BeanRuta implements Serializable{
 
      public String createRuta() {
 
+         validate();
+         
+         if(countValidator > 0)
+         {
+ 
+             countValidator = 0;
+             return null;
+         }
       
         FacesContext context = FacesContext.getCurrentInstance();
               
@@ -113,6 +122,7 @@ public class BeanRuta implements Serializable{
         ruta.setEstado(estado);
        
         result = daoRuta.saveRuta(ruta);
+        daoRuta.insertarEstacionesRuta(estacionesRuta, nombre);
         if (result == 0) {
             content.setResultOperation("La ruta no pudo ser creada.");
             content.setImage("./resources/fail.png");
@@ -165,7 +175,7 @@ public class BeanRuta implements Serializable{
         
     }
      
-       public void addMedidaReclamo()
+       public void addEstacionRuta()
     {
      
         FacesContext context = FacesContext.getCurrentInstance();
@@ -225,7 +235,7 @@ public class BeanRuta implements Serializable{
         
     }
        
-        public void removeMedidaReclamo()
+        public void removeEstacionRuta()
     {
         
         FacesContext context = FacesContext.getCurrentInstance();
@@ -250,7 +260,7 @@ public class BeanRuta implements Serializable{
         
      public void clearBeanRuta()
     {
-        idEstacion = 0;
+       
         if(estacionesRuta == null)
         {
              estacionesRuta = new ArrayList<Estacion>();
@@ -270,12 +280,44 @@ public class BeanRuta implements Serializable{
         
         }
        
-        ubicacion="";
+        nombre = "";
+        descripcion="";
         idEstacion = 0;
+        ubicacion = "";
         
         estado=true;        
 
         renderTable=false;
     }
     
+     
+     
+       private int  validate() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        
+       
+        
+        if (this.nombre.trim().length() > 50) {
+            context.addMessage(null, new FacesMessage("El motivo no debe exceder los 15 caracteres."));
+            countValidator = 1;
+        }
+        if (descripcion.trim().length() > 200) {
+            context.addMessage(null, new FacesMessage("La descripcion no debe exceder los 200 caracteres."));
+            countValidator = 1;
+
+        }
+
+        // Se usara con el dao de reclamo pero debe ser con el dao de usuario Temporal!!!
+        DaoRuta daoRuta = new DaoRuta();
+
+        if (!daoRuta.rutaValida(nombre).equals("") ) {
+            context.addMessage(null, new FacesMessage("El nombre de la ruta ya existe seleccione otro"));
+            countValidator = 1;
+
+        }
+
+        return 0;
+
+    }
+     
 }

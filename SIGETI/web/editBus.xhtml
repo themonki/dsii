@@ -56,14 +56,14 @@
                                      required="true"
                                      requiredMessage="El Identificador Interno del Bus es obligatorio"
                                      validator="#{beanBus.validateIdInterno}"/>
-                        <h:outputText value="Estado Fisico:"/>
-                        <h:selectOneMenu value="#{beanBus.estadoFisico}" tabindex="#{beanBus.estadoFisico}">
+                        <h:outputText value="Estado Fisico"/>
+                        <h:selectOneMenu value="#{beanBus.estadoFisico}" tabindex="#{beanBus.indexEstadoFisico}">
                             <f:selectItems value="#{beanBus.availableEstadoFisico}"/>                       
                         </h:selectOneMenu>                        
-<!--                        <h:outputText value="Ruta a la que pertenece:"/>
-                        <h:selectOneMenu value="#{beanBus.perteneceRuta}">
+                        <h:outputText value="Ruta a la que pertenece"/>
+                        <h:selectOneMenu value="#{beanBus.perteneceRuta}" tabindex="#{beanBus.indexPerteneceRuta}"> 
                             <f:selectItems value="#{beanBus.availableRutaPertenece}"/>
-                        </h:selectOneMenu>                       -->
+                        </h:selectOneMenu>                       
                     </h:panelGrid>
                     <br/><hr/><br/>                    
                     <center>

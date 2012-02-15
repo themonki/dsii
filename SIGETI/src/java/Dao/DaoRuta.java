@@ -1,5 +1,6 @@
 package Dao;
 
+import Entidades.Estacion;
 import Entidades.Ruta;
 import Utilidades.FachadaBD;
 import java.sql.Connection;
@@ -49,13 +50,13 @@ public class DaoRuta {
     }
 
     public int saveRuta(Ruta ruta) {
-         String sql_insert = "INSERT INTO ruta (nombre,descripcion,estado)";
+         String sql_insert = "INSERT INTO ruta (nombre,descripcion,estado";
                
-        sql_insert += ") VALUES (DEFAULT"
-                + ",'" + ruta.getNombre()
+        sql_insert += ") VALUES ('"
+                + ruta.getNombre()
                 + "','" + ruta.getDescripcion()
-                + "','" + ruta.getEstado()                
-                + "');";
+                + "'," + ruta.getEstado()                
+                + ");";
 
         System.err.println(sql_insert);
         int result = 0;
@@ -73,4 +74,84 @@ public class DaoRuta {
         return result;
     }
 
+    public String rutaValida(String nombre)       
+    {
+       String  nombreRuta = "";
+
+        String sql_query = "SELECT *  FROM ruta WHERE nombre = '" + nombre + "';";
+
+        try {
+
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            ResultSet table = sentence.executeQuery(sql_query);
+            
+            while (table.next()) {
+
+                nombreRuta = table.getString("nombre");                              
+
+            }
+
+
+
+
+
+        } catch (SQLException se) {
+            // JOptionPane.showMessageDialog(null, se.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        
+        
+        }
+
+
+        return  nombreRuta;
+    }
+    
+    
+          
+       public void insertarEstacionesRuta(List<Estacion> estaciones,String nombreRuta)
+       {
+       
+           String sql_delete = "delete from ruta_formado_estacion where nombre='"+nombreRuta+"';";
+           System.err.println(sql_delete);
+
+           try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            sentence.executeUpdate(sql_delete);
+            
+            String sql_insert = "";
+            for(int i = 0; i< estaciones.size();i++)
+            {
+                if(estaciones.get(i).getId() !=0)
+                {
+                sql_insert = "INSERT INTO ruta_formado_estacion VALUES('"+nombreRuta+"',"+estaciones.get(i).getId() +")";
+                System.err.println(sql_insert);
+
+                sentence.executeUpdate(sql_insert);                
+                }
+            
+            }
+            System.err.println("Se insertaron todas las estaciones para la ruta");
+
+
+           
+            fachada.cerrarConexion(conn);
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       
+       
+       
+       }
+       
 }
+
+    
+     
+    
+    
+    

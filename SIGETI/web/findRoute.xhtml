@@ -59,6 +59,12 @@
     </h:head>
 
     <h:body>
+        <link href="./resources/css/table.css" rel="stylesheet" type="text/css" />
+
+        <title>Buscar Ruta</title>        
+    </h:head>
+
+    <h:body>
 
         <div id="top">
             <img src="./resources/logo.png" alt="logo"  ></img>
@@ -88,6 +94,7 @@
                     </h:dataTable>
                 </h:form>
             </div>
+
             <div  id="center_center">
                 <h:messages style="color: red"   />
                 <br></br>
@@ -115,4 +122,45 @@
 
 </h:body>
 
+            <div  id="center_center">                 
+                <h:form styleClass="Formulario">
+                    <h:panelGrid columns="2">
+                        <f:facet name="header">
+                            <h:outputText value="Buscar Ruta"/>
+                        </f:facet>
+                        <h:outputText value="Ruta"/>
+                        <h:inputText value="#{beanRuta.nombre}"/>                        
+                        <center>
+                            <h:commandButton value="Buscar" styleClass="JButton"/>
+                        </center>
+                    </h:panelGrid>
+                </h:form>
+                <br/><br/><br/>
+                <center>
+                    <h:form  rendered="#{beanRuta.renderTableSearch}">
+                        <h:dataTable
+                            styleClass="order-table"
+                            headerClass="order-table-header"
+                            rowClasses="order-table-odd-row,order-table-even-row"                            
+                            border="1"
+                            var="ruta"
+                            id="tableBus"
+                            value="#{beanRuta.findBuses}"                        
+                            rendered="#{beanRuta.renderTableSearch}">
+                            <f:facet name="caption">Resultado de la b&uacute;squeda</f:facet>
+                            <h:column>
+                                <f:facet name="header">Nombre</f:facet>
+                                #{ruta.nombre}
+                            </h:column>                            
+                            <h:column>
+                                <f:facet name="header"> Acci&oacute;n</f:facet>
+                                <h:commandLink value="#{beanRuta.action}" action="#{beanRuta.getLinkAction}"/>
+                            </h:column>
+                        </h:dataTable>
+                    </h:form>
+                </center>
+            </div>
+        </div>
+    </h:body>
 </html>
+
