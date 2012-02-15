@@ -125,6 +125,12 @@ public class BeanCard implements Serializable {
         }
         
     
+        if (recarga<=0){
+              context.addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_ERROR, "La recarga debe ser mayor a 0.", null));
+        
+        
+        }
         DaoCard dao = new DaoCard(); 
         int result = dao.reloadCard(pin,recarga);
         
