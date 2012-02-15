@@ -4,27 +4,25 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
-
+    
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
-        <title>Crear Bus</title>        
-        
-        <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
+        <title>Buscar Bus</title>        
     </h:head>
-
+    
     <h:body>
-
         <div id="top">
             <img src="./resources/logo.png" alt="logo"></img>
-        
+
             <h:form>
                 <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
                 <h:commandLink action="#{authentication.logout}">
                     <img src="./resources/exit.png" alt="salir" width="50" height="50"></img>
                 </h:commandLink>
             </h:form>
+
         </div>
         <div id="center">
             <div id="center_left">
@@ -41,49 +39,50 @@
                     </h:dataTable>
                 </h:form>
             </div>
-            <div id="center_center">
+            <div  id="center_center">
+                 <h:messages styleClass="error"/>
                 <h:form>
-                    <h:messages styleClass="error"/>
                     <h:panelGrid columns="2">
                         <f:facet name="header">
-                            <h:outputText value="Datos Bus"/>
+                            <h:outputText value="Buscar Buses"/>
                         </f:facet>
-                        <h:outputText value="* Matricula:"/>
-                        <h:inputText value="#{beanBus.matricula}"  
-                                     required="true"
-                                     requiredMessage="La Matricula es obligatoria"
-                                     validator="#{beanBus.validateMatricula}">
-                        </h:inputText>
-                        <h:outputText value="* Identificador Interno"/>
-                        <h:inputText value="#{beanBus.idInterno}"
-                                     required="true"
-                                     requiredMessage="El Identificador Interno del Bus es obligatorio"
-                                     validator="#{beanBus.validateMatricula}"/>
-                        <h:outputText value="Capacidad:" id="Capacidad"/>
-                        <h:inputText value="#{beanBus.capacidad}" />
+                        <h:outputText value="Matricula:"/>
+                        <h:inputText value="#{beanBus.matricula}"/>
+                        <h:outputText value="Identificador Interno"/>
+                        <h:inputText value="#{beanBus.idInterno}"/>
                         <h:outputText value="Tipo: "/>
                         <h:selectOneMenu value="#{beanBus.tipo}">                             
-                             <f:selectItems value="#{beanBus.availableTipo}"/>                       
+                            <f:selectItem itemLabel="Ninguno" itemValue="0" />
+                            <f:selectItems value="#{beanBus.availableTipo}"/>
+                            
                         </h:selectOneMenu>
-                        <h:outputText value="Estado Fisico:"/>
-                        <h:selectOneMenu value="#{beanBus.estadoFisico}">
-                            <f:selectItems value="#{beanBus.availableEstadoFisico}"/>
-                        </h:selectOneMenu>
-                        <h:outputText value="Ruta a la que pertenece:"/>
-                        <h:selectOneMenu value="#{beanBus.perteneceRuta}">
-                            <f:selectItems value="#{beanBus.availableRutaPertenece}"/>
-                        </h:selectOneMenu>                        
+                        <h:commandButton value="Buscar"/>
                     </h:panelGrid>
-                    <br/><hr/><br/>                    
-                    
-                    <h:commandButton value="Crear" action="#{beanBus.createBus}"/>
+                </h:form>                
+                <h:form>
+                    <h:dataTable
+                        border="1"                        
+                        var="bus"
+                        id="tableBus"
+                        value="#{beanBus.findBuses}"                        
+                        rendered="#{beanBus.renderTableSearch}">
+                        <f:facet name="caption">Resultado de la b&uacute;squeda</f:facet>
+                        <h:column>
+                            <f:facet name="header">Matricula</f:facet>
+                            #{bus.matricula}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Identificador Interno</f:facet>
+                            #{bus.idInterno}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header"> Acci&oacute;n</f:facet>
+                            <h:commandLink value="#{beanBus.action}" action="#{beanBus.getLinkAction}"/>
+                        </h:column>
+                    </h:dataTable>
                 </h:form>
             </div>
         </div>
-        <div id="bottom">
-            <ui:insert name="bottom">Pie de pagina</ui:insert>
-        </div>
-
     </h:body>
-
 </html>
+

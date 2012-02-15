@@ -1,19 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
-    
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
-        <title>Home page Administrador</title>
+        <title>Editar Bus</title>        
         
         <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
     </h:head>
-    
     <h:body>
 
         <div id="top">
@@ -42,33 +40,35 @@
                 </h:form>
             </div>
             <div id="center_center">
-                <ui:insert name="content" >Gestion Buses </ui:insert>
-                <br/>
-                <br/>
-                <br/>
                 <h:form>
-                    <h:panelGrid columns="1">
-                        <h:commandLink action="newBus"
-                            actionListener="#{beanBus.statesForNew}"
-                            immediate="true">
-                            <h:outputText value="Crear nuevo Bus"/>
-                        </h:commandLink>
-                        <h:commandLink action="findBus"
-                                       actionListener="#{beanBus.statesForEdit}"
-                            immediate="true">
-                            <h:outputText value="Editar bus"/>
-                        </h:commandLink>
-                        <h:commandLink action="findBus"
-                            actionListener="#{beanBus.statesForErase}"
-                            immediate="true">
-                            <h:outputText value="Eliminar bus"/>
-                        </h:commandLink>
-                        <h:commandLink action="findBus"
-                            actionListener="#{beanBus.statesForFind}"
-                            immediate="true">
-                            <h:outputText value="Consultar bus"/>
-                        </h:commandLink>
+                    <h:messages styleClass="error"/>
+                    <h:panelGrid columns="2">
+                        <f:facet name="header">
+                            <h:outputText value="Datos Bus"/>
+                        </f:facet>
+                        <h:outputText value="Matricula"/>
+                        <h:outputText value="#{beanBus.matricula}"/>
+                        <h:outputText value="* Identificador Interno"/>
+                        <h:inputText value="#{beanBus.idInterno}"
+                                     required="true"
+                                     requiredMessage="El Identificador Interno del Bus es obligatorio"
+                                     validator="#{beanBus.validateIdInterno}"/>
+                        <h:outputText value="Estado Fisico:"/>
+                        <h:selectOneMenu value="#{beanBus.estadoFisico}" tabindex="#{beanBus.estadoFisico}">
+                            <f:selectItems value="#{beanBus.availableEstadoFisico}"/>                       
+                        </h:selectOneMenu>                        
+<!--                        <h:outputText value="Ruta a la que pertenece:"/>
+                        <h:selectOneMenu value="#{beanBus.perteneceRuta}">
+                            <f:selectItems value="#{beanBus.availableRutaPertenece}"/>
+                        </h:selectOneMenu>                       -->
                     </h:panelGrid>
+                    <br/><hr/><br/>                    
+                    
+                    <h:commandButton value="Editar" action="#{beanBus.updateBus}"/>
+                    <h:commandButton  value="Atr&aacute;s"
+                                          action="findBus"
+                                          actionListener="#{beanBus.statesForFindReturn}"
+                                          immediate="true"/>
                 </h:form>
             </div>
         </div>

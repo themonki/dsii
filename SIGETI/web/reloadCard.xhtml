@@ -1,30 +1,32 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8' ?> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
-    
+
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
-        <title>Home page Administrador</title>
-        
-        <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
+        <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
+        <title>Facelets Template</title>
     </h:head>
-    
+     
+    #{beanCard.refresh("findCard")}
+
     <h:body>
 
         <div id="top">
             <img src="./resources/logo.png" alt="logo"></img>
-        
+
             <h:form>
                 <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
                 <h:commandLink action="#{authentication.logout}">
                     <img src="./resources/exit.png" alt="salir" width="50" height="50"></img>
                 </h:commandLink>
             </h:form>
+
         </div>
         <div id="center">
             <div id="center_left">
@@ -41,35 +43,42 @@
                     </h:dataTable>
                 </h:form>
             </div>
-            <div id="center_center">
-                <ui:insert name="content" >Gestion Buses </ui:insert>
-                <br/>
-                <br/>
-                <br/>
-                <h:form>
-                    <h:panelGrid columns="1">
-                        <h:commandLink action="newBus"
-                            actionListener="#{beanBus.statesForNew}"
-                            immediate="true">
-                            <h:outputText value="Crear nuevo Bus"/>
-                        </h:commandLink>
-                        <h:commandLink action="findBus"
-                                       actionListener="#{beanBus.statesForEdit}"
-                            immediate="true">
-                            <h:outputText value="Editar bus"/>
-                        </h:commandLink>
-                        <h:commandLink action="findBus"
-                            actionListener="#{beanBus.statesForErase}"
-                            immediate="true">
-                            <h:outputText value="Eliminar bus"/>
-                        </h:commandLink>
-                        <h:commandLink action="findBus"
-                            actionListener="#{beanBus.statesForFind}"
-                            immediate="true">
-                            <h:outputText value="Consultar bus"/>
-                        </h:commandLink>
-                    </h:panelGrid>
-                </h:form>
+            <div  id="center_center">
+                <div>
+                    <ui:insert name="content">Recargar Tarjeta</ui:insert>
+
+                    <br></br>
+
+                    <img src="./resources/recarga.png"  width="100" height="100"></img>
+
+                    <br></br>
+                    <h:messages style="color: red"   />
+
+                    <br></br>
+
+
+                    <h:form styleClass="Formulario">
+
+                        <h:panelGrid columns="2" >
+                            
+                            
+
+                            <h:outputText value="Ingrese el Pin:"/>
+
+                            <h:inputText value="#{beanCard.pin}"   size="29" maxlength="29"/>  
+                            <h:outputText value="Numero de Pasajes:"/>
+                            <h:inputText value="#{beanCard.recarga}"  size="10" maxlength="10" />
+                                 
+                            <h:commandButton value="Recargar" styleClass="JButton" action="#{beanCard.reloadCard()}" />
+
+                        </h:panelGrid>
+                        
+                         
+
+                        
+                    </h:form>
+
+                </div>
             </div>
         </div>
         <div id="bottom">
@@ -77,4 +86,5 @@
         </div>
 
     </h:body>
+
 </html>
