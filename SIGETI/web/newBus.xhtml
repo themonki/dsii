@@ -52,7 +52,7 @@
                             <f:facet name="header">
                                 <center><h:outputText value="Datos Bus"/></center>
                             </f:facet>
-                            <h:outputText value="* Matricula:"/>
+                            <h:outputText value="* Matricula"/>
                             <h:inputText value="#{beanBus.matricula}"  
                                          required="true"
                                          requiredMessage="La Matricula es obligatoria"
@@ -63,17 +63,17 @@
                                          required="true"
                                          requiredMessage="El Identificador Interno del Bus es obligatorio"
                                          validator="#{beanBus.validateMatricula}"/>
-                            <h:outputText value="Capacidad:" id="Capacidad"/>
+                            <h:outputText value="Capacidad" id="Capacidad"/>
                             <h:inputText value="#{beanBus.capacidad}" />
-                            <h:outputText value="Tipo: "/>
+                            <h:outputText value="Tipo "/>
                             <h:selectOneMenu value="#{beanBus.tipo}">                             
                                 <f:selectItems value="#{beanBus.availableTipo}"/>                       
                             </h:selectOneMenu>
-                            <h:outputText value="Estado Fisico:"/>
+                            <h:outputText value="Estado Fisico"/>
                             <h:selectOneMenu value="#{beanBus.estadoFisico}">
                                 <f:selectItems value="#{beanBus.availableEstadoFisico}"/>
                             </h:selectOneMenu>
-                            <h:outputText value="Ruta a la que pertenece:"/>
+                            <h:outputText value="Ruta a la que pertenece"/>
                             <h:selectOneMenu value="#{beanBus.perteneceRuta}">
                                 <f:selectItems value="#{beanBus.availableRutaPertenece}"/>
                             </h:selectOneMenu>                        
