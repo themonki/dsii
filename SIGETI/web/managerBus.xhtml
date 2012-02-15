@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this template, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
+    
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
@@ -16,18 +13,21 @@ and open the template in the editor.
         
         <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
     </h:head>
+    
     <h:body>
+  <div id="top">
+            <img src="./resources/logo.png" alt="logo"  ></img>
+            <div id="top_rigth">
 
-        <div id="top">
-            <img src="./resources/logo.png" alt="logo"></img>
-        
-            <h:form>
-                <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
-                <h:commandLink action="#{authentication.logout}">
-                    <img src="./resources/exit.png" alt="salir" width="50" height="50"></img>
-                </h:commandLink>
-            </h:form>
-        </div>
+
+                <h:form>
+                    <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
+                    <h:commandLink action="#{authentication.logout}">
+                        <img src="./resources/exit.png" alt="salir" width="30" height="30"></img>
+                    </h:commandLink>
+                </h:form>
+            </div>
+         </div>
         <div id="center">
             <div id="center_left">
                 <h:form>
@@ -44,18 +44,30 @@ and open the template in the editor.
                 </h:form>
             </div>
             <div id="center_center">
+                <ui:insert name="content" >Gestion Buses </ui:insert>
+                <br/>
+                <br/>
+                <br/>
                 <h:form>
                     <h:panelGrid columns="1">
-                        <h:commandLink action="newBus">
+                        <h:commandLink action="newBus"
+                            actionListener="#{beanBus.statesForNew}"
+                            immediate="true">
                             <h:outputText value="Crear nuevo Bus"/>
                         </h:commandLink>
-                        <h:commandLink action="editBus">
+                        <h:commandLink action="findBus"
+                                       actionListener="#{beanBus.statesForEdit}"
+                            immediate="true">
                             <h:outputText value="Editar bus"/>
                         </h:commandLink>
-                        <h:commandLink action="eraseBus">
+                        <h:commandLink action="findBus"
+                            actionListener="#{beanBus.statesForErase}"
+                            immediate="true">
                             <h:outputText value="Eliminar bus"/>
                         </h:commandLink>
-                        <h:commandLink action="findBus">
+                        <h:commandLink action="findBus"
+                            actionListener="#{beanBus.statesForFind}"
+                            immediate="true">
                             <h:outputText value="Consultar bus"/>
                         </h:commandLink>
                     </h:panelGrid>
@@ -63,7 +75,7 @@ and open the template in the editor.
             </div>
         </div>
         <div id="bottom">
-            <ui:insert name="bottom">Pie de pagina</ui:insert>
+            <ui:insert name="bottom">SIGETI: Sistema de Gesti&oacute;n de Transporte Integrado.</ui:insert>
         </div>
 
     </h:body>

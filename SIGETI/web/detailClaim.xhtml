@@ -10,7 +10,7 @@
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
-        <title>Detalle empleado</title>        
+        <title>Detalle Reclamo</title>        
 
         <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
     </h:head>
@@ -18,14 +18,18 @@
     <h:body>
 
         <div id="top">
-            <img src="./resources/logo.png" alt="logo"></img>
+            <img src="./resources/logo.png" alt="logo"  ></img>
+            <div id="top_rigth">
 
-            <h:form>
-                <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
-                <h:commandLink action="#{authentication.logout}">
-                    <img src="./resources/exit.png" alt="salir" width="50" height="50"></img>
-                </h:commandLink>
-            </h:form>
+
+                <h:form>
+                    <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
+                    <h:commandLink action="#{authentication.logout}">
+                        <img src="./resources/exit.png" alt="salir" width="30" height="30"></img>
+                    </h:commandLink>
+                </h:form>
+            </div>
+
         </div>
         <div id="center">
             <div id="center_left">
@@ -54,7 +58,7 @@
                         <h:outputText value="Fecha(Inicio del Reclamo):"/>
                         <h:outputText value="#{beanReclamo.fecha}"/>
                         <h:outputText value="Descripcion:"/>
-                        <h:outputText value="#{beanReclamo.descripcion}"/>
+                        <h:inputTextarea value="#{beanReclamo.descripcion}" disabled="true" cols="40" rows="10"/>
                         <h:outputText value="Motivo:"/>
                         <h:outputText value="#{beanReclamo.motivo}"/>
                         <h:outputText value="Identificacion Auxiliar :"/>
@@ -65,30 +69,27 @@
                         <h:outputText value="#{beanReclamo.usuarioRealiza}"/>
                         <h:outputText value="Nombre del Usuario:"/>
                         <h:outputText value="#{beanReclamo.nombreUsuario}"/>
-
-
-
-
-
                     </h:panelGrid>
                     <br/>
-                    <h:dataTable
-                        border="1"
-                        var="medida"
-                        value="#{beanReclamo.medidas}"
-                        id="tableMedida"
-                        >
-                        <f:facet name="caption">Medidas tomadas para este Reclamo</f:facet>
+                    <h:panelGrid>
+                        <h:dataTable
+                            border="1"
+                            var="medida"
+                            value="#{beanReclamo.medidas}"
+                            id="tableMedida"
+                            >
+                            <f:facet name="caption">Medidas tomadas para este Reclamo</f:facet>
 
-                        <h:column>
-                            <f:facet name="header">Identificador Medida</f:facet>
-                            #{medida.id}
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">Accion</f:facet>
-                            #{medida.accion}
-                        </h:column>                                
-                    </h:dataTable>
+                            <h:column >
+                                <f:facet name="header">Identificador Medida</f:facet>
+                                #{medida.id}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Accion</f:facet>
+                                #{medida.accion}
+                            </h:column>                                
+                        </h:dataTable>
+                    </h:panelGrid>
                     <br/>
                     <h:commandButton value="Aceptar" styleClass="JButton" 
                                      action="findClaim"
@@ -98,7 +99,7 @@
             </div>
         </div>
         <div id="bottom">
-            <ui:insert name="bottom">Pie de pagina</ui:insert>
+            <ui:insert name="bottom">SIGETI: Sistema de Gesti&oacute;n de Transporte Integrado.</ui:insert>
         </div>
 
     </h:body>

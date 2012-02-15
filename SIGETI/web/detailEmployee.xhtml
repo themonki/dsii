@@ -18,15 +18,18 @@
     <h:body>
 
         <div id="top">
-            <img src="./resources/logo.png" alt="logo"></img>
-        
-            <h:form>
-                <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
-                <h:commandLink action="#{authentication.logout}">
-                    <img src="./resources/exit.png" alt="salir" width="50" height="50"></img>
-                </h:commandLink>
-            </h:form>
-        </div>
+            <img src="./resources/logo.png" alt="logo"  ></img>
+            <div id="top_rigth">
+
+
+                <h:form>
+                    <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
+                    <h:commandLink action="#{authentication.logout}">
+                        <img src="./resources/exit.png" alt="salir" width="30" height="30"></img>
+                    </h:commandLink>
+                </h:form>
+            </div>
+            </div>
         <div id="center">
             <div id="center_left">
                 <h:form>
@@ -47,7 +50,7 @@
                 <h:form styleClass="Formulario">
                     <h:panelGrid columns="2">
                         <f:facet name="header">
-                            <h:outputText value="Datos personales"/>
+                            <center><h:outputText value="Datos personales"/></center>
                         </f:facet>
                         <h:outputText value="Primer nombre:"/>
                         <h:outputText value="#{beanEmployee.nombre}"/>
@@ -92,16 +95,18 @@
                         <h:outputText value="Estado:"/>
                         <h:outputText value="#{beanEmployee.estadoS}"/>
                     </h:panelGrid>
-                    <br/><br/>      
+                    <br/><br/>
+                    <center>
                     <h:commandButton value="Aceptar" styleClass="JButton" 
                                      action="findEmployee"
                                      actionListener="#{beanEmployee.statesForFindReturn}"
                                      immediate="true"/>
+                    </center>
                 </h:form>
             </div>
         </div>
         <div id="bottom">
-            <ui:insert name="bottom">Pie de pagina</ui:insert>
+            <ui:insert name="bottom">SIGETI: Sistema de Gesti&oacute;n de Transporte Integrado.</ui:insert>
         </div>
 
     </h:body>

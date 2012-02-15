@@ -193,6 +193,12 @@ public class DaoReclamo {
     public List<Reclamo> findReclamoPorEstado(String estado) {
 
         String sqlConsulta = "SELECT * FROM reclamo where estado ='"+estado+"';";
+        if(estado == "")
+        {
+            
+            sqlConsulta = "SELECT * FROM reclamo;";
+        
+        }
         
         System.err.println(sqlConsulta);
 

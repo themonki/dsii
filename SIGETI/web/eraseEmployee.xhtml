@@ -1,14 +1,73 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this template, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>TODO supply a title</title>
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
+        <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
+        <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
+        <title>Eliminar Empleado</title>
+    </h:head>
+
+    <h:body>
+
+         <div id="top">
+            <img src="./resources/logo.png" alt="logo"  ></img>
+            <div id="top_rigth">
+
+
+                <h:form>
+                    <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
+                    <h:commandLink action="#{authentication.logout}">
+                        <img src="./resources/exit.png" alt="salir" width="30" height="30"></img>
+                    </h:commandLink>
+                </h:form>
+            </div>
+         </div>
+        <div id="center">
+            <div id="center_left">
+                <h:form>
+                    <h:dataTable value="#{beanContent.menuOptions}" var="l">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Menu"/>
+                            </f:facet>
+                            <h:commandLink action="#{beanContent.findLink(l.get(1))}">
+                                <h:outputText value="#{l.get(0)}"/>
+                            </h:commandLink>
+                        </h:column>
+                    </h:dataTable>
+                </h:form>
+            </div>
+            <div  id="center_center">
+                <h:form>
+                    <font size="3">
+                        Est&aacute; compleatamente seguro que desea eliminar del sistema al empleado  
+                        <strong>#{beanEmployee.nombre} #{beanEmployee.apellido}</strong>  con <strong>#{beanEmployee.tipoId}: 
+                            #{beanEmployee.identificacion}</strong> y cargo <strong>#{beanEmployee.cargo}</strong>.
+                    </font>
+                    <br/><br/>
+                    <h:commandButton value="Aceptar" styleClass="JButton"
+                                     action="#{beanEmployee.eraseUser}"/>
+                    &nbsp;&nbsp;&nbsp;
+                    <h:commandButton value="Cancelar" styleClass="JButton"
+                                     action="findEmployee" 
+                                     actionListener="#{beanEmployee.statesForFindReturn}"
+                                     immediate="true"/>
+                </h:form>
+                
+                <br/><br/><br/><br/>
+                <i><strong>Nota:</strong> un empleado eliminado puede ser reactivado en el sistema usando la opci&oacute;n editar empleado.</i>
+            </div>
+        </div>
+        <div id="bottom">
+            <ui:insert name="bottom">SIGETI: Sistema de Gesti&oacute;n de Transporte Integrado.</ui:insert>
+        </div>
+
+    </h:body>
+
 </html>

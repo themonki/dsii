@@ -225,10 +225,12 @@ public class BeanEstacion implements Serializable{
         if(result==0)
         {
             content.setResultOperation("La estacion no pudo ser creada.");
+            content.setImage("./resources/fail.png");
             clearBeanEstacion();
             return "resultOperation";
         }else{
             content.setResultOperation("La estacion fue creada con exito.");
+            content.setImage("./resources/ok.png");
             clearBeanEstacion();
             return "resultOperation";
         }

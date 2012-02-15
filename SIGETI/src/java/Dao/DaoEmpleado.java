@@ -40,9 +40,11 @@ public class DaoEmpleado {
      * @return Objeto empleado que representa el empleado encontrado
      *  si no existe en elmpleado todos sus atributos son null.
      */
-    public Empleado findEmpleadoLogin(String login) {
+    public Empleado findEmpleadoLogin(String login, boolean conInactivos) {
         String sqlConsulta = "SELECT * FROM empleado WHERE login = '" + login + "'";
-
+        if(!conInactivos)
+            sqlConsulta += " AND estado = true";
+        
         Empleado empleado = new Empleado();
 
         try {
@@ -83,8 +85,11 @@ public class DaoEmpleado {
      * @return Objeto empleado que representa el empleado encontrado
      *  si no existe en el empleado todos sus atributos son null.
      */
-    public Empleado findEmpleadoId(String id) {
+    public Empleado findEmpleadoId(String id, boolean conInactivos) {
         String sqlConsulta = "SELECT * from empleado WHERE id = '" + id + "'";
+        if(!conInactivos)
+            sqlConsulta += " AND estado = true";
+        
         Empleado empleado = new Empleado();
 
         try {
@@ -119,14 +124,13 @@ public class DaoEmpleado {
         return empleado;
     }
 
-     /**
+    /**
      * Consulta si existe un empleado con las condiciones dadas.
      * @param condition - String con la condición que debe de tener la consuta.
      * @return Lsita de objetos empleado que representa los empleados encontrados
      *  si no existe nngún empleado la lista sera vacía.
      */
-    public List<Empleado> findEmpleadoCondition(String condition)
-    {
+    public List<Empleado> findEmpleadoCondition(String condition) {
         String sqlConsulta = "SELECT * from empleado WHERE " + condition;
         //System.out.println(sqlConsulta);
         List<Empleado> empleados = new ArrayList<Empleado>();
@@ -154,7 +158,7 @@ public class DaoEmpleado {
                 empleado.setNombre2(table.getString("nombre2"));
                 empleado.setApellido2(table.getString("apellido2"));
                 empleado.setEmail(table.getString("email"));
-                
+
                 empleados.add(empleado);
             }
             fachada.cerrarConexion(conn);
@@ -165,6 +169,7 @@ public class DaoEmpleado {
         }
         return empleados;
     }
+
     /**
      * Consulta si existe un empleado con el login y el password dado.
      * @param login - String con el login del empleado
@@ -174,7 +179,7 @@ public class DaoEmpleado {
      */
     public Empleado authenticateEmpleado(String login, String password) {
         String sqlConsulta = "SELECT * FROM empleado WHERE login = '" + login + "'"
-                + " AND password = md5('" + password + "')";
+                + " AND password = md5('" + password + "') AND estado = true";
 
         Empleado empleado = new Empleado();
 
@@ -207,6 +212,60 @@ public class DaoEmpleado {
             e.printStackTrace();
         }
         return empleado;
+    }
+
+    public boolean existEmpleadoLogin(String login) {
+        String sqlConsulta = "SELECT * FROM empleado WHERE login = '" + login + "'";
+        try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            ResultSet table = sentence.executeQuery(sqlConsulta);
+
+            if (table.next()) {
+                return true;
+            }
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean existEmpleadoId(String id) {
+        String sqlConsulta = "SELECT * FROM empleado WHERE id = '" + id + "'";
+        try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            ResultSet table = sentence.executeQuery(sqlConsulta);
+
+            if (table.next()) {
+                return true;
+            }
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean verifyPassword(String id, String password) {
+        String sqlConsulta = "SELECT * FROM empleado WHERE id = '" + id + "' AND password = md5('" + password + "')";
+        try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            ResultSet table = sentence.executeQuery(sqlConsulta);
+
+            if (table.next()) {
+                return true;
+            }
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     /**
@@ -347,24 +406,24 @@ public class DaoEmpleado {
      * @return Cantidad de inserciones en la base de datos, debe retornar 1
      */
     public int saveAuxiliar(Auxiliar auxiliar) {
-        
+
         String sql_insert = "INSERT INTO auxiliar (id";
-        
-        if(!auxiliar.getIdJefe().equals("")){
+
+        if (!auxiliar.getIdJefe().equals("")) {
             sql_insert += ",id_jefe";
         }
-        if(auxiliar.getTrabajaEn() != -1){
+        if (auxiliar.getTrabajaEn() != -1) {
             sql_insert += ",trabaja_en";
         }
         sql_insert += ") VALUES ('" + auxiliar.getId() + "'";
-        if(!auxiliar.getIdJefe().equals("")){
+        if (!auxiliar.getIdJefe().equals("")) {
             sql_insert += ",'" + auxiliar.getIdJefe() + "'";
         }
-        if(auxiliar.getTrabajaEn() != -1){
+        if (auxiliar.getTrabajaEn() != -1) {
             sql_insert += "," + auxiliar.getTrabajaEn();
         }
         sql_insert += ")";
-        
+
         int result = 0;
         try {
             Connection conn = fachada.conectar();
@@ -386,13 +445,13 @@ public class DaoEmpleado {
      * @return Cantidad de inserciones en la base de datos, debe retornar 1.
      */
     public int saveConductor(Conductor conductor) {
-        
+
         String sql_insert = "INSERT INTO conductor (id";
-        
-        if(!conductor.getLicencia().equals("")){
-            sql_insert += ",licencia) VALUES ('" + 
-                    conductor.getId() + "','" + conductor.getLicencia() + "')";
-        }else{
+
+        if (!conductor.getLicencia().equals("")) {
+            sql_insert += ",licencia) VALUES ('"
+                    + conductor.getId() + "','" + conductor.getLicencia() + "')";
+        } else {
             sql_insert += ") VALUES ('" + conductor.getId() + "')";
         }
         int result = 0;
@@ -409,16 +468,18 @@ public class DaoEmpleado {
         //System.out.println(sql_insert);
         return result;
     }
-    
+
     /**
      * Busca un director en la base de datos dado su id.
      * @param id - String que representa el id del director a buscar
      * @return Objeto director que representa el director encontrado, 
      * si no existe director con ese id, todos los atributos del director retornado son null
      */
-    public Director findDirectorId(String id){
-        
+    public Director findDirectorId(String id, boolean conInactivos) {
+
         String sqlConsulta = "SELECT * FROM director NATURAL JOIN empleado WHERE director.id = '" + id + "'";
+        if(!conInactivos)
+            sqlConsulta += " AND estado = true";
         
         Director director = new Director();
 
@@ -453,16 +514,17 @@ public class DaoEmpleado {
         }
         return director;
     }
-    
+
     /**
      * Busca un operario en la base de datos dado su id.
      * @param id - String que representa el id del operario a buscar
      * @return Objeto operario que representa el operario encontrado, 
      * si no existe operario con ese id, todos los atributos del operario retornado son null
      */
-    public Operario findOpearioId(String id)
-    {
+    public Operario findOpearioId(String id, boolean conInactivos) {
         String sqlConsulta = "SELECT * FROM operario NATURAL JOIN empleado WHERE operario.id = '" + id + "'";
+        if(!conInactivos)
+            sqlConsulta += " AND estado = true";
         
         Operario operario = new Operario();
 
@@ -498,10 +560,11 @@ public class DaoEmpleado {
         }
         return operario;
     }
-    
-    public Auxiliar findAuxiliarId(String id)
-    {
+
+    public Auxiliar findAuxiliarId(String id,boolean conInactivos) {
         String sqlConsulta = "SELECT * FROM auxiliar NATURAL JOIN empleado WHERE auxiliar.id = '" + id + "'";
+        if(!conInactivos)
+            sqlConsulta += " AND estado = true";
         
         Auxiliar auxiliar = new Auxiliar();
 
@@ -538,10 +601,11 @@ public class DaoEmpleado {
         }
         return auxiliar;
     }
-    
-    public Conductor findConductorId(String id)
-    {
+
+    public Conductor findConductorId(String id, boolean conInactivos) {
         String sqlConsulta = "SELECT * FROM conductor NATURAL JOIN empleado WHERE conductor.id = '" + id + "'";
+        if(!conInactivos)
+            sqlConsulta += " AND estado = true";
         
         Conductor conductor = new Conductor();
 
@@ -578,16 +642,17 @@ public class DaoEmpleado {
         }
         return conductor;
     }
-    
+
     /**
      * Busca todos los empleados en la base de datos.
      * @return Lsita de objetos empleados, 
      * si no existe alguno sera una lista vacia.
      */
-    public List<Empleado> findAllEmpleado()
-    {
+    public List<Empleado> findAllEmpleado(boolean conInactivos) {
         String sqlConsulta = "SELECT * FROM empleado";
-
+        if(!conInactivos)
+            sqlConsulta += " WHERE estado = true";
+        
         List<Empleado> empleados = new ArrayList<Empleado>();
 
         try {
@@ -613,7 +678,7 @@ public class DaoEmpleado {
                 empleado.setNombre2(table.getString("nombre2"));
                 empleado.setApellido2(table.getString("apellido2"));
                 empleado.setEmail(table.getString("email"));
-                
+
                 empleados.add(empleado);
             }
             fachada.cerrarConexion(conn);
@@ -624,18 +689,19 @@ public class DaoEmpleado {
         }
         return empleados;
     }
-    
+
     /**
      * Encuentra todos los directores existentes en la base de datos
      * @return  Lista que contiene objetos Director, cad auno representa alguno encontrado
      * , si no existen directores el vector será vacio.
      */
-    public List<Director> findAllDirector()
-    {
+    public List<Director> findAllDirector(boolean conInactivos) {
         String sqlConsulta = "SELECT * FROM director NATURAL JOIN empleado";
+        if(!conInactivos)
+            sqlConsulta += " WHERE estado = true";
         
         List<Director> directores = new ArrayList<Director>();
-        
+
         try {
             Connection conn = fachada.conectar();
             Statement sentence = conn.createStatement();
@@ -659,7 +725,7 @@ public class DaoEmpleado {
                 director.setNombre2(table.getString("nombre2"));
                 director.setApellido2(table.getString("apellido2"));
                 director.setEmail(table.getString("email"));
-                
+
                 directores.add(director);
             }
             fachada.cerrarConexion(conn);
@@ -670,18 +736,19 @@ public class DaoEmpleado {
         }
         return directores;
     }
-    
-     /**
+
+    /**
      * Encuentra todos los opearios existentes en la base de datos.
      * @return  Lista que contiene objetos Operario, cad auno representa alguno encontrado.
      * , si no existen operarios el vector será vacio.
      */
-    public List<Operario> findAllOperario()
-    {
-       String sqlConsulta = "SELECT * FROM operario NATURAL JOIN empleado";
+    public List<Operario> findAllOperario(boolean conInactivos) {
+        String sqlConsulta = "SELECT * FROM operario NATURAL JOIN empleado";
+        if(!conInactivos)
+            sqlConsulta += " WHERE estado = true";
         
         List<Operario> operarios = new ArrayList<Operario>();
-        
+
         try {
             Connection conn = fachada.conectar();
             Statement sentence = conn.createStatement();
@@ -706,7 +773,7 @@ public class DaoEmpleado {
                 operario.setApellido2(table.getString("apellido2"));
                 operario.setEmail(table.getString("email"));
                 operario.setIdJefe(table.getString("id_jefe"));
-                
+
                 operarios.add(operario);
             }
             fachada.cerrarConexion(conn);
@@ -717,13 +784,14 @@ public class DaoEmpleado {
         }
         return operarios;
     }
-    
-    public List<Auxiliar> findAllAuxiliar()
-    {
+
+    public List<Auxiliar> findAllAuxiliar(boolean conInactivos) {
         String sqlConsulta = "SELECT * FROM auxiliar NATURAL JOIN empleado";
-        
+        if(!conInactivos)
+            sqlConsulta += " WHERE estado = true";
+
         List<Auxiliar> auxiliares = new ArrayList<Auxiliar>();
-        
+
         try {
             Connection conn = fachada.conectar();
             Statement sentence = conn.createStatement();
@@ -749,7 +817,7 @@ public class DaoEmpleado {
                 auxiliar.setEmail(table.getString("email"));
                 auxiliar.setIdJefe(table.getString("id_jefe"));
                 auxiliar.setTrabajaEn(table.getInt("trabaja_en"));
-                
+
                 auxiliares.add(auxiliar);
             }
             fachada.cerrarConexion(conn);
@@ -760,29 +828,175 @@ public class DaoEmpleado {
         }
         return auxiliares;
     }
-    
-    public int updateEmpleado(Empleado empleado)
-    {
-        return 0;
+
+    public int updateEmpleado(Empleado empleado) {
+        String sql_update = "UPDATE empleado SET tipo_id='";
+
+        sql_update += empleado.getTipoId() + "', nombre='" + empleado.getNombre() + "', apellido='";
+        sql_update += empleado.getApellido() + "', login='" + empleado.getLogin();
+        sql_update += "',estado=" + empleado.getEstado() + ", rol=" + empleado.getRol();
+
+        if(!empleado.getPassword().equals(""))
+        {
+            sql_update += ",password=md5('" + empleado.getPassword() +"')";
+        }
+        if (!empleado.getFechaIngreso().equals("")) {
+            sql_update += ",fecha_ingreso='" + empleado.getFechaIngreso() + "'";
+        }
+        if (!empleado.getFechaNacimiento().equals("")) {
+            sql_update += ",fecha_nacimiento='" + empleado.getFechaNacimiento() + "'";
+        }
+        if (!empleado.getTelefono().equals("")) {
+            sql_update += ",telefono='" + empleado.getTelefono() + "'";
+        }
+        if (empleado.getSalario() != -1) {
+            sql_update += ",salario=" + empleado.getSalario();
+        }
+        if (!empleado.getNombre2().equals("")) {
+            sql_update += ",nombre2='" + empleado.getNombre2() + "'";
+        }
+        if (!empleado.getApellido2().equals("")) {
+            sql_update += ",apellido2='" + empleado.getApellido2() + "'";
+        }
+        if (!empleado.getDireccion().equals("")) {
+            sql_update += ",direccion='" + empleado.getDireccion() + "'";
+        }
+        if (!empleado.getEmail().equals("")) {
+            sql_update += ",email='" + empleado.getEmail() + "'";
+        }
+        sql_update += " WHERE id='" + empleado.getId() + "'";
+
+        int result = 0;
+        try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            result = sentence.executeUpdate(sql_update);
+            fachada.cerrarConexion(conn);
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //System.out.println(sql_update);
+        return result;
+    }
+
+    public int updateOperario(Operario operario) {
+        boolean algo = false;
+        String sql_update = "UPDATE operario SET ";
+        if (!operario.getIdJefe().equals("")) {
+            algo = true;
+            sql_update += "id_jefe='" + operario.getIdJefe() + "'";
+        }
+
+        sql_update += " WHERE id='" + operario.getId() + "'";
+
+        int result = 0;
+        try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            if (algo) {
+                result = sentence.executeUpdate(sql_update);
+            } else {
+                result = 1;
+            }
+            fachada.cerrarConexion(conn);
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //System.out.println(sql_update);
+        return result;
+    }
+
+    public int updateAuxiliar(Auxiliar auxiliar) {
+        boolean primero = true;
+        boolean algo = false;
+        String sql_update = "UPDATE auxiliar SET ";
+
+        if (!auxiliar.getIdJefe().equals("")) {
+            algo = true;
+            sql_update += "id_jefe='" + auxiliar.getIdJefe() + "'";
+            primero = false;
+        }
+        if (auxiliar.getTrabajaEn() != -1) {
+            algo = true;
+            if (!primero) {
+                sql_update += ",";
+            }
+            sql_update += "trabaja_en=" + auxiliar.getTrabajaEn();
+        }
+        sql_update += " WHERE id='" + auxiliar.getId() + "'";
+
+        int result = 0;
+        try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            if (algo) {
+                result = sentence.executeUpdate(sql_update);
+            } else {
+                result = 1;
+            }
+
+            fachada.cerrarConexion(conn);
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //System.out.println(sql_update);
+        return result;
+    }
+
+    public int updateConductor(Conductor conductor) {
+        boolean algo = false;
+        String sql_update = "UPDATE conductor SET ";
+
+        if (!conductor.getLicencia().equals("")) {
+            algo = true;
+            sql_update += "licencia='" + conductor.getLicencia() + "'";
+        }
+
+        sql_update += " WHERE id='" + conductor.getId() + "'";
+        int result = 0;
+        try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            if (algo) {
+                result = sentence.executeUpdate(sql_update);
+            } else {
+                result = 1;
+            }
+
+            fachada.cerrarConexion(conn);
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //System.out.println(sql_update);
+        return result;
     }
     
-    public int updateDirector(Director director)
+    public int eraseEmpleado(String id)
     {
-        return 0;
-    }
-    
-    public int updateOperario(Operario operario)
-    {
-        return 0;
-    }
-    
-    public int updateAuxiliar(Auxiliar auxiliar)
-    {
-        return 0;
-    }
-    
-    public int updateConductor(Conductor conductor)
-    {
-        return 0;
+        String sql_update = "UPDATE empleado SET estado = false WHERE id='" + id + "'";
+
+        int result = 0;
+        try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+ 
+             result = sentence.executeUpdate(sql_update);
+
+            fachada.cerrarConexion(conn);
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //System.out.println(sql_update);
+        return result;
     }
 }

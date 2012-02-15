@@ -17,16 +17,19 @@
 
     <h:body>
 
-        <div id="top">
-            <img src="./resources/logo.png" alt="logo"></img>
+       <div id="top">
+            <img src="./resources/logo.png" alt="logo"  ></img>
+            <div id="top_rigth">
 
-            <h:form>
-                <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
-                <h:commandLink action="#{authentication.logout}">
-                    <img src="./resources/exit.png" alt="salir" width="50" height="50"></img>
-                </h:commandLink>
-            </h:form>
-        </div>
+
+                <h:form>
+                    <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
+                    <h:commandLink action="#{authentication.logout}">
+                        <img src="./resources/exit.png" alt="salir" width="30" height="30"></img>
+                    </h:commandLink>
+                </h:form>
+            </div>           
+       </div>
         <div id="center">
             <div id="center_left">
                 <h:form>
@@ -47,7 +50,7 @@
                 <h:form styleClass="Formulario">
                     <h:panelGrid columns="2">
                         <f:facet name="header">
-                            <h:outputText value="Datos personales"/>
+                            <center><h:outputText value="Datos personales"/></center>
                         </f:facet>
                         <h:outputText value="* Primer nombre:"/>
                         <h:inputText value="#{beanEmployee.nombre}" 
@@ -126,7 +129,7 @@
 
                     <h:panelGrid columns="2">
                         <f:facet name="header">
-                            <h:outputText value="Datos de ingreso al sistema"/>
+                            <center><h:outputText value="Datos de ingreso al sistema"/></center>
                         </f:facet>
                         <h:outputText value="* Login:"/>
                         <h:inputText value="#{beanEmployee.login}" 
@@ -141,41 +144,41 @@
                                       rendered="#{beanEmployee.editPassword}" 
                                       id="pao"/>
                         <h:inputSecret value="#{beanEmployee.password}"
-                            required="true"
-                            requiredMessage="Password actual es obligatorio."
-                            rendered="#{beanEmployee.editPassword}"
-                            id="pai"/>
+                                       required="true"
+                                       requiredMessage="Password actual es obligatorio."
+                                       rendered="#{beanEmployee.editPassword}"
+                                       id="pai"/>
                         <h:outputText value="* Nuevo password:"
                                       rendered="#{beanEmployee.editPassword}"
                                       id="npo"/>
                         <h:inputSecret value="#{beanEmployee.nuevoPassword}"
-                            required="true"
-                            requiredMessage="Nuevo Password es obligatorio."
-                            rendered="#{beanEmployee.editPassword}"
-                            id="npi"/>
+                                       required="true"
+                                       requiredMessage="Nuevo Password es obligatorio."
+                                       rendered="#{beanEmployee.editPassword}"
+                                       id="npi"/>
                         <h:outputText value="* Confirmar nuevo password:"
                                       rendered="#{beanEmployee.editPassword}"
                                       id="cnpo"/>
                         <h:inputSecret value="#{beanEmployee.nuevoPasswordConfirmar}"
-                            required="true"
-                            requiredMessage="Confimar nuevo password es obligatorio."
-                            rendered="#{beanEmployee.editPassword}"
-                            id="cnpi"/>
+                                       required="true"
+                                       requiredMessage="Confimar nuevo password es obligatorio."
+                                       rendered="#{beanEmployee.editPassword}"
+                                       id="cnpi"/>
                     </h:panelGrid>
 
-                    <h:panelGrid>
+                    <center>
                         <h:commandButton  value="Actualizar" styleClass="JButton" action="#{beanEmployee.updateUser}"/>
+                        &nbsp;&nbsp;
                         <h:commandButton  value="Atr&aacute;s" styleClass="JButton"
                                           action="findEmployee"
                                           actionListener="#{beanEmployee.statesForFindReturn}"
                                           immediate="true"/>
-                    </h:panelGrid>
-
+                    </center>
                 </h:form>
             </div>
         </div>
         <div id="bottom">
-            <ui:insert name="bottom">Pie de pagina</ui:insert>
+            <ui:insert name="bottom">SIGETI: Sistema de Gesti&oacute;n de Transporte Integrado.</ui:insert>
         </div>
 
     </h:body>

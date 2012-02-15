@@ -4,23 +4,17 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
-
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
-        <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
-        <title>Crear Reclamo</title>        
-
+        <title>Editar Bus</title>        
+        
         <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
-
-
     </h:head>
-
     <h:body>
 
-        <div id="top">
+       <div id="top">
             <img src="./resources/logo.png" alt="logo"  ></img>
             <div id="top_rigth">
 
@@ -32,8 +26,7 @@
                     </h:commandLink>
                 </h:form>
             </div>
-
-        </div>
+            </div>
         <div id="center">
             <div id="center_left">
                 <h:form>
@@ -49,32 +42,37 @@
                     </h:dataTable>
                 </h:form>
             </div>
-            <div  id="center_center">
-                <div>
-                    <ui:insert name="content">Nueva Medida</ui:insert>
-
-                    <br></br>                    
-                    <img src="./resources/newMeasure.png"  width="100" height="100"></img>
-
-                    <br></br>
-                    <h:messages style="color: purple"   />
-
-                    <br></br>
-                    <h:form styleClass="Formulario">
-                        <h:panelGrid columns="2">
-
-                            <h:outputText value="* Accion"/>
-
-                            <h:inputText size="50" value="#{beanMedida.accion}"
-                                         required="true"
-                                         requiredMessage="La accion que se realiza con la medida es obligatorio"/> 
-
-
-                            <h:commandButton value="Crear Medida" styleClass="JButton" action="#{beanMedida.createMedida()}" /><br/>
-                        </h:panelGrid>
-                    </h:form>
-
-                </div>
+            <div id="center_center">
+                <h:form>
+                    <h:messages styleClass="error"/>
+                    <h:panelGrid columns="2">
+                        <f:facet name="header">
+                            <h:outputText value="Datos Bus"/>
+                        </f:facet>
+                        <h:outputText value="Matricula"/>
+                        <h:outputText value="#{beanBus.matricula}"/>
+                        <h:outputText value="* Identificador Interno"/>
+                        <h:inputText value="#{beanBus.idInterno}"
+                                     required="true"
+                                     requiredMessage="El Identificador Interno del Bus es obligatorio"
+                                     validator="#{beanBus.validateIdInterno}"/>
+                        <h:outputText value="Estado Fisico:"/>
+                        <h:selectOneMenu value="#{beanBus.estadoFisico}" tabindex="#{beanBus.estadoFisico}">
+                            <f:selectItems value="#{beanBus.availableEstadoFisico}"/>                       
+                        </h:selectOneMenu>                        
+<!--                        <h:outputText value="Ruta a la que pertenece:"/>
+                        <h:selectOneMenu value="#{beanBus.perteneceRuta}">
+                            <f:selectItems value="#{beanBus.availableRutaPertenece}"/>
+                        </h:selectOneMenu>                       -->
+                    </h:panelGrid>
+                    <br/><hr/><br/>                    
+                    
+                    <h:commandButton value="Editar" action="#{beanBus.updateBus}"/>
+                    <h:commandButton  value="Atr&aacute;s"
+                                          action="findBus"
+                                          actionListener="#{beanBus.statesForFindReturn}"
+                                          immediate="true"/>
+                </h:form>
             </div>
         </div>
         <div id="bottom">
@@ -82,5 +80,4 @@
         </div>
 
     </h:body>
-
 </html>

@@ -7,24 +7,28 @@
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
+       <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
+        <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
         <title>Buscar Reclamo</title>
     </h:head>
 
     <h:body>
 
-        <div id="top">
-            <img src="./resources/logo.png" alt="logo"></img>
+            <div id="top">
+                <img src="./resources/logo.png" alt="logo"  ></img>
+                <div id="top_rigth">
 
-            <h:form>
-                <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
-                <h:commandLink action="#{authentication.logout}">
-                    <img src="./resources/exit.png" alt="salir" width="50" height="50"></img>
-                </h:commandLink>
-            </h:form>
 
-        </div>
+                <h:form>
+                    <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
+                    <h:commandLink action="#{authentication.logout}">
+                        <img src="./resources/exit.png" alt="salir" width="30" height="30"></img>
+                    </h:commandLink>
+                </h:form>
+                </div>
+
+            </div>
         <div id="center">
             <div id="center_left">
                 <h:form>
@@ -42,44 +46,38 @@
             </div>
             <div  id="center_center">
                 <h:messages styleClass="error"/>
-                <h:form>
+                <h:form  styleClass="Formulario">
                     <h:panelGrid columns="2">
                         <f:facet name="header">
                             <h:outputText value="Buscar Reclamo"/>
                         </f:facet>
-                        <h:outputText value="Estado del reclamo:"/>
-                        <h:selectOneMenu  value="#{beanReclamo.estado}"  >
+                        <h:outputText value="Estado del reclamo:" rendered="#{beanReclamo.rendeEstadoReclamo}"/>
+                        <h:selectOneMenu  value="#{beanReclamo.estado}"  rendered="#{beanReclamo.rendeEstadoReclamo}" >
                             <f:selectItems value="#{beanReclamo.availableEstadosReclamo}"/>              
                         </h:selectOneMenu>
                         <h:outputText value="*Identificacion"/>
                         <h:inputText value="#{beanReclamo.ticket}" required="true" requiredMessage="El numero de ticket es obligatorio" size="8"/>
+                        
                         <h:commandButton value="Buscar"/>
                        
                     </h:panelGrid>
-                </h:form>
+                </h:form><br/><br/>
                 <i><h:outputText value="Nota: Si desea realizar la consutla de todos los reclamos escriba 0 en identificacion"/></i>
                 <br/><br/>
-                <h:form>
+                <h:form styleClass="Formulario"
+                        rendered="#{beanReclamo.renderTableSearch}">
                     <h:dataTable
                         border="1"
                         var="claim"
                         value="#{beanReclamo.findReclamo}"
                         id="tableClaim"
-                        rendered="#{beanReclamo.renderTableSearch}">
+                        >
                         <f:facet name="caption">Resultado de la b&uacute;squeda</f:facet>
 
                         <h:column>
                             <f:facet name="header">Numero Ticket</f:facet>
                             #{claim.ticket}
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">Fecha</f:facet>
-                            #{claim.fecha}
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">Descripcion</f:facet>
-                            #{claim.descripcion} 
-                        </h:column>
+                        </h:column>                       
                         <h:column>
                             <f:facet name="header">Motivo</f:facet>
                             #{claim.motivo} 
@@ -90,7 +88,7 @@
                         </h:column>
                         <h:column>
                             <f:facet name="header">Acci&oacute;n</f:facet>
-                            <h:commandButton value="#{beanReclamo.action}" action ="#{beanReclamo.getLinkAction}"/>
+                            <h:commandLink value="#{beanReclamo.action}" action ="#{beanReclamo.getLinkAction}"/>
                         </h:column>
                         
                     </h:dataTable>
@@ -99,7 +97,7 @@
             </div>
         </div>
         <div id="bottom">
-            <ui:insert name="bottom">Pie de pagina</ui:insert>
+            <ui:insert name="bottom">SIGETI: Sistema de Gesti&oacute;n de Transporte Integrado.</ui:insert>
         </div>
 
     </h:body>

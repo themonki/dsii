@@ -14,17 +14,19 @@
 
     <h:body>
 
-        <div id="top">
-            <img src="./resources/logo.png" alt="logo"></img>
-        
-            <h:form>
-                <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
-                <h:commandLink action="#{authentication.logout}">
-                    <img src="./resources/exit.png" alt="salir" width="50" height="50"></img>
-                </h:commandLink>
-            </h:form>
-            
-        </div>
+          <div id="top">
+            <img src="./resources/logo.png" alt="logo"  ></img>
+            <div id="top_rigth">
+
+
+                <h:form>
+                    <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
+                    <h:commandLink action="#{authentication.logout}">
+                        <img src="./resources/exit.png" alt="salir" width="30" height="30"></img>
+                    </h:commandLink>
+                </h:form>
+            </div>
+         </div>
         <div id="center">
             <div id="center_left">
                 <h:form>
@@ -42,13 +44,14 @@
             </div>
             <div  id="center_center">
                 <h:form>
-                    <h:outputText value="#{beanContent.resultOperation}"/>
+                    <img src="#{beanContent.image}" alt="imagen" /> &nbsp;&nbsp;&nbsp;
+                    <h:outputText value="#{beanContent.resultOperation}"/> &nbsp;&nbsp;&nbsp;
                     <h:commandButton value="Aceptar" action="home"/>
                 </h:form>
             </div>
         </div>
         <div id="bottom">
-            <ui:insert name="bottom">Pie de pagina</ui:insert>
+            <ui:insert name="bottom">SIGETI: Sistema de Gesti&oacute;n de Transporte Integrado.</ui:insert>
         </div>
 
     </h:body>

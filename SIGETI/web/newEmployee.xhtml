@@ -16,17 +16,19 @@
     </h:head>
 
     <h:body>
+  <div id="top">
+            <img src="./resources/logo.png" alt="logo"  ></img>
+            <div id="top_rigth">
 
-        <div id="top">
-            <img src="./resources/logo.png" alt="logo"></img>
-        
-            <h:form>
-                <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
-                <h:commandLink action="#{authentication.logout}">
-                    <img src="./resources/exit.png" alt="salir" width="50" height="50"></img>
-                </h:commandLink>
-            </h:form>
-        </div>
+
+                <h:form>
+                    <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
+                    <h:commandLink action="#{authentication.logout}">
+                        <img src="./resources/exit.png" alt="salir" width="30" height="30"></img>
+                    </h:commandLink>
+                </h:form>
+            </div>
+         </div>
         <div id="center">
             <div id="center_left">
                 <h:form>
@@ -47,7 +49,7 @@
                 <h:form styleClass="Formulario">
                     <h:panelGrid columns="2">
                         <f:facet name="header">
-                            <h:outputText value="Datos personales"/>
+                            <center><h:outputText value="Datos personales"/></center>
                         </f:facet>
                         <h:outputText value="* Primer nombre:"/>
                         <h:inputText value="#{beanEmployee.nombre}" 
@@ -120,7 +122,7 @@
                     <br/><hr/><br/>
                     <h:panelGrid columns="2">
                         <f:facet name="header">
-                            <h:outputText value="Datos de ingreso al sistemas"/>
+                            <center><h:outputText value="Datos de ingreso al sistemas"/></center>
                         </f:facet>
                         <h:outputText value="* Login:"/>
                         <h:inputText value="#{beanEmployee.login}" 
@@ -135,13 +137,14 @@
                                      required="true"
                                      requiredMessage="Confirmar password, es obligatorio."/>
                     </h:panelGrid>
-                    
-                    <h:commandButton style="text-align: right" value="Crear" styleClass="JButton" action="#{beanEmployee.createUser}"/>
+                    <center>
+                    <h:commandButton value="Crear" styleClass="JButton" action="#{beanEmployee.createUser}"/>
+                    </center>
                 </h:form>
             </div>
         </div>
         <div id="bottom">
-            <ui:insert name="bottom">Pie de pagina</ui:insert>
+            <ui:insert name="bottom">SIGETI: Sistema de Gesti&oacute;n de Transporte Integrado.</ui:insert>
         </div>
 
     </h:body>

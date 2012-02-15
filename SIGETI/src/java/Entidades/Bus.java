@@ -16,6 +16,15 @@ public class Bus {
     private String idInterno;
     private boolean estado;
     private String perteneceRuta;
+    private String estadoFisico;
+
+    public String getEstadoFisico() {
+        return estadoFisico;
+    }
+
+    public void setEstadoFisico(String estadoFisico) {
+        this.estadoFisico = estadoFisico;
+    }
 
     public Bus() {
     }
@@ -94,6 +103,6 @@ public class Bus {
     @Override
     public String toString() {
         return "Bus[ matricula=" + matricula + " tipo=" + tipo + " capacidad=" + capacidad
-                + " idInterno=" + idInterno + " estado=" + estado + " ]";
+                + " idInterno=" + idInterno + " estado=" + estado + " estadoFisico=" + estadoFisico + " ]";
     }
 }
