@@ -292,6 +292,49 @@ public class DaoEstacion {
         return estaciones;
     }
 
+    public List<EstacionPrincipal> findEstacionesPrincipalesActivas(String nombre)
+    {
+        String sql_nombre="";
+        //String sql_ubicacion= "";
+        if(!nombre.equals(""))
+        {
+            sql_nombre=" nombre like '%"+nombre+"%' ";
+        }
+        /*if(!ubicacion.equals(""))
+        {
+            sql_ubicacion= " ubicacion like '%"+ubicacion+"%' ";
+        }*/
+        String sql_query= "SELECT id, ubicacion, estado, nombre, id_operario FROM "
+                + " estacion_principal JOIN estacion ON estacion_principal.id_estacion="
+                + " estacion.id WHERE estado=true and" + sql_nombre; //+ sql_ubicacion;
+
+        List<EstacionPrincipal> estaciones= new ArrayList<EstacionPrincipal>();
+
+        try{
+            Connection conn = fachada.conectar();
+            Statement sequence = conn.createStatement();
+            ResultSet table = sequence.executeQuery(sql_query);
+
+
+            while(table.next())
+            {
+                EstacionPrincipal estacion = new EstacionPrincipal();
+                estacion.setId(table.getInt("id"));
+                estacion.setUbicacion(table.getString("ubicacion"));
+                estacion.setEstado(table.getBoolean("estado"));
+                estacion.setNombre(table.getString("nombre"));
+                estacion.setIdOperario(table.getString("id_operario"));
+                estaciones.add(estacion);
+            }
+
+        }catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return estaciones;
+    }
+
     public int saveEstacionParadero(EstacionParadero estacion)
     {
         int result=0;
@@ -405,5 +448,56 @@ public class DaoEstacion {
         
         return exist;
                 
+    }
+
+    public int eliminarEstacion(Integer id)
+    {
+        String sql_update="UPDATE estacion SET estado=false WHERE id="+id;
+
+        int result=0;
+        try{
+            Connection conn = fachada.conectar();
+            Statement sequence = conn.createStatement();
+            result= sequence.executeUpdate(sql_update);
+
+            fachada.cerrarConexion(conn);
+        }catch(SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public int editarEstacionParadero(EstacionParadero estacion)
+    {
+        String sql_update="UPDATE estacion SET ubicacion='"+estacion.getUbicacion()
+                + "', estado='"+estacion.getEstado()+"' WHERE id="+estacion.getId();
+
+        int result=0;
+
+        try{
+            Connection conn = fachada.conectar();
+            Statement sequence = conn.createStatement();
+            result = sequence.executeUpdate(sql_update);
+
+            fachada.cerrarConexion(conn);
+        }catch(SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public int editarEstacionPrincipal(EstacionPrincipal estacion)
+    {
+        String sql_update="";
+
+        int result=0;
+
+        return result;
     }
 }
