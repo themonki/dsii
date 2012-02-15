@@ -35,6 +35,16 @@ public class BeanCard implements Serializable {
     private String fecha = "";
     private int recarga =0;
     private int  credito=0;
+    private String isPersonal = "false";
+
+    public String getIsPersonal() {
+        return isPersonal;
+    }
+
+    public void setIsPersonal(String isPersonal) {
+        this.isPersonal = isPersonal;
+    }
+    
 
     public int getCredito() {
         return credito;
@@ -137,6 +147,8 @@ public class BeanCard implements Serializable {
         if (recarga<=0){
               context.addMessage(null, new FacesMessage(
                         FacesMessage.SEVERITY_ERROR, "La recarga debe ser mayor a 0.", null));
+              
+              return null;
         
         
         }
@@ -260,6 +272,10 @@ public class BeanCard implements Serializable {
         FacesContext context;
         context = FacesContext.getCurrentInstance();
         //validate();
+        credito=0;
+        isPersonal = "false";
+        numberPassages="0";
+       
 
 
         if (context.getMessageList().size() > 0) {
@@ -285,8 +301,7 @@ public class BeanCard implements Serializable {
         TarjetaPersonalizada tarjetapersonal= daoCard.findCardCustom(pin);
         
        
-        if (tarjetapersonal.getCredito()!=null){ credito=tarjetapersonal.getCredito();}
-
+       
         
         pin = tarjeta.getPin();
 
@@ -310,6 +325,9 @@ public class BeanCard implements Serializable {
 
 
         }
+        
+         if (tarjetapersonal.getCredito()!=null){ isPersonal = "true";credito=tarjetapersonal.getCredito();}
+
 
 
         isFind = "false";
