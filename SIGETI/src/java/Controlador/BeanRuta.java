@@ -141,27 +141,23 @@ public class BeanRuta implements Serializable{
         System.out.println(estado);
 
         List<EstacionPrincipal> estacionesPrincipales = daoEstacion.findAllEstacionPrincipal();
-        List<EstacionParadero> estacioonesParadedos = daoEstacion.findAllEstacionParadero();
+        List<EstacionParadero> estacioonesParaderos = daoEstacion.findAllEstacionParadero();
         
-        
+         System.out.println(estacionesPrincipales.size());
         for(int i=0;i<estacionesPrincipales.size();i++)
         {     
             estaciones.add(estacionesPrincipales.get(i));
             
         }
-        for(int i=0;i<estacioonesParadedos.size();i++)
+        
+         System.out.println(estacioonesParaderos.size());
+        for(int i=0;i<estacioonesParaderos.size();i++)
         {        
-            estaciones.add(estacioonesParadedos.get(i));
+            estaciones.add(estacioonesParaderos.get(i));
             
         }
         
-        estacionesRuta = new ArrayList<Estacion>();
        
-        if(estacionesRuta.isEmpty())
-        {
-        
-             estacionesRuta.add(new Estacion(0, "No hay paraderos asignados", true));
-        }
 
         daoEstacion = null;     
        
@@ -255,8 +251,25 @@ public class BeanRuta implements Serializable{
      public void clearBeanRuta()
     {
         idEstacion = 0;
-        if(estacionesRuta != null)
-        estacionesRuta.clear();
+        if(estacionesRuta == null)
+        {
+             estacionesRuta = new ArrayList<Estacion>();
+
+            if(estacionesRuta.isEmpty())
+            {
+
+                 estacionesRuta.add(new Estacion(0, "No hay paraderos asignados", true));
+            }
+        
+        
+        }else
+        {
+        
+             estacionesRuta.clear();
+             estacionesRuta.add(new Estacion(0, "No hay paraderos asignados", true));
+        
+        }
+       
         ubicacion="";
         idEstacion = 0;
         
