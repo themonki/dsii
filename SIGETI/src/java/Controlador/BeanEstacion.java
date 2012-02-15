@@ -46,6 +46,7 @@ public class BeanEstacion implements Serializable{
     {
         disableIdOperario=true;
         disableNombre=true;
+        estado=true;
 
     }
 
@@ -56,7 +57,7 @@ public class BeanEstacion implements Serializable{
         ubicacion="";
         idOperario="";
         id=0;
-        estado=false;
+        estado=true;
 
         disableIdOperario=true;
         disableNombre=true;
