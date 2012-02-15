@@ -313,20 +313,13 @@ public class BeanEstacion implements Serializable{
         DaoEstacion daoEstacion = new DaoEstacion();
         List<EstacionPrincipal> estaciones;
         if(!action.equals("Eliminar"))
-            estaciones= daoEstacion.findEstacionesPrincipales(nombreBusqueda);
+            estaciones= daoEstacion.findEstacionesPrincipales(nombreBusqueda, nombreBusqueda);
         else
-            estaciones= daoEstacion.findEstacionesPrincipalesActivas(nombreBusqueda);
+            estaciones= daoEstacion.findEstacionesPrincipalesActivas(nombreBusqueda, nombreBusqueda);
 
         if(estaciones.size()>0)
         {
-            /*for(int i=0; i<estaciones.size(); i++)
-            {
-                context.addMessage(null, new FacesMessage("Estacion No.: " + estaciones.get(i).getId()
-                        + " Ubicacion: "+ estaciones.get(i).getUbicacion()
-                        + " Estado: "+ estaciones.get(i).getEstado()
-                        + " Nombre: " + estaciones.get(i).getNombre()
-                        + " Id Operario: " + estaciones.get(i).getIdOperario()));
-            }*/
+            
             renderTable=true;
 
             return estaciones;
@@ -335,7 +328,6 @@ public class BeanEstacion implements Serializable{
             context.addMessage(null, new FacesMessage("No se encontraron coincidencias en la base de datos, por favor verifique su busqueda"));
             renderTable=false;
             return null;
-            //return "resultOperation";
 
         }
     }
@@ -349,19 +341,40 @@ public class BeanEstacion implements Serializable{
         return estacion;
     }
 
-    public void detalleEstacion()
+    public EstacionParadero getEstacionParadero()
     {
-        EstacionPrincipal estacion= getEstacionPrincipal();
-        id= estacion.getId();
-        ubicacion= estacion.getUbicacion();
-        estado= estacion.getEstado();
-        nombre= estacion.getNombre();
-        idOperario= estacion.getIdOperario();
+        FacesContext context= FacesContext.getCurrentInstance();
+        Application app= context.getApplication();
+        EstacionParadero estacion  = (EstacionParadero) app.evaluateExpressionGet(context, "#{estacion}", EstacionParadero.class);
+        return estacion;
     }
 
-    public void actionFindEstacionPrincipal()
+    public void detalleEstacion()
     {
-        this.findEstacionesPrincipales();
+        if(buscarPrincipales)
+        {
+            EstacionPrincipal estacion= getEstacionPrincipal();
+            id= estacion.getId();
+            ubicacion= estacion.getUbicacion();
+            estado= estacion.getEstado();
+            nombre= estacion.getNombre();
+            idOperario= estacion.getIdOperario();
+        }else{
+            EstacionParadero estacion= getEstacionParadero();
+            id= estacion.getId();
+            ubicacion= estacion.getUbicacion();
+            estado= estacion.getEstado();
+        }
+        
+    }
+
+    public void actionFindEstacion()
+    {
+
+        if(buscarPrincipales)
+            this.findEstacionesPrincipales();
+        else
+            this.findEstacionesParadero();
     }
 
     public String eliminarEstacion()
@@ -416,6 +429,33 @@ public class BeanEstacion implements Serializable{
     public void actionEditar()
     {
         action="Editar";
+    }
+
+    public List<EstacionParadero> findEstacionesParadero()
+    {
+        FacesContext context = FacesContext.getCurrentInstance();
+        BeanContent content = (BeanContent) context.getApplication().evaluateExpressionGet(context, "#{beanContent}", BeanContent.class);
+        DaoEstacion daoEstacion = new DaoEstacion();
+        List<EstacionParadero> estaciones;
+        if(!action.equals("Eliminar"))
+            estaciones= daoEstacion.findEstacionParadero(nombreBusqueda);
+        else
+            estaciones= daoEstacion.findEstacionParaderoActivas(ubicacionBusqueda);
+
+        if(estaciones.size()>0)
+        {
+            
+            renderTable=true;
+
+            return estaciones;
+
+        }else{
+            context.addMessage(null, new FacesMessage("No se encontraron coincidencias en la base de datos, por favor verifique su busqueda"));
+            renderTable=false;
+            return null;
+            //return "resultOperation";
+
+        }
     }
 
 }

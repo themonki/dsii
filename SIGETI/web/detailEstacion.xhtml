@@ -60,10 +60,15 @@
                             <h:outputText value="#{beanEstacion.ubicacion}"/>
                             <h:outputText value="Estado: "/>
                             <h:outputText value="#{beanEstacion.estado}"/>
-                            <h:outputText value="Nombre estaci&oacute;n principal: "/>
-                            <h:outputText value="#{beanEstacion.nombre}"/>
-                            <h:outputText value="Operario acargo: "/>
-                            <h:outputText value="#{beanEstacion.idOperario}"/>
+
+                            <h:outputText value="Nombre estaci&oacute;n principal: "
+                                          rendered="#{beanEstacion.buscarPrincipales}"/>
+                            <h:outputText value="#{beanEstacion.nombre}"
+                                          rendered="#{beanEstacion.buscarPrincipales}"/>
+                            <h:outputText value="Operario acargo: "
+                                          rendered="#{beanEstacion.buscarPrincipales}"/>
+                            <h:outputText value="#{beanEstacion.idOperario}"
+                                          rendered="#{beanEstacion.buscarPrincipales}"/>
                             <br/><br/>
                             <h:commandButton value="Aceptar" styleClass="JButton" action="findEstacion" /><br/>
                         </h:panelGrid>
