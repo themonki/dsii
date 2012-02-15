@@ -9,10 +9,11 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
-        <title>Home page Administrador</title>        
-        
-        <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
+        <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
+        <title>Facelets Template</title>
     </h:head>
+     
+    #{beanCard.refresh("findCard")}
 
     <h:body>
 
@@ -42,11 +43,60 @@
                             </h:commandLink>
                         </h:column>
                     </h:dataTable>
-            
+                    
+                     <h:commandLink action="userManager">
+                                <h:outputText value=" Gestion Usuario"/>
+                            </h:commandLink>
                 </h:form>
             </div>
-            <div id="center_center">
-                <ui:insert name="content">Home page </ui:insert>
+            <div  id="center_center">
+                <div>
+                    <ui:insert name="content">Consultar Saldo Tarjeta</ui:insert>
+
+                    <br></br>
+
+                    <img src="./resources/BuscarCard.gif"  width="100" height="100"></img>
+
+                    <br></br>
+                    <h:messages style="color: red"   />
+
+                    <br></br>
+
+
+                    <h:form styleClass="Formulario">
+
+                        <h:panelGrid columns="2" >
+                            
+                            
+
+                            <h:outputText value="Ingrese el Pin:"/>
+
+                            <h:inputText value="#{beanCard.pin}" />  
+                            
+                                                        
+                            <h:commandButton value="Consultar" styleClass="JButton" action="#{beanCard.findCard()}" />
+
+                        </h:panelGrid>
+                        
+                         <br/><hr/><br/>
+
+                        <h:panelGrid columns="2" >
+
+                            
+                          
+                            <h:outputText value="Numero de Pasajes:"/>
+                            <h:outputText value="#{beanCard.numberPassages}" />
+
+                          
+                            <h:outputText value="Creditos restantes:"   rendered="#{beanCard.isPersonal}"/>
+
+                            <h:outputText  value="#{beanCard.credito}" rendered="#{beanCard.isPersonal}" /> 
+
+                            
+                        </h:panelGrid>
+                    </h:form>
+
+                </div>
             </div>
         </div>
         <div id="bottom">

@@ -44,11 +44,17 @@
                             </h:commandLink>
                         </h:column>
                     </h:dataTable>
+                    
+                     <h:commandLink action="userManager">
+                                
+                         <h:outputText value=" Gestion Usuario"/>
+                            
+                     </h:commandLink>
                 </h:form>
             </div>
             <div  id="center_center">
                 <div>
-                    <ui:insert name="content">Crear Usuario</ui:insert>
+                    <ui:insert name="content">Modificar Datos del Usuario</ui:insert>
 
                     <br></br>
 
@@ -61,10 +67,14 @@
                     <br></br>
                     <h:form styleClass="Formulario">
 
-                        <h:panelGrid columns="3">
+                        <h:panelGrid columns="2">
 
                             <h:outputText value="Documento:"/>
                             <h:inputText value="#{beanUserCard.id}" />
+                            
+                             <h:outputText value="Password"/>
+                             <h:inputSecret  value="#{beanUserCard.password}" />
+                             
                              <h:commandButton value="Consultar" styleClass="JButton" action="#{beanUserCard.findUser()}" /><br/>
                             
 

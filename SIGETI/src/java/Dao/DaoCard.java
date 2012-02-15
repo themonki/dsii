@@ -108,11 +108,13 @@ public class DaoCard {
      
     }
     
-    public int reloadCard(String pin, int recarga ){
+    public int reloadCard(String pin, int recarga,int estacion ){
+        int valor =recarga ;
        
         TarjetaPersonalizada tarjeta = new TarjetaPersonalizada();
         
         tarjeta = findCardCustom(pin);
+        if (tarjeta.getPin()==null){return 0;}
         
         
         System.err.println("objeto tarjeta "+tarjeta);
@@ -128,7 +130,51 @@ public class DaoCard {
          
         }      
         tarjeta.setSaldo(tarjeta.getSaldo()+recarga);
-        int result= editCard(tarjeta); 
+        int result= editCard(tarjeta);
+        
+        
+        
+        if (result !=0){
+        String sql_insert = "INSERT INTO recarga (pin,fecha,hora,valor,estacion)";
+        
+         java.util.Date date = new java.util.Date();
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+        String fecha = sdf.format(date);
+       
+        long time =date.getTime() ;
+        System.err.println("hola "+time);
+        
+        sql_insert+=" VALUES ("+pin+ ",'"+fecha+"',"+time+","+valor+","+2+")";
+
+      
+        
+        try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            result = sentence.executeUpdate(sql_insert);
+            fachada.cerrarConexion(conn);
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         return result;
         

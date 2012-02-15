@@ -120,6 +120,7 @@ public class BeanContent implements Serializable {
             l4.add("Gestionar Reclamos");
             l4.add("4");
 
+            
 
             List c2 = new ArrayList();
             c2.add("Editar Reclamo");

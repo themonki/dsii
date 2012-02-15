@@ -15,6 +15,8 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import Utilidades.BeanContent;
 import Dao.DaoCard;
+import Dao.DaoEmpleado;
+import Entidades.Auxiliar;
 import Entidades.Tarjeta;
 
 import Entidades.TarjetaPersonalizada;
@@ -34,6 +36,25 @@ public class BeanCard implements Serializable {
     private String isFind = "false";
     private String fecha = "";
     private int recarga =0;
+    private int  credito=0;
+    private String isPersonal = "false";
+
+    public String getIsPersonal() {
+        return isPersonal;
+    }
+
+    public void setIsPersonal(String isPersonal) {
+        this.isPersonal = isPersonal;
+    }
+    
+
+    public int getCredito() {
+        return credito;
+    }
+
+    public void setCredito(int credito) {
+        this.credito = credito;
+    }
 
     public int getRecarga() {
         return recarga;
@@ -124,15 +145,28 @@ public class BeanCard implements Serializable {
             return null;
         }
         
+       
+        EmployeeHolder empleadoHolder = (EmployeeHolder) context.getApplication().evaluateExpressionGet(context, "#{employeeHolder}", EmployeeHolder.class);
+        String idAuxiliar = empleadoHolder.getCurrentEmpleado().getId();
+        
+
+         DaoEmpleado daoEmpleado = new DaoEmpleado();
+         
+        Auxiliar auxiliar = daoEmpleado.findAuxiliarId(idAuxiliar,true);
+        
+        
     
         if (recarga<=0){
               context.addMessage(null, new FacesMessage(
                         FacesMessage.SEVERITY_ERROR, "La recarga debe ser mayor a 0.", null));
+              
+              return null;
         
         
         }
         DaoCard dao = new DaoCard(); 
-        int result = dao.reloadCard(pin,recarga);
+        int result = dao.reloadCard(pin,recarga,auxiliar.getTrabajaEn());
+        
         
         if (result ==0){
              context.addMessage(null, new FacesMessage(
@@ -251,6 +285,10 @@ public class BeanCard implements Serializable {
         FacesContext context;
         context = FacesContext.getCurrentInstance();
         //validate();
+        credito=0;
+        isPersonal = "false";
+        numberPassages="0";
+       
 
 
         if (context.getMessageList().size() > 0) {
@@ -273,7 +311,11 @@ public class BeanCard implements Serializable {
         }
 
         Tarjeta tarjeta = daoCard.findCard(pin);
-
+        TarjetaPersonalizada tarjetapersonal= daoCard.findCardCustom(pin);
+        
+       
+       
+        
         pin = tarjeta.getPin();
 
         if (pin == null) {
@@ -296,6 +338,9 @@ public class BeanCard implements Serializable {
 
 
         }
+        
+         if (tarjetapersonal.getCredito()!=null){ isPersonal = "true";credito=tarjetapersonal.getCredito();}
+
 
 
         isFind = "false";
@@ -487,6 +532,7 @@ public class BeanCard implements Serializable {
         fecha = "";
         cedulaPasajero="";
         recarga=0;
+        credito=0;
 
     }
 }

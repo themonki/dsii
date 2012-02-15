@@ -54,35 +54,35 @@
                 
                 <h:form style="display: inline-block" >
                     <h:panelGrid columns="3"   cellspacing="25" >
-                        <h:commandLink   action="newCard">
+                        <h:commandLink   action="newCard" onclick="#{beanCard.clearStates()}">
                             <img src="./resources/AddCard.gif"  width="100" height="100"></img>
                             <br></br>
                             <h:outputText value="Crear Tarjeta"/>
                         </h:commandLink>
-                        <h:commandLink   action="editCard">
+                        <h:commandLink   action="editCard" onclick="#{beanCard.clearStates()}">
                             <img src="./resources/EditCard.png"  width="100" height="100"></img>
                             <br></br>
                             <h:outputText styleClass=""  value="Editar Tarjeta"/>
                         </h:commandLink>
                         
-                        <h:commandLink   action="editUserCard"  onclick="#{beanUserCard.clearStates()}">
+                        <h:commandLink   action="userCard"  onclick="#{beanUserCard.clearStates()}">
                             <img src="./resources/userCard.png"  width="100" height="100"></img>
                             <br></br>
                             <h:outputText styleClass=""  value=" Usuario para Tarjeta"/>
                         </h:commandLink>
                         
-                        <h:commandLink   action="eraseCard">
+                        <h:commandLink   action="eraseCard" onclick="#{beanCard.clearStates()}">
                              <img src="./resources/EliminarCard.gif"  width="100" height="100"></img>
                             <br></br>
                             <h:outputText styleClass="Icons" value="Eliminar Tarjeta"/>
                         </h:commandLink>
-                        <h:commandLink   action="findCard">
+                        <h:commandLink   action="findCard" onclick="#{beanCard.clearStates()}">
                              <img src="./resources/BuscarCard.gif"  width="100" height="100"></img>
                             <br></br>
                             <h:outputText value="Consultar Tarjeta"/>
                         </h:commandLink>
                         
-                          <h:commandLink   action="reloadCard">
+                          <h:commandLink   action="reloadCard" onclick="#{beanCard.clearStates()}">
                              <img src="./resources/recarga.png"  width="100" height="100"></img>
                             <br></br>
                             <h:outputText value="Recargar Tarjeta"/>

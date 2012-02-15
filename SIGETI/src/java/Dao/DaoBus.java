@@ -244,4 +244,37 @@ public class DaoBus {
         }
         return false;
     }
+    
+    public List<Bus> consultarBusesSinConductor() {
+
+        String sqlConsulta = "SELECT * FROM bus b WHERE NOT EXISTS (SELECT matricula FROM conductor WHERE conduce_bus=matricula) and estado ='t'";
+        
+                
+        List<Bus> buses = null;
+        try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            ResultSet table = sentence.executeQuery(sqlConsulta);
+            buses = new ArrayList<Bus>();
+            int count =0;
+            while (table.next()){
+                count++;
+                Bus bus = new Bus();
+                bus.setCapacidad(table.getInt("capacidad"));
+                bus.setEstado(table.getBoolean("estado"));
+                bus.setIdInterno(table.getString("id_interno"));
+                bus.setMatricula(table.getString("matricula"));
+                bus.setPerteneceRuta(table.getString("pertenece_ruta"));
+                bus.setTipo(table.getString("tipo"));
+                bus.setEstadoFisico(table.getString("estado_fisico"));                
+                buses.add(bus);
+            }
+            fachada.cerrarConexion(conn);
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return buses;
+    }
 }
