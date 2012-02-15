@@ -375,7 +375,7 @@ public class BeanRuta implements Serializable{
     {
         renderMap=true;
 
-        rutaMaps="from ";
+        rutaMaps="from: ";
         DaoRuta daoRuta= new DaoRuta();
         List<Estacion> estaciones = daoRuta.estacioneRuta(nombre);
 
@@ -384,9 +384,10 @@ public class BeanRuta implements Serializable{
             rutaMaps+= estaciones.get(i).getUbicacion()
                     + ", Cali, Valle del Cauca, Colombia ";
             if(i!=estaciones.size()-1)
-                rutaMaps+=" to ";
+                rutaMaps+=" to: ";
         }
 
+        System.err.print("RUTA: "+ rutaMaps);
         Ruta ruta = daoRuta.getRuta(nombre);
         descripcion=ruta.getDescripcion();
         estado=ruta.getEstado();
