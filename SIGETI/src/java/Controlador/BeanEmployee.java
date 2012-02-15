@@ -431,7 +431,7 @@ public class BeanEmployee implements Serializable {
     }
 
     public void setIdentificacion(String identificacion) {
-        System.out.println("set identificacion");
+        //System.out.println("set identificacion");
         this.identificacion = identificacion;
 
         this.isRenderTableSearch = true;//debe ser provicional
@@ -518,14 +518,14 @@ public class BeanEmployee implements Serializable {
         availableJefe.add(new SelectItem("", "---"));
         DaoEmpleado daoEmpleado = new DaoEmpleado();
         if (this.cargo.equals("Operario")) {
-            List<Director> directores = daoEmpleado.findAllDirector();
+            List<Director> directores = daoEmpleado.findAllDirector(false);
             for (int i = 0; i < directores.size(); i++) {
                 Director director = directores.get(i);
                 String nombreDir = director.getNombre() + " " + director.getApellido();
                 availableJefe.add(new SelectItem(director.getId(), nombreDir));
             }
         } else if (this.cargo.equals("Auxiliar")) {
-            List<Operario> operarios = daoEmpleado.findAllOperario();
+            List<Operario> operarios = daoEmpleado.findAllOperario(false);
             for (int i = 0; i < operarios.size(); i++) {
                 Operario operario = operarios.get(i);
                 String nombreDir = operario.getNombre() + " " + operario.getApellido();
@@ -548,7 +548,7 @@ public class BeanEmployee implements Serializable {
         List<SelectItem> availableOperarios = new ArrayList<SelectItem>();
         DaoEmpleado daoEmpleado = new DaoEmpleado();
 
-        List<Operario> operarios = daoEmpleado.findAllOperario();
+        List<Operario> operarios = daoEmpleado.findAllOperario(false);
         for (int i = 0; i < operarios.size(); i++) {
             Operario operario = operarios.get(i);
             String nombreOper = operario.getNombre() + " " + operario.getApellido();
@@ -588,25 +588,28 @@ public class BeanEmployee implements Serializable {
             Operario operario = new Operario();
             operario.setId(identificacion.trim());
             operario.setIdJefe(identificacionJefe.trim());
-            daoEmpleado.saveOperario(operario);
+            result = daoEmpleado.saveOperario(operario);
         }
         if (rol == 3) {
             Auxiliar auxiliar = new Auxiliar();
             auxiliar.setId(identificacion.trim());
             auxiliar.setIdJefe(identificacionJefe.trim());
             auxiliar.setTrabajaEn(lugarTrabajo);
-            daoEmpleado.saveAuxiliar(auxiliar);
+            result = daoEmpleado.saveAuxiliar(auxiliar);
         }
         if (rol == 4) {
             Conductor conductor = new Conductor();
             conductor.setId(identificacion.trim());
             conductor.setLicencia(licencia.trim());
-            daoEmpleado.saveConductor(conductor);
+            result = daoEmpleado.saveConductor(conductor);
         }
         daoEmpleado = null;
+        if(result != 0)
+        {
         content.setResultOperation("El Empleado fue creado con exito.");
         content.setImage("./resources/ok.png");
         this.clearStates();
+        }
         return "resultOperation";
     }
 
@@ -821,6 +824,7 @@ public class BeanEmployee implements Serializable {
 
     public void statesForErase(ActionEvent e) {
         this.isRenderTableSearch = false;
+        this.clearStates();
         this.action = "Eliminar";
     }
 
@@ -882,7 +886,7 @@ public class BeanEmployee implements Serializable {
                 {
                     empleados = daoEmpleado.findEmpleadoCondition("rol = 3");
                 } else {
-                    empleados = daoEmpleado.findAllEmpleado();
+                    empleados = daoEmpleado.findAllEmpleado(true);
                 }
 
             } else {
@@ -894,13 +898,13 @@ public class BeanEmployee implements Serializable {
                 {
                     empleados = daoEmpleado.findEmpleadoCondition("rol = 3");//busca solo auxiliares
                 } else {
-                    empleados = daoEmpleado.findAllEmpleado();
+                    empleados = daoEmpleado.findAllEmpleado(true);
                 }
             } else {
                 if (rol == 2) {
                     empleados = daoEmpleado.findEmpleadoCondition("id = " + this.identificacion.trim() + " AND rol = 3");//buscar auxiliar con un id dado
                 } else {
-                    Empleado empleado = daoEmpleado.findEmpleadoId(this.identificacion.trim());
+                    Empleado empleado = daoEmpleado.findEmpleadoId(this.identificacion.trim(),true);
                     empleados = new ArrayList<Empleado>();
                     empleados.add(empleado);
                 }
@@ -923,6 +927,7 @@ public class BeanEmployee implements Serializable {
             this.prepareDataEmployee();
             link = "detailEmployee";
         } else if (this.action.equals("Eliminar")) {
+            this.prepareDataEmployee();
             link = "eraseEmployee";
         } else if (this.action.equals("Editar")) {
             this.prepareDataEmployee();
@@ -985,7 +990,7 @@ public class BeanEmployee implements Serializable {
             }
             case 2: {
                 cargoObtenido = "Operario";
-                Operario operario = daoEmpleado.findOpearioId(this.identificacion);
+                Operario operario = daoEmpleado.findOpearioId(this.identificacion,true);
                 this.identificacionJefe = operario.getIdJefe();
                 this.isDisableIdJefe = false;
                 operario = null;
@@ -993,7 +998,7 @@ public class BeanEmployee implements Serializable {
             }
             case 3: {
                 cargoObtenido = "Auxiliar";
-                Auxiliar auxiliar = daoEmpleado.findAuxiliarId(this.identificacion);
+                Auxiliar auxiliar = daoEmpleado.findAuxiliarId(this.identificacion,true);
                 this.identificacionJefe = auxiliar.getIdJefe();
                 this.lugarTrabajo = auxiliar.getTrabajaEn();
                 this.isDisableEstacion = false;
@@ -1003,7 +1008,7 @@ public class BeanEmployee implements Serializable {
             }
             case 4: {
                 cargoObtenido = "Conductor";
-                Conductor conductor = daoEmpleado.findConductorId(this.identificacion);
+                Conductor conductor = daoEmpleado.findConductorId(this.identificacion,true);
                 this.licencia = conductor.getLicencia();
                 this.isDisableLicencia = false;
                 conductor = null;
@@ -1104,6 +1109,30 @@ public class BeanEmployee implements Serializable {
         content.setImage("./resources/ok.png");
         this.clearStates();
         return "resultOperation";
+    }
+    
+    public String eraseUser()
+    {
+        FacesContext context = FacesContext.getCurrentInstance();
+        BeanContent content = (BeanContent) context.getApplication().evaluateExpressionGet(context, "#{beanContent}", BeanContent.class);
+        int result;
+        
+        DaoEmpleado daoEmpelado = new DaoEmpleado();
+        result = daoEmpelado.eraseEmpleado(this.identificacion);
+        daoEmpelado = null;
+        
+        if (result == 0) {
+            content.setResultOperation("El Empleado no se pudo eliminar.");
+            content.setImage("./resources/fail.png");
+            this.clearStates();
+            return "resultOperation";
+        }else
+        {
+             content.setResultOperation("El Empleado se eliminó correctamente.");
+            content.setImage("./resources/ok.png");
+            this.clearStates();
+            return "resultOperation";
+        }
     }
     
     private Empleado createEmpleado()
