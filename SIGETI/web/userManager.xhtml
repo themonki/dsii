@@ -56,13 +56,13 @@
                 
                  <h:form style="display: inline-block" >
                     <h:panelGrid columns="2"   cellspacing="25" >
-                        <h:commandLink   action="editUserCard">
+                        <h:commandLink   action="editUserCard" onclick="#{beanUserCard.clearStates()}">
                             <img src="./resources/editUser.png"  width="100" height="100"></img>
                             <br></br>
                             <h:outputText value="Modificar Datos"/>
                         </h:commandLink>
                         
-                         <h:commandLink   action="cardPassages">
+                         <h:commandLink   action="cardPassages" onclick="#{beanCard.clearStates()}">
                             <img src="./resources/BuscarCard.gif"  width="100" height="100"></img>
                             <br></br>
                             <h:outputText value="Consultar Saldo"/>

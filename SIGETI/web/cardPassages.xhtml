@@ -88,9 +88,9 @@
                             <h:outputText value="#{beanCard.numberPassages}" />
 
                           
-                            <h:outputText value="Creditos restantes:"/>
+                            <h:outputText value="Creditos restantes:"   rendered="#{beanCard.isPersonal}"/>
 
-                            <h:outputText  value="#{beanCard.credito}" /> 
+                            <h:outputText  value="#{beanCard.credito}" rendered="#{beanCard.isPersonal}" /> 
 
                             
                         </h:panelGrid>
