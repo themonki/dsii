@@ -42,10 +42,10 @@ INSERT INTO operario VALUES('3','2');
 INSERT INTO auxiliar (id,id_jefe) VALUES('4','3');
 INSERT INTO conductor (id) VALUES('5');
 
-INSERT INTO empleado (id, nombre, apellido, login, password, estado,rol) VALUES ('6','seis','seis','seis','seis',true,1);
-INSERT INTO empleado (id, nombre, apellido, login, password, estado,rol) VALUES ('7','siete','siete','siete','siete',true,2);
-INSERT INTO empleado (id, nombre, apellido, login, password, estado,rol) VALUES ('8','ocho','ocho','ocho','ocho',true,3);
-INSERT INTO empleado (id, nombre, apellido, login, password, estado,rol) VALUES ('9','nueve','nueve','nueve','nueve',true,4);
+INSERT INTO empleado (id, nombre, apellido, login, password, estado,rol) VALUES ('6','seis','seis','seis',md5('seis'),true,1);
+INSERT INTO empleado (id, nombre, apellido, login, password, estado,rol) VALUES ('7','siete','siete','siete',md5('siete'),true,2);
+INSERT INTO empleado (id, nombre, apellido, login, password, estado,rol) VALUES ('8','ocho','ocho','ocho',md5('ocho'),true,3);
+INSERT INTO empleado (id, nombre, apellido, login, password, estado,rol) VALUES ('9','nueve','nueve','nueve',md5('nueve'),true,4);
 
 INSERT INTO director VALUES('6');
 INSERT INTO operario VALUES('7','2');
@@ -125,5 +125,10 @@ INSERT INTO ruta VALUES ('E31','chiminango-universidades','t');
 INSERT INTO ruta VALUES ('T31','chiminango-universidades','t');
 INSERT INTO ruta VALUES ('T47','Unidaddeportiva-andres sanin','t');
 INSERT INTO ruta VALUES ('P10a','Universidades-pasoancho','t');
+
+--algunos buses
+INSERT INTO bus VALUES ('MMM001','Alimentador',80,'FFA542A',true,'P10a');
+INSERT INTO bus VALUES ('MMM002','Articulado',180,'FFA543A',true,'E31');
+INSERT INTO bus VALUES ('MMM003','Padron',100,'FFA544A',true,'T31');
 
 

@@ -28,7 +28,7 @@ public class DaoRuta {
         try {
             Connection conn = fachada.conectar();
             Statement sentence = conn.createStatement();
-            ResultSet table = sentence.executeQuery(sqlConsulta);
+                ResultSet table = sentence.executeQuery(sqlConsulta);
             nombreRutas = new ArrayList<Ruta>();
             while (table.next()) {
                 Ruta ruta = new Ruta();
@@ -46,6 +46,31 @@ public class DaoRuta {
        
        return nombreRutas;
 
+    }
+
+    public int saveRuta(Ruta ruta) {
+         String sql_insert = "INSERT INTO ruta (nombre,descripcion,estado)";
+               
+        sql_insert += ") VALUES (DEFAULT"
+                + ",'" + ruta.getNombre()
+                + "','" + ruta.getDescripcion()
+                + "','" + ruta.getEstado()                
+                + "');";
+
+        System.err.println(sql_insert);
+        int result = 0;
+        try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            result = sentence.executeUpdate(sql_insert);
+            fachada.cerrarConexion(conn);
+            System.out.println("Inserte Ruta");
+        } catch (SQLException se) {
+             se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
 }

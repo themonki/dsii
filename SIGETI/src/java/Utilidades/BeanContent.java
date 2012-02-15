@@ -72,6 +72,10 @@ public class BeanContent implements Serializable {
             List l5 = new ArrayList();
             l5.add("Gestionar Estaciones");
             l5.add("5");
+            
+            List l6 = new ArrayList();
+            l6.add("Gestionar Rutas");
+            l6.add("6");
 
             System.err.println("l4: " + l4.get(0) + "l4: " + l4.get(1));
             
@@ -92,12 +96,14 @@ public class BeanContent implements Serializable {
             menuClaimsOptions.add(c3);
             menuClaimsOptions.add(c4);
             menuClaimsOptions.add(c5);
-
+           
+                    
             menuOptions.add(l1);
             menuOptions.add(l2);
             menuOptions.add(l3);
             menuOptions.add(l4);
             menuOptions.add(l5);
+            menuOptions.add(l6);
 
         } else if (rol == 1) //director
         {
@@ -107,10 +113,15 @@ public class BeanContent implements Serializable {
             List l2 = new ArrayList();
             l2.add("Gestinar Estaciones");
             l2.add("5");
+            List l6 = new ArrayList();
+            l6.add("Gestionar Rutas");
+            l6.add("6");
 
 
             menuOptions.add(l1);
             menuOptions.add(l2);
+            menuOptions.add(l6);
+
         } else if (rol == 2) //Operario
         {
             List l1 = new ArrayList();
@@ -212,7 +223,6 @@ public class BeanContent implements Serializable {
     }
 
     public String findLink(String l) {
-        System.err.println("l es: " + l);
         String link = null;
         if (l.equals("1")) {
             link = "managerEmployees";
@@ -224,6 +234,8 @@ public class BeanContent implements Serializable {
             link = "managerClaims";
         } else if (l.equals("5")) {
             link = "managerEstaciones";
+        }else if (l.equals("6")) {
+            link = "managerRoutes";
         }
         return link;
     }
