@@ -366,7 +366,7 @@ public class BeanBus implements Serializable {
    public void validateMatricula(FacesContext context, UIComponent component, Object value) throws 
             ValidatorException {
        String valorMatricula = value.toString();
-        if((valorMatricula.length() < 1) && valorMatricula.length()>10){
+        if(valorMatricula.length()>10){
             throw new ValidatorException(new FacesMessage("Se execede el tamaño maximo de la Matricula (10)"));
         }
         
@@ -381,7 +381,7 @@ public class BeanBus implements Serializable {
     public void validateIdInterno(FacesContext context, UIComponent component, Object value) throws 
             ValidatorException {
        String valorIdInterno = value.toString();
-        if((valorIdInterno.length() > 0) && valorIdInterno.length()<=20){
+        if(valorIdInterno.length()>20){
             throw new ValidatorException(new FacesMessage("Se execede el tamaño maximo del Identificador Interno (20)"));
         }        
         DaoBus daoBus = new DaoBus();
