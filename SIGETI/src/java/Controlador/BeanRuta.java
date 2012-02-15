@@ -30,6 +30,15 @@ import javax.faces.model.SelectItem;
 @SessionScoped
 public class BeanRuta implements Serializable{
     private int countValidator;
+    private Ruta rutaSeleccion;
+    private List<Estacion> estacionesRuta;
+    private String nombre;
+    private String descripcion;
+    private boolean estado;
+    private boolean renderTable;
+    private boolean renderMap;
+    private String rutaMaps;
+
 
     public boolean isRenderTable() {
         return renderTable;
@@ -39,10 +48,25 @@ public class BeanRuta implements Serializable{
         this.renderTable = renderTable;
     }
     
-    private String nombre;
-    private String descripcion;
-    private boolean estado;
-    private boolean renderTable;
+    public boolean isRenderMap()
+    {
+        return renderMap;
+    }
+
+    public void setRutaMaps(String rutaMapsNew)
+    {
+        rutaMaps=rutaMapsNew;
+    }
+
+    public String getRutaMaps()
+    {
+        return rutaMaps;
+    }
+
+    public void setRenderMap(boolean renderMapNew)
+    {
+        renderMap= renderMapNew;
+    }
 
     public int getIdEstacion() {
         return idEstacion;
@@ -69,11 +93,18 @@ public class BeanRuta implements Serializable{
     public void setEstacionesRuta(List<Estacion> estacionesRuta) {
         this.estacionesRuta = estacionesRuta;
     }
-    List<Estacion> estacionesRuta;
+    
    
-
+    public Ruta getRutaSeleccion()
+    {
+        return rutaSeleccion;
+    }
     
 
+    public void setRutaSeleccion(Ruta rutaSeleccionNew)
+    {
+        rutaSeleccion=rutaSeleccionNew;
+    }
     public String getNombre() {
         return nombre;
     }
@@ -288,6 +319,10 @@ public class BeanRuta implements Serializable{
         estado=true;        
 
         renderTable=false;
+
+        renderMap=false;
+        rutaSeleccion=null;
+        rutaMaps="";
     }
     
      
@@ -318,6 +353,42 @@ public class BeanRuta implements Serializable{
 
         return 0;
 
+    }
+
+    public List<SelectItem> findAllRutas()
+    {
+        DaoRuta daoRuta= new DaoRuta();
+        List<Ruta> rutas= daoRuta.consultarAllRutas();
+
+        List<SelectItem> rutas_items= new ArrayList<SelectItem>();
+
+        for(int i=0; i<rutas.size() ; i++)
+        {
+            rutas_items.add(new SelectItem(rutas.get(i), rutas.get(i).getNombre()));
+        }
+
+        return rutas_items;
+    }
+
+    public void consultarRuta()
+    {
+        renderMap=true;
+
+        setNombre(rutaSeleccion.getNombre());
+        setDescripcion(rutaSeleccion.getDescripcion());
+        setEstado(rutaSeleccion.getEstado());
+
+        rutaMaps="from ";
+        DaoRuta daoRuta= new DaoRuta();
+        List<Estacion> estaciones = daoRuta.estacioneRuta(nombre);
+
+        for(int i=0; i<estaciones.size(); i++)
+        {
+            rutaMaps+= estaciones.get(i).getUbicacion()
+                    + ", Cali, Valle del Cauca, Colombia ";
+            if(i!=estaciones.size()-1)
+                rutaMaps+=" to ";
+        }
     }
      
 }

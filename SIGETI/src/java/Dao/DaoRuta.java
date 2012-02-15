@@ -177,6 +177,37 @@ public class DaoRuta {
        
        return nombreRutas;
        }
+
+       public List<Estacion> estacioneRuta(String nombre)
+       {
+           List<Estacion> estaciones = new ArrayList<Estacion>();
+
+           String sql_query="SELECT id, ubicacion, estado FROM ruta_formado_estacion JOIN "
+                   + " estacion ON ruta_formado_estacion.id_estacion = estacion.id "
+                   + " WHERE nombre='"+nombre+"'";
+
+           try{
+               Connection conn = fachada.conectar();
+               Statement sequence = conn.createStatement();
+               ResultSet table= sequence.executeQuery(sql_query);
+
+               while(table.next())
+               {
+                   Estacion estacion = new Estacion();
+                   estacion.setId(table.getInt("id"));
+                   estacion.setUbicacion(table.getString("ubicacion"));
+                   estacion.setEstado(table.getBoolean("estado"));
+                   estaciones.add(estacion);
+               }
+
+           }catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+           return estaciones;
+
+       }
        
 }
 
