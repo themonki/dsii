@@ -225,6 +225,7 @@ public class BeanUserCard implements Serializable {
         if (!a){
                     context.addMessage(null, new FacesMessage(
                         FacesMessage.SEVERITY_ERROR, "El password no es valido "+user.getPassword()+a+password+a, null));
+                    return null ; 
         }
         
         consulta="true";
