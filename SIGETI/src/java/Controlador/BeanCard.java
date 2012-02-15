@@ -15,6 +15,8 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import Utilidades.BeanContent;
 import Dao.DaoCard;
+import Dao.DaoEmpleado;
+import Entidades.Auxiliar;
 import Entidades.Tarjeta;
 
 import Entidades.TarjetaPersonalizada;
@@ -143,6 +145,16 @@ public class BeanCard implements Serializable {
             return null;
         }
         
+       
+        EmployeeHolder empleadoHolder = (EmployeeHolder) context.getApplication().evaluateExpressionGet(context, "#{employeeHolder}", EmployeeHolder.class);
+        String idAuxiliar = empleadoHolder.getCurrentEmpleado().getId();
+        
+
+         DaoEmpleado daoEmpleado = new DaoEmpleado();
+         
+        Auxiliar auxiliar = daoEmpleado.findAuxiliarId(idAuxiliar,true);
+        
+        
     
         if (recarga<=0){
               context.addMessage(null, new FacesMessage(
@@ -153,7 +165,8 @@ public class BeanCard implements Serializable {
         
         }
         DaoCard dao = new DaoCard(); 
-        int result = dao.reloadCard(pin,recarga);
+        int result = dao.reloadCard(pin,recarga,auxiliar.getTrabajaEn());
+        
         
         if (result ==0){
              context.addMessage(null, new FacesMessage(
