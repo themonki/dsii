@@ -48,7 +48,7 @@
                 <br></br>
 
                 <h:form style="display: inline-block" >
-                    <h:panelGrid columns="2"   cellspacing="25" >
+                    <h:panelGrid columns="3"   cellspacing="25" >
                         <h:commandLink   action="editUserCard" onclick="#{beanUserCard.clearStates()}">
                             <img src="./resources/editUser.png"  width="100" height="100"></img>
                             <br></br>
@@ -59,6 +59,12 @@
                             <img src="./resources/BuscarCard.gif"  width="100" height="100"></img>
                             <br></br>
                             <h:outputText value="Consultar Saldo"/>
+                        </h:commandLink>
+                        
+                        <h:commandLink   action="userClaim" onclick="#{beanReclamo.clearStates()}">
+                            <img src="./resources/deleteClaim.png"  width="100" height="100"></img>
+                            <br></br>
+                            <h:outputText value="Consultar EstadoReclamo"/>
                         </h:commandLink>
 
                     </h:panelGrid>
