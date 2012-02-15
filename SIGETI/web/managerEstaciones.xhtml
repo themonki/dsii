@@ -58,7 +58,9 @@
                             <br></br>
                             <h:outputText value="Crear Estacion"/>
                         </h:commandLink>
-                        <h:commandLink   action="editEstacion" onclick="#{beanEstacion.clearBeanEstacion()}">
+                        <h:commandLink   action="findEstacion"
+                                         onclick="#{beanEstacion.clearBeanEstacion()}"
+                                         actionListener="#{beanEstacion.actionEditar()}">
                             <img src="./resources/editarEstacion.png"  width="100" height="100"></img>
                             <br></br>
                             <h:outputText  value="Editar Estacion"/>

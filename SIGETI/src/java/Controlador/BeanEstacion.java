@@ -313,9 +313,9 @@ public class BeanEstacion implements Serializable{
         DaoEstacion daoEstacion = new DaoEstacion();
         List<EstacionPrincipal> estaciones;
         if(!action.equals("Eliminar"))
-            estaciones= daoEstacion.findEstacionesPrincipales(nombreBusqueda, nombreBusqueda);
+            estaciones= daoEstacion.findEstacionesPrincipales(nombreBusqueda, ubicacionBusqueda);
         else
-            estaciones= daoEstacion.findEstacionesPrincipalesActivas(nombreBusqueda, nombreBusqueda);
+            estaciones= daoEstacion.findEstacionesPrincipalesActivas(nombreBusqueda, ubicacionBusqueda);
 
         if(estaciones.size()>0)
         {

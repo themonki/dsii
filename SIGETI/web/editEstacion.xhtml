@@ -10,12 +10,12 @@
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
-        <title>Crear estaci&oacute;n</title>
+        <title>Editar estaci&oacute;n</title>
     </h:head>
 
     <h:body>
 
-       <div id="top">
+         <div id="top">
             <img src="./resources/logo.png" alt="logo"  ></img>
             <div id="top_rigth">
 
@@ -27,7 +27,7 @@
                     </h:commandLink>
                 </h:form>
             </div>
-            </div>
+         </div>
         <div id="center">
             <div id="center_left">
                 <h:form>
@@ -51,26 +51,30 @@
                         <h:panelGrid columns="2">
                             <f:facet name="header">
                                 <center>
-                                <h:outputText value="Crear nueva estaci&oacute;n"/>
+                                <h:outputText value="Editar una estaci&oacute;n"/>
                                 </center>
                             </f:facet>
-                            <h:outputText value="Id de estaci&oacute;n: "/>
-                            <h:outputText value="#{beanEstacion.id}"/>
-                            <h:outputText value="Ubicaci&oacute;n: "/>
-                            <h:outputText value="#{beanEstacion.ubicacion}"/>
-                            <h:outputText value="Estado: "/>
-                            <h:outputText value="#{beanEstacion.estado}"/>
-
-                            <h:outputText value="Nombre estaci&oacute;n: "
+                            <h:outputText value="*Ubicaci&oacute;n:"/>
+                            <h:inputText value="#{beanEstacion.ubicacion}"
+                                         size="20"
+                                         required="true"
+                                         requiredMessage="La ubicaci&oacute;n es un dato requerido."/>
+                            <h:outputText value="Estado:"/>
+                            <h:selectOneMenu value="#{beanEstacion.estado}">
+                                <f:selectItem  itemValue="true" itemLabel="Activa"/>
+                                <f:selectItem itemValue="false" itemLabel="Inactiva"/>
+                            </h:selectOneMenu>
+                            <h:outputText value="Nombre estaci&oacute;n principal:"
                                           rendered="#{beanEstacion.buscarPrincipales}"/>
-                            <h:outputText value="#{beanEstacion.nombre}"
-                                          rendered="#{beanEstacion.buscarPrincipales}"/>
-                            <h:outputText value="Operario acargo: "
-                                          rendered="#{beanEstacion.buscarPrincipales}"/>
-                            <h:outputText value="#{beanEstacion.idOperario}"
-                                          rendered="#{beanEstacion.buscarPrincipales}"/>
+                            <h:inputText value="#{beanEstacion.nombre}"
+                                         rendered="#{beanEstacion.buscarPrincipales}"/>
+                            <h:outputText value="Operario acargo:"/>
+                            <h:selectOneMenu value="#{beanEstacion.idOperario}"
+                                             rendered="#{beanEstacion.buscarPrincipales}">
+                                <f:selectItems value="#{beanEmployee.availableOperario}"/>
+                            </h:selectOneMenu>
                             <br/><br/>
-                            <h:commandButton value="Aceptar" styleClass="JButton" action="findEstacion" /><br/>
+                            <h:commandButton value="Crear" styleClass="JButton" action="#{beanEstacion.createEstacion()}" /><br/>
                         </h:panelGrid>
                     </h:form>
 
