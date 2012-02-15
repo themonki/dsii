@@ -65,16 +65,39 @@ public class BeanContent implements Serializable {
             List l3 = new ArrayList();
             l3.add("Gestionar Tarjetas");
             l3.add("3");
+            
             List l4 = new ArrayList();
-            l4.add("Gestionar Estaciones");
-            l4.add("5");
+            l4.add("Gestionar Reclamos");
+            l4.add("4");
+            List l5 = new ArrayList();
+            l5.add("Gestionar Estaciones");
+            l5.add("5");
 
             System.err.println("l4: " + l4.get(0) + "l4: " + l4.get(1));
+            
+           
+            List c3 = new ArrayList();
+            c3.add("Crear Medida");
+            c3.add("3");
+            List c4 = new ArrayList();
+            c4.add("Consultar Reclamo");
+            c4.add("4");
+            List c5 = new ArrayList();
+            c5.add("Estado Mi Reclamo");
+            c5.add("5");
+
+           
+
+       
+            menuClaimsOptions.add(c3);
+            menuClaimsOptions.add(c4);
+            menuClaimsOptions.add(c5);
 
             menuOptions.add(l1);
             menuOptions.add(l2);
             menuOptions.add(l3);
             menuOptions.add(l4);
+            menuOptions.add(l5);
 
         } else if (rol == 1) //director
         {
