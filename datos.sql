@@ -121,4 +121,9 @@ INSERT INTO medida VALUES(DEFAULT,'Ignorado por falta de argumentos');
 INSERT INTO medida VALUES(DEFAULT,'No se atendio por falta de informacion');
 INSERT INTO medida VALUES(DEFAULT,'Regalo folleto informativo al usuario');
 
+INSERT INTO ruta VALUES ('E31','chiminango-universidades','t');
+INSERT INTO ruta VALUES ('T31','chiminango-universidades','t');
+INSERT INTO ruta VALUES ('T47','Unidaddeportiva-andres sanin','t');
+INSERT INTO ruta VALUES ('P10a','Universidades-pasoancho','t');
+
 
