@@ -104,7 +104,8 @@ public class DaoReclamo {
                 reclamo.setDescripcion(table.getString("descripcion"));
                 reclamo.setMotivo(table.getString("motivo"));
                 reclamo.setEstado(table.getString("estado"));
-
+                reclamo.setAuxiliarRecibe(table.getString("auxiliar_recibe"));
+                reclamo.setUsuarioRealiza(table.getString("usuario_realiza"));
             }
 
 

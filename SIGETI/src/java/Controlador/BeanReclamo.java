@@ -583,6 +583,55 @@ public class BeanReclamo implements Serializable {
         return reclamo;
     }
 
+    public void findReclamoTicket()
+    {
+        FacesContext context = FacesContext.getCurrentInstance();
+        DaoReclamo daoReclamo = new DaoReclamo();
+    
+        Reclamo reclamo = daoReclamo.findReclamo(ticket);
+        
+        System.out.println(reclamo);
+        
+        if(reclamo.getDescripcion() == null)
+        {
+        
+            context.addMessage(null,new FacesMessage("La busqueda no arrojo resultados"));
+           
+            renderTableSearch = false;
+            return;
+        
+        }else{
+
+        
+        
+        this.ticket = reclamo.getTicket();
+        this.fecha = reclamo.getFecha();
+        this.descripcion = reclamo.getDescripcion();
+        this.motivo = reclamo.getMotivo();
+        this.estado = reclamo.getEstado();
+        this.auxiliarRecibe = reclamo.getAuxiliarRecibe();
+        this.usuarioRealiza = reclamo.getUsuarioRealiza();
+        
+       
+        
+        this.nombreUsuario = daoReclamo.usuarioValido(usuarioRealiza);
+        DaoEmpleado daoEmpleado = new DaoEmpleado();
+         
+        Auxiliar auxiliar = daoEmpleado.findAuxiliarId(this.auxiliarRecibe,true);
+        
+        DaoEstacion daoEstacion = new DaoEstacion();
+        
+        EstacionPrincipal estacionPrincipal = daoEstacion.findEstacionPrincipal(auxiliar.getTrabajaEn());
+        nombreEstacion = estacionPrincipal.getNombre(); 
+        getFindMedida();       
+        
+        }
+    
+    
+    
+    
+    }
+    
     private void prepareDataClaim() {
         Reclamo reclamo = this.getCurrentReclamo();
         
@@ -650,7 +699,7 @@ public class BeanReclamo implements Serializable {
         
         return link;
     }
-    void clearStates() {
+    public void clearStates() {
         this.ticket = 0;
         this.descripcion = "";
         this.fecha = "";
