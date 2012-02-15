@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
+        <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
+        <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
+        <title>Consultar Estado Reclamo</title>
+    </h:head>
+
+    <h:body>
+        <div id="top">
+            <img src="./resources/logo.png" alt="logo"  ></img>
+            <div id="top_rigth">
+                <h:form>
+                    <h:outputText value="Bievenido Visitante"/>
+                </h:form>
+            </div>
+        </div>
+        <div id="center">
+            <div id="center_left">
+                <h:form>
+                    <center><strong><h:outputText value="Men&uacute;"/></strong><br/><br/>
+                        <h:commandLink action="index">
+                            <h:outputText value="Inicio"/>
+                        </h:commandLink>
+                        <br/>
+                        <h:commandLink action="userManager">
+                            <h:outputText value="Gestión Usuario"/>
+                        </h:commandLink>
+                    </center>
+                </h:form>
+            </div>
+            <div  id="center_center">
+                <div>
+                    <ui:insert name="content">Consultar Saldo Tarjeta</ui:insert>
+
+                    <br></br>
+
+                    <img src="./resources/deleteClaim.png"  width="100" height="100"></img>
+
+                    <br></br>
+                    <h:messages style="color: red"   />
+
+                    <br></br>
+
+                    <h:form styleClass="Formulario">
+
+                        <h:panelGrid columns="2" >
+                            <h:outputText value="Ingrese el Pin:"/>
+                            <h:inputText value="#{beanReclamo.ticket}" />  
+                            <h:commandButton value="Consultar" styleClass="JButton" action="#{beanReclamo.findReclamoTicket()}" />
+                        </h:panelGrid>
+
+                        <br/><hr/><br/>
+
+                        <h:panelGrid columns="2" rendered="#{beanReclamo.renderTableSearch}">
+                        <f:facet name="header">
+                            <h:outputText value="Datos Reclamo"/>
+                        </f:facet>
+                        <h:outputText value="Numero Ticket:"/>
+                        <h:outputText value="#{beanReclamo.ticket}"/>
+                        <h:outputText value="Fecha(Inicio del Reclamo):"/>
+                        <h:outputText value="#{beanReclamo.fecha}"/>
+                        <h:outputText value="Descripcion:"/>
+                        <h:inputTextarea value="#{beanReclamo.descripcion}" disabled="true" cols="40" rows="10"/>
+                      
+                        <h:outputText value="Motivo:"/>
+                        <h:outputText value="#{beanReclamo.motivo}"/>
+                        <h:outputText value="Estado:"/>
+                        <h:outputText value="#{beanReclamo.estado}"/>
+                        <h:outputText value="Identificacion Auxiliar :"/>
+                        <h:outputText value="#{beanReclamo.auxiliarRecibe}"/>
+                        <h:outputText value="Nombre del Estacion :"/>
+                        <h:outputText value="#{beanReclamo.nombreEstacion}"/>
+                        <h:outputText value="Identificacion Usuario:"/>
+                        <h:outputText value="#{beanReclamo.usuarioRealiza}"/>
+                        <h:outputText value="Nombre del Usuario:"/>
+                        <h:outputText value="#{beanReclamo.nombreUsuario}"/>
+                       </h:panelGrid>
+                     <br/>
+                    <h:panelGrid rendered="#{beanReclamo.renderTableSearch}">
+                        <h:dataTable
+                            border="1"
+                            var="medida"
+                            value="#{beanReclamo.medidas}"
+                            id="tableMedida"
+                            
+                            >
+                            <f:facet name="caption">Medidas tomadas para este Reclamo</f:facet>
+
+                            <h:column >
+                                <f:facet name="header">Identificador Medida</f:facet>
+                                #{medida.id}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Accion</f:facet>
+                                #{medida.accion}
+                            </h:column>                                
+                        </h:dataTable>
+                    </h:panelGrid>
+                    <br/>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+        <div id="bottom">
+            <ui:insert name="bottom">SIGETI: Sistema de Gesti&oacute;n de Transporte Integrado.</ui:insert>
+        </div>
+    </h:body>
+</html>
