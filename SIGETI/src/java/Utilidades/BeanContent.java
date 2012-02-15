@@ -111,8 +111,11 @@ public class BeanContent implements Serializable {
             l1.add("Gestionar Empleados");
             l1.add("1");
             List l2 = new ArrayList();
-            l2.add("Gestinar Estaciones");
-            l2.add("5");
+            l2.add("Gestionar Buses");
+            l2.add("2");
+            List l5 = new ArrayList();
+            l5.add("Gestinar Estaciones");
+            l5.add("5");
             List l6 = new ArrayList();
             l6.add("Gestionar Rutas");
             l6.add("6");
@@ -120,6 +123,7 @@ public class BeanContent implements Serializable {
 
             menuOptions.add(l1);
             menuOptions.add(l2);
+            menuOptions.add(l5);
             menuOptions.add(l6);
 
         } else if (rol == 2) //Operario
