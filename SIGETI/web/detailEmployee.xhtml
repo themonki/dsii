@@ -47,7 +47,7 @@
                 <h:form styleClass="Formulario">
                     <h:panelGrid columns="2">
                         <f:facet name="header">
-                            <h:outputText value="Datos personales"/>
+                            <center><h:outputText value="Datos personales"/></center>
                         </f:facet>
                         <h:outputText value="Primer nombre:"/>
                         <h:outputText value="#{beanEmployee.nombre}"/>
@@ -92,16 +92,18 @@
                         <h:outputText value="Estado:"/>
                         <h:outputText value="#{beanEmployee.estadoS}"/>
                     </h:panelGrid>
-                    <br/><br/>      
+                    <br/><br/>
+                    <center>
                     <h:commandButton value="Aceptar" styleClass="JButton" 
                                      action="findEmployee"
                                      actionListener="#{beanEmployee.statesForFindReturn}"
                                      immediate="true"/>
+                    </center>
                 </h:form>
             </div>
         </div>
         <div id="bottom">
-            <ui:insert name="bottom">Pie de pagina</ui:insert>
+            <ui:insert name="bottom">SIGETI: Sistema de Gesti&oacute;n de Transporte Integrado.</ui:insert>
         </div>
 
     </h:body>
