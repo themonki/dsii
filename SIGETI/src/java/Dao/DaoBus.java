@@ -247,7 +247,7 @@ public class DaoBus {
     
     public List<Bus> consultarBusesSinConductor() {
 
-        String sqlConsulta = "SELECT conduce_bus FROM conductor WHERE conduce_bus IS NOT NULL";
+        String sqlConsulta = "SELECT matricula FROM bus b WHERE NOT EXISTS (SELECT matricula FROM conductor WHERE conduce_bus=matricula) && estado ='t'";
         
                 
         List<Bus> buses = null;
