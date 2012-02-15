@@ -21,7 +21,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -37,8 +36,7 @@ public class BeanBus implements Serializable {
     private String idInterno;
     private boolean estado;
     private String perteneceRuta;
-    private String estadoFisico;    
-    private FacesContext context;
+    private String estadoFisico;
     /**/
     private boolean isRenderTableSearch;
     private String action;
@@ -102,7 +100,7 @@ public class BeanBus implements Serializable {
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
-    
+
     public void setEstado(String estado) {
         if(estado.equals("Habilitado"))
             this.estado = true;
@@ -155,7 +153,7 @@ public class BeanBus implements Serializable {
     
     public String createBus(){
         
-        context = FacesContext.getCurrentInstance();
+        FacesContext context = FacesContext.getCurrentInstance();
         
         if (context.getMessageList().size() > 0) {
             return null;
@@ -236,10 +234,6 @@ public class BeanBus implements Serializable {
         this.clearStates();
         return "resultOperation";        
     
-    }
-    
-    public boolean validate(){
-        return true;
     }
     
     public List<SelectItem> getAvailableRutaPertenece(){
