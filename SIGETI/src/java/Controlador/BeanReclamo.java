@@ -577,7 +577,7 @@ public class BeanReclamo implements Serializable {
         this.nombreUsuario = daoReclamo.usuarioValido(usuarioRealiza);
         DaoEmpleado daoEmpleado = new DaoEmpleado();
          
-        Auxiliar auxiliar = daoEmpleado.findAuxiliarId(this.auxiliarRecibe);
+        Auxiliar auxiliar = daoEmpleado.findAuxiliarId(this.auxiliarRecibe,true);
         
         DaoEstacion daoEstacion = new DaoEstacion();
         
