@@ -10,12 +10,62 @@
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
+        <title>Consultar Ruta</title>
+
+        <script src="http://maps.google.com/maps?file=api&amp;v=2&oe=ISO-8859-1" type="text/javascript"></script>
+        <script type="text/javascript">
+
+            var map;
+            var gdir;
+            var geocoder = null;
+            var addressMarker;
+
+            function initialize() {
+            if (GBrowserIsCompatible()) {
+            map = new GMap2(document.getElementById("mapa_ruta"));
+            map.addControl(new GLargeMapControl());
+            map.addControl(new GMapTypeControl());
+            map.addControl(new GOverviewMapControl());
+            map.addControl(new GScaleControl());
+            gdir = new GDirections(map, document.getElementById("direcciones"));
+            GEvent.addListener(gdir, "load", onGDirectionsLoad);
+            GEvent.addListener(gdir, "error", handleErrors);
+
+            }
+            }
+
+            function setMapRoute(rute) {
+            gdir.load(rute, { "locale": "es" });
+            }
+
+            function handleErrors(){
+            if (gdir.getStatus().code == G_GEO_UNKNOWN_ADDRESS)
+            alert("Dirección no disponible.\nError code: " + gdir.getStatus().code);
+            else if (gdir.getStatus().code == G_GEO_SERVER_ERROR)
+            alert("A geocoding or directions request could not be successfully processed, yet the exact reason for the failure is not known.\n Error code: " + gdir.getStatus().code);
+            else if (gdir.getStatus().code == G_GEO_MISSING_QUERY)
+            alert("The HTTP q parameter was either missing or had no value. For geocoder requests, this means that an empty address was specified as input. For directions requests, this means that no query was specified in the input.\n Error code: " + gdir.getStatus().code);
+            else if (gdir.getStatus().code == G_GEO_BAD_KEY)
+            alert("The given key is either invalid or does not match the domain for which it was given. \n Error code: " + gdir.getStatus().code);
+            else if (gdir.getStatus().code == G_GEO_BAD_REQUEST)
+            alert("A directions request could not be successfully parsed.\n Error code: " + gdir.getStatus().code);
+            else alert("An unknown error occurred.");
+            }
+
+            function onGDirectionsLoad(){
+            }
+
+        </script>
+    </h:head>
+
+    <h:body>
         <link href="./resources/css/table.css" rel="stylesheet" type="text/css" />
 
         <title>Buscar Ruta</title>        
     </h:head>
 
     <h:body>
+
         <div id="top">
             <img src="./resources/logo.png" alt="logo"  ></img>
             <div id="top_rigth">
@@ -44,6 +94,34 @@
                     </h:dataTable>
                 </h:form>
             </div>
+
+            <div  id="center_center">
+                <h:messages style="color: red"   />
+                <br></br>
+                <h:form styleClass="Formulario">
+                    <h:panelGrid columns="2">
+                        <f:facet name="header">
+                            <center>
+                                <h:outputText value="Consultar ruta"/>
+                            </center>
+                        </f:facet>
+
+                        <h:selectOneMenu value="#{beanRuta.nombre}">
+                            
+                        </h:selectOneMenu>
+                        <h:commandButton value="Consultar"
+                                         actionListener="#{beanRuta.}"
+                                         styleClass="JButton"/>
+
+                </h:panelGrid>
+        </div>
+    </div>
+    <div id="bottom">
+        <ui:insert name="bottom">SIGETI: Sistema de Gesti&oacute;n de Transporte Integrado.</ui:insert>
+    </div>
+
+</h:body>
+
             <div  id="center_center">                 
                 <h:form styleClass="Formulario">
                     <h:panelGrid columns="2">

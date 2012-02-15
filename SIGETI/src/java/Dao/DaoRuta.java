@@ -1,5 +1,6 @@
 package Dao;
 
+import Entidades.Estacion;
 import Entidades.Ruta;
 import Utilidades.FachadaBD;
 import java.sql.Connection;
@@ -49,13 +50,13 @@ public class DaoRuta {
     }
 
     public int saveRuta(Ruta ruta) {
-         String sql_insert = "INSERT INTO ruta (nombre,descripcion,estado)";
+         String sql_insert = "INSERT INTO ruta (nombre,descripcion,estado";
                
-        sql_insert += ") VALUES (DEFAULT"
-                + ",'" + ruta.getNombre()
+        sql_insert += ") VALUES ('"
+                + ruta.getNombre()
                 + "','" + ruta.getDescripcion()
-                + "','" + ruta.getEstado()                
-                + "');";
+                + "'," + ruta.getEstado()                
+                + ");";
 
         System.err.println(sql_insert);
         int result = 0;
@@ -107,6 +108,76 @@ public class DaoRuta {
         return  nombreRuta;
     }
     
+    
+          
+       public void insertarEstacionesRuta(List<Estacion> estaciones,String nombreRuta)
+       {
+       
+           String sql_delete = "delete from ruta_formado_estacion where nombre='"+nombreRuta+"';";
+           System.err.println(sql_delete);
+
+           try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            sentence.executeUpdate(sql_delete);
+            
+            String sql_insert = "";
+            for(int i = 0; i< estaciones.size();i++)
+            {
+                if(estaciones.get(i).getId() !=0)
+                {
+                sql_insert = "INSERT INTO ruta_formado_estacion VALUES('"+nombreRuta+"',"+estaciones.get(i).getId() +")";
+                System.err.println(sql_insert);
+
+                sentence.executeUpdate(sql_insert);                
+                }
+            
+            }
+            System.err.println("Se insertaron todas las estaciones para la ruta");
+
+
+           
+            fachada.cerrarConexion(conn);
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       
+       
+       
+       }
+       
+       /**        
+        * Busca las rutas de una determinada estacion usando el id de la estacion
+        */
+       public List<Ruta> consultarRutasEstacion(String id_estacion){
+           String sqlConsulta = "SELECT * from ruta NATURAL JOIN ruta_formado_estacion WHERE id_estacion = '"
+                   +id_estacion+"' AND estado = 't'";
+        
+        List<Ruta> nombreRutas = null;
+        try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+                ResultSet table = sentence.executeQuery(sqlConsulta);
+            nombreRutas = new ArrayList<Ruta>();
+            while (table.next()) {
+                Ruta ruta = new Ruta();
+                ruta.setDescripcion(table.getString("descripcion"));
+                ruta.setEstado(table.getBoolean("estado"));
+                ruta.setNombre(table.getString("nombre"));
+                nombreRutas.add(ruta);                
+            }
+            fachada.cerrarConexion(conn);
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }       
+       
+       return nombreRutas;
+       }
+       
 }
 
     
