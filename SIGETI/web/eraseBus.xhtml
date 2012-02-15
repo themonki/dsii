@@ -11,7 +11,7 @@
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
-        <title>Editar Bus</title>        
+        <title>Eliminar Bus</title>        
         
         <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
     </h:head>
@@ -53,9 +53,9 @@
                         </f:facet>                        
                         <h:outputText value="* Identificador Interno"/>
                         <h:outputText value="#{beanBus.idInterno}"/>
-                        <h:outputText value="Estado Fisico:"/>
+                        <h:outputText value="Estado Fisico"/>
                         <h:outputText value="#{beanBus.estadoFisico}"/>
-                        <h:outputText value="Ruta a la que pertenece:"/>
+                        <h:outputText value="Ruta a la que pertenece"/>
                         <h:outputText value="#{beanBus.perteneceRuta}"/>                                                
                     </h:panelGrid>
                     <br/><hr/><br/>
