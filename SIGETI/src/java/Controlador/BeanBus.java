@@ -21,6 +21,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -123,7 +124,7 @@ public class BeanBus implements Serializable {
     public void setMatricula(String matricula) {
         
         this.matricula = matricula;
-        if(matricula!=null || !matricula.equals("")){
+        if(matricula!=null && !matricula.equals("")){
             isRenderTableSearch=true;
         }
         
@@ -253,8 +254,6 @@ public class BeanBus implements Serializable {
         return availableRutaPertenece;
     }
     
-    
-    
     public List<SelectItem> getAvailableEstadoFisico(){
         List<SelectItem> availableEstadoFisico = new ArrayList<SelectItem>();
         
@@ -322,13 +321,12 @@ public class BeanBus implements Serializable {
     
     public List<Bus> getFindBuses(){        
         DaoBus daoBus = new DaoBus();
-        Bus b = daoBus.consultarBus(matricula);
-        if(b.getMatricula()==null){
-            b.setMatricula("");
-            return null;
-        }
-        List<Bus> buses = new ArrayList<Bus>();
-        buses.add(b);
+        Bus b = new Bus();
+        
+        b.setMatricula(matricula.trim());
+        b.setIdInterno(idInterno.trim());
+        b.setTipo(tipo.trim());
+        List<Bus> buses = daoBus.consultarBuses(b);
         return buses;
     }
     

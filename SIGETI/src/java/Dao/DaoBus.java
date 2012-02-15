@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -76,6 +78,66 @@ public class DaoBus {
             e.printStackTrace();
         }
         return bus;
+    }
+    
+    public List<Bus> consultarBuses(Bus b) {
+
+        String sqlConsulta = "SELECT * from bus WHERE ";        
+        sqlConsulta += " estado = 't'";
+        boolean buscarPorMatricula = false;
+        if(b.getMatricula()!=null && !b.getMatricula().equals("")){
+
+            sqlConsulta += " AND ( matricula = '" + b.getMatricula()+"'";
+            buscarPorMatricula=true;
+        }
+        
+        if(b.getIdInterno()!=null && !b.getIdInterno().equals("")){
+            if(buscarPorMatricula){
+                sqlConsulta += " OR id_interno = '" + b.getIdInterno()+"'";
+            }else{
+                sqlConsulta += " AND (id_interno = '" + b.getIdInterno()+"'";
+                buscarPorMatricula=true;
+            }
+        }
+        
+        if(b.getTipo()!=null && !b.getTipo().equals("0")){
+            if(buscarPorMatricula){
+                sqlConsulta += " OR tipo = '" + b.getTipo()+"'";
+            }else{
+                sqlConsulta += " AND tipo = '" + b.getTipo()+"'";
+            }
+        }   
+        if(buscarPorMatricula){
+            sqlConsulta += " ) ";
+        }
+        
+                
+        List<Bus> buses = null;
+        try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+            ResultSet table = sentence.executeQuery(sqlConsulta);
+            buses = new ArrayList<Bus>();
+            int count =0;
+            while (table.next()){
+                count++;
+                Bus bus = new Bus();
+                bus.setCapacidad(table.getInt("capacidad"));
+                bus.setEstado(table.getBoolean("estado"));
+                bus.setIdInterno(table.getString("id_interno"));
+                bus.setMatricula(table.getString("matricula"));
+                bus.setPerteneceRuta(table.getString("pertenece_ruta"));
+                bus.setTipo(table.getString("tipo"));
+                bus.setEstadoFisico(table.getString("estado_fisico"));                
+                buses.add(bus);
+            }
+            fachada.cerrarConexion(conn);
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return buses;
     }
 
     public int updateBus(Bus bus) {

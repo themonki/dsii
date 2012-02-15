@@ -67,6 +67,7 @@
                     <h:commandButton value="Editar" action="#{beanBus.updateBus}"/>
                     <h:commandButton  value="Atr&aacute;s"
                                           action="findBus"
+                                          actionListener="#{beanBus.statesForFindReturn}"
                                           immediate="true"/>
                 </h:form>
             </div>
