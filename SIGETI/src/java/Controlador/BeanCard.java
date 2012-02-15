@@ -16,12 +16,16 @@ import javax.faces.context.FacesContext;
 import Utilidades.BeanContent;
 import Dao.DaoCard;
 import Dao.DaoEmpleado;
+import Dao.DaoEstacion;
 import Entidades.Auxiliar;
+import Entidades.EstacionPrincipal;
 import Entidades.Tarjeta;
 
 import Entidades.TarjetaPersonalizada;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+import javax.faces.model.SelectItem;
 
 @ManagedBean
 @SessionScoped
@@ -612,6 +616,22 @@ public class BeanCard implements Serializable {
         recarga=0;
         credito=0;
         nombrePasajero="";
+        isFindList="false";
+        isFind="false";
 
+    }
+    
+    public List<SelectItem> getAvailableEstacionPrincipal() {
+        List<SelectItem> availableEstacion = new ArrayList<SelectItem>();
+
+        DaoEstacion daoEstacion = new DaoEstacion();
+        List<EstacionPrincipal> estaciones = daoEstacion.findAllEstacionPrincipal();
+        daoEstacion = null;
+
+        for (int i = 0; i < estaciones.size(); i++) {
+            EstacionPrincipal estacion_ = estaciones.get(i);
+            availableEstacion.add(new SelectItem(Integer.toString(estacion_.getId()), estacion_.getNombre()));
+        }
+        return availableEstacion;
     }
 }
