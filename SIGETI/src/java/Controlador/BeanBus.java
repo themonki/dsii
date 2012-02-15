@@ -122,9 +122,8 @@ public class BeanBus implements Serializable {
     public void setMatricula(String matricula) {
         
         this.matricula = matricula;
-        if(matricula!=null && !matricula.equals("")){
-            isRenderTableSearch=true;
-        }
+        isRenderTableSearch=true;
+        
         
     }
 
