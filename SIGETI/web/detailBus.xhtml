@@ -9,6 +9,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
+        <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
         <title>Detalles del Bus</title>        
         
         <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
@@ -45,11 +46,10 @@
                 </h:form>
             </div>
             <div id="center_center">
-                <h:form>
-                    <h:messages styleClass="error"/>
+                <h:form styleClass="Formulario">
                     <h:panelGrid columns="2">
                         <f:facet name="header">
-                            <h:outputText value="Datos del Bus"/>
+                            <center><h:outputText value="Datos del Bus"/></center>
                         </f:facet>
                         <h:outputText value="Matricula:"/>
                         <h:outputText value="#{beanBus.matricula}"/>
@@ -64,11 +64,13 @@
                         <h:outputText value="Ruta a la que pertenece:"/>
                         <h:outputText value="#{beanBus.perteneceRuta}"/>                      
                     </h:panelGrid>
-                    <br/><hr/><br/>                    
-                    <h:commandButton  value="Atr&aacute;s"
+                    <br/><hr/><br/>
+                    <center>
+                    <h:commandButton  value="Atr&aacute;s" styleClass="JButton"
+                                      actionListener="#{beanBus.statesForFindReturn}"
                                           action="findBus"                                          
                                           immediate="true"/>
-                    
+                    </center>
                 </h:form>
             </div>
         </div>

@@ -128,20 +128,20 @@ public class DaoUser {
         String sql_insert = "UPDATE usuario  SET ";
        
         
-        if (usuario.getNombre()!=null &&!usuario.getNombre().equals("")){ sql_insert+= "nombre="+ usuario.getNombre()+",";       }
+        if (usuario.getNombre()!=null &&!usuario.getNombre().equals("")){ sql_insert+= "nombre='"+ usuario.getNombre()+"',";       }
         
-        if (usuario.getApellido()!=null &&!usuario.getApellido().equals("")){ sql_insert+= "apellido="+usuario.getApellido() +","; }
+        if (usuario.getApellido()!=null &&!usuario.getApellido().equals("")){ sql_insert+= "apellido='"+usuario.getApellido() +"',"; }
         
-        if (usuario.getDireccion()!=null &&!usuario.getDireccion().equals("")){ sql_insert+= "direccion="+usuario.getDireccion()+",";}
+        if (usuario.getDireccion()!=null &&!usuario.getDireccion().equals("")){ sql_insert+= "direccion='"+usuario.getDireccion()+"',";}
         
-        if (usuario.getEmail()!=null &&!usuario.getEmail().equals("")){ sql_insert+= "email="+usuario.getEmail() +",";}
+        if (usuario.getEmail()!=null &&!usuario.getEmail().equals("")){ sql_insert+= "email='"+usuario.getEmail() +"',";}
         
         if (usuario.getFechaNacimiento()!=null &&!usuario.getFechaNacimiento().equals("")){ sql_insert+= "fecha_nacimiento='"+usuario.getFechaNacimiento()+"',";}
         
-        if (usuario.getTelefono()!=null &&!usuario.getTelefono().equals("")){ sql_insert+= "telefono="+usuario.getTelefono()+",";}
+        if (usuario.getTelefono()!=null &&!usuario.getTelefono().equals("")){ sql_insert+= "telefono='"+usuario.getTelefono()+"',";}
       
        
-        sql_insert+="password="+usuario.getPassword()+",estado="+usuario.getEstado();
+        sql_insert+="password='"+usuario.getPassword()+"',estado="+usuario.getEstado();
         
         
         

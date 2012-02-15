@@ -41,6 +41,10 @@ public class BeanEstacion implements Serializable{
 
     boolean renderTable;
     String nombreBusqueda;
+    String ubicacionBusqueda;
+    boolean buscarPrincipales;
+
+    String action;
 
     public BeanEstacion()
     {
@@ -63,6 +67,10 @@ public class BeanEstacion implements Serializable{
         disableNombre=true;
 
         renderTable=false;
+        nombreBusqueda="";
+        ubicacionBusqueda="";
+        buscarPrincipales=false;
+        action="";
     }
 
     public String getTipo()
@@ -112,6 +120,21 @@ public class BeanEstacion implements Serializable{
     public String getNombreBusqueda()
     {
         return nombreBusqueda;
+    }
+
+    public String getAction()
+    {
+        return action;
+    }
+
+    public String getUbicacionBusqueda()
+    {
+        return ubicacionBusqueda;
+    }
+
+    public boolean getBuscarPrincipales()
+    {
+        return buscarPrincipales;
     }
 
     public void setTipo(String tipoNew)
@@ -174,6 +197,21 @@ public class BeanEstacion implements Serializable{
         nombreBusqueda=nombreBusquedaNew.trim();
     }
 
+    public void setAction(String actionNew)
+    {
+        action=actionNew;
+    }
+
+    public void setUbicacionBusqueda(String ubicacionBusquedaNew)
+    {
+        ubicacionBusqueda=ubicacionBusquedaNew;
+    }
+
+    public void setBuscarPrincipales(boolean buscarPrincipalesNew)
+    {
+        buscarPrincipales= buscarPrincipalesNew;
+    }
+    
     public boolean existEstacion(String ubicacion)
     {
         DaoEstacion daoEstacion= new DaoEstacion();
@@ -273,18 +311,15 @@ public class BeanEstacion implements Serializable{
         FacesContext context = FacesContext.getCurrentInstance();
         BeanContent content = (BeanContent) context.getApplication().evaluateExpressionGet(context, "#{beanContent}", BeanContent.class);
         DaoEstacion daoEstacion = new DaoEstacion();
-        List<EstacionPrincipal> estaciones= daoEstacion.findEstacionesPrincipales(nombreBusqueda);
+        List<EstacionPrincipal> estaciones;
+        if(!action.equals("Eliminar"))
+            estaciones= daoEstacion.findEstacionesPrincipales(nombreBusqueda, nombreBusqueda);
+        else
+            estaciones= daoEstacion.findEstacionesPrincipalesActivas(nombreBusqueda, nombreBusqueda);
 
         if(estaciones.size()>0)
         {
-            /*for(int i=0; i<estaciones.size(); i++)
-            {
-                context.addMessage(null, new FacesMessage("Estacion No.: " + estaciones.get(i).getId()
-                        + " Ubicacion: "+ estaciones.get(i).getUbicacion()
-                        + " Estado: "+ estaciones.get(i).getEstado()
-                        + " Nombre: " + estaciones.get(i).getNombre()
-                        + " Id Operario: " + estaciones.get(i).getIdOperario()));
-            }*/
+            
             renderTable=true;
 
             return estaciones;
@@ -293,7 +328,6 @@ public class BeanEstacion implements Serializable{
             context.addMessage(null, new FacesMessage("No se encontraron coincidencias en la base de datos, por favor verifique su busqueda"));
             renderTable=false;
             return null;
-            //return "resultOperation";
 
         }
     }
@@ -307,20 +341,123 @@ public class BeanEstacion implements Serializable{
         return estacion;
     }
 
-    public void detalleEstacion()
+    public EstacionParadero getEstacionParadero()
     {
-        EstacionPrincipal estacion= getEstacionPrincipal();
-        id= estacion.getId();
-        ubicacion= estacion.getUbicacion();
-        estado= estacion.getEstado();
-        nombre= estacion.getNombre();
-        idOperario= estacion.getIdOperario();
+        FacesContext context= FacesContext.getCurrentInstance();
+        Application app= context.getApplication();
+        EstacionParadero estacion  = (EstacionParadero) app.evaluateExpressionGet(context, "#{estacion}", EstacionParadero.class);
+        return estacion;
     }
 
-    public void actionFindEstacionPrincipal()
+    public void detalleEstacion()
     {
-        this.findEstacionesPrincipales();
+        if(buscarPrincipales)
+        {
+            EstacionPrincipal estacion= getEstacionPrincipal();
+            id= estacion.getId();
+            ubicacion= estacion.getUbicacion();
+            estado= estacion.getEstado();
+            nombre= estacion.getNombre();
+            idOperario= estacion.getIdOperario();
+        }else{
+            EstacionParadero estacion= getEstacionParadero();
+            id= estacion.getId();
+            ubicacion= estacion.getUbicacion();
+            estado= estacion.getEstado();
+        }
+        
     }
+
+    public void actionFindEstacion()
+    {
+
+        if(buscarPrincipales)
+            this.findEstacionesPrincipales();
+        else
+            this.findEstacionesParadero();
+    }
+
+    public String eliminarEstacion()
+    {
+        DaoEstacion daoEstacion= new DaoEstacion();
+        int result= daoEstacion.eliminarEstacion(id);
+
+        FacesContext context = FacesContext.getCurrentInstance();
+        BeanContent content = (BeanContent) context.getApplication().evaluateExpressionGet(context, "#{beanContent}", BeanContent.class);
+        if(result==0)
+        {
+            content.setResultOperation("La estacion no pudo ser eliminada.");
+            content.setImage("./resources/fail.png");
+            clearBeanEstacion();
+            return "resultOperation";
+        }else{
+            content.setResultOperation("La estacion fue eliminada con exito.");
+            content.setImage("./resources/ok.png");
+            clearBeanEstacion();
+            return "resultOperation";
+        }
+
+    }
+
+    public String getLinkActions()
+    {
+        if(action.equals("Detalle"))
+        {
+            return "detailEstacion";
+        }else if(action.equals("Eliminar"))
+        {
+            return "eraseEstacion";
+        }else if(action.equals("Editar"))
+        {
+            return "editEstacion";
+        }else
+        {
+            return "managerEstaciones";
+        }
+    }
+
+    public void actionEliminar()
+    {
+        action="Eliminar";
+    }
+
+    public void actionDetalle()
+    {
+        action="Detalle";
+    }
+
+    public void actionEditar()
+    {
+        action="Editar";
+    }
+
+    public List<EstacionParadero> findEstacionesParadero()
+    {
+        FacesContext context = FacesContext.getCurrentInstance();
+        BeanContent content = (BeanContent) context.getApplication().evaluateExpressionGet(context, "#{beanContent}", BeanContent.class);
+        DaoEstacion daoEstacion = new DaoEstacion();
+        List<EstacionParadero> estaciones;
+        if(!action.equals("Eliminar"))
+            estaciones= daoEstacion.findEstacionParadero(nombreBusqueda);
+        else
+            estaciones= daoEstacion.findEstacionParaderoActivas(ubicacionBusqueda);
+
+        if(estaciones.size()>0)
+        {
+            
+            renderTable=true;
+
+            return estaciones;
+
+        }else{
+            context.addMessage(null, new FacesMessage("No se encontraron coincidencias en la base de datos, por favor verifique su busqueda"));
+            renderTable=false;
+            return null;
+            //return "resultOperation";
+
+        }
+    }
+
 }
 
 

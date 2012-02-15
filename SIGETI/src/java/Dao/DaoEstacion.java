@@ -156,13 +156,17 @@ public class DaoEstacion {
         return estacion;
     }
 
-    public EstacionParadero findEstacionParadero(Integer id)
+    public List<EstacionParadero> findEstacionParadero(String ubicacion)
     {
+        String ubicacion_sql="";
+        if(!ubicacion.equals(""))
+            ubicacion_sql= " WHERE ubicacion like '%"+ ubicacion + "%'";
         String sql_query="SELECT id, ubicacion, estado FROM estacion_paradero JOIN"
-                + " estacion ON estacion_paradero.id_estacion= estacion.id";
+                + " estacion ON estacion_paradero.id_estacion= estacion.id"
+                + ubicacion_sql;
 
-        EstacionParadero estacion= new EstacionParadero();
-
+        
+        List<EstacionParadero> estaciones= new ArrayList<EstacionParadero>();
         try{
             Connection conn = fachada.conectar();
             Statement sequence = conn.createStatement();
@@ -170,9 +174,11 @@ public class DaoEstacion {
 
             while(table.next())
             {
+                EstacionParadero estacion= new EstacionParadero();
                 estacion.setId(table.getInt("id"));
                 estacion.setUbicacion(table.getString("ubicacion"));
                 estacion.setEstado(table.getBoolean("estado"));
+                estaciones.add(estacion);
             }
 
         }catch (SQLException se) {
@@ -180,7 +186,40 @@ public class DaoEstacion {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return estacion;
+        return estaciones;
+    }
+
+    public List<EstacionParadero> findEstacionParaderoActivas(String ubicacion)
+    {
+        String ubicacion_sql="";
+        if(!ubicacion.equals(""))
+            ubicacion_sql= " and ubicacion like '%"+ ubicacion + "%'";
+        String sql_query="SELECT id, ubicacion, estado FROM estacion_paradero JOIN"
+                + " estacion ON estacion_paradero.id_estacion= estacion.id"
+                + " WHERE estado=true " + ubicacion_sql;
+
+
+        List<EstacionParadero> estaciones= new ArrayList<EstacionParadero>();
+        try{
+            Connection conn = fachada.conectar();
+            Statement sequence = conn.createStatement();
+            ResultSet table = sequence.executeQuery(sql_query);
+
+            while(table.next())
+            {
+                EstacionParadero estacion= new EstacionParadero();
+                estacion.setId(table.getInt("id"));
+                estacion.setUbicacion(table.getString("ubicacion"));
+                estacion.setEstado(table.getBoolean("estado"));
+                estaciones.add(estacion);
+            }
+
+        }catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return estaciones;
     }
 
     public EstacionPrincipal findEstacionPrincipal(Integer id)
@@ -243,27 +282,75 @@ public class DaoEstacion {
         return estacion;
     }
 
-    public List<EstacionPrincipal> findEstacionesPrincipales(String nombre)
+    public List<EstacionPrincipal> findEstacionesPrincipales(String nombre, String ubicacion)
     {
         String sql_nombre="";
-        //String sql_ubicacion= "";
+        String sql_ubicacion= "";
         String sql_where="";
-        /*if(!nombre.equals("") || !ubicacion.equals(""))
+        String sql_and="";
+        if(!nombre.equals("") || !ubicacion.equals(""))
         {
             sql_where=" WHERE ";
-        }*/
+        }
         if(!nombre.equals(""))
         {
-            sql_where=" WHERE ";
             sql_nombre=" nombre like '%"+nombre+"%' ";
+            sql_and=" and ";
+            
         }
-        /*if(!ubicacion.equals(""))
+        if(!ubicacion.equals(""))
         {
             sql_ubicacion= " ubicacion like '%"+ubicacion+"%' ";
-        }*/
+        }
+        
         String sql_query= "SELECT id, ubicacion, estado, nombre, id_operario FROM "
                 + " estacion_principal JOIN estacion ON estacion_principal.id_estacion="
-                + " estacion.id " +sql_where + sql_nombre; //+ sql_ubicacion;
+                + " estacion.id " +sql_where + sql_nombre + sql_and + sql_ubicacion;
+
+        List<EstacionPrincipal> estaciones= new ArrayList<EstacionPrincipal>();
+
+        try{
+            Connection conn = fachada.conectar();
+            Statement sequence = conn.createStatement();
+            ResultSet table = sequence.executeQuery(sql_query);
+
+
+            while(table.next())
+            {
+                EstacionPrincipal estacion = new EstacionPrincipal();
+                estacion.setId(table.getInt("id"));
+                estacion.setUbicacion(table.getString("ubicacion"));
+                estacion.setEstado(table.getBoolean("estado"));
+                estacion.setNombre(table.getString("nombre"));
+                estacion.setIdOperario(table.getString("id_operario"));
+                estaciones.add(estacion);
+            }
+
+        }catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return estaciones;
+    }
+
+    public List<EstacionPrincipal> findEstacionesPrincipalesActivas(String nombre, String ubicacion)
+    {
+        String sql_nombre="";
+        String sql_ubicacion= "";
+        String sql_where="";
+        if(!nombre.equals(""))
+        {
+            sql_nombre=" and nombre like '%"+nombre+"%' ";
+
+        }
+        if(!ubicacion.equals(""))
+        {
+            sql_ubicacion= " and ubicacion like '%"+ubicacion+"%' ";
+        }
+        String sql_query= "SELECT id, ubicacion, estado, nombre, id_operario FROM "
+                + " estacion_principal JOIN estacion ON estacion_principal.id_estacion="
+                + " estacion.id WHERE estado=true " + sql_nombre + sql_ubicacion;
 
         List<EstacionPrincipal> estaciones= new ArrayList<EstacionPrincipal>();
 
@@ -405,5 +492,77 @@ public class DaoEstacion {
         
         return exist;
                 
+    }
+
+    public int eliminarEstacion(Integer id)
+    {
+        String sql_update="UPDATE estacion SET estado=false WHERE id="+id;
+
+        int result=0;
+        try{
+            Connection conn = fachada.conectar();
+            Statement sequence = conn.createStatement();
+            result= sequence.executeUpdate(sql_update);
+
+            fachada.cerrarConexion(conn);
+        }catch(SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public int editarEstacionParadero(EstacionParadero estacion)
+    {
+        String sql_update="UPDATE estacion SET ubicacion='"+estacion.getUbicacion()
+                + "', estado='"+estacion.getEstado()+"' WHERE id="+estacion.getId();
+
+        int result=0;
+
+        try{
+            Connection conn = fachada.conectar();
+            Statement sequence = conn.createStatement();
+            result = sequence.executeUpdate(sql_update);
+
+            fachada.cerrarConexion(conn);
+        }catch(SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public int editarEstacionPrincipal(EstacionPrincipal estacion)
+    {
+        String sql_update_estacion="UPDATE estacion SET ubicacion='"
+                + estacion.getUbicacion() + "' , estado='"
+                + estacion.getEstado() + "' WHERE id="+ estacion.getId();
+
+        int result=0;
+        try{
+            Connection conn = fachada.conectar();
+            Statement sequence = conn.createStatement();
+            int executeSequence = sequence.executeUpdate(sql_update_estacion);
+
+            if(executeSequence!=0)
+            {
+                String sql_update_estacion_principal="UPDATE estacion_principal SET "
+                        + " nombre = '"+estacion.getNombre() + "' , id_operario='"
+                        + estacion.getIdOperario() +"' WHERE id_estacion="
+                        + estacion.getId();
+
+                result=sequence.executeUpdate(sql_update_estacion_principal);
+            }
+        }catch(SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 }

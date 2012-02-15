@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -48,18 +49,26 @@
                 <h:messages style="color: red"/>
                 <br></br>
                 <h:form styleClass="Formulario">
-                    <h:panelGrid columns="2">
+                    <h:panelGrid columns="3">
                         <f:facet name="header">
                             <center>
                                 <h:outputText value="Consultar estaci&oacute;n"/>
                             </center>
                         </f:facet>
+                        <h:outputText value="Ubicacion:"/>
+                        <h:inputText value="#{beanEstacion.ubicacionBusqueda}"/>
+                        <br/>
                         <h:outputText value="Nombre:"/>
-                        <h:inputText value="#{beanEstacion.nombreBusqueda}"/>
+                        <h:inputText value="#{beanEstacion.nombreBusqueda}"
+                                     disabled="#{!beanEstacion.buscarPrincipales}"
+                                     id="NombreOn"/>
+                        <h:selectBooleanCheckbox value="#{beanEstacion.buscarPrincipales}">
+                            <f:ajax render="NombreOn"/>
+                        </h:selectBooleanCheckbox>
                         <center>
                             <h:commandButton value="Consultar"
                                              styleClass="JButton"
-                                             action="#{beanEstacion.actionFindEstacionPrincipal()}"
+                                             action="#{beanEstacion.actionFindEstacion()}"
                                               /><br/>
                         </center>
                     </h:panelGrid>
@@ -74,7 +83,9 @@
                     <h:dataTable
                         border="1"
                         var="estacion"
-                        value="#{beanEstacion.findEstacionesPrincipales()}">
+                        value="#{beanEstacion.buscarPrincipales?
+                                 beanEstacion.findEstacionesPrincipales():beanEstacion.findEstacionesParadero()}"
+                        >
                         <f:facet name="caption">Resultado de la consulta</f:facet>
 
                         <h:column>
@@ -86,13 +97,9 @@
                             #{estacion.ubicacion}
                         </h:column>
                         <h:column>
-                            <f:facet name="header">Nombre</f:facet>
-                            #{estacion.nombre}
-                        </h:column>
-                        <h:column>
                             <f:facet name="header">Acci&oacute;n</f:facet>                            
-                            <h:commandLink value="Detalle" 
-                                           action="detailEstacion"
+                            <h:commandLink value="#{beanEstacion.action}"
+                                           action="#{beanEstacion.getLinkActions()}"
                                            actionListener="#{beanEstacion.detalleEstacion()}"/>
                         </h:column>
                     </h:dataTable>

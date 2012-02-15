@@ -1,0 +1,31 @@
+.order-table {   
+    border-collapse:collapse;
+    color: #000;    
+    padding: 5px 10px 6px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+    text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+
+}
+ 
+.order-table-header{
+	text-align:center;
+	background:gray ;
+	border-bottom:1px solid #BBBBBB;
+	padding:16px;
+        
+}
+ 
+.order-table-odd-row{
+	text-align:center;
+	background: #ece3a5;
+	border-top:1px solid #BBBBBB;
+}
+ 
+.order-table-even-row{
+	text-align:center;
+	background: #c2dfef;
+	border-top:1px solid #BBBBBB;
+}

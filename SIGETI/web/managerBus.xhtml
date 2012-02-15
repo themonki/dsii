@@ -4,18 +4,18 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
-    
+
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
         <title>Home page Administrador</title>
-        
+
         <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
     </h:head>
-    
+
     <h:body>
-  <div id="top">
+        <div id="top">
             <img src="./resources/logo.png" alt="logo"  ></img>
             <div id="top_rigth">
 
@@ -27,7 +27,7 @@
                     </h:commandLink>
                 </h:form>
             </div>
-         </div>
+        </div>
         <div id="center">
             <div id="center_left">
                 <h:form>
@@ -47,39 +47,39 @@
                 <ui:insert name="content" >Gestion Buses </ui:insert>
                 <br/>
                 <br/>
-                <br/>
-                <h:form>
-                    <h:panelGrid columns="2">
-                        <h:commandLink action="newBus"
-                            actionListener="#{beanBus.statesForNew}"
-                            immediate="true">
-                            <img src="./resources/busnew.gif"  width="100" height="100"/>
-                            <br/>
-                            <h:outputText value="Crear nuevo Bus"/>
-                        </h:commandLink>
-                        <h:commandLink action="findBus"
-                                       actionListener="#{beanBus.statesForEdit}"
-                            immediate="true">
-                            <img src="./resources/busupdate.gif"  width="100" height="100"/>
-                            <br/>
-                            <h:outputText value="Editar bus"/>
-                        </h:commandLink>
-                        <h:commandLink action="findBus"
-                            actionListener="#{beanBus.statesForErase}"
-                            immediate="true">
-                            <img src="./resources/busdelete.gif"  width="100" height="100"/>
-                            <br/>
-                            <h:outputText value="Eliminar bus"/>
-                        </h:commandLink>
-                        <h:commandLink action="findBus"
-                            actionListener="#{beanBus.statesForFind}"
-                            immediate="true">
-                            <img src="./resources/busfind.gif"  width="100" height="100"/>
-                            <br/>
-                            <h:outputText value="Consultar bus"/>
-                        </h:commandLink>
-                    </h:panelGrid>
-                </h:form>
+                <br/>                
+                    <h:form style="display: inline-block">
+                        <h:panelGrid columns="2">
+                            <h:commandLink action="newBus"
+                                           actionListener="#{beanBus.statesForNew}"
+                                           immediate="true">
+                                <img src="./resources/busnew.gif"  width="100" height="100"/>
+                                <br/>
+                                <h:outputText value="Crear nuevo Bus"/>
+                            </h:commandLink>
+                            <h:commandLink action="findBus"
+                                           actionListener="#{beanBus.statesForEdit}"
+                                           immediate="true">
+                                <img src="./resources/busupdate.gif"  width="100" height="100"/>
+                                <br/>
+                                <h:outputText value="Editar bus"/>
+                            </h:commandLink>
+                            <h:commandLink action="findBus"
+                                           actionListener="#{beanBus.statesForErase}"
+                                           immediate="true">
+                                <img src="./resources/busdelete.gif"  width="100" height="100"/>
+                                <br/>
+                                <h:outputText value="Eliminar bus"/>
+                            </h:commandLink>
+                            <h:commandLink action="findBus"
+                                           actionListener="#{beanBus.statesForFind}"
+                                           immediate="true">
+                                <img src="./resources/busfind.gif"  width="100" height="100"/>
+                                <br/>
+                                <h:outputText value="Consultar bus"/>
+                            </h:commandLink>
+                        </h:panelGrid>
+                    </h:form>
             </div>
         </div>
         <div id="bottom">

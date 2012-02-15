@@ -449,11 +449,21 @@ public class DaoEmpleado {
         String sql_insert = "INSERT INTO conductor (id";
 
         if (!conductor.getLicencia().equals("")) {
-            sql_insert += ",licencia) VALUES ('"
-                    + conductor.getId() + "','" + conductor.getLicencia() + "')";
-        } else {
-            sql_insert += ") VALUES ('" + conductor.getId() + "')";
+            sql_insert += ",licencia";
+        } 
+        if(!conductor.getConduceBus().equals("")){
+            sql_insert += ",conduce_bus";
         }
+        sql_insert += " VALUES ('" + conductor.getId() + "'";    
+        if (!conductor.getLicencia().equals("")) {
+            sql_insert += ",'" + conductor.getLicencia() + "'";
+        } 
+        if(!conductor.getConduceBus().equals("")){
+            sql_insert += "," + conductor.getConduceBus() + "'";
+        }
+        
+        sql_insert += ")";
+        
         int result = 0;
         try {
             Connection conn = fachada.conectar();
@@ -465,7 +475,7 @@ public class DaoEmpleado {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //System.out.println(sql_insert);
+        System.out.println(sql_insert);
         return result;
     }
 
@@ -951,13 +961,19 @@ public class DaoEmpleado {
 
     public int updateConductor(Conductor conductor) {
         boolean algo = false;
+        boolean primero = true;
+        
         String sql_update = "UPDATE conductor SET ";
 
         if (!conductor.getLicencia().equals("")) {
             algo = true;
             sql_update += "licencia='" + conductor.getLicencia() + "'";
+            primero = false;
         }
-
+        if(!conductor.getConduceBus().equals("")){
+            algo = true;
+            sql_update += "conduce_bus='" + conductor.getConduceBus() + "'";
+        }
         sql_update += " WHERE id='" + conductor.getId() + "'";
         int result = 0;
         try {
