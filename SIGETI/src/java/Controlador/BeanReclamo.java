@@ -361,9 +361,10 @@ public class BeanReclamo implements Serializable {
 
         System.out.println("Tamaño de filtrado " + reclamosfiltrados.size());
         if (reclamosfiltrados.isEmpty()) {
+            this.renderTableSearch = false;
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage("No hay reclamos con este estado."));
-            this.renderTableSearch = false;
+            
             return null;
         } else {
             return reclamosfiltrados;
@@ -453,10 +454,33 @@ public class BeanReclamo implements Serializable {
         
         Medida medida = new Medida();
         
-        idMedida = Integer.parseInt(accionMedida.charAt(0)+"");        
+        
+        String idCadena = "";
+        int indiceFinalId = -1;
+        for(int i=0;i<accionMedida.length();i++)
+        {
+            char letra =accionMedida.charAt(i);
+            
+            if(letra != '.')
+            {
+                idCadena += letra;
+            
+            }else
+            {
+                indiceFinalId = i+1;
+                break;
+            
+            }           
+            
+            
+        
+        }
+        
+        
+        idMedida = Integer.parseInt(idCadena);        
      
         medida.setId(idMedida);
-        medida.setAccion(accionMedida.substring(2,accionMedida.length()));
+        medida.setAccion(accionMedida.substring(indiceFinalId,accionMedida.length()));
         
         if(medidas.contains(medida))
         {
@@ -577,7 +601,7 @@ public class BeanReclamo implements Serializable {
         this.nombreUsuario = daoReclamo.usuarioValido(usuarioRealiza);
         DaoEmpleado daoEmpleado = new DaoEmpleado();
          
-        Auxiliar auxiliar = daoEmpleado.findAuxiliarId(this.auxiliarRecibe);
+        Auxiliar auxiliar = daoEmpleado.findAuxiliarId(this.auxiliarRecibe,true);
         
         DaoEstacion daoEstacion = new DaoEstacion();
         

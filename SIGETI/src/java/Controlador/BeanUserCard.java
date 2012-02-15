@@ -36,6 +36,15 @@ public class BeanUserCard implements Serializable {
     private int month = 0;
     private int day = 0;
 
+    private String consulta="false";
+
+    public String getConsulta() {
+        return consulta;
+    }
+
+    public void setConsulta(String consulta) {
+        this.consulta = consulta;
+    }
     public int getDay() {
         return day;
     }
@@ -164,6 +173,7 @@ public class BeanUserCard implements Serializable {
         year = 0;
         month = 0;
         day = 0;
+        consulta="false";
 
 
 
@@ -181,10 +191,63 @@ public class BeanUserCard implements Serializable {
         }
 
     }
+    
+    public String findUser(){
+        
+            FacesContext context;
+        context = FacesContext.getCurrentInstance();
+        //validate();
 
-    public String createUser() {
 
-        FacesContext context;
+        if (context.getMessageList().size() > 0) {
+            return null;
+        }
+        BeanContent content = (BeanContent) context.getApplication().evaluateExpressionGet(context, "#{beanContent}", BeanContent.class);
+
+        Usuario user = new Usuario(); 
+        DaoUser dao = new DaoUser(); 
+        user=dao.findUser(id);
+        
+        if(user.getId()==null){ 
+                    context.addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_ERROR, "La consulta no arrojo resultados", null));
+            
+            return null;
+        
+        }
+        consulta="true";
+         id = user.getId();
+        tipoId =user.getTipoId();
+        nombre = user.getNombre();
+        apellido = user.getApellido();
+        direccion = user.getDireccion();
+        email = user.getDireccion();
+        fecha_nacimiento = user.getFechaNacimiento();
+        telefono = user.getTelefono();
+        adquiere_tarjeta = user.getAdquiereTarjeta();
+        password = user.getPassword();
+        estado = true;
+        
+        
+        try {
+        String []  fechas= fecha_nacimiento.split("-");
+        year = Integer.parseInt(fechas[0]);
+        month =Integer.parseInt( fechas[1]);
+        day = Integer.parseInt(fechas[2]);
+        }
+        catch (Exception e){
+        }
+        
+        
+        System.err.println("holaaaaaaa  "+user);
+        
+        
+        return  null ; 
+    }
+
+    
+    public String editUserCard (){
+          FacesContext context;
 
         context = FacesContext.getCurrentInstance();
         //validate();
@@ -197,9 +260,67 @@ public class BeanUserCard implements Serializable {
 
 
 
+        content.setResultOperation("El Empleado fue creado con exito.");
+        content.setImage("./resources/ok.png");
+        if (validate()) {
+
+            fecha_nacimiento = "" + year + "-" + month + "-" + day;
+
+            Usuario user = new Usuario();
+
+            user.setAdquiereTarjeta(adquiere_tarjeta);
+            user.setId(id);
+            user.setTipoId(tipoId);
+            user.setNombre(nombre);
+            user.setApellido(apellido);
+
+            user.setTelefono(telefono);
+            user.setDireccion(direccion);
+            user.setPassword(password);
+            user.setFechaNacimiento(fecha_nacimiento);
+
+
+            user.setEmail(email);
+            user.setEstado(estado);
+
+            result = daoUser.editUser(user);
 
 
 
+
+
+
+            if (result == 0) {
+
+                context.addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_ERROR, "El registro del usuario no  fue modificado ", null));
+
+            } else {
+                context.addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_ERROR, "Modificado Con Exito ", null));
+            }
+
+            clearStates();
+
+        }
+
+
+        return null;
+      
+    
+    }
+    public String createUser() {
+
+        FacesContext context;
+
+        context = FacesContext.getCurrentInstance();
+        //validate();
+        if (context.getMessageList().size() > 0) {
+            return null;
+        }
+        BeanContent content = (BeanContent) context.getApplication().evaluateExpressionGet(context, "#{beanContent}", BeanContent.class);
+        int result = 0;
+        DaoUser daoUser = new DaoUser();
 
 
 

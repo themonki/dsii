@@ -40,9 +40,11 @@ public class DaoEmpleado {
      * @return Objeto empleado que representa el empleado encontrado
      *  si no existe en elmpleado todos sus atributos son null.
      */
-    public Empleado findEmpleadoLogin(String login) {
+    public Empleado findEmpleadoLogin(String login, boolean conInactivos) {
         String sqlConsulta = "SELECT * FROM empleado WHERE login = '" + login + "'";
-
+        if(!conInactivos)
+            sqlConsulta += " AND estado = true";
+        
         Empleado empleado = new Empleado();
 
         try {
@@ -83,8 +85,11 @@ public class DaoEmpleado {
      * @return Objeto empleado que representa el empleado encontrado
      *  si no existe en el empleado todos sus atributos son null.
      */
-    public Empleado findEmpleadoId(String id) {
+    public Empleado findEmpleadoId(String id, boolean conInactivos) {
         String sqlConsulta = "SELECT * from empleado WHERE id = '" + id + "'";
+        if(!conInactivos)
+            sqlConsulta += " AND estado = true";
+        
         Empleado empleado = new Empleado();
 
         try {
@@ -174,7 +179,7 @@ public class DaoEmpleado {
      */
     public Empleado authenticateEmpleado(String login, String password) {
         String sqlConsulta = "SELECT * FROM empleado WHERE login = '" + login + "'"
-                + " AND password = md5('" + password + "')";
+                + " AND password = md5('" + password + "') AND estado = true";
 
         Empleado empleado = new Empleado();
 
@@ -470,10 +475,12 @@ public class DaoEmpleado {
      * @return Objeto director que representa el director encontrado, 
      * si no existe director con ese id, todos los atributos del director retornado son null
      */
-    public Director findDirectorId(String id) {
+    public Director findDirectorId(String id, boolean conInactivos) {
 
         String sqlConsulta = "SELECT * FROM director NATURAL JOIN empleado WHERE director.id = '" + id + "'";
-
+        if(!conInactivos)
+            sqlConsulta += " AND estado = true";
+        
         Director director = new Director();
 
         try {
@@ -514,9 +521,11 @@ public class DaoEmpleado {
      * @return Objeto operario que representa el operario encontrado, 
      * si no existe operario con ese id, todos los atributos del operario retornado son null
      */
-    public Operario findOpearioId(String id) {
+    public Operario findOpearioId(String id, boolean conInactivos) {
         String sqlConsulta = "SELECT * FROM operario NATURAL JOIN empleado WHERE operario.id = '" + id + "'";
-
+        if(!conInactivos)
+            sqlConsulta += " AND estado = true";
+        
         Operario operario = new Operario();
 
         try {
@@ -552,9 +561,11 @@ public class DaoEmpleado {
         return operario;
     }
 
-    public Auxiliar findAuxiliarId(String id) {
+    public Auxiliar findAuxiliarId(String id,boolean conInactivos) {
         String sqlConsulta = "SELECT * FROM auxiliar NATURAL JOIN empleado WHERE auxiliar.id = '" + id + "'";
-
+        if(!conInactivos)
+            sqlConsulta += " AND estado = true";
+        
         Auxiliar auxiliar = new Auxiliar();
 
         try {
@@ -591,9 +602,11 @@ public class DaoEmpleado {
         return auxiliar;
     }
 
-    public Conductor findConductorId(String id) {
+    public Conductor findConductorId(String id, boolean conInactivos) {
         String sqlConsulta = "SELECT * FROM conductor NATURAL JOIN empleado WHERE conductor.id = '" + id + "'";
-
+        if(!conInactivos)
+            sqlConsulta += " AND estado = true";
+        
         Conductor conductor = new Conductor();
 
         try {
@@ -635,9 +648,11 @@ public class DaoEmpleado {
      * @return Lsita de objetos empleados, 
      * si no existe alguno sera una lista vacia.
      */
-    public List<Empleado> findAllEmpleado() {
+    public List<Empleado> findAllEmpleado(boolean conInactivos) {
         String sqlConsulta = "SELECT * FROM empleado";
-
+        if(!conInactivos)
+            sqlConsulta += " WHERE estado = true";
+        
         List<Empleado> empleados = new ArrayList<Empleado>();
 
         try {
@@ -680,9 +695,11 @@ public class DaoEmpleado {
      * @return  Lista que contiene objetos Director, cad auno representa alguno encontrado
      * , si no existen directores el vector será vacio.
      */
-    public List<Director> findAllDirector() {
+    public List<Director> findAllDirector(boolean conInactivos) {
         String sqlConsulta = "SELECT * FROM director NATURAL JOIN empleado";
-
+        if(!conInactivos)
+            sqlConsulta += " WHERE estado = true";
+        
         List<Director> directores = new ArrayList<Director>();
 
         try {
@@ -725,9 +742,11 @@ public class DaoEmpleado {
      * @return  Lista que contiene objetos Operario, cad auno representa alguno encontrado.
      * , si no existen operarios el vector será vacio.
      */
-    public List<Operario> findAllOperario() {
+    public List<Operario> findAllOperario(boolean conInactivos) {
         String sqlConsulta = "SELECT * FROM operario NATURAL JOIN empleado";
-
+        if(!conInactivos)
+            sqlConsulta += " WHERE estado = true";
+        
         List<Operario> operarios = new ArrayList<Operario>();
 
         try {
@@ -766,8 +785,10 @@ public class DaoEmpleado {
         return operarios;
     }
 
-    public List<Auxiliar> findAllAuxiliar() {
+    public List<Auxiliar> findAllAuxiliar(boolean conInactivos) {
         String sqlConsulta = "SELECT * FROM auxiliar NATURAL JOIN empleado";
+        if(!conInactivos)
+            sqlConsulta += " WHERE estado = true";
 
         List<Auxiliar> auxiliares = new ArrayList<Auxiliar>();
 
@@ -947,6 +968,27 @@ public class DaoEmpleado {
             } else {
                 result = 1;
             }
+
+            fachada.cerrarConexion(conn);
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //System.out.println(sql_update);
+        return result;
+    }
+    
+    public int eraseEmpleado(String id)
+    {
+        String sql_update = "UPDATE empleado SET estado = false WHERE id='" + id + "'";
+
+        int result = 0;
+        try {
+            Connection conn = fachada.conectar();
+            Statement sentence = conn.createStatement();
+ 
+             result = sentence.executeUpdate(sql_update);
 
             fachada.cerrarConexion(conn);
         } catch (SQLException se) {
