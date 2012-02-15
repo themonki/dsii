@@ -4,11 +4,13 @@
  */
 package Entidades;
 
+import java.io.Serializable;
+
 /**
  *
  * @author leonardo
  */
-public class Ruta {
+public class Ruta implements Serializable{
 
     private String nombre;
     private String descripcion;
