@@ -10,46 +10,31 @@
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
-        <title>Facelets Template</title>
+        <title>Modificar Datos</title>
     </h:head>
-
-    #{beanUserCard.refresh("userCard")}
-
-
+    
     <h:body>
 
        <div id="top">
             <img src="./resources/logo.png" alt="logo"  ></img>
             <div id="top_rigth">
-
-
                 <h:form>
-                    <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
-                    <h:commandLink action="#{authentication.logout}">
-                        <img src="./resources/exit.png" alt="salir" width="30" height="30"></img>
-                    </h:commandLink>
+                    <h:outputText value="Bievenido Visitante"/>
                 </h:form>
             </div>
             </div>
         <div id="center">
             <div id="center_left">
                 <h:form>
-                    <h:dataTable value="#{beanContent.menuOptions}" var="l">
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Menu"/>
-                            </f:facet>
-                            <h:commandLink action="#{beanContent.findLink(l.get(1))}">
-                                <h:outputText value="#{l.get(0)}"/>
-                            </h:commandLink>
-                        </h:column>
-                    </h:dataTable>
-                    
-                     <h:commandLink action="userManager">
-                                
-                         <h:outputText value=" Gestion Usuario"/>
-                            
-                     </h:commandLink>
+                    <center><strong><h:outputText value="Men&uacute;"/></strong><br/><br/>
+                        <h:commandLink action="index">
+                            <h:outputText value="Inicio"/>
+                        </h:commandLink>
+                        <br/>
+                        <h:commandLink action="userManager">
+                            <h:outputText value="Gestión Usuario"/>
+                        </h:commandLink>
+                    </center>
                 </h:form>
             </div>
             <div  id="center_center">
@@ -57,7 +42,6 @@
                     <ui:insert name="content">Modificar Datos del Usuario</ui:insert>
 
                     <br></br>
-
 
                     <img src="./resources/userCard.png"  width="100" height="100"></img>
 
@@ -77,16 +61,11 @@
                              
                              <h:commandButton value="Consultar" styleClass="JButton" action="#{beanUserCard.findUser()}" /><br/>
                             
-
-
                         </h:panelGrid >
                         <h:panelGrid columns="2" rendered="#{beanUserCard.consulta}">
 
-
                             <h:outputText value="Documento:"/>
                             <h:outputText value="#{beanUserCard.id}"  />
-
-
 
                             <h:outputText value="Tipo Documento:"/>
 
@@ -129,10 +108,7 @@
 
                         <h:commandButton  rendered="#{beanUserCard.consulta}" value="Aplicar" styleClass="JButton" action="#{beanUserCard.editUserCard()}" /><br/>
 
-
-
                     </h:form>
-
                 </div>
             </div>
         </div>
