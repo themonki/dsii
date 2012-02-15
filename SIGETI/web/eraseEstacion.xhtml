@@ -10,25 +10,23 @@
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
-        <title>Consultar estaci&oacute;n</title>
+        <title>Eliminar estaci&oacute;n</title>
     </h:head>
 
 
     <h:body>
 
-          <div id="top">
-            <img src="./resources/logo.png" alt="logo"  ></img>
-            <div id="top_rigth">
+        <div id="top">
+            <img src="./resources/logo.png" alt="logo"></img>
 
+            <h:form>
+                <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
+                <h:commandLink action="#{authentication.logout}">
+                    <img src="./resources/exit.png" alt="salir" width="50" height="50"></img>
+                </h:commandLink>
+            </h:form>
 
-                <h:form>
-                    <h:outputText value="Bievenido, #{employeeHolder.currentEmpleado.nombre}"/>
-                    <h:commandLink action="#{authentication.logout}">
-                        <img src="./resources/exit.png" alt="salir" width="30" height="30"></img>
-                    </h:commandLink>
-                </h:form>
-            </div>
-         </div>
+        </div>
         <div id="center">
             <div id="center_left">
                 <h:form>
@@ -90,17 +88,19 @@
                             #{estacion.nombre}
                         </h:column>
                         <h:column>
-                            <f:facet name="header">Acci&oacute;n</f:facet>                            
-                            <h:commandLink value="Detalle" 
-                                           action="detailEstacion"
+                            <f:facet name="header">Acci&oacute;n</f:facet>
+                            <h:commandLink value="Eliminar"
+                                           onclick="dlg2.show();"
                                            actionListener="#{beanEstacion.detalleEstacion()}"/>
                         </h:column>
                     </h:dataTable>
                 </h:form>
+
+                
             </div>
         </div>
         <div id="bottom">
-            <ui:insert name="bottom">SIGETI: Sistema de Gesti&oacute;n de Transporte Integrado.</ui:insert>
+            <ui:insert name="bottom">Pie de pagina</ui:insert>
         </div>
 
     </h:body>
