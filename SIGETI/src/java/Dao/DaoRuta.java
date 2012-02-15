@@ -208,6 +208,32 @@ public class DaoRuta {
            return estaciones;
 
        }
+
+       public Ruta getRuta(String nombre)
+       {
+           String sql_query="SELECT nombre, descripcion, estado FROM ruta WHERE nombre='"
+                   + nombre+ "'";
+           Ruta ruta= new Ruta();
+           try{
+               Connection conn = fachada.conectar();
+               Statement sequence= conn.createStatement();
+               ResultSet table = sequence.executeQuery(sql_query);
+
+               while(table.next())
+               {
+                   ruta.setNombre(table.getString("nombre"));
+                   ruta.setDescripcion(table.getString("descripcion"));
+                   ruta.setEstado(table.getBoolean("estado"));
+               }
+           }catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+           return ruta;
+
+       }
        
 }
 

@@ -364,7 +364,8 @@ public class BeanRuta implements Serializable{
 
         for(int i=0; i<rutas.size() ; i++)
         {
-            rutas_items.add(new SelectItem(rutas.get(i), rutas.get(i).getNombre()));
+            Ruta ruta= rutas.get(i);
+            rutas_items.add(new SelectItem(ruta.getNombre()));
         }
 
         return rutas_items;
@@ -373,10 +374,6 @@ public class BeanRuta implements Serializable{
     public void consultarRuta()
     {
         renderMap=true;
-
-        setNombre(rutaSeleccion.getNombre());
-        setDescripcion(rutaSeleccion.getDescripcion());
-        setEstado(rutaSeleccion.getEstado());
 
         rutaMaps="from ";
         DaoRuta daoRuta= new DaoRuta();
@@ -389,6 +386,10 @@ public class BeanRuta implements Serializable{
             if(i!=estaciones.size()-1)
                 rutaMaps+=" to ";
         }
+
+        Ruta ruta = daoRuta.getRuta(nombre);
+        descripcion=ruta.getDescripcion();
+        estado=ruta.getEstado();
     }
      
 }
