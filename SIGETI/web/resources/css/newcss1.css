@@ -26,7 +26,8 @@
  text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
 }
 .JButton
-{background: #222 url(http://t0.gstatic.com/images?q=tbn:ANd9GcTFN78NIXqhX2Ccdnr39QsiylSMViYcXpB6eO5Mp2l8538WmWMn) repeat-x;
+{
+    background: #222 url(boton.jpg) repeat-x;
  display: inline-block;
  padding: 5px 10px 6px;
  color: #FFF;

@@ -60,14 +60,14 @@
                         <h:selectOneMenu value="#{beanRuta.nombre}" disabled="#{beanRuta.buscarEstaciones}">
                             <f:selectItems value="#{beanRuta.findAllRutas()}"/>
                         </h:selectOneMenu>
-                        <h:outputText value="B&uacute;squeda por Estacion"/>
+<!--                        <h:outputText value="B&uacute;squeda por Estacion"/>
                         <h:selectBooleanCheckbox value="#{beanRuta.buscarEstaciones}">
                                 <f:ajax render="@form"/>
                          </h:selectBooleanCheckbox>
                         <h:selectOneMenu value="#{beanRuta.estacion}" 
                                          rendered="#{beanRuta.buscarEstaciones}">
                             <f:selectItems value="#{beanRuta.findEstacion}"/>
-                        </h:selectOneMenu>
+                        </h:selectOneMenu>-->
                     </h:panelGrid>
                     <center><h:commandButton value="Consultar" styleClass="JButton"/></center>
                 </h:form>

@@ -10,7 +10,7 @@
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/newcss1.css" rel="stylesheet" type="text/css" />
-        <title>Facelets Template</title>
+        <title>Crear Tarjeta</title>
     </h:head>
     
     #{beanCard.refresh("newCard")}
@@ -70,7 +70,9 @@
                         <h:inputText value="#{beanCard.numberPassages}"    size="10" maxlength="10" />
                        
                        <h:outputText value="*Estacion ID:"/>
-                       <h:inputText value="#{beanCard.estacion}"   size="10" maxlength="10" />
+                       <h:selectOneMenu value="#{beanCard.estacion}">
+                           <f:selectItems value="#{beanCard.availableEstacionPrincipal}"/>
+                       </h:selectOneMenu>
                        
                        <h:outputText value="Costo:"/>
                        <h:inputText value="#{beanCard.costo}"  size="10" maxlength="10" />

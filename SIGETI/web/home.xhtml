@@ -10,13 +10,13 @@
         <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
         <title>Home page Administrador</title>        
-        
+
         <f:event listener="#{authentication.verifyEmpleadoLogin}" type="preRenderView"></f:event>
     </h:head>
 
     <h:body>
 
-          <div id="top">
+        <div id="top">
             <img src="./resources/logo.png" alt="logo"  ></img>
             <div id="top_rigth">
 
@@ -28,7 +28,7 @@
                     </h:commandLink>
                 </h:form>
             </div>
-         </div>
+        </div>
         <div id="center">
             <div id="center_left">
                 <h:form>
@@ -42,23 +42,47 @@
                             </h:commandLink>
                         </h:column>
                     </h:dataTable>
-            
+
                 </h:form>
             </div>
             <div id="center_center">
                 <ui:insert name="content">
                     Bienvenido al <b>Sistema de Gesti&oacute;n de Transporte Integrado (SIGETI)</b> <br></br>
-                        para el apoyo de los Sistemas de Transporte Masivo.
-                        Se cuenta con los siguientes M&oacute;dulos:<br></br>
+                    para el apoyo de los Sistemas de Transporte Masivo.
+                    Se cuenta con los siguientes M&oacute;dulos:<br></br>
                     
-                    <ul>
-                            <li>Gestion de Usuarios</li>
-                            <li>Gestion de Targetas</li>
-                            <li>Gestion de Empleados</li>
-                            <li>Gestion de Buses</li>
-                            <li>Gestion de Rutas</li>
-                            <li>Gestion de Reclamos</li>
-                            <li>Sistema de Recaudo</li>
+                    <br></br>
+                    
+                    <img src="./resources/logo.png" alt="logo"  ></img>
+
+                    <ul style="text-align: left">
+
+                        <h1>Funciones del Sistema:</h1>
+
+                        <li>	Gestionar usuarios: El sistema ofrecerá el sevicio de gestión de usuarios, manejando así el ingreso de nuevos usuarios del STM -pasajeros- (quienes lo harán cuando adquieran una tarjeta personalizada), también el ingreso de nuevos empleados al sistema, este ingreso se hará por parte del gerente del sistema. Esta gestión de usuarios permite modificar los datos ingresados en el sistema tanto de pasajeros como de empleados a excepción de la cédula en ambos casos, finalmente permite la eliminación de un empleado cuando se requiera.
+
+                        </li>
+
+
+                        <li>Gestionar roles: Para los empleados del sistema que usarán el sistema, este debe diferenciar entre los diferentes cargos (roles) de los empleados, por lo que una vez se ingrese al sistema este identifica y carga las opciones que tiene cada rol para ejercer la función que se le ha asignado en el STM.
+                        </li>
+
+
+                        <li>Administrar rutas:  El sistema debe permitir que se ingresen rutas, especificando el nombre, descripción del recorrido y paradas que realiza, como a su vez modificar la información referente a una ruta, esto por parte del director del STM, finalmente permite eliminar una ruta cuando así se decida.
+                        </li>
+                        <li>
+                            Administrar buses: El sistema guardará información de los buses que se ingresen, también a cada bus le asociará una ruta, y debe permitir que se eliminen buses cuando sea necesario.
+                        </li>
+                        <li>
+                            Control y seguimiento: El sistema soporta un modulo para realizar el control y seguimiento de quejas y/o reclamos que realicen los usuarios del STM -pasajeros-.
+                        </li>
+
+                        
+
+                        <li> Gestionar tarjetas: En este modulo el sistema debe permitir el ingreso de tarjetas genéricas y personalizadas, el recaudo de ventas y recargas, manejar la información de pasajes y la eliminación de tarjetas cuando así se requiera.
+
+                        </li>
+
                     </ul> </ui:insert>
             </div>
         </div>

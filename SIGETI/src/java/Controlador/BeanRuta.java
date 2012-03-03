@@ -21,7 +21,6 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
-import javax.swing.JOptionPane;
 
 /*
  *
@@ -439,6 +438,10 @@ public class BeanRuta implements Serializable{
         isCreando=false;
     }
     
+    public void statesForFindReturn(ActionEvent e){
+        this.renderTable=false;
+    }
+    
     public String getLinkAction() {
         String link = "";
         if (this.action.equals("Eliminar")) {
@@ -470,11 +473,9 @@ public class BeanRuta implements Serializable{
     public List<Ruta> consultarRutaNormal(){
         DaoRuta daoRuta = new DaoRuta();        
         List<Ruta> buses = null;
-        JOptionPane.showMessageDialog(null, "hola "+buscarEstaciones);
         if(buscarEstaciones){
             
             buses = daoRuta.consultarRutasEstacion(estacion.getId().toString());
-            JOptionPane.showMessageDialog(null, "tonces "+buses.size());
         }else{
             buses = new ArrayList<Ruta>();
             buses.add(daoRuta.getRuta(nombre.trim()));            
